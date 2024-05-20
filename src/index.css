@@ -1,0 +1,100 @@
+:root {
+  --color-primary-shade: #318fd4;
+  --color-primary: #2581bc;
+  --color-primary-lighter: #e7f1fc;
+
+  --color-white: #fff;
+
+  --color-gray: #edf0f2;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #6b7980;
+}
+
+ul {
+  padding-left: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* BUTTONS */
+.btn {
+  padding-inline: 1.5rem;
+  padding-block: 1rem;
+  display: inline-block;
+  border-radius: 1000px;
+  font-size: 1.6rem;
+}
+
+.btn--primary,
+.btn--primary:link,
+.btn--primary:visited {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+.btn--primary:hover,
+.btn--primary:active {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn--primary-lighter {
+  background-color: var(--color-primary-lighter);
+  color: var(--color-primary);
+  transition: all 0.3s;
+}
+.btn--primary-lighter:hover,
+.btn--primary-lighter:active {
+  background-color: #5593c2;
+  color: var(--color-white);
+}
+
+.btn-outline-secondary,
+.btn-outline-secondary:link,
+.btn-outline-secondary:visited {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray);
+  color: rgb(33, 37, 41);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:active {
+  background-color: var(--color-gray);
+  border: 1px solid var(--color-gray);
+  color: rgb(33, 37, 41);
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* INPUTS  */
+.form-label {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #28373e;
+}
+.form-control {
+  font-size: 1.6rem;
+  font-weight: 400;
+  padding-block: 1rem;
+}
