@@ -134,3 +134,8 @@
   grid-row: 3;
   grid-column: 3 /span 2;
 }
+
+.usage.selected{
+  border: 1px solid dodgerblue;
+  background-color: #e7f1fc;
+}

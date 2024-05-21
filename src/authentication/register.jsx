@@ -161,6 +161,30 @@ function EmailVerifyStep({ onStepUpdate }) {
 }
 
 function FormProfileDetail() {
+  const [usageList, setUsageList] = useState([
+    "Measurments",
+    "Quotes/Propsals",
+    "Lead",
+    "CRM",
+    "Invoicing",
+    "Financing",
+    "Not sure yet",
+  ]);
+  const [toolUsedBefore] = useState([ "Measurments",
+  "Quotes/Propsals",
+  "Invoice",
+  "Lead",
+  "CRM",]);
+  const [selectedUsage, setSelectedUsage] = useState([]);
+
+  const handleUsageSelection = function (id) {
+    console.log(id);
+    setSelectedUsage((selected) =>
+      selected.includes(id)
+        ? selected.filter((selectedId) => selectedId !== id)
+        : [...selected, id]
+    );
+  };
   return (
     <div>
       <progress className="w-100 mb-3" id="file" value="32" max="100">
@@ -221,13 +245,35 @@ function FormProfileDetail() {
           <Form.Group className="mb-5 grid-span-all-cols">
             <Form.Label>What will you use roofr for?</Form.Label>
             <div className="grid grid--4-cols selection-box">
-              <div className="usage usage-1">Measurments</div>
-              <div className="usage usage-2">Quotes/Propsals</div>
-              <div className="usage usage-3">Lead</div>
-              <div className="usage usage-4">CRM</div>
-              <div className="usage usage-5">Invoicing</div>
-              <div className="usage usage-6">Financing</div>
-              <div className="usage usage-7">Not sure yet</div>
+              {usageList.map((item, i) => (
+                <div
+                  className={`usage usage-${i + 1} ${
+                    selectedUsage.includes(i + 1) ? "selected" : ""
+                  }`}
+                  key={i + 1}
+                  onClick={() => handleUsageSelection(i + 1)}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </Form.Group>
+          <Form.Group className="mb-5 grid-span-all-cols">
+            <Form.Label>
+              What tools have you used before? (Select all that apply)
+            </Form.Label>
+            <div className="grid grid--4-cols selection-box">
+              {toolUsedBefore.map((item, i) => (
+                <div
+                  className={`usage usage-${i + 1} ${
+                    selectedUsage.includes(i + 1) ? "selected" : ""
+                  }`}
+                  key={i + 1}
+                  onClick={() => handleUsageSelection(i + 1)}
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </Form.Group>
         </div>
