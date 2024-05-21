@@ -10,7 +10,9 @@ export default function Navbar() {
           <Link>Contact us</Link>
         </li>
         <li className="nav-links-item">
-          <Link className="btn btn--primary-lighter">Register</Link>
+          <Link to="/register" className="btn btn--primary-lighter">
+            Register
+          </Link>
         </li>
       </ul>
     </nav>
