@@ -1,15 +1,17 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../../components/Navbar";
+import NavBar from "./NavBar";
 import Sidebar from "./Sidebar";
 
-export default function MainAppBoardLayout({ children }) {
+import "./main.css";
+
+export default function MainBoardLayout() {
   return (
     <main className="main-board-wrapper">
       <Sidebar />
-      <Navbar />
-      <MainContentBox>
+      <NavBar />
+      <main>
         <Outlet />
-      </MainContentBox>
+      </main>
     </main>
   );
 }

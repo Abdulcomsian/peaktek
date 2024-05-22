@@ -160,7 +160,7 @@ function EmailVerifyStep({ onStepUpdate }) {
   );
 }
 
-function FormProfileDetail() {
+function FormProfileDetail({ onStepUpdate, onStepBack }) {
   const [usageList, setUsageList] = useState([
     "Measurments",
     "Quotes/Propsals",
@@ -170,11 +170,13 @@ function FormProfileDetail() {
     "Financing",
     "Not sure yet",
   ]);
-  const [toolUsedBefore] = useState([ "Measurments",
-  "Quotes/Propsals",
-  "Invoice",
-  "Lead",
-  "CRM",]);
+  const [toolUsedBefore] = useState([
+    "Measurments",
+    "Quotes/Propsals",
+    "Invoice",
+    "Lead",
+    "CRM",
+  ]);
   const [selectedUsage, setSelectedUsage] = useState([]);
 
   const handleUsageSelection = function (id) {
@@ -184,6 +186,12 @@ function FormProfileDetail() {
         ? selected.filter((selectedId) => selectedId !== id)
         : [...selected, id]
     );
+  };
+
+  const handleSubmit = function (e) {
+    e.preventDefault();
+    // IF RESPONCE GET OK THEN UPDATE THE STEP
+    onStepUpdate();
   };
   return (
     <div>
@@ -196,8 +204,8 @@ function FormProfileDetail() {
         We’ve seen a thing or two, and we want to make sure you get the most out
         of the platform.
       </p>
-      <form action="">
-        <div className="grid grid--2-cols">
+      <form action="" className="profile-form">
+        <div className="grid grid--2-cols grid-gap">
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>First name</Form.Label>
             <Form.Control type="text" />
@@ -277,28 +285,81 @@ function FormProfileDetail() {
             </div>
           </Form.Group>
         </div>
+        <Row>
+          <Col>
+            <Button onClick={onStepBack}>&larr; Back</Button>
+          </Col>
+          <Col>
+            <Button className="btn--primary w-100" onClick={handleSubmit}>
+              Continue &rarr;
+            </Button>
+          </Col>
+        </Row>
       </form>
     </div>
   );
 }
 
-function StepsFormVerification({ step, onStepUpdate }) {
+function FormCompanyInfo({ onStepBack }) {
+  const handleSubmit = function (e) {
+    e.preventDefault();
+    console.log("FINAL SUBMITION WILL BE MADE");
+  };
+  return (
+    <>
+      <progress className="w-100 mb-3" id="file" value="32" max="100">
+        {" "}
+        32%{" "}
+      </progress>
+      <h1 className="auth-title mb-4">Tell us about the company</h1>
+      <p className="auth-subtitle">
+        This gives Roofr’s Success Team a headstart so they can provide the best
+        support for your team.
+      </p>
+      <form action="">
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label>Company name</Form.Label>
+          <Form.Control type="text" />
+        </Form.Group>
+        <Row>
+          <Col>
+            <Button onClick={onStepBack}>&larr; Back</Button>
+          </Col>
+          <Col>
+            <Button className="btn--primary w-100" onClick={handleSubmit}>
+              Create Account
+            </Button>
+          </Col>
+        </Row>
+      </form>
+    </>
+  );
+}
+
+function StepsFormVerification({ step, onStepUpdate, onStepBack }) {
   return (
     <>
       <span className="mb-3 d-inline-block step-title">Step {step} of 5</span>
       {step === 2 && <FormPassword onStepUpdate={onStepUpdate} />}
       {step === 3 && <EmailVerifyStep onStepUpdate={onStepUpdate} />}
-      {step === 4 && <FormProfileDetail />}
+      {step === 4 && <FormProfileDetail onStepUpdate={onStepUpdate} />}
+      {step === 5 && <FormCompanyInfo onStepBack={onStepBack} />}
     </>
   );
 }
 
+const REG_MAX_STEP = 5;
 export default function Register() {
   const [activeStep, setActiveStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = function () {
-    setActiveStep((activeStep) => activeStep + 1);
+    if (activeStep < REG_MAX_STEP)
+      setActiveStep((activeStep) => activeStep + 1);
+  };
+
+  const handleStepBack = function () {
+    if (activeStep > 1) setActiveStep((step) => step - 1);
   };
   return (
     <>
@@ -309,7 +370,11 @@ export default function Register() {
         {activeStep === 1 ? (
           <FormRegistration onStepUpdate={handleStep} />
         ) : (
-          <StepsFormVerification step={activeStep} onStepUpdate={handleStep} />
+          <StepsFormVerification
+            step={activeStep}
+            onStepUpdate={handleStep}
+            onStepBack={handleStepBack}
+          />
         )}
       </SectionLoginContent>
     </>

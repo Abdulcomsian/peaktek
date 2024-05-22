@@ -1,0 +1,22 @@
+.main-board-wrapper{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 25fr 70fr;
+    grid-template-rows: 75px 1fr;
+}
+.sidebar{
+    grid-row: 1 / -1;
+    grid-column: 1;
+    background-color: #f2f4f6;
+}
+.sidebar .logo,
+.sidebar .sidebar-links{
+    padding: 1rem;
+}
+.sidebar .sidebar-links{
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+.sidebar .sidebar-links .link{
+    list-style: none;
+}
