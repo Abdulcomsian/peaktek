@@ -2,8 +2,24 @@
     margin: 8px;
     border: 1px solid lightgray;
     border-radius: 8px;
+    overflow: hidden;
 }
 .column-title,
 .task-list{
     padding: 8px;
+    list-style: none;
+}
+.column-title,
+.task-list li{
+    padding: 8px;
+    border: 1px solid lightgray;
+    margin-bottom: 10px;
+}
+
+.board-wrapper{
+    display: flex;
+}
+
+.board-wrapper .columContainer{
+    flex-grow: 1;
 }
