@@ -9,7 +9,7 @@ export default function MainBoardLayout() {
     <main className="main-board-wrapper">
       <Sidebar />
       <NavBar />
-      <main>
+      <main className="main-board-content">
         <Outlet />
       </main>
     </main>

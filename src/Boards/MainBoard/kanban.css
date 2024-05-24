@@ -1,25 +1,50 @@
-.columContainer{
-    margin: 8px;
-    border: 1px solid lightgray;
-    border-radius: 8px;
-    overflow: hidden;
-}
-.column-title,
-.task-list{
-    padding: 8px;
-    list-style: none;
-}
-.column-title,
-.task-list li{
-    padding: 8px;
-    border: 1px solid lightgray;
-    margin-bottom: 10px;
-}
-
-.board-wrapper{
+.kanban-container{
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
 }
+.kanban-container .btn-add-board{
+    align-self: flex-end;
+}
+.board-list{
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+.board-list .board-item{
+    flex-basis: 350px;
+    flex-shrink: 0;
 
-.board-wrapper .columContainer{
-    flex-grow: 1;
+}
+.column-container{
+    padding-inline: 2rem;
+    padding-block: 1rem;
+    background-color: rgb(231, 231, 231);
+    border-radius: 8px;
+}
+.column-header{
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: rgb(95, 96, 97);
+    border-bottom: 1px solid white;
+    padding-bottom: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.board__title span{
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+}
+.btn-edit-cardTitle svg{
+    width: 1.7rem;
+}
+.jobs-container{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-block: 2rem;
 }

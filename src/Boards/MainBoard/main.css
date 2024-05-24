@@ -20,3 +20,8 @@
 .sidebar .sidebar-links .link{
     list-style: none;
 }
+
+.main-board-content{
+    padding-inline: 4rem ;
+    overflow-y: auto;
+}
