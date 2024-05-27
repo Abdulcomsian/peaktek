@@ -1,8 +1,8 @@
-export default function NavBar() {
+export default function NavBar({ onCloseSidebar }) {
   return (
     <nav class="dashboard-nav">
       <div class="welcome-box">
-        <button class="btn btn-icon-close">
+        <button class="btn btn-icon-close" onClick={onCloseSidebar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -18,20 +18,7 @@ export default function NavBar() {
           </svg>
         </button>
         <div>
-          <h2 class="dash-nav-title">@yield('title')</h2>
-          <p class="welcome-text">Welcome Dr. Meg Summer! 👋</p>
-        </div>
-      </div>
-      <div class="profile-box">
-        <div class="notification-box">
-          <img src="/assets/images/BellRinging.svg" alt="" />
-          <span class="num-notification">1</span>
-        </div>
-        <div class="avatar-box">
-          <img
-            src="/assets/images/woman-doctor-wearing-lab-coat-with-stethoscope-isolated (2) 2.jpg"
-            alt=""
-          />
+          <p class="welcome-text">NavBar Content</p>
         </div>
       </div>
     </nav>

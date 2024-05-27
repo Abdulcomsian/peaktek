@@ -17,19 +17,21 @@ import { useState } from "react";
 
 import { Modal, Button, Form, Card } from "react-bootstrap";
 
+import "./kanban.css";
+
 const initialColumns = [
-  { id: "todo", title: "New Lead" },
-  { id: "in-progress", title: "Single Deal" },
-  { id: "done", title: "Adjustor" },
+  { id: "newLead", title: "New Lead" },
+  { id: "signedDeal", title: "Single Deal" },
+  { id: "adjuster", title: "Adjustor" },
 ];
 
 const initialTasks = {
-  todo: [
+  newLead: [
     { id: "task-1", content: "Task 1" },
     { id: "task-2", content: "Task 2" },
   ],
-  "in-progress": [{ id: "task-3", content: "Task 3" }],
-  done: [
+  signedDeal: [{ id: "task-3", content: "Task 3" }],
+  adjuster: [
     { id: "task-4", content: "Task 4" },
     { id: "task-5", content: "Task 5" },
   ],
@@ -88,10 +90,6 @@ function KanbanBoard() {
       }
     }
   };
-
-  //   const handleAddBoard = function () {
-  //     //   setColumns()
-  //   };
   const handleAddBoard = () => {
     setShowModal(true);
   };
@@ -100,18 +98,26 @@ function KanbanBoard() {
     setShowModal(false);
   };
 
-  const handleAddColumn = () => {
-    setColumns([
-      ...columns,
-      { id: newCompanyName.toLowerCase(), title: newCompanyName },
-    ]);
+  const handleAddColumn = (e) => {
+    e.preventDefault();
+    setTasks((tasks) => ({
+      ...tasks,
+      newLead: [
+        ...tasks.newLead,
+        { id: newCompanyName.toLowerCase(), title: newCompanyName },
+      ],
+    }));
     setShowModal(false);
     setNewCompanyName("");
   };
 
   return (
-    <>
-      <Button variant="primary" onClick={handleAddBoard}>
+    <div className="kanban-container">
+      <Button
+        variant="primary"
+        className="btn-add-board"
+        onClick={handleAddBoard}
+      >
         New
       </Button>
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -131,31 +137,28 @@ function KanbanBoard() {
           </div>
         </SortableContext>
       </DndContext>
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Board</Modal.Title>
+          <Modal.Title className="text-center fs-2">New Job</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="companyName">
-            <Form.Label>Company Name</Form.Label>
+            <Form.Label>Job Address</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter company name"
+              placeholder="Enter address and select"
               value={newCompanyName}
               onChange={(e) => setNewCompanyName(e.target.value)}
             />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
           <Button variant="primary" onClick={handleAddColumn}>
             Add Board
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 
@@ -166,16 +169,15 @@ function DraggableColumn({ id, title, tasks }) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    minWidth: "200px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    padding: "8px",
-    backgroundColor: "white",
+    minWidth: "350px",
+    backgroundColor: "rgb(244, 246, 248)",
+    borderRadius: "10px",
+    padding: "15px",
   };
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <h3>{title}</h3>
+      <h3 className="column-title">{title}</h3>
       <Column id={id.replace("column-", "")} tasks={tasks} />
     </div>
   );
@@ -185,7 +187,7 @@ function Column({ id, tasks }) {
   const { setNodeRef } = useDroppable({ id });
 
   return (
-    <div ref={setNodeRef}>
+    <div ref={setNodeRef} className="task-list">
       <SortableContext
         id={id}
         items={tasks}
@@ -208,24 +210,36 @@ function Task({ id, content }) {
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : undefined,
     transition,
-    padding: "8px",
     margin: "4px 0",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
+    border: "1px solid rgb(207 207 207 / 56%)",
+    borderRadius: "10px",
     backgroundColor: "white",
     zIndex: "1",
   };
+
+  console.log("content", content);
 
   return (
     // <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
     //   {content}
     // </div>
-    <Card ref={setNodeRef} {...attributes} {...listeners} style={style}>
+    <Card
+      className="task-card"
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+    >
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>{content}</Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Card.Title className="task-owner">Leon Simmons</Card.Title>
+        <Card.Text className="address">{content}</Card.Text>
       </Card.Body>
+      <Card.Footer className="task-card-footer">
+        <span className="task-status">New</span>
+        <span className="last-update">
+          Updated 3 min ago <span className="profile-text-box">IM</span>
+        </span>
+      </Card.Footer>
     </Card>
   );
 }
