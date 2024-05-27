@@ -6,10 +6,10 @@ import "./main.css";
 
 export default function MainBoardLayout() {
   return (
-    <main className="main-board-wrapper">
+    <main className="dashboard-layout-wrapperr">
       <Sidebar />
       <NavBar />
-      <main className="main-board-content">
+      <main className="dashboard-main-content">
         <Outlet />
       </main>
     </main>
