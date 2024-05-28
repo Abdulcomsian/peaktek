@@ -27,6 +27,7 @@ const initialColumns = [
 
 const initialTasks = {
   newLead: [
+    { id: "task-6", content: "Task 6" },
     { id: "task-1", content: "Task 1" },
     { id: "task-2", content: "Task 2" },
   ],
@@ -98,13 +99,13 @@ function KanbanBoard() {
     setShowModal(false);
   };
 
-  const handleAddColumn = (e) => {
+  const handleAddJob = (e) => {
     e.preventDefault();
     setTasks((tasks) => ({
       ...tasks,
       newLead: [
-        ...tasks.newLead,
         { id: newCompanyName.toLowerCase(), title: newCompanyName },
+        ...tasks.newLead,
       ],
     }));
     setShowModal(false);
@@ -125,7 +126,9 @@ function KanbanBoard() {
           items={columns.map((col) => `column-${col.id}`)}
           strategy={rectSortingStrategy}
         >
-          <div style={{ display: "flex", gap: "16px" }}>
+          <div
+            style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}
+          >
             {columns.map((column) => (
               <DraggableColumn
                 key={column.id}
@@ -134,6 +137,7 @@ function KanbanBoard() {
                 tasks={tasks[column.id]}
               />
             ))}
+            <button>Add column</button>
           </div>
         </SortableContext>
       </DndContext>
@@ -153,8 +157,8 @@ function KanbanBoard() {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleAddColumn}>
-            Add Board
+          <Button variant="primary" onClick={handleAddJob}>
+            Add job
           </Button>
         </Modal.Footer>
       </Modal>
@@ -170,7 +174,7 @@ function DraggableColumn({ id, title, tasks }) {
     transform: CSS.Transform.toString(transform),
     transition,
     minWidth: "350px",
-    backgroundColor: "rgb(244, 246, 248)",
+    backgroundColor: "#f2f4f6",
     borderRadius: "10px",
     padding: "15px",
   };

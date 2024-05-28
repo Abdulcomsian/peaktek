@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
+    margin-left: 5rem;
 }
 .kanban-container .btn-add-board{
     align-self: flex-end;
