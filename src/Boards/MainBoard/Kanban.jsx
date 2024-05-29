@@ -15,7 +15,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 
-import { Modal, Button, Form, Card } from "react-bootstrap";
+import { Modal, Button, Form, Card, Badge } from "react-bootstrap";
 
 import "./kanban.css";
 
@@ -42,7 +42,9 @@ function KanbanBoard() {
   const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState(initialColumns);
   const [showModal, setShowModal] = useState(false);
+  const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   const [newCompanyName, setNewCompanyName] = useState("");
+  const [newBoardTitle, setNewBoardTitle] = useState("");
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -50,6 +52,8 @@ function KanbanBoard() {
 
     const { id: activeId } = active;
     const { id: overId } = over;
+
+    console.log(activeId, overId);
 
     if (activeId.startsWith("column-") && overId.startsWith("column-")) {
       // Handle column dragging
@@ -69,27 +73,59 @@ function KanbanBoard() {
       );
       const destinationColumn = columns.find((column) => column.id === overId);
 
+      // if (
+      //   sourceColumn &&
+      //   destinationColumn &&
+      //   sourceColumn.id !== destinationColumn.id
+      // ) {
+      //   setTasks((prev) => {
+      //     const sourceTasks = prev[sourceColumn.id];
+      //     const destinationTasks = prev[destinationColumn.id];
+
+      //     const activeTask = sourceTasks.find((task) => task.id === activeId);
+
+      //     return {
+      //       ...prev,
+      //       [sourceColumn.id]: sourceTasks.filter(
+      //         (task) => task.id !== activeId
+      //       ),
+      //       [destinationColumn.id]: [...destinationTasks, activeTask],
+      //     };
+      //   });
+      // }
+
       if (
         sourceColumn &&
         destinationColumn &&
         sourceColumn.id !== destinationColumn.id
       ) {
-        setTasks((prev) => {
-          const sourceTasks = prev[sourceColumn.id];
-          const destinationTasks = prev[destinationColumn.id];
+        setTasks((prevTasks) => {
+          const sourceTasks = [...prevTasks[sourceColumn.id]]; // Create a copy of source tasks
+          const destinationTasks = [...(prevTasks[destinationColumn.id] || [])]; // Create a copy of destination tasks, or initialize as an empty array if it doesn't exist
 
-          const activeTask = sourceTasks.find((task) => task.id === activeId);
+          const activeTaskIndex = sourceTasks.findIndex(
+            (task) => task.id === activeId
+          );
+          const activeTask = sourceTasks[activeTaskIndex];
+
+          // Remove the task from the source column
+          sourceTasks.splice(activeTaskIndex, 1);
+
+          // Add the task to the destination column
+          destinationTasks.push(activeTask);
 
           return {
-            ...prev,
-            [sourceColumn.id]: sourceTasks.filter(
-              (task) => task.id !== activeId
-            ),
-            [destinationColumn.id]: [...destinationTasks, activeTask],
+            ...prevTasks,
+            [sourceColumn.id]: sourceTasks,
+            [destinationColumn.id]: destinationTasks,
           };
         });
       }
     }
+  };
+
+  const handleAddNewBoard = () => {
+    setAddNewJobModal(true);
   };
   const handleAddBoard = () => {
     setShowModal(true);
@@ -112,63 +148,128 @@ function KanbanBoard() {
     setNewCompanyName("");
   };
 
+  const handleAdd = function (e) {
+    e.preventDefault();
+    setColumns((columns) => [
+      ...columns,
+      { id: `column-${newBoardTitle}`, title: newBoardTitle },
+    ]);
+    setTasks((tasks) => ({
+      ...tasks,
+      [newBoardTitle.toLowerCase()]: [], // Add an empty array for tasks associated with the new column
+    }));
+    setAddNewJobModal(false);
+  };
+
   return (
-    <div className="kanban-container">
-      <Button
-        variant="primary"
-        className="btn-add-board"
-        onClick={handleAddBoard}
-      >
-        New
-      </Button>
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext
-          items={columns.map((col) => `column-${col.id}`)}
-          strategy={rectSortingStrategy}
+    <>
+      <div className="kanban-container">
+        <Button
+          variant="primary"
+          className="btn-add-board"
+          onClick={handleAddBoard}
         >
-          <div
-            style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}
+          New
+        </Button>
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={columns.map((col) => `column-${col.id}`)}
+            strategy={rectSortingStrategy}
           >
-            {columns.map((column) => (
-              <DraggableColumn
-                key={column.id}
-                id={`column-${column.id}`}
-                title={column.title}
-                tasks={tasks[column.id]}
+            <div style={{ display: "flex", gap: "16px" }}>
+              {columns.map((column) => (
+                <DraggableColumn
+                  key={column.id}
+                  id={`column-${column.id}`}
+                  title={column.title}
+                  tasks={tasks[column.id] ? tasks[column.id] : []}
+                />
+              ))}
+              <Button className="btn-add" onClick={handleAddNewBoard}>
+                &#x2B;
+              </Button>
+            </div>
+          </SortableContext>
+        </DndContext>
+        <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title className="text-center fs-2">New Job</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group controlId="companyName">
+              <Form.Label>Job Address</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter address and select"
+                value={newCompanyName}
+                onChange={(e) => setNewCompanyName(e.target.value)}
               />
-            ))}
-            <button>Add column</button>
-          </div>
-        </SortableContext>
-      </DndContext>
-      <Modal show={showModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title className="text-center fs-2">New Job</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group controlId="companyName">
-            <Form.Label>Job Address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter address and select"
-              value={newCompanyName}
-              onChange={(e) => setNewCompanyName(e.target.value)}
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleAddJob}>
-            Add job
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleAddJob}>
+              Add job
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+      {showAddNewJobModal && (
+        <AddNewJobModal
+          title={newBoardTitle}
+          onChange={setNewBoardTitle}
+          showModal={showAddNewJobModal}
+          handleCloseModal={() => setAddNewJobModal((is) => !is)}
+          onAddBoard={handleAdd}
+        />
+      )}
+    </>
+  );
+}
+
+function AddNewJobModal({
+  showModal,
+  handleCloseModal,
+  title,
+  onChange,
+  onAddBoard,
+}) {
+  return (
+    <Modal show={showModal} onHide={handleCloseModal} centered>
+      <Modal.Header closeButton>
+        <Modal.Title className="text-center fs-2">New Board Title</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form.Group controlId="companyName">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type="text"
+            value={title}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Enter address and select"
+          />
+        </Form.Group>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={onAddBoard}>
+          Add Board
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
 function DraggableColumn({ id, title, tasks }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -176,7 +277,8 @@ function DraggableColumn({ id, title, tasks }) {
     minWidth: "350px",
     backgroundColor: "#f2f4f6",
     borderRadius: "10px",
-    padding: "15px",
+    boxShadow: "0px 0px 6px 0px rgba(0, 0, 0, 0.1)",
+    zIndex: isDragging ? 999 : "auto",
   };
 
   return (
@@ -197,7 +299,7 @@ function Column({ id, tasks }) {
         items={tasks}
         strategy={verticalListSortingStrategy}
       >
-        {tasks.map((task) => (
+        {tasks?.map((task) => (
           <Task key={task.id} id={task.id} content={task.content} />
         ))}
       </SortableContext>
@@ -206,8 +308,14 @@ function Column({ id, tasks }) {
 }
 
 function Task({ id, content }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useDraggable({ id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useDraggable({ id });
 
   const style = {
     transform: transform
@@ -218,10 +326,9 @@ function Task({ id, content }) {
     border: "1px solid rgb(207 207 207 / 56%)",
     borderRadius: "10px",
     backgroundColor: "white",
-    zIndex: "1",
+    zIndex: isDragging ? 999 : "auto", // Set high zIndex while dragging
+    overflow: "hidden",
   };
-
-  console.log("content", content);
 
   return (
     // <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
@@ -239,7 +346,7 @@ function Task({ id, content }) {
         <Card.Text className="address">{content}</Card.Text>
       </Card.Body>
       <Card.Footer className="task-card-footer">
-        <span className="task-status">New</span>
+        <Badge bg="primary">New</Badge>
         <span className="last-update">
           Updated 3 min ago <span className="profile-text-box">IM</span>
         </span>

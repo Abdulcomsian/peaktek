@@ -1,3 +1,7 @@
+import { Link } from "react-router-dom";
+
+import "./nav.css";
+
 export default function NavBar({ onCloseSidebar }) {
   return (
     <nav class="dashboard-nav">
@@ -18,7 +22,14 @@ export default function NavBar({ onCloseSidebar }) {
           </svg>
         </button>
         <div>
-          <p class="welcome-text">NavBar Content</p>
+          <ul className="list nav-list">
+            <li>
+              <Link>Board</Link>
+            </li>
+            <li>
+              <Link>Setting</Link>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>

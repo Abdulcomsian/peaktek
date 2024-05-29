@@ -65,25 +65,21 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       <ul className="links sidebar-links">
         <li className="list-item">
           <NavLink to="#" className="link">
-            <img src="../../assets/jobs-icon.svg" alt="sdfasdf" />
             <span>Jobs</span>
           </NavLink>
         </li>
         <li class="list-item">
           <NavLink to="/" className="link">
-            <img src="/assets/images/calender-nav-icon.svg" alt="" />
             <span>Measurment</span>
           </NavLink>
         </li>
         <li className="list-item">
           <NavLink to="/" className="link">
-            <img src="/assets/images/availbility-nav-icon.svg" alt="" />
             <span>Propsals</span>
           </NavLink>
         </li>
         <li className="list-item">
           <NavLink to="/" className="link">
-            <img src="/assets/images/service-nav-icon.svg" alt="" />
             <span>Invoices</span>
           </NavLink>
         </li>

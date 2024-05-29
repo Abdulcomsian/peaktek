@@ -8,10 +8,6 @@
   --color-gray: #edf0f2;
 }
 
-@font-face {
-  font-family: "circular-std";
-  src: url("./assets/fonts/circular-std-medium-500.ttf");
-}
 
 *,
 *::after,
@@ -26,7 +22,7 @@ html {
 }
 
 body {
-  font-family: "circular-std", Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   color: #6b7980;
 }
 
