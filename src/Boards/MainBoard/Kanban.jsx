@@ -45,6 +45,7 @@ function KanbanBoard() {
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   const [newCompanyName, setNewCompanyName] = useState("");
   const [newBoardTitle, setNewBoardTitle] = useState("");
+  const [showJobDetailModal, setShowJobDetailModal] = useState(false);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -135,6 +136,11 @@ function KanbanBoard() {
     setShowModal(false);
   };
 
+  const handleShowJobDetailModal = () => {
+    console.log("DONE");
+    setShowJobDetailModal((is) => !is);
+  };
+
   const handleAddJob = (e) => {
     e.preventDefault();
     setTasks((tasks) => ({
@@ -186,6 +192,7 @@ function KanbanBoard() {
                   id={`column-${column.id}`}
                   title={column.title}
                   tasks={tasks[column.id] ? tasks[column.id] : []}
+                  onShowJobDetailModal={handleShowJobDetailModal}
                 />
               ))}
               <Button className="btn-add" onClick={handleAddNewBoard}>
@@ -225,6 +232,7 @@ function KanbanBoard() {
           onAddBoard={handleAdd}
         />
       )}
+      {/* {showJobDetailModal && <p>fakjsdhflkjas</p>} */}
     </>
   );
 }
@@ -261,7 +269,7 @@ function AddNewJobModal({
   );
 }
 
-function DraggableColumn({ id, title, tasks }) {
+function DraggableColumn({ id, title, tasks, onShowJobDetailModal }) {
   const {
     attributes,
     listeners,
@@ -284,12 +292,16 @@ function DraggableColumn({ id, title, tasks }) {
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <h3 className="column-title">{title}</h3>
-      <Column id={id.replace("column-", "")} tasks={tasks} />
+      <Column
+        id={id.replace("column-", "")}
+        tasks={tasks}
+        onShowJobDetailModal={onShowJobDetailModal}
+      />
     </div>
   );
 }
 
-function Column({ id, tasks }) {
+function Column({ id, tasks, onShowJobDetailModal }) {
   const { setNodeRef } = useDroppable({ id });
 
   return (
@@ -300,14 +312,19 @@ function Column({ id, tasks }) {
         strategy={verticalListSortingStrategy}
       >
         {tasks?.map((task) => (
-          <Task key={task.id} id={task.id} content={task.content} />
+          <Task
+            key={task.id}
+            id={task.id}
+            content={task.content}
+            onShowJobDetailModal={onShowJobDetailModal}
+          />
         ))}
       </SortableContext>
     </div>
   );
 }
 
-function Task({ id, content }) {
+function Task({ id, content, onShowJobDetailModal }) {
   const {
     attributes,
     listeners,
@@ -330,16 +347,18 @@ function Task({ id, content }) {
     overflow: "hidden",
   };
 
+  const handleClick = function () {
+    console.log("hi ");
+  };
+
   return (
-    // <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-    //   {content}
-    // </div>
     <Card
       className="task-card"
       ref={setNodeRef}
       {...attributes}
       {...listeners}
       style={style}
+      onClick={handleClick}
     >
       <Card.Body>
         <Card.Title className="task-owner">Leon Simmons</Card.Title>
