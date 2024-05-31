@@ -55,11 +55,11 @@ function KanbanBoard() {
 
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
-  function handleDragStart(event) {
-    console.log("drag start");
-    setIsDragging(true);
-    setAddNewJobModal((is) => !is);
-  }
+  // function handleDragStart(event) {
+  //   console.log("drag start");
+  //   setIsDragging(true);
+  //   setAddNewJobModal((is) => !is);
+  // }
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -194,7 +194,7 @@ function KanbanBoard() {
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
           sensors={sensors}
-          onDragStart={handleDragStart}
+          // onDragStart={handleDragStart}
         >
           <SortableContext
             items={columns.map((col) => `column-${col.id}`)}
