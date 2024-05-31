@@ -3,6 +3,10 @@ import {
   useDraggable,
   useDroppable,
   closestCenter,
+  useSensors,
+  useSensor,
+  MouseSensor,
+  TouchSensor,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -13,7 +17,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Modal, Button, Form, Card, Badge } from "react-bootstrap";
 
@@ -47,14 +51,22 @@ function KanbanBoard() {
   const [newBoardTitle, setNewBoardTitle] = useState("");
   const [showJobDetailModal, setShowJobDetailModal] = useState(false);
 
+  const [isDragging, setIsDragging] = useState(false);
+
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
+  function handleDragStart(event) {
+    console.log("drag start");
+    setIsDragging(true);
+    setAddNewJobModal((is) => !is);
+  }
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
 
     const { id: activeId } = active;
     const { id: overId } = over;
-
-    console.log(activeId, overId);
 
     if (activeId.startsWith("column-") && overId.startsWith("column-")) {
       // Handle column dragging
@@ -136,10 +148,10 @@ function KanbanBoard() {
     setShowModal(false);
   };
 
-  const handleShowJobDetailModal = () => {
+  function handleShowJobDetailModal() {
     console.log("DONE");
-    setShowJobDetailModal((is) => !is);
-  };
+    // setShowJobDetailModal((is) => !is);
+  }
 
   const handleAddJob = (e) => {
     e.preventDefault();
@@ -178,8 +190,11 @@ function KanbanBoard() {
           New
         </Button>
         <DndContext
+          autoScroll={false}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
+          sensors={sensors}
+          onDragStart={handleDragStart}
         >
           <SortableContext
             items={columns.map((col) => `column-${col.id}`)}
@@ -192,7 +207,7 @@ function KanbanBoard() {
                   id={`column-${column.id}`}
                   title={column.title}
                   tasks={tasks[column.id] ? tasks[column.id] : []}
-                  onShowJobDetailModal={handleShowJobDetailModal}
+                  someoneIsDragging={isDragging}
                 />
               ))}
               <Button className="btn-add" onClick={handleAddNewBoard}>
@@ -201,13 +216,18 @@ function KanbanBoard() {
             </div>
           </SortableContext>
         </DndContext>
-        <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal
+          className="newJobModal"
+          show={showModal}
+          onHide={handleCloseModal}
+          centered
+        >
           <Modal.Header closeButton>
-            <Modal.Title className="text-center fs-2">New Job</Modal.Title>
+            <Modal.Title className="text-center fs-2">New job</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="mb-4">
             <Form.Group controlId="companyName">
-              <Form.Label>Job Address</Form.Label>
+              <Form.Label>Job address</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter address and select"
@@ -217,8 +237,8 @@ function KanbanBoard() {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={handleAddJob}>
-              Add job
+            <Button className="w-100" variant="primary" onClick={handleAddJob}>
+              Continue
             </Button>
           </Modal.Footer>
         </Modal>
@@ -232,7 +252,15 @@ function KanbanBoard() {
           onAddBoard={handleAdd}
         />
       )}
-      {/* {showJobDetailModal && <p>fakjsdhflkjas</p>} */}
+      {isDragging && (
+        <AddNewJobModal
+          title={newBoardTitle}
+          onChange={setNewBoardTitle}
+          showModal={showAddNewJobModal}
+          handleCloseModal={() => setAddNewJobModal((is) => !is)}
+          onAddBoard={handleAdd}
+        />
+      )}
     </>
   );
 }
@@ -249,7 +277,7 @@ function AddNewJobModal({
       <Modal.Header closeButton>
         <Modal.Title className="text-center fs-2">New Board Title</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="mb-4">
         <Form.Group controlId="companyName">
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -261,7 +289,7 @@ function AddNewJobModal({
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={onAddBoard}>
+        <Button className="w-100" variant="primary" onClick={onAddBoard}>
           Add Board
         </Button>
       </Modal.Footer>
@@ -269,7 +297,7 @@ function AddNewJobModal({
   );
 }
 
-function DraggableColumn({ id, title, tasks, onShowJobDetailModal }) {
+function DraggableColumn({ id, title, tasks, someoneIsDragging }) {
   const {
     attributes,
     listeners,
@@ -295,13 +323,13 @@ function DraggableColumn({ id, title, tasks, onShowJobDetailModal }) {
       <Column
         id={id.replace("column-", "")}
         tasks={tasks}
-        onShowJobDetailModal={onShowJobDetailModal}
+        someoneIsDragging={someoneIsDragging}
       />
     </div>
   );
 }
 
-function Column({ id, tasks, onShowJobDetailModal }) {
+function Column({ id, tasks, someoneIsDragging }) {
   const { setNodeRef } = useDroppable({ id });
 
   return (
@@ -316,7 +344,7 @@ function Column({ id, tasks, onShowJobDetailModal }) {
             key={task.id}
             id={task.id}
             content={task.content}
-            onShowJobDetailModal={onShowJobDetailModal}
+            someoneIsDragging={someoneIsDragging}
           />
         ))}
       </SortableContext>
@@ -324,7 +352,7 @@ function Column({ id, tasks, onShowJobDetailModal }) {
   );
 }
 
-function Task({ id, content, onShowJobDetailModal }) {
+function Task({ id, content, someoneIsDragging }) {
   const {
     attributes,
     listeners,
@@ -347,8 +375,9 @@ function Task({ id, content, onShowJobDetailModal }) {
     overflow: "hidden",
   };
 
-  const handleClick = function () {
-    console.log("hi ");
+  const handleClick = (e) => {
+    console.log("Clicked"); // Debugging statement
+    alert("Clicked");
   };
 
   return (
@@ -358,7 +387,19 @@ function Task({ id, content, onShowJobDetailModal }) {
       {...attributes}
       {...listeners}
       style={style}
-      onClick={handleClick}
+      onClick={() => {
+        if (someoneIsDragging) {
+          console.log("a card somewhere is being dragged still");
+          return;
+        }
+        if (isDragging) {
+          console.log("this card is being dragged still");
+          return;
+        }
+        alert(
+          "I should only appear when clicking items without dragging them, not on drag end"
+        );
+      }}
     >
       <Card.Body>
         <Card.Title className="task-owner">Leon Simmons</Card.Title>

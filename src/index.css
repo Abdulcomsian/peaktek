@@ -100,6 +100,11 @@ a {
   padding-block: 1rem;
 }
 
+input::placeholder{
+  color: #888;
+  font-weight: 300;
+}
+
 
 /* GRID LAYOUT  */
 .grid{
@@ -118,4 +123,39 @@ a {
 
 .profile-form .grid-gap{
   column-gap: 2rem;
+}
+
+.modal-header{
+  justify-content: center;
+  border-bottom: 0;
+}
+
+.modal-title{
+  font-size: 2.5rem !important;
+  font-weight: 300;
+  color: #000;
+}
+.modal-content{
+  border-radius: 12px;
+  border: 0;
+  padding-inline: 2rem;
+  padding-block: 3rem;
+  position: relative;
+  padding-top: 5rem;
+}
+
+.form-control:focus{
+  border-color: #90ccec;
+  box-shadow: none;
+}
+
+.modal-header .btn-close{
+  position: absolute;
+  top: 22px;
+  color: #000;
+  right: 22px;
+}
+
+.modal-footer{
+  border-top: 0;
 }

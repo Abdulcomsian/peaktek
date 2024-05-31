@@ -10,4 +10,5 @@ export default defineConfig({
       // include: [/linked-dep/, /node_modules/],
     },
   },
+  base: "/peaktek/",
 });
