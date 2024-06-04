@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 :root {
   --color-primary-shade: #318fd4;
   --color-primary: #2581bc;
@@ -17,9 +20,9 @@
   box-sizing: border-box;
 }
 
-html {
+/* html {
   font-size: 62.5%;
-}
+} */
 
 body {
   font-family: "Poppins", Arial, Helvetica, sans-serif;
