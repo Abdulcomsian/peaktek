@@ -27,7 +27,7 @@ export default function NavBar({ onCloseSidebar }) {
               <Link>Board</Link>
             </li>
             <li>
-              <Link>Setting</Link>
+              <Link to="/customer-agreement">Customer Agrement</Link>
             </li>
           </ul>
         </div>

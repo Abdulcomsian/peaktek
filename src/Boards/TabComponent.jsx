@@ -6,15 +6,17 @@ const TabComponent = () => {
     "Job details",
     "Tasks",
     "Proposals",
-    "Invioces",
+    "Invoices",
     "Attachments",
   ]);
   const sectionRefs = useRef([]);
   const [activeTab, setActiveTab] = useState(0);
 
   const scrollToSection = (index) => {
+    console.log(index);
     const section = sectionRefs.current[index];
     if (section) {
+      setActiveTab(index);
       section.scrollIntoView({ behavior: "smooth" });
     }
   };
