@@ -71,7 +71,7 @@
     color: #467cd2;
 }
 .task-card .address{
-    font-size: 1.3rem;
+    /* font-size: 1.3rem; */
     font-weight: 400;
     color: rgb(40, 55, 62);
 }
@@ -118,14 +118,15 @@
     color: #222 !important;
 }
 
-.last-update{
-    font-size: 1rem;
-    color: #777;
-}
+
 
 .newJobModal .form-label{
     font-size: 1.5rem;
     font-weight: 300;
     color: #555;
     margin-bottom: 0.5rem;
+}
+
+.jobdetailmodel .modal-content{
+padding-top: 1rem;
 }
