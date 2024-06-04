@@ -443,11 +443,6 @@ function Task({ id, content, someoneIsDragging }) {
           <Modal.Body className="mb-4">
             <TabComponent />
           </Modal.Body>
-          <Modal.Footer>
-            <Button className="w-100" variant="primary">
-              Add Board
-            </Button>
-          </Modal.Footer>
         </Modal>
       )}
     </>
