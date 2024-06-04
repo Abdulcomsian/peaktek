@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
-    margin-left: 5rem;
+    /* margin-left: 5rem; */
 }
 .kanban-container .btn-add-board{
     align-self: flex-end;
@@ -26,7 +26,7 @@
     border-radius: 8px;
 }
 .column-header{
-    font-size: 1.6rem;
+    /* font-size: 1.6rem; */
     font-weight: 500;
     color: rgb(95, 96, 97);
     border-bottom: 1px solid white;
@@ -84,7 +84,7 @@
     color: #0e6efd;
 }
 .task-card .task-owner{
-    font-size: 1.6rem;
+    /* font-size: 1.6rem; */
     font-weight: 500;
     color: rgb(40, 55, 62);
 }

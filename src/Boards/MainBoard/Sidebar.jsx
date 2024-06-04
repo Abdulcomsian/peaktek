@@ -52,7 +52,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
           >
             <div>
               <span>PeakTech Roofing</span>
-              <p className="email">admin@email.company</p>
+              <p className="text-sm text-gray-500">admin@email.company</p>
             </div>
           </Dropdown.Toggle>
 

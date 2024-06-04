@@ -8,6 +8,7 @@ import {
   MouseSensor,
   TouchSensor,
 } from "@dnd-kit/core";
+import { FaPlus } from "react-icons/fa6";
 import {
   arrayMove,
   SortableContext,
@@ -182,13 +183,14 @@ function KanbanBoard() {
   return (
     <>
       <div className="kanban-container">
-        <Button
+        <button
           variant="primary"
-          className="btn-add-board"
+          className="btn-add-board px-3 py-2 flex justify-center items-center bg-blue-600 hover:bg-blue-700 rounded-full text-white "
           onClick={handleAddBoard}
         >
-          New
-        </Button>
+          <FaPlus className="text-white mr-1" />
+          New job
+        </button>
         <DndContext
           autoScroll={false}
           collisionDetection={closestCenter}

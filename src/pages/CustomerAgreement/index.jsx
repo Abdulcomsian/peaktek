@@ -22,6 +22,8 @@ const CustomerAgreement = () => {
     {
       id: 1,
       text: "Both parties acknowledge that, except for deductible and upgrade costs, payment for the Work may be facilitated by the Customer's insurer. However, the Customer acknowledges the necessity to assess any property damage separately. The Customer grants authorization for PeakTek Roofing & Restoration (hereafter referred to as PeakTek to allocate its time and expertise to aid in evaluating damages and providing repair or replacement recommendations, potentially covered under an insurance claim, subject to the approval of the Customer's insurer.",
+    },
+    {
       id: 2,
       text: "The Customer designates PeakTek as the sole contractor responsible for completing the work, ensuring compliance with all local, state, federal, code, and safety regulations. Additionally, the Customer accepts responsibility for any expenses not covered by insurance, including but not limited to work portions, deductibles, enhancements, depreciation, or additional work requested by the Customer. Such payments must be settled within thirty (30) days of written notification from PeakTek.",
     },
@@ -30,8 +32,12 @@ const CustomerAgreement = () => {
     {
       id: 1,
       text: "Price Agreeable encompasses all funds paid or agreed upon as outlined in the Claim, including but not limited to the Insurance Deductible, Actual Cash Value, Replacement Cost Value, Recoverable Depreciation, Supplements, change orders, profit, overhead, markups, and/or margin.",
+    },
+    {
       id: 2,
       text: "The undersigned parties hereby consent to the terms stipulated in the aforementioned Agreement and any supplementary terms and conditions detailed on the reverse side herein.",
+    },
+    {
       id: 3,
       text: "IN WITNESS WHEREOF, the undersigned parties have willingly and voluntarily caused the execution of this Agreement, either individually or by their duly authorized representative, on the effective date of acceptance indicated below.",
     },
@@ -166,7 +172,9 @@ const CustomerAgreement = () => {
       </h1>
       <CustomerInformationForm />
       <div className="mb-4">
-        <h2 className="text-lg font-semibold text-black">ACKNOWLEDGEMENTS</h2>
+        <h2 className="text-lg font-semibold text-black mb-2">
+          ACKNOWLEDGEMENTS
+        </h2>
         <ul className="list-disc pl-6">
           {Acknowledgement?.map((items) => (
             <li key={items?.id} className="mb-2">
@@ -176,25 +184,29 @@ const CustomerAgreement = () => {
         </ul>
       </div>
       <div className="mb-4">
-        <h2 className="text-lg font-semibold text-black">INSURANCE</h2>
+        <h2 className="text-lg font-semibold text-black mb-2">INSURANCE</h2>
         <ul>
           {Insurance?.map((items) => (
-            <li key={items?.id}>{items?.text}</li>
+            <li key={items?.id} className="mb-4">
+              {items?.text}
+            </li>
           ))}
         </ul>
       </div>
       <div className="mb-4">
-        <h2 className="text-lg font-semibold text-black">PRICING</h2>
+        <h2 className="text-lg font-semibold text-black mb-2">PRICING</h2>
         <ul>
           {Pricing?.map((items) => (
-            <li key={items?.id}>{items?.text}</li>
+            <li key={items?.id} className="mb-4">
+              {items?.text}
+            </li>
           ))}
         </ul>
       </div>
       <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
       <SignaturesForm />
       {contractDetails?.map((items) => (
-        <p key={items?.id} className="mb-4">
+        <p key={items?.id} className="mb-3">
           {items?.content}
         </p>
       ))}
