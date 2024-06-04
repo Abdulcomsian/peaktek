@@ -1,6 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
+import "./tabComponent.css";
 
 const TabComponent = () => {
+  const [tabTitle, setTabTitle] = useState([
+    "Job details",
+    "Tasks",
+    "Proposals",
+    "Invioces",
+    "Attachments",
+  ]);
   const sectionRefs = useRef([]);
   const [activeTab, setActiveTab] = useState(0);
 
@@ -38,33 +46,17 @@ const TabComponent = () => {
 
   return (
     <div>
-      <div style={{ position: "fixed", top: 0 }}>
-        <button
-          className={activeTab === 0 ? "active" : ""}
-          onClick={() => scrollToSection(0)}
-        >
-          Tab 1
-        </button>
-        <button
-          className={activeTab === 1 ? "active" : ""}
-          onClick={() => scrollToSection(1)}
-        >
-          Tab 2
-        </button>
-        <button
-          className={activeTab === 2 ? "active" : ""}
-          onClick={() => scrollToSection(2)}
-        >
-          Tab 3
-        </button>
-        <button
-          className={activeTab === 3 ? "active" : ""}
-          onClick={() => scrollToSection(3)}
-        >
-          Tab 4
-        </button>
+      <div className="tabs-container">
+        {tabTitle.map((title, index) => (
+          <button
+            className={`btn btn-tab ${activeTab === index ? "active" : ""}`}
+            onClick={() => scrollToSection(index)}
+          >
+            {title}
+          </button>
+        ))}
       </div>
-      <div>
+      <div className="tab-pan-container">
         <section ref={(el) => (sectionRefs.current[0] = el)}>
           Section 1 Lorem ipsum dolor sit, amet consectetur adipisicing elit.
           Sapiente, inventore soluta incidunt ratione excepturi veniam cumque

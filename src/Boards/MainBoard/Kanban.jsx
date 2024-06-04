@@ -20,7 +20,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 
 import { Modal, Button, Form, Card, Badge } from "react-bootstrap";
-
+import TabComponent from "../TabComponent";
 import "./kanban.css";
 
 const initialColumns = [
@@ -53,13 +53,20 @@ function KanbanBoard() {
 
   const [isDragging, setIsDragging] = useState(false);
 
-  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+  // const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
   // function handleDragStart(event) {
   //   console.log("drag start");
   //   setIsDragging(true);
   //   setAddNewJobModal((is) => !is);
   // }
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -194,7 +201,6 @@ function KanbanBoard() {
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
           sensors={sensors}
-          // onDragStart={handleDragStart}
         >
           <SortableContext
             items={columns.map((col) => `column-${col.id}`)}
@@ -361,6 +367,9 @@ function Task({ id, content, someoneIsDragging }) {
     transition,
     isDragging,
   } = useDraggable({ id });
+  const [showJobDetailModal, setShowJobDetailModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const style = {
     transform: transform
@@ -375,43 +384,68 @@ function Task({ id, content, someoneIsDragging }) {
     overflow: "hidden",
   };
 
-  const handleClick = (e) => {
-    console.log("Clicked"); // Debugging statement
-    alert("Clicked");
+  const handleTaskClick = function (task) {
+    console.log(task);
+    setSelectedTask(task);
+    setShowJobDetailModal(true);
   };
-
   return (
-    <Card
-      className="task-card"
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      style={style}
-      onClick={() => {
-        if (someoneIsDragging) {
-          console.log("a card somewhere is being dragged still");
-          return;
-        }
-        if (isDragging) {
-          console.log("this card is being dragged still");
-          return;
-        }
-        alert(
-          "I should only appear when clicking items without dragging them, not on drag end"
-        );
-      }}
-    >
-      <Card.Body>
-        <Card.Title className="task-owner">Leon Simmons</Card.Title>
-        <Card.Text className="address">{content}</Card.Text>
-      </Card.Body>
-      <Card.Footer className="task-card-footer">
-        <Badge bg="primary">New</Badge>
-        <span className="last-update">
-          Updated 3 min ago <span className="profile-text-box">IM</span>
-        </span>
-      </Card.Footer>
-    </Card>
+    <>
+      <Card
+        className="task-card"
+        ref={setNodeRef}
+        {...attributes}
+        {...listeners}
+        style={style}
+        onClick={() => {
+          if (someoneIsDragging) {
+            console.log("a card somewhere is being dragged still");
+            return;
+          }
+          if (isDragging) {
+            console.log("this card is being dragged still");
+            return;
+          }
+          handleTaskClick(content);
+        }}
+      >
+        <Card.Body>
+          <Card.Title className="task-owner">Leon Simmons</Card.Title>
+          <Card.Text className="address">{content}</Card.Text>
+        </Card.Body>
+        <Card.Footer className="task-card-footer">
+          <Badge bg="primary">New</Badge>
+          <span className="last-update">
+            Updated 3 min ago <span className="profile-text-box">IM</span>
+          </span>
+        </Card.Footer>
+      </Card>
+      {showJobDetailModal && (
+        <Modal
+          show={showJobDetailModal}
+          onHide={() => setShowJobDetailModal((is) => !is)}
+          size="xl"
+          centered
+        >
+          <Modal.Header closeButton className="justify-content-start">
+            <Modal.Title
+              className="text-left fs-2"
+              id="example-custom-modal-styling-title"
+            >
+              {selectedTask}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="mb-4">
+            <TabComponent />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="w-100" variant="primary">
+              Add Board
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+    </>
   );
 }
 
