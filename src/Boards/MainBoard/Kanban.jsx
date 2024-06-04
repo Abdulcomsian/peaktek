@@ -8,6 +8,7 @@ import {
   MouseSensor,
   TouchSensor,
 } from "@dnd-kit/core";
+import { FaPlus } from "react-icons/fa6";
 import {
   arrayMove,
   SortableContext,
@@ -189,13 +190,14 @@ function KanbanBoard() {
   return (
     <>
       <div className="kanban-container">
-        <Button
+        <button
           variant="primary"
-          className="btn-add-board"
+          className="btn-add-board px-3 py-2 flex justify-center items-center bg-blue-600 hover:bg-blue-700 rounded-full text-white "
           onClick={handleAddBoard}
         >
-          New
-        </Button>
+          <FaPlus className="text-white mr-1" />
+          New job
+        </button>
         <DndContext
           autoScroll={false}
           collisionDetection={closestCenter}
@@ -410,12 +412,14 @@ function Task({ id, content, someoneIsDragging }) {
         }}
       >
         <Card.Body>
-          <Card.Title className="task-owner">Leon Simmons</Card.Title>
-          <Card.Text className="address">{content}</Card.Text>
+          <div className="task-owner">Leon Simmons</div>
+          <p className="address text-sm">{content}</p>
         </Card.Body>
         <Card.Footer className="task-card-footer">
-          <Badge bg="primary">New</Badge>
-          <span className="last-update">
+          <span className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
+            New
+          </span>
+          <span className="text-xs text-gray-400">
             Updated 3 min ago <span className="profile-text-box">IM</span>
           </span>
         </Card.Footer>
@@ -426,6 +430,7 @@ function Task({ id, content, someoneIsDragging }) {
           onHide={() => setShowJobDetailModal((is) => !is)}
           size="xl"
           centered
+          className="jobdetailmodel"
         >
           <Modal.Header closeButton className="justify-content-start">
             <Modal.Title

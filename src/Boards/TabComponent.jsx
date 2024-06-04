@@ -49,7 +49,7 @@ const TabComponent = () => {
       <div className="tabs-container">
         {tabTitle.map((title, index) => (
           <button
-            className={`btn btn-tab ${activeTab === index ? "active" : ""}`}
+            className={`p-2 btn-tab  ${activeTab === index ? "active" : ""}`}
             onClick={() => scrollToSection(index)}
           >
             {title}

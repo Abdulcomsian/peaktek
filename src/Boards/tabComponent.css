@@ -1,15 +1,7 @@
 .tabs-container{
     border-bottom: 1px solid lightgray;
 }
-.btn-tab{
-    border: none;
-    padding-inline: 1.6rem !important;
-    padding-block: 0.6rem !important;
-    font-size: 1.4rem !important;
-}
-.btn-tab:active{
-    border: 1px transparent;
-}
+
 .btn-tab.active{
     border: none;
     border-radius: 0;

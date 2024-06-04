@@ -1,7 +1,7 @@
 import React from "react";
 import Input from "../../Input";
 import InputContainer from "../../InputContainer";
-import DatePicker from "../../DatePicker/Index";
+import CustomDatePicker from "../../DatePicker/Index";
 const SignaturesForm = () => {
   return (
     <form className="w-full">
@@ -19,7 +19,7 @@ const SignaturesForm = () => {
           className="sm:mr-4"
         />
 
-        <DatePicker label="Select a Date" />
+        <CustomDatePicker label="Select a Date" />
       </InputContainer>
       <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
@@ -35,7 +35,7 @@ const SignaturesForm = () => {
           className="sm:mr-4"
         />
 
-        <DatePicker label="Select a Date" />
+        <CustomDatePicker label="Select a Date" />
       </InputContainer>
     </form>
   );

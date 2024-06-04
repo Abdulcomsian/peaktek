@@ -43,7 +43,7 @@ a {
   padding-block: 1rem;
   display: inline-block;
   border-radius: 1000px;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
 }
 
 .btn--primary,
@@ -93,12 +93,12 @@ a {
 
 /* INPUTS  */
 .form-label {
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   font-weight: 400;
   color: #28373e;
 }
 .form-control, .form-select {
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   font-weight: 400;
   padding-block: 1rem;
 }
@@ -134,7 +134,7 @@ input::placeholder{
 }
 
 .modal-title{
-  font-size: 2.5rem !important;
+  /* font-size: 2.5rem !important; */
   font-weight: 300;
   color: #000;
 }
