@@ -373,7 +373,9 @@ function Task({ id, content, someoneIsDragging }) {
         }}
       >
         <div className="p-4">
-          <h1 className="text-lg font-semibold text-gray-600">Leon Simmons</h1>
+          <h1 className="text-lg font-semibold text-gray-600 hover:text-blue-700">
+            Leon Simmons
+          </h1>
           <p className=" text-sm">{content}</p>
         </div>
         <div className="border-b border-gray-200" />
