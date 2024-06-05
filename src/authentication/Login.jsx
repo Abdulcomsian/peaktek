@@ -68,7 +68,9 @@ function SectionLoginContent() {
             </button>
           </div>
         </Form.Group>
-        <Button className="btn--primary w-100">Login</Button>
+        <Link to="/dashboard" className="btn--primary w-100">
+          Login
+        </Link>
       </Form>
       <Container className="mb-5">
         <Row className="login--secondary-actions">
@@ -76,7 +78,7 @@ function SectionLoginContent() {
             <Link className="text-secondary">Forgot password</Link>
           </Col>
           <Col className="text-end">
-            <Link>Register</Link>
+            <Link to="/register">Register</Link>
           </Col>
         </Row>
       </Container>
