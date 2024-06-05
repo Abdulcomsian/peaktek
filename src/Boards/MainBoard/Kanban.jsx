@@ -242,7 +242,6 @@ function KanbanBoard() {
             onAddJob={handleAddNewJob}
           />
         )}
-        /*
         {addNewBoard && (
           <AddBoardModal
             open={addNewBoard}
@@ -250,8 +249,7 @@ function KanbanBoard() {
             onCancel={() => setAddNewBoard(false)}
             onAddTitle={handleAdd}
           />
-        )}{" "}
-        */
+        )}
       </div>
       {/* {showAddNewJobModal && (
         <AddNewJobModal
