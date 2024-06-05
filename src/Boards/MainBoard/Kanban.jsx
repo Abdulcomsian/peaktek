@@ -208,6 +208,7 @@ function KanbanBoard() {
         {showAddNewJobModal && (
           <NewJobModal
             open={showAddNewJobModal}
+            onOk={() => setAddNewJobModal(false)}
             onCancel={() => setAddNewJobModal(false)}
           />
         )}
