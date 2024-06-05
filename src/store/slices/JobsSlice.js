@@ -1,26 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: 0,
+  initialColumns: [
+    { id: "newLead", title: "New Lead" },
+    { id: "signedDeal", title: "Single Deal" },
+    { id: "adjuster", title: "Adjustor" },
+  ],
+  initialTasks: {
+    newLead: [
+      { id: "task-6", content: "Task 6" },
+      { id: "task-1", content: "Task 1" },
+      { id: "task-2", content: "Task 2" },
+    ],
+    signedDeal: [{ id: "task-3", content: "Task 3" }],
+    adjuster: [
+      { id: "task-4", content: "Task 4" },
+      { id: "task-5", content: "Task 5" },
+    ],
+  },
 };
 
-export const counterSlice = createSlice({
+export const jobSlice = createSlice({
   name: "jobs",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    addJob: (state, action) => {
+      const { id, content } = action.payload;
+      state.initialTasks.newLead.push({ id, content });
     },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { addJob } = jobSlice.actions;
 
-export default counterSlice.reducer;
+export default jobSlice.reducer;
+
+export const getTasks = (state) => {
+  return state.jobs.initialTasks;
+};
