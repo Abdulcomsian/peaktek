@@ -36,3 +36,14 @@
     padding-block: 0.6rem;
     color: #fff;
 }
+
+
+
+/* 
+{addNewBoard && (
+    <AddBoardModal
+      open={addNewBoard}
+      onOk={() => setAddNewJobModal(false)}
+      onCancel={() => setAddNewJobModal(false)}
+    />
+  )} */

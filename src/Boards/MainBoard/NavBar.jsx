@@ -23,12 +23,12 @@ export default function NavBar({ onCloseSidebar }) {
         </button>
         <div>
           <ul className="list nav-list">
-            {/* <li>
-              <Link>Board</Link>
-            </li> */}
             <li>
-              <Link to="/customer-agreement">Customer Agrement</Link>
+              <Link>Board</Link>
             </li>
+            {/* <li>
+              <Link to="/customer-agreement">Customer Agrement</Link>
+            </li> */}
           </ul>
         </div>
       </div>

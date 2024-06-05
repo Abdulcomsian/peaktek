@@ -4,33 +4,36 @@ import { Modal } from "antd";
 import { useDispatch } from "react-redux";
 import { addJob } from "../../store/slices/JobsSlice";
 
-function AddBoradModal({ onClick, open, onCancel, onOk }) {
-  const [job, setJob] = useState("");
-  const dispatch = useDispatch();
-
+export default function AddBoardModal({
+  onClick,
+  open,
+  onCancel,
+  onOk,
+  onAddTitle,
+}) {
+  const [title, setTitle] = useState("");
+  // const dispatch = useDispatch();
   const handleChange = function (e) {
-    setJob(e.target.value);
+    setTitle(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addJob({ id: crypto.randomUUID(), content: job }));
+    onAddTitle(title);
+    // dispatch(addJob({ id: crypto.randomUUID(), content: job }));
     onOk();
   };
   return (
     <Modal open={open} onCancel={onCancel} onOk={onOk}>
-      <h2 className="text-center text-xl">New Jobssss</h2>
+      <h2 className="text-center text-xl">New Board</h2>
       <form onSubmit={handleSubmit}>
         <Input
-          label="Job Address"
-          placeholder="Enter address and select"
-          value={job}
+          label="Title"
+          placeholder="Enter board title"
+          value={title}
           onChange={handleChange}
         />
-        <button type="Submit">add</button>
       </form>
     </Modal>
   );
 }
-
-export default NewJobModal;
