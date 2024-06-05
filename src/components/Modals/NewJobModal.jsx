@@ -4,7 +4,7 @@ import { Modal } from "antd";
 import { useDispatch } from "react-redux";
 import { addJob } from "../../store/slices/JobsSlice";
 
-function NewJobModal({ open, onCancel, onOk }) {
+function NewJobModal({ onClick, open, onCancel, onOk, onAddJob }) {
   const [job, setJob] = useState("");
   const dispatch = useDispatch();
 
@@ -14,10 +14,8 @@ function NewJobModal({ open, onCancel, onOk }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!job) {
-      return;
-    }
-    dispatch(addJob({ id: crypto.randomUUID(), content: job }));
+    onAddJob({ id: crypto.randomUUID(), content: job });
+    // dispatch(addJob({ id: crypto.randomUUID(), content: job }));
     onOk();
   };
 
