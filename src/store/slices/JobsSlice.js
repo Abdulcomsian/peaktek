@@ -28,10 +28,36 @@ export const jobSlice = createSlice({
       const { id, content } = action.payload;
       state.initialTasks.newLead.push({ id, content });
     },
+    updateTasks: (state, action) => {
+      const { sourceColumnId, destinationColumnId, activeId, overId } =
+        action.payload;
+
+      // Find source and destination tasks
+      const sourceTasks = state.initialTasks[sourceColumnId];
+      const destinationTasks = state.initialTasks[destinationColumnId];
+
+      console.log(sourceTasks, destinationTasks);
+
+      // Find active task in source tasks
+      const activeTaskIndex = sourceTasks.findIndex(
+        (task) => task.id === activeId
+      );
+      const activeTask = sourceTasks[activeTaskIndex];
+
+      // Remove active task from source tasks
+      sourceTasks.splice(activeTaskIndex, 1);
+
+      // Add active task to destination tasks
+      destinationTasks.push(activeTask);
+
+      // Update state with modified tasks
+      state.initialTasks[sourceColumnId] = sourceTasks;
+      state.initialTasks[destinationColumnId] = destinationTasks;
+    },
   },
 });
 
-export const { addJob } = jobSlice.actions;
+export const { addJob, updateTasks } = jobSlice.actions;
 
 export default jobSlice.reducer;
 

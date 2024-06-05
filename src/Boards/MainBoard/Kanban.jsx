@@ -26,7 +26,8 @@ import "./kanban.css";
 
 import NewJobModal from "../../components/Modals/NewJobModal";
 import { Modal } from "antd";
-import { getTasks } from "../../store/slices/JobsSlice";
+import { getTasks, updateTasks } from "../../store/slices/JobsSlice";
+import JobDetailModal from "../../components/Modals/JobDetailModal";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
@@ -48,18 +49,16 @@ const initialTasks = {
 };
 
 function KanbanBoard() {
+  const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState(initialColumns);
   const [showModal, setShowModal] = useState(false);
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   const [newCompanyName, setNewCompanyName] = useState("");
   const [newBoardTitle, setNewBoardTitle] = useState("");
   // const [showJobDetailModal, setShowJobDetailModal] = useState(false);
-  const tasks = useSelector(getTasks);
-  console.log("x", tasks);
+  // const tasks = useSelector(getTasks);
 
   const [isDragging, setIsDragging] = useState(false);
-
-  const [modalContent, setModalContent] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -126,6 +125,34 @@ function KanbanBoard() {
     }
   };
 
+  // const handleDragEnd = (event) => {
+  //   const { active, over } = event;
+  //   if (!over) return;
+
+  //   const { id: activeId } = active;
+  //   const { id: overId } = over;
+
+  //   if (activeId.startsWith("column-") && overId.startsWith("column-")) {
+  //     // Handle column dragging
+  //     // Implement column dragging logic here if necessary
+  //   } else {
+  //     // Handle task dragging
+  //     const sourceColumnId = activeId.split("-")[0];
+  //     const destinationColumnId = overId.split("-")[0];
+  //     const taskId = activeId;
+  //     const destinationTaskId = overId;
+
+  //     dispatch(
+  //       updateTasks({
+  //         sourceColumnId,
+  //         destinationColumnId,
+  //         activeId: taskId,
+  //         overId: destinationTaskId,
+  //       })
+  //     );
+  //   }
+  // };
+
   const handleAddJob = () => {
     setAddNewJobModal((is) => !is);
   };
@@ -142,19 +169,15 @@ function KanbanBoard() {
     // setShowJobDetailModal((is) => !is);
   }
 
-  // const handleAddJob = (e) => {
-  //   e.preventDefault();
-  //   dispatch(addJob({ id: 12, content: "componay name" }));
-  //   // setTasks((tasks) => ({
-  //   //   ...tasks,
-  //   //   newLead: [
-  //   //     { id: newCompanyName.toLowerCase(), content: newCompanyName },
-  //   //     ...tasks.newLead,
-  //   //   ],
-  //   // }));
-  //   // setShowModal(false);
-  //   // setNewCompanyName("");
-  // };
+  const handleAddNewJob = (newJob) => {
+    // dispatch(addJob({ id: 12, content: "componay name" }));
+    setTasks((tasks) => ({
+      ...tasks,
+      newLead: [newJob, ...tasks.newLead],
+    }));
+    // setShowModal(false);
+    // setNewCompanyName("");
+  };
 
   const handleAdd = function (e) {
     e.preventDefault();
@@ -209,6 +232,7 @@ function KanbanBoard() {
             open={showAddNewJobModal}
             onOk={() => setAddNewJobModal(false)}
             onCancel={() => setAddNewJobModal(false)}
+            onAddJob={handleAddNewJob}
           />
         )}
       </div>
@@ -221,15 +245,7 @@ function KanbanBoard() {
           onAddBoard={handleAdd}
         />
       )}
-      {isDragging && (
-        <AddNewJobModal
-          title={newBoardTitle}
-          onChange={setNewBoardTitle}
-          showModal={showAddNewJobModal}
-          handleCloseModal={() => setAddNewJobModal((is) => !is)}
-          onAddBoard={handleAdd}
-        />
-      )} */}
+    */}
     </>
   );
 }
@@ -389,25 +405,12 @@ function Task({ id, content, someoneIsDragging }) {
         </div>
       </div>
       {showJobDetailModal && (
-        <Modal
-          show={showJobDetailModal}
-          onHide={() => setShowJobDetailModal((is) => !is)}
-          size="xl"
-          centered
-          className="jobdetailmodel"
-        >
-          <Modal.Header closeButton className="justify-content-start">
-            <Modal.Title
-              className="text-left fs-2"
-              id="example-custom-modal-styling-title"
-            >
-              {selectedTask}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="mb-4">
-            <TabComponent />
-          </Modal.Body>
-        </Modal>
+        <JobDetailModal
+          open={showJobDetailModal}
+          onOk={() => setShowJobDetailModal(false)}
+          onCancel={() => setShowJobDetailModal(false)}
+          selectedTask={selectedTask}
+        />
       )}
     </>
   );
