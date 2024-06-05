@@ -112,10 +112,12 @@
 
 .btn-add{
     align-self: flex-start;
-    font-size: 2rem !important;
+    font-size: 1.5rem !important;
     background-color: #ebeef0 !important;
     border: none !important;
     color: #222 !important;
+    padding-inline: 0.6rem !important;
+    padding-block: 0rem !important;
 }
 
 

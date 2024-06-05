@@ -4,7 +4,7 @@ import { Modal } from "antd";
 import { useDispatch } from "react-redux";
 import { addJob } from "../../store/slices/JobsSlice";
 
-function NewJobModal({ onClick, open, onCancel, onOk }) {
+function AddBoradModal({ onClick, open, onCancel, onOk }) {
   const [job, setJob] = useState("");
   const dispatch = useDispatch();
 
@@ -19,7 +19,7 @@ function NewJobModal({ onClick, open, onCancel, onOk }) {
   };
   return (
     <Modal open={open} onCancel={onCancel} onOk={onOk}>
-      <h2 className="text-center text-xl">New Job</h2>
+      <h2 className="text-center text-xl">New Jobssss</h2>
       <form onSubmit={handleSubmit}>
         <Input
           label="Job Address"
