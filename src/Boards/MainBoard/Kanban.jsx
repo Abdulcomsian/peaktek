@@ -409,6 +409,7 @@ function Task({ id, content, someoneIsDragging }) {
           open={showJobDetailModal}
           onOk={() => setShowJobDetailModal(false)}
           onCancel={() => setShowJobDetailModal(false)}
+          selectedTask={selectedTask}
         />
       )}
     </>

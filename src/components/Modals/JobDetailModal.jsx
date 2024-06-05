@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { addJob } from "../../store/slices/JobsSlice";
 import TabComponent from "../../Boards/TabComponent";
 
-function JobDetailModal({ onClick, open, onCancel, onOk }) {
+function JobDetailModal({ onClick, open, onCancel, onOk, selectedTask }) {
   return (
     <Modal
       open={open}
@@ -14,8 +14,9 @@ function JobDetailModal({ onClick, open, onCancel, onOk }) {
       className="w-full"
       footer={null}
       width="80%"
+      height="80vh"
     >
-      <TabComponent />
+      <TabComponent selectedTask={selectedTask} />
     </Modal>
   );
 }
