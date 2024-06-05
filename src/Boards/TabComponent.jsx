@@ -3,6 +3,7 @@ import "./tabComponent.css";
 import CustomerAgreementPage from "../pages/CustomerAgreement";
 import WarrantyInformationPage from "../pages/WarrantyInformation";
 import MaterialOrderPage from "../pages/MaterialOrder";
+import { Link } from "react-router-dom";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -66,16 +67,37 @@ const TabComponent = ({ selectedTask }) => {
         ))}
       </div>
       <div className="tab-pan-container">
-        <section ref={(el) => (sectionRefs.current[0] = el)}>
-          <CustomerAgreementPage />
+        <section
+          ref={(el) => (sectionRefs.current[0] = el)}
+          className="tab-section"
+        >
+          <h2>Customer Agreement</h2>
+          <Link className="btn" target="_blank" to="/customer-agreement">
+            Create Agreement
+          </Link>
         </section>
-        <section ref={(el) => (sectionRefs.current[1] = el)}>
-          <WarrantyInformationPage />
+        <section
+          ref={(el) => (sectionRefs.current[1] = el)}
+          className="tab-section"
+        >
+          <h2>Warranty Information</h2>
+          <Link className="btn" target="_blank" to="/warranty-information">
+            Create Warranty Information
+          </Link>
         </section>
-        <section ref={(el) => (sectionRefs.current[2] = el)}>
-          <MaterialOrderPage />
+        <section
+          ref={(el) => (sectionRefs.current[2] = el)}
+          className="tab-section"
+        >
+          <h2>Material Order</h2>
+          <Link target="_blank" className="btn" to="/material-order">
+            Create Material Order
+          </Link>
         </section>
-        <section ref={(el) => (sectionRefs.current[3] = el)}>
+        <section
+          ref={(el) => (sectionRefs.current[3] = el)}
+          className="tab-section"
+        >
           Section 4 Lorem ipsum dolor sit, amet consectetur adipisicing elit.
           Sapiente, inventore soluta incidunt ratione excepturi veniam cumque
           unde tempora atque autem, neque at numquam aliquid id nihil odio
