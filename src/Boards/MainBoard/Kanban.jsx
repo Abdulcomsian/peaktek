@@ -28,6 +28,7 @@ import NewJobModal from "../../components/Modals/NewJobModal";
 import { Modal } from "antd";
 import { getTasks, updateTasks } from "../../store/slices/JobsSlice";
 import JobDetailModal from "../../components/Modals/JobDetailModal";
+import AddBoardModal from "../../components/Modals/AddBoardModal";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
@@ -59,6 +60,7 @@ function KanbanBoard() {
   // const tasks = useSelector(getTasks);
 
   const [isDragging, setIsDragging] = useState(false);
+  const [addNewBoard, setAddNewBoard] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -179,11 +181,14 @@ function KanbanBoard() {
     // setNewCompanyName("");
   };
 
-  const handleAdd = function (e) {
-    e.preventDefault();
+  const handleAddNewBoard = function () {
+    setAddNewBoard((is) => !is);
+  };
+
+  const handleAdd = function (newTitle) {
     setColumns((columns) => [
       ...columns,
-      { id: `column-${newBoardTitle}`, title: newBoardTitle },
+      { id: `column-${newBoardTitle}`, title: newTitle },
     ]);
     setTasks((tasks) => ({
       ...tasks,
@@ -223,7 +228,9 @@ function KanbanBoard() {
                   someoneIsDragging={isDragging}
                 />
               ))}
-              <Button className="btn-add">&#x2B;</Button>
+              <Button className="btn-add" onClick={handleAddNewBoard}>
+                &#x2B;
+              </Button>
             </div>
           </SortableContext>
         </DndContext>
@@ -235,6 +242,16 @@ function KanbanBoard() {
             onAddJob={handleAddNewJob}
           />
         )}
+        /*
+        {addNewBoard && (
+          <AddBoardModal
+            open={addNewBoard}
+            onOk={() => setAddNewBoard(false)}
+            onCancel={() => setAddNewBoard(false)}
+            onAddTitle={handleAdd}
+          />
+        )}{" "}
+        */
       </div>
       {/* {showAddNewJobModal && (
         <AddNewJobModal

@@ -11,7 +11,7 @@ export function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<AppLayout />}>
           <Route
@@ -24,7 +24,7 @@ export function AppRoute() {
             element={<WarrantyInformationPage />}
           />
         </Route>
-        <Route path="/dashboard" element={<MainBoardLayout />}>
+        <Route path="/" element={<MainBoardLayout />}>
           <Route index element={<Navigate replace to="jobs" />} />
           <Route path="jobs" element={<KanbanBoard />} />
         </Route>
