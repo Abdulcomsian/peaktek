@@ -6,7 +6,6 @@ import {
   useSensors,
   useSensor,
   MouseSensor,
-  TouchSensor,
 } from "@dnd-kit/core";
 import { FaPlus } from "react-icons/fa6";
 import {
@@ -18,16 +17,16 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button, Form, Card, Badge } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import TabComponent from "../TabComponent";
 import "./kanban.css";
-import ModalContainer from "../../components/Modal";
+
 import NewJobModal from "../../components/Modals/NewJobModal";
-import { Divider, Modal } from "antd";
-import { addJob, getTasks } from "../../store/slices/JobsSlice";
+import { Modal } from "antd";
+import { getTasks } from "../../store/slices/JobsSlice";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
