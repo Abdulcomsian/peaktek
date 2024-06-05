@@ -26,7 +26,7 @@ export function AppRoute() {
         </Route>
         <Route path="/" element={<MainBoardLayout />}>
           <Route index element={<Navigate to="jobs" />} />
-          <Route path="jobs" element={<KanbanBoard />} />
+          <Route path="/jobs" element={<KanbanBoard />} />
         </Route>
       </Routes>
     </BrowserRouter>
