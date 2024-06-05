@@ -8,13 +8,13 @@ const CustomerInformationForm = () => {
       <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
           label="Name:"
-          placeholder="jhon Doe"
+          placeholder="John Doe"
           type="text"
           className="sm:mr-4"
         />
         <Input
           label="Email:"
-          placeholder="jhon@gmail.com"
+          placeholder="john@gmail.com"
           type="email"
           className="sm:mr-4"
         />
@@ -25,26 +25,32 @@ const CustomerInformationForm = () => {
           label="Street:"
           placeholder="west Bridge"
           type="text"
-          className="sm:mr-4"
+          className="sm:mr-4 max-w-md"
+          style={{ flexGrow: 2 }}
         />
         <Input
           label="City:"
           placeholder="New York"
           type="text"
-          className="sm:mr-4"
+          className="sm:mr-4 flex-grow"
         />
         <Input
           label="State:"
           placeholder="NY"
           type="text"
-          className="sm:mr-4"
+          className="sm:mr-4 flex-grow"
         />
-        <Input label="Zip:" placeholder="45678" type="number" />
+        <Input
+          label="Zip:"
+          placeholder="45678"
+          type="number"
+          className="flex-grow"
+        />
       </InputContainer>
       <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
           label="Insurance:"
-          placeholder="jhon Doe"
+          placeholder="eg. Health Insurance"
           type="text"
           className="sm:mr-4"
         />

@@ -9,33 +9,33 @@ const DeliveryInformationForm = () => {
         <CustomDatePicker label="Select Date" />
         <Input
           label="Square Count:"
-          placeholder="24sqr"
-          type="text"
+          placeholder="24"
+          type="number"
           className="sm:mr-4"
         />
         <Input
           label="Total Perimeter LF:"
-          placeholder="23423"
-          type="text"
+          placeholder="245"
+          type="number"
           className="sm:mr-4"
         />
-        <Input label="Ridge LF:" placeholder="23434" type="number" />
+        <Input label="Ridge LF:" placeholder="245" type="number" />
       </InputContainer>
       <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <CustomDatePicker label="Build Date:" />
         <Input
           label="Valley SF:"
-          placeholder="24sqr"
-          type="text"
+          placeholder="245"
+          type="number"
           className="sm:mr-4"
         />
         <Input
           label="Hip and Ridge LF:"
-          placeholder="23423"
-          type="text"
+          placeholder="235"
+          type="number"
           className="sm:mr-4"
         />
-        <Input label="Drip Edge LF:" placeholder="23434" type="number" />
+        <Input label="Drip Edge LF:" placeholder="245" type="number" />
       </InputContainer>
     </form>
   );

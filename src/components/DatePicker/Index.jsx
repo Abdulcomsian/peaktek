@@ -11,7 +11,7 @@ const CustomDatePicker = ({ label }) => {
         name="dob"
         format="DD/MM/YYYY"
         //   disabledDate={disabledDate}
-        placeholder="select_date"
+        placeholder="Select date"
         //   value={profileInfo.dob ? dayjs(String(profileInfo?.dob)) : undefined}
         //   onChange={(date) => handleChange("dob", date)}
         className="w-full bg-gray-50 p-2 focus:outline-1 focus:outline-blue-500"
