@@ -26,7 +26,7 @@ import TabComponent from "../TabComponent";
 import "./kanban.css";
 import ModalContainer from "../../components/Modal";
 import NewJobModal from "../../components/Modals/NewJobModal";
-import { Modal } from "antd";
+import { Divider, Modal } from "antd";
 import { addJob, getTasks } from "../../store/slices/JobsSlice";
 
 const initialColumns = [
@@ -354,8 +354,8 @@ function Task({ id, content, someoneIsDragging }) {
   };
   return (
     <>
-      <Card
-        className="task-card"
+      <div
+        className=""
         ref={setNodeRef}
         {...attributes}
         {...listeners}
@@ -372,19 +372,21 @@ function Task({ id, content, someoneIsDragging }) {
           handleTaskClick(content);
         }}
       >
-        <Card.Body>
-          <div className="task-owner">Leon Simmons</div>
-          <p className="address text-sm">{content}</p>
-        </Card.Body>
-        <Card.Footer className="task-card-footer">
-          <span className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
+        <div className="p-4">
+          <h1 className="text-lg font-semibold text-gray-600">Leon Simmons</h1>
+          <p className=" text-sm">{content}</p>
+        </div>
+        <div className="border-b border-gray-200" />
+        <div className="flex justify-between items-center px-4 py-2 bg-slate-50">
+          <div className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
             New
-          </span>
-          <span className="text-xs text-gray-400">
-            Updated 3 min ago <span className="profile-text-box">IM</span>
-          </span>
-        </Card.Footer>
-      </Card>
+          </div>
+          <p className="text-xs text-gray-400">
+            Updated 3 min ago{" "}
+            <span className="p-1 rounded bg-gray-200">TD</span>
+          </p>
+        </div>
+      </div>
       {showJobDetailModal && (
         <Modal
           show={showJobDetailModal}
