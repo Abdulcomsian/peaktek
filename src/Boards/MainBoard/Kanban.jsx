@@ -19,10 +19,15 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Modal, Button, Form, Card, Badge } from "react-bootstrap";
+import { Button, Form, Card, Badge } from "react-bootstrap";
 import TabComponent from "../TabComponent";
 import "./kanban.css";
+import ModalContainer from "../../components/Modal";
+import NewJobModal from "../../components/Modals/NewJobModal";
+import { Modal } from "antd";
+import { addJob, getTasks } from "../../store/slices/JobsSlice";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
@@ -44,23 +49,21 @@ const initialTasks = {
 };
 
 function KanbanBoard() {
-  const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState(initialColumns);
   const [showModal, setShowModal] = useState(false);
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   const [newCompanyName, setNewCompanyName] = useState("");
   const [newBoardTitle, setNewBoardTitle] = useState("");
-  const [showJobDetailModal, setShowJobDetailModal] = useState(false);
+  // const [showJobDetailModal, setShowJobDetailModal] = useState(false);
+  const tasks = useSelector(getTasks);
+  console.log("x", tasks);
 
   const [isDragging, setIsDragging] = useState(false);
 
-  // const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+  const [modalContent, setModalContent] = useState(null);
 
-  // function handleDragStart(event) {
-  //   console.log("drag start");
-  //   setIsDragging(true);
-  //   setAddNewJobModal((is) => !is);
-  // }
+  const dispatch = useDispatch();
+
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -94,27 +97,6 @@ function KanbanBoard() {
       );
       const destinationColumn = columns.find((column) => column.id === overId);
 
-      // if (
-      //   sourceColumn &&
-      //   destinationColumn &&
-      //   sourceColumn.id !== destinationColumn.id
-      // ) {
-      //   setTasks((prev) => {
-      //     const sourceTasks = prev[sourceColumn.id];
-      //     const destinationTasks = prev[destinationColumn.id];
-
-      //     const activeTask = sourceTasks.find((task) => task.id === activeId);
-
-      //     return {
-      //       ...prev,
-      //       [sourceColumn.id]: sourceTasks.filter(
-      //         (task) => task.id !== activeId
-      //       ),
-      //       [destinationColumn.id]: [...destinationTasks, activeTask],
-      //     };
-      //   });
-      // }
-
       if (
         sourceColumn &&
         destinationColumn &&
@@ -145,11 +127,11 @@ function KanbanBoard() {
     }
   };
 
-  const handleAddNewBoard = () => {
-    setAddNewJobModal(true);
+  const handleAddJob = () => {
+    setAddNewJobModal((is) => !is);
   };
   const handleAddBoard = () => {
-    setShowModal(true);
+    setModalContent(<NewJobModal />);
   };
 
   const handleCloseModal = () => {
@@ -161,18 +143,19 @@ function KanbanBoard() {
     // setShowJobDetailModal((is) => !is);
   }
 
-  const handleAddJob = (e) => {
-    e.preventDefault();
-    setTasks((tasks) => ({
-      ...tasks,
-      newLead: [
-        { id: newCompanyName.toLowerCase(), title: newCompanyName },
-        ...tasks.newLead,
-      ],
-    }));
-    setShowModal(false);
-    setNewCompanyName("");
-  };
+  // const handleAddJob = (e) => {
+  //   e.preventDefault();
+  //   dispatch(addJob({ id: 12, content: "componay name" }));
+  //   // setTasks((tasks) => ({
+  //   //   ...tasks,
+  //   //   newLead: [
+  //   //     { id: newCompanyName.toLowerCase(), content: newCompanyName },
+  //   //     ...tasks.newLead,
+  //   //   ],
+  //   // }));
+  //   // setShowModal(false);
+  //   // setNewCompanyName("");
+  // };
 
   const handleAdd = function (e) {
     e.preventDefault();
@@ -184,7 +167,7 @@ function KanbanBoard() {
       ...tasks,
       [newBoardTitle.toLowerCase()]: [], // Add an empty array for tasks associated with the new column
     }));
-    setAddNewJobModal(false);
+    // setAddNewJobModal(false);
   };
 
   return (
@@ -193,7 +176,7 @@ function KanbanBoard() {
         <button
           variant="primary"
           className="btn-add-board px-3 py-2 flex justify-center items-center bg-blue-600 hover:bg-blue-700 rounded-full text-white "
-          onClick={handleAddBoard}
+          onClick={handleAddJob}
         >
           <FaPlus className="text-white mr-1" />
           New job
@@ -218,40 +201,18 @@ function KanbanBoard() {
                   someoneIsDragging={isDragging}
                 />
               ))}
-              <Button className="btn-add" onClick={handleAddNewBoard}>
-                &#x2B;
-              </Button>
+              <Button className="btn-add">&#x2B;</Button>
             </div>
           </SortableContext>
         </DndContext>
-        <Modal
-          className="newJobModal"
-          show={showModal}
-          onHide={handleCloseModal}
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title className="text-center fs-2">New job</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="mb-4">
-            <Form.Group controlId="companyName">
-              <Form.Label>Job address</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter address and select"
-                value={newCompanyName}
-                onChange={(e) => setNewCompanyName(e.target.value)}
-              />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button className="w-100" variant="primary" onClick={handleAddJob}>
-              Continue
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        {showAddNewJobModal && (
+          <NewJobModal
+            open={showAddNewJobModal}
+            onCancel={() => setAddNewJobModal(false)}
+          />
+        )}
       </div>
-      {showAddNewJobModal && (
+      {/* {showAddNewJobModal && (
         <AddNewJobModal
           title={newBoardTitle}
           onChange={setNewBoardTitle}
@@ -268,7 +229,7 @@ function KanbanBoard() {
           handleCloseModal={() => setAddNewJobModal((is) => !is)}
           onAddBoard={handleAdd}
         />
-      )}
+      )} */}
     </>
   );
 }

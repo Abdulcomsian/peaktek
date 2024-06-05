@@ -8,19 +8,7 @@ import {
   pricing,
   contractDetails,
 } from "../../assets/data";
-import { increment, decrement } from "../../store/slices/JobsSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 const CustomerAgreementPage = () => {
-  const count = useSelector((state) => state?.jobs?.value);
-  const dispatch = useDispatch();
-
-  const Increment = () => {
-    dispatch(increment());
-  };
-  const Decrement = () => {
-    dispatch(decrement());
-  };
   return (
     <Container className="my-4 mx-6 p-4 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
       <h1 className="text-black text-xl font-semibold mb-4">
@@ -84,13 +72,6 @@ const CustomerAgreementPage = () => {
           {items?.content}
         </p>
       ))}
-      <button onClick={Increment} className="P-4 bg-slate-600">
-        Increment
-      </button>
-      <button onClick={Decrement} className="P-4 bg-blue-600">
-        Decrement
-      </button>
-      <div>{count}</div>
     </Container>
   );
 };
