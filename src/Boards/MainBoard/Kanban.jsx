@@ -355,7 +355,6 @@ function Task({ id, content, someoneIsDragging }) {
   return (
     <>
       <div
-        className=""
         ref={setNodeRef}
         {...attributes}
         {...listeners}

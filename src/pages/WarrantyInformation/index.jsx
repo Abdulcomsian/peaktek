@@ -10,7 +10,7 @@ import {
 } from "../../assets/data";
 const WarrantyInformationPage = () => {
   return (
-    <Container className="my-4 mx-6 p-4 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
+    <Container className="my-6 mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]">
       <h1 className="text-black text-xl font-semibold mb-4">
         CUSTOMER INFORMATION
       </h1>
