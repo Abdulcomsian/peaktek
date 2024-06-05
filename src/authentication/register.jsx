@@ -326,9 +326,9 @@ function FormCompanyInfo({ onStepBack }) {
             <Button onClick={onStepBack}>&larr; Back</Button>
           </Col>
           <Col>
-            <Button className="btn--primary w-100" onClick={handleSubmit}>
+            <Link to="/dashboard" className="btn--primary w-100">
               Create Account
-            </Button>
+            </Link>
           </Col>
         </Row>
       </form>
