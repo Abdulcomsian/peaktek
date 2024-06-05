@@ -72,7 +72,7 @@ const TabComponent = ({ selectedTask }) => {
           className="tab-section"
         >
           <h2>Customer Agreement</h2>
-          <Link className="btn" target="_blank" to="/customer-agreement">
+          <Link className="btn" to="/customer-agreement">
             Create Agreement
           </Link>
         </section>
@@ -81,7 +81,7 @@ const TabComponent = ({ selectedTask }) => {
           className="tab-section"
         >
           <h2>Warranty Information</h2>
-          <Link className="btn" target="_blank" to="/warranty-information">
+          <Link className="btn" to="/warranty-information">
             Create Warranty Information
           </Link>
         </section>
@@ -90,7 +90,7 @@ const TabComponent = ({ selectedTask }) => {
           className="tab-section"
         >
           <h2>Material Order</h2>
-          <Link target="_blank" className="btn" to="/material-order">
+          <Link className="btn" to="/material-order">
             Create Material Order
           </Link>
         </section>
