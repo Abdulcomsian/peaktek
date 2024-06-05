@@ -75,7 +75,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
         </li>
         <li className="list-item">
           <NavLink to="/" className="link">
-            <span>Propsals</span>
+            <span>Proposals</span>
           </NavLink>
         </li>
         <li className="list-item">

@@ -20,13 +20,11 @@
   box-sizing: border-box;
 }
 
-/* html {
-  font-size: 62.5%;
-} */
+
 
 body {
   font-family: "Poppins", Arial, Helvetica, sans-serif;
-  color: #6b7980;
+  /* color: #6b7980; */
 }
 
 ul {
