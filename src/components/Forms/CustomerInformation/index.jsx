@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Input from "../../Input";
 import InputContainer from "../../InputContainer";
 
@@ -50,13 +50,13 @@ const CustomerInformationForm = () => {
         />
         <Input
           label="Claim Number:"
-          placeholder="jhon@gmail.com"
-          type="email"
+          placeholder="23232323"
+          type="number"
           className="sm:mr-4"
         />
         <Input
           label="Policy Number:"
-          placeholder="923081177825"
+          placeholder="7632456"
           type="number"
           className="sm:mr-4"
         />

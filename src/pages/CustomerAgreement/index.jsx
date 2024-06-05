@@ -3,7 +3,7 @@ import CustomerInformationForm from "../../components/Forms/CustomerInformation"
 import Container from "../../components/Container";
 import SignaturesForm from "../../components/Forms/Signatures";
 
-const CustomerAgreement = () => {
+const CustomerAgreementPage = () => {
   const Acknowledgement = [
     {
       id: 1,
@@ -203,8 +203,26 @@ const CustomerAgreement = () => {
           ))}
         </ul>
       </div>
+
       <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
-      <SignaturesForm />
+      <SignaturesForm className="mb-4" />
+      <p className="font-medium text-black mb-4">
+        This Contract and any agreements entered into between PeakTek Roofing &
+        Restoration (hereinafter referred to as the “Company” or “PeakTek”) and
+        the customer(s) identified herein on the Agreement’s page 1 shall adhere
+        to all applicable copyright laws, regulations, and ordinances in the
+        state of record.
+      </p>
+      <h2 className="text-black text-xl font-semibold mb-4">
+        Indemnity Statement:
+      </h2>
+      <p className="font-medium text-black mb-4">
+        The homeowner shall not be held liable for any injuries, accidents, or
+        damages that occur on the property during the re-roof project. PeakTek
+        Roofing & Restoration assumes full responsibility for all job site
+        accidents and incidents, ensuring coverage through our workers'
+        compensation insurance and any other applicable insurance policies.
+      </p>
       {contractDetails?.map((items) => (
         <p key={items?.id} className="mb-3">
           {items?.content}
@@ -214,4 +232,4 @@ const CustomerAgreement = () => {
   );
 };
 
-export default CustomerAgreement;
+export default CustomerAgreementPage;
