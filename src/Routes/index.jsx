@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "../authentication/login";
-
 import Register from "../authentication/register";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
 import KanbanBoard from "../Boards/MainBoard/Kanban";
@@ -9,6 +8,8 @@ import CustomerAgreementPage from "../pages/CustomerAgreement";
 import MaterialOrderPage from "../pages/MaterialOrder";
 import WarrantyInformationPage from "../pages/WarrantyInformation";
 import CommissionAgreementPage from "../pages/CommisionAgreement";
+import AddMaterialPage from "../pages/AddMaterial";
+
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -26,13 +27,14 @@ export function AppRoute() {
             element={<WarrantyInformationPage />}
           />
           <Route
-            path="/commission-Agreement"
+            path="/commission-agreement"
             element={<CommissionAgreementPage />}
           />
+          <Route path="/add-material" element={<AddMaterialPage />} />
         </Route>
         <Route path="/" element={<MainBoardLayout />}>
           <Route index element={<Navigate replace to="jobs" />} />
-          <Route path="jobs" element={<KanbanBoard />} />
+          <Route path="/jobs" element={<KanbanBoard />} />
         </Route>
       </Routes>
     </BrowserRouter>
