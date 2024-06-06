@@ -4,8 +4,11 @@ import CustomerAgreementPage from "../pages/CustomerAgreement";
 import WarrantyInformationPage from "../pages/WarrantyInformation";
 import MaterialOrderPage from "../pages/MaterialOrder";
 import { Link } from "react-router-dom";
-import { Button, Switch } from "antd";
+import { Button, Form, Select, Switch } from "antd";
 import { IoPersonAddOutline } from "react-icons/io5";
+import Logo from "../components/Logo";
+import Input from "../components/Input";
+import { GoLightBulb } from "react-icons/go";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -72,7 +75,7 @@ const TabComponent = ({ selectedTask }) => {
         <div className="tab-pan-container flex-shrink-0 basis-2/3">
           <section
             ref={(el) => (sectionRefs.current[0] = el)}
-            className="tab-section"
+            className="tab-section flex items-center justify-between"
           >
             <h2>Customer Agreement</h2>
             <Link className="btn" to="/customer-agreement">
@@ -81,7 +84,7 @@ const TabComponent = ({ selectedTask }) => {
           </section>
           <section
             ref={(el) => (sectionRefs.current[1] = el)}
-            className="tab-section"
+            className="tab-section flex justify-between items-center"
           >
             <h2>Warranty Information</h2>
             <Link className="btn" to="/warranty-information">
@@ -90,7 +93,7 @@ const TabComponent = ({ selectedTask }) => {
           </section>
           <section
             ref={(el) => (sectionRefs.current[2] = el)}
-            className="tab-section"
+            className="tab-section flex items-center justify-between"
           >
             <h2>Material Order</h2>
             <Link className="btn" to="/material-order">
@@ -101,77 +104,65 @@ const TabComponent = ({ selectedTask }) => {
             ref={(el) => (sectionRefs.current[3] = el)}
             className="tab-section"
           >
-            Section 4 Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Sapiente, inventore soluta incidunt ratione excepturi veniam cumque
-            unde tempora atque autem, neque at numquam aliquid id nihil odio
-            facere repudiandae sit doloremque hic quaerat quae illum ut!
-            Temporibus perferendis sunt dolores voluptatibus laborum culpa nobis
-            libero cum vel neque? In voluptas laudantium animi molestiae quo
-            earum mollitia provident est repellendus reiciendis ipsam hic,
-            blanditiis nam? Reprehenderit veritatis nesciunt autem tempora et
-            eligendi vitae atque, nihil aspernatur dolorem nobis quaerat placeat
-            dolores. Pariatur provident aspernatur quisquam reprehenderit
-            nesciunt laboriosam beatae. Laudantium maiores nemo similique
-            repellat. Excepturi asperiores, illum perferendis, non ullam
-            corrupti exercitationem expedita tenetur ut dolores nam minima
-            quibusdam numquam veritatis ea ducimus placeat pariatur natus at est
-            perspiciatis saepe aperiam obcaecati tempore! Fugit, cupiditate
-            tempore tenetur expedita id ducimus explicabo assumenda, quia in
-            nobis quasi obcaecati eligendi debitis aspernatur neque et ipsa
-            delectus quod sed. Magni alias ullam cumque dolore adipisci,
-            provident tenetur unde veritatis esse vitae itaque eveniet possimus
-            voluptatibus, harum quam consectetur corporis iste, quibusdam animi
-            sapiente ipsum vero! Assumenda eligendi autem tempore error facilis
-            reprehenderit adipisci sequi excepturi neque asperiores in rerum
-            explicabo, fugiat sint officia soluta hic perferendis vitae
-            consequuntur earum nostrum totam illum consequatur. Corrupti animi
-            consequuntur quia in minima cum aperiam, rem soluta quasi, eius, ea
-            voluptatum magnam neque velit quae? Culpa eum quasi, dolorum,
-            consequuntur maxime labore eos quidem sed officiis velit praesentium
-            eaque nam necessitatibus reiciendis minima consectetur dicta id
-            nobis molestias. Fugiat eos quaerat molestiae modi impedit repellat
-            ducimus excepturi consequuntur commodi. Sed necessitatibus
-            reiciendis iusto molestias! Provident incidunt quibusdam alias
-            praesentium, illum possimus voluptatem quidem officia sapiente
-            expedita repudiandae ullam quae mollitia reiciendis numquam at
-            perferendis assumenda quod vel iure officiis. Amet totam sed unde
-            minus blanditiis veritatis adipisci accusamus. Fuga quos voluptatem
-            est dolorum non aspernatur pariatur quidem accusamus veniam quaerat
-            assumenda ad tempora hic, rem tempore soluta quae totam incidunt
-            enim facere dolore modi! Officia, iste tempore! Ipsam quibusdam
-            tempora nulla quaerat aspernatur ullam officiis cupiditate explicabo
-            eius consectetur voluptate repudiandae magni dicta asperiores
-            tempore ex corrupti animi ipsa quas ratione, minima molestias id
-            ipsum. Dolorem, possimus? Mollitia, laudantium omnis. Molestiae
-            omnis, molestias magni labore neque mollitia accusamus quasi, sit
-            assumenda voluptates sequi, consequatur quidem quia itaque placeat
-            minus hic minima possimus. Ipsum optio quo eos iste voluptatibus
-            iusto a, id reiciendis dolorum minus, facere laboriosam? Sapiente
-            beatae assumenda eum voluptates numquam atque culpa quis, voluptatum
-            maiores laudantium odit, saepe cupiditate, dignissimos deleniti
-            facere. Repellat cupiditate quod temporibus deserunt accusamus!
-            Velit quasi minima dolores nam vel quos. Nihil voluptatum autem
-            dolore nisi, libero fugit repellendus officia quod doloribus soluta
-            vel dolorem consequuntur rem explicabo magni enim voluptates
-            mollitia, voluptatem natus excepturi ducimus esse? Ullam tempore nam
-            dignissimos. Quibusdam fuga, iusto quisquam maiores vero iste sequi
-            porro corporis explicabo itaque est, quo temporibus laborum iure ex
-            accusamus, asperiores odio ducimus aut perspiciatis! Fuga cumque,
-            molestiae provident hic expedita voluptate. Doloremque, veritatis!
-            Quisquam exercitationem excepturi dolorem laudantium. Eum animi
-            recusandae sint incidunt nostrum alias vel explicabo dignissimos!
-            Voluptas nesciunt quis, sint illum magni culpa, quos temporibus
-            necessitatibus, quae mollitia earum velit animi quibusdam doloremque
-            quod laudantium eius voluptatem ut sapiente accusamus dignissimos?
-            Similique debitis ea quod consequuntur aspernatur omnis rem earum
-            fugit doloribus placeat, mollitia maxime. Provident, aperiam labore
-            ad quibusdam maiores nesciunt obcaecati magni commodi fugit pariatur
-            est, aliquid ratione eveniet nihil repudiandae saepe cum quae.
-            Officiis ipsum, hic est itaque quos amet sunt! Magnam perferendis
-            obcaecati facere, aperiam maiores necessitatibus nulla repudiandae
-            inventore explicabo. Qui cumque accusamus atque. Architecto totam
-            porro incidunt alias, ab non voluptate nulla aut eaque minus
-            pariatur, aperiam illum iste dolores nihil esse obcaecati.
+            <h2>Job details</h2>
+            <div className="grid grid-cols-3 items-center gap-2">
+              <Form.Item
+                label="Assignee"
+                labelAlign="top"
+                className="mb-0 flex-col"
+              >
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  placeholder="Tags Mode"
+                  size="large"
+                >
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">Yiminghe</Option>
+                  <Option value="disabled" disabled>
+                    Disabled
+                  </Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label="Workflow & stages"
+                labelAlign="top"
+                className="mb-0"
+              >
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  placeholder="Tags Mode"
+                  size="large"
+                >
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">Yiminghe</Option>
+                  <Option value="disabled" disabled>
+                    Disabled
+                  </Option>
+                </Select>
+              </Form.Item>
+              <Form.Item label="Source" labelAlign="top" className="mb-0">
+                <Input
+                  style={{ width: "100%" }}
+                  placeholder="Start typing to add new"
+                />
+              </Form.Item>
+              <Form.Item label="Job value" labelAlign="top" className="mb-0">
+                <Input
+                  style={{ width: "100%" }}
+                  placeholder="Start typing to add new"
+                />
+              </Form.Item>
+              <div className="rounded-md bg-blue-200 border border-blue-400 flex gap-2 p-2">
+                <GoLightBulb className="mr-3" />{" "}
+                <p className="text-black text-xs">
+                  Job value will help you prioritize and report on your project
+                </p>
+              </div>
+            </div>
           </section>
         </div>
         <div className=" w-full pt-4 pl-4">
@@ -182,12 +173,45 @@ const TabComponent = ({ selectedTask }) => {
               Add Customer
             </Button>
           </div>
-          <div className="bg-gray-300 border rounded-lg p-3">
+          <div className="bg-gray-100 border rounded-lg p-3">
             <Switch defaultChecked className="mr-3" />
             <span className="text-gray-700 text-sm">Hide system updates</span>
-            <ul className="">
+            <ul className="mt-4 flex flex-col gap-3">
               <li>
-                <div></div>
+                <div className="bg-gray-200 p-3 rounded-lg flex items-center gap-3">
+                  <Logo className="w-6" />
+                  <div className="text-xs">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm font-medium">
+                        Job assignee updated
+                      </p>
+                      <time className="text-gray-500 text-md">
+                        Today at 5:41 PM
+                      </time>
+                    </div>
+                    <p className="text-xs">
+                      Job assignee updated from none to PeakTek Pro by PeakTech
+                      Pro.PeakTek Pro by PeakTech Pro.
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div className="bg-gray-200 p-3 rounded-lg flex items-center gap-3">
+                  <Logo className="w-6" />
+                  <div className="text-xs">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm font-medium">Job created</p>
+                      <time className="text-gray-500 text-md">
+                        Today at 5:41 PM
+                      </time>
+                    </div>
+                    <p className="text-xs">
+                      Job assignee updated from none to PeakTek Pro by PeakTech
+                      Pro.PeakTek Pro by PeakTech Pro.
+                    </p>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
