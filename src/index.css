@@ -160,3 +160,7 @@ input::placeholder{
 .modal-footer{
   border-top: 0;
 }
+
+.button-translate{
+  transform: translateX(10px);
+}

@@ -38,7 +38,7 @@
   border-top-color: #e1e4e6;
 }
 .auth-text-divider .auth-text {
-  margin-inline: 1.4rem;
+  width: 50%;
 }
 
 .auth-text-divider:before,
@@ -46,7 +46,7 @@
   content: " ";
   position: relative;
   top: 50%;
-  width: 30%;
+  width: 40%;
   border-top: 1px solid transparent;
   border-top-color: inherit;
   border-bottom: 0;
