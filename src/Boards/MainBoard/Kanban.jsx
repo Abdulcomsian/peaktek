@@ -78,6 +78,7 @@ function KanbanBoard() {
 
     const { id: activeId } = active;
     const { id: overId } = over;
+    console.log("IDs", activeId, overId.slice(overId.indexOf("-") + 1));
 
     if (activeId.startsWith("column-") && overId.startsWith("column-")) {
       // Handle column dragging
@@ -95,8 +96,16 @@ function KanbanBoard() {
       const sourceColumn = columns.find((column) =>
         tasks[column.id].some((task) => task.id === activeId)
       );
-      const destinationColumn = columns.find((column) => column.id === overId);
 
+      const destinationColumn = columns.find(
+        (column) => column.id === overId.slice(overId.indexOf("-") + 1)
+      );
+
+      // console.log(
+      //   "Source and Destination COlumn",
+      //   sourceColumn.id,
+      //   destinationColumn
+      // );
       if (
         sourceColumn &&
         destinationColumn &&
@@ -127,34 +136,6 @@ function KanbanBoard() {
     }
   };
 
-  // const handleDragEnd = (event) => {
-  //   const { active, over } = event;
-  //   if (!over) return;
-
-  //   const { id: activeId } = active;
-  //   const { id: overId } = over;
-
-  //   if (activeId.startsWith("column-") && overId.startsWith("column-")) {
-  //     // Handle column dragging
-  //     // Implement column dragging logic here if necessary
-  //   } else {
-  //     // Handle task dragging
-  //     const sourceColumnId = activeId.split("-")[0];
-  //     const destinationColumnId = overId.split("-")[0];
-  //     const taskId = activeId;
-  //     const destinationTaskId = overId;
-
-  //     dispatch(
-  //       updateTasks({
-  //         sourceColumnId,
-  //         destinationColumnId,
-  //         activeId: taskId,
-  //         overId: destinationTaskId,
-  //       })
-  //     );
-  //   }
-  // };
-
   const handleAddJob = () => {
     setAddNewJobModal((is) => !is);
   };
@@ -177,8 +158,6 @@ function KanbanBoard() {
       ...tasks,
       newLead: [newJob, ...tasks.newLead],
     }));
-    // setShowModal(false);
-    // setNewCompanyName("");
   };
 
   const handleAddNewBoard = function () {
@@ -186,16 +165,20 @@ function KanbanBoard() {
   };
 
   const handleAdd = function (newTitle) {
+    // console.log("title", newTitle);
+    const id = crypto.randomUUID();
     setColumns((columns) => [
       ...columns,
-      { id: `column-${newBoardTitle}`, title: newTitle },
+      { id: `column-${id}`, title: newTitle },
     ]);
     setTasks((tasks) => ({
       ...tasks,
-      [newBoardTitle.toLowerCase()]: [], // Add an empty array for tasks associated with the new column
+      [`column-${id}`]: [], // Add an empty array for tasks associated with the new column
     }));
     // setAddNewJobModal(false);
   };
+
+  console.log("data", columns, tasks);
 
   return (
     <>
@@ -251,49 +234,7 @@ function KanbanBoard() {
           />
         )}
       </div>
-      {/* {showAddNewJobModal && (
-        <AddNewJobModal
-          title={newBoardTitle}
-          onChange={setNewBoardTitle}
-          showModal={showAddNewJobModal}
-          handleCloseModal={() => setAddNewJobModal((is) => !is)}
-          onAddBoard={handleAdd}
-        />
-      )}
-    */}
     </>
-  );
-}
-
-function AddNewJobModal({
-  showModal,
-  handleCloseModal,
-  title,
-  onChange,
-  onAddBoard,
-}) {
-  return (
-    <Modal show={showModal} onHide={handleCloseModal} centered>
-      <Modal.Header closeButton>
-        <Modal.Title className="text-center fs-2">New Board Title</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="mb-4">
-        <Form.Group controlId="companyName">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            value={title}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Enter address and select"
-          />
-        </Form.Group>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button className="w-100" variant="primary" onClick={onAddBoard}>
-          Add Board
-        </Button>
-      </Modal.Footer>
-    </Modal>
   );
 }
 
@@ -333,22 +274,26 @@ function Column({ id, tasks, someoneIsDragging }) {
   const { setNodeRef } = useDroppable({ id });
 
   return (
-    <div ref={setNodeRef} className="task-list">
-      <SortableContext
-        id={id}
-        items={tasks}
-        strategy={verticalListSortingStrategy}
-      >
-        {tasks?.map((task) => (
-          <Task
-            key={task.id}
-            id={task.id}
-            content={task.content}
-            someoneIsDragging={someoneIsDragging}
-          />
-        ))}
-      </SortableContext>
-    </div>
+    <>
+      {tasks.length > 0 ? (
+        <div ref={setNodeRef} className="task-list">
+          <SortableContext
+            id={id}
+            items={tasks}
+            strategy={verticalListSortingStrategy}
+          >
+            {tasks?.map((task) => (
+              <Task
+                key={task.id}
+                id={task.id}
+                content={task.content}
+                someoneIsDragging={someoneIsDragging}
+              />
+            ))}
+          </SortableContext>
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -379,7 +324,6 @@ function Task({ id, content, someoneIsDragging }) {
   };
 
   const handleTaskClick = function (task) {
-    console.log(task);
     setSelectedTask(task);
     setShowJobDetailModal(true);
   };

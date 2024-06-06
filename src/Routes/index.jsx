@@ -15,7 +15,7 @@ export function AppRoute() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route element={<AppLayout />}>
           <Route
             path="/customer-agreement"
