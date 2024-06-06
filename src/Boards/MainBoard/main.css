@@ -88,9 +88,7 @@
     align-items: center;
     gap: 1.7rem;
     position: relative;
-    /* padding-left: 4rem; */
     padding-inline: 2.5rem;
-    /* font-size: 1.5rem; */
     font-weight: 400;
     color: rgb(40, 55, 65);
 }
