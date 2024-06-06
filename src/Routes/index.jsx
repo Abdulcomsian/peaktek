@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "../authentication/login";
 
-import Register from "../authentication/register";
+// import RegisterPage from "../authentication/register";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
 import KanbanBoard from "../Boards/MainBoard/Kanban";
 import AppLayout from "../components/Layout";
@@ -9,12 +9,13 @@ import CustomerAgreementPage from "../pages/CustomerAgreement";
 import MaterialOrderPage from "../pages/MaterialOrder";
 import WarrantyInformationPage from "../pages/WarrantyInformation";
 import CommissionAgreementPage from "../pages/CommisionAgreement";
+import RegisterPage from "../authentication/register";
 export function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route element={<AppLayout />}>
           <Route
             path="/customer-agreement"

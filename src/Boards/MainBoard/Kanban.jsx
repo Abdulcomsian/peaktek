@@ -158,8 +158,6 @@ function KanbanBoard() {
       ...tasks,
       newLead: [newJob, ...tasks.newLead],
     }));
-    // setShowModal(false);
-    // setNewCompanyName("");
   };
 
   const handleAddNewBoard = function () {
@@ -237,38 +235,6 @@ function KanbanBoard() {
         )}
       </div>
     </>
-  );
-}
-
-function AddNewJobModal({
-  showModal,
-  handleCloseModal,
-  title,
-  onChange,
-  onAddBoard,
-}) {
-  return (
-    <Modal show={showModal} onHide={handleCloseModal} centered>
-      <Modal.Header closeButton>
-        <Modal.Title className="text-center fs-2">New Board Title</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="mb-4">
-        <Form.Group controlId="companyName">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            value={title}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Enter address and select"
-          />
-        </Form.Group>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button className="w-100" variant="primary" onClick={onAddBoard}>
-          Add Board
-        </Button>
-      </Modal.Footer>
-    </Modal>
   );
 }
 
@@ -358,7 +324,6 @@ function Task({ id, content, someoneIsDragging }) {
   };
 
   const handleTaskClick = function (task) {
-    console.log(task);
     setSelectedTask(task);
     setShowJobDetailModal(true);
   };
