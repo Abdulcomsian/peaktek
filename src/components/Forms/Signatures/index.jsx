@@ -8,13 +8,13 @@ const SignaturesForm = ({ className }) => {
       <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
           label="Customer Signature:"
-          placeholder="jhon Doe"
+          placeholder="john Snow"
           type="text"
           className="sm:mr-4"
         />
         <Input
           label="Printed Name:"
-          placeholder="jhon Doe"
+          placeholder="john Snow"
           type="text"
           className="sm:mr-4"
         />
@@ -24,13 +24,13 @@ const SignaturesForm = ({ className }) => {
       <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
           label="Customer Signature:"
-          placeholder="jhon Doe"
+          placeholder="john Snow"
           type="text"
           className="sm:mr-4"
         />
         <Input
           label="Printed Name:"
-          placeholder="jhon Doe"
+          placeholder="john Snow"
           type="text"
           className="sm:mr-4"
         />
