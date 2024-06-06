@@ -33,18 +33,18 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       </div>
       <ul className="links sidebar-links">
         <li className="list-item">
-          <NavLink to="#" className="link">
+          <NavLink to="/jobs" className="link">
             <span>Jobs</span>
           </NavLink>
         </li>
 
         <li className="list-item">
-          <NavLink to="/" className="link">
+          <NavLink to="" className="link">
             <span>Proposals</span>
           </NavLink>
         </li>
         <li className="list-item">
-          <NavLink to="/" className="link">
+          <NavLink to="" className="link">
             <span>Invoices</span>
           </NavLink>
         </li>
