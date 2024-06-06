@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 
 import "./main.css";
 import { useState } from "react";
+import KanbanBoard from "./Kanban";
 
 export default function MainBoardLayout() {
   const [isShowNav, setIsShowNav] = useState(false);
@@ -17,7 +18,8 @@ export default function MainBoardLayout() {
       <Sidebar isShow={isShowNav} onCloseSidebar={handleCloseSideBar} />
       <NavBar onCloseSidebar={handleCloseSideBar} />
       <main className="dashboard-main-content">
-        <Outlet />
+        {/* <Outlet /> */}
+        <KanbanBoard />
       </main>
     </main>
   );

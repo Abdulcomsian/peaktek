@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "../authentication/login";
-import Register from "../authentication/register";
+import RegisterPage from "../authentication/register";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
 import KanbanBoard from "../Boards/MainBoard/Kanban";
 import AppLayout from "../components/Layout";
@@ -33,8 +33,8 @@ export function AppRoute() {
           <Route path="/add-material" element={<AddMaterialPage />} />
         </Route>
         <Route path="/" element={<MainBoardLayout />}>
-          <Route index element={<Navigate replace to="jobs" />} />
-          <Route path="/jobs" element={<KanbanBoard />} />
+          {/* {/* <Route index element={<Navigate replace to="jobs" />} /> */}
+          {/* <Route path="/jobs" element={<KanbanBoard />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>
