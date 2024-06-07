@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar from "../../components/Authentication/Navbar";
+import Navbar from "../Navbar";
 import { Form, Input } from "antd";
-import Button from "../../components/Button";
+import Button from "../../Button";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
 const VerifyEmail = () => {

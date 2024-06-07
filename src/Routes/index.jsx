@@ -1,15 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "../authentication/Login";
-import Register from "../authentication/Register";
+import Login from "../components/Authentication/Login";
+import Register from "../components/Authentication/Register";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
-
 import AppLayout from "../components/Layout";
 import CustomerAgreementPage from "../pages/CustomerAgreement";
 import MaterialOrderPage from "../pages/MaterialOrder";
 import WarrantyInformationPage from "../pages/WarrantyInformation";
 import CommissionAgreementPage from "../pages/CommisionAgreement";
-import CreatePassword from "../authentication/CreatePassword";
-import VerifyEmail from "../authentication/VerifyEmail";
+import CreatePassword from "../components/Authentication/CreatePassword";
+import VerifyEmail from "../components/Authentication/VerifyEmail";
 
 export function AppRoute() {
   return (
