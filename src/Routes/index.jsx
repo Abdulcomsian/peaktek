@@ -34,10 +34,7 @@ export function AppRoute() {
             element={<CommissionAgreementPage />}
           />
         </Route>
-        <Route path="/" element={<MainBoardLayout />}>
-          {/* {/* <Route index element={<Navigate replace to="jobs" />} /> */}
-          {/* <Route path="/jobs" element={<KanbanBoard />} /> */}
-        </Route>
+        <Route path="/" element={<MainBoardLayout />} />
       </Routes>
     </BrowserRouter>
   );
