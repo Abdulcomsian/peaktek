@@ -52,17 +52,10 @@ const initialTasks = {
 function KanbanBoard() {
   const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState(initialColumns);
-  const [showModal, setShowModal] = useState(false);
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
-  const [newCompanyName, setNewCompanyName] = useState("");
-  const [newBoardTitle, setNewBoardTitle] = useState("");
-  // const [showJobDetailModal, setShowJobDetailModal] = useState(false);
-  // const tasks = useSelector(getTasks);
 
   const [isDragging, setIsDragging] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
-
-  const dispatch = useDispatch();
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -139,21 +132,8 @@ function KanbanBoard() {
   const handleAddJob = () => {
     setAddNewJobModal((is) => !is);
   };
-  const handleAddBoard = () => {
-    setModalContent(<NewJobModal />);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  function handleShowJobDetailModal() {
-    console.log("DONE");
-    // setShowJobDetailModal((is) => !is);
-  }
 
   const handleAddNewJob = (newJob) => {
-    // dispatch(addJob({ id: 12, content: "componay name" }));
     setTasks((tasks) => ({
       ...tasks,
       newLead: [newJob, ...tasks.newLead],
@@ -182,15 +162,14 @@ function KanbanBoard() {
 
   return (
     <>
+      <button
+        onClick={handleAddJob}
+        className="flex items-center justify-center gap-1 mb-3  bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3 group"
+      >
+        <FaPlus className="text-white mr-1" />
+        New job
+      </button>
       <div className="kanban-container">
-        <button
-          variant="primary"
-          className="btn-add-board px-3 py-2 flex justify-center items-center bg-blue-600 hover:bg-blue-700 rounded-full text-white "
-          onClick={handleAddJob}
-        >
-          <FaPlus className="text-white mr-1" />
-          New job
-        </button>
         <DndContext
           autoScroll={false}
           collisionDetection={closestCenter}
@@ -260,7 +239,7 @@ function DraggableColumn({ id, title, tasks, someoneIsDragging }) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <h3 className="column-title">{title}</h3>
+      <h3 className="border-b border-gray-300 px-3 py-3 ">{title}</h3>
       <Column
         id={id.replace("column-", "")}
         tasks={tasks}
@@ -276,7 +255,7 @@ function Column({ id, tasks, someoneIsDragging }) {
   return (
     <>
       {tasks.length > 0 ? (
-        <div ref={setNodeRef} className="task-list">
+        <div ref={setNodeRef} className="flex flex-col gap-2 p-3">
           <SortableContext
             id={id}
             items={tasks}
@@ -346,14 +325,14 @@ function Task({ id, content, someoneIsDragging }) {
           handleTaskClick(content);
         }}
       >
-        <div className="p-4">
-          <h1 className="text-lg font-semibold text-gray-600 hover:text-blue-700">
+        <div className="p-3">
+          <h1 className="text-md font-semibold text-gray-600 mb-2 hover:text-blue-700">
             Leon Simmons
           </h1>
           <p className=" text-sm">{content}</p>
         </div>
         <div className="border-b border-gray-200" />
-        <div className="flex justify-between items-center px-4 py-2 bg-slate-50">
+        <div className="flex justify-between items-center px-3 py-2 bg-slate-50">
           <div className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
             New
           </div>
