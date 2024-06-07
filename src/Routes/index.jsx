@@ -1,14 +1,13 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../authentication/login";
 import RegisterPage from "../authentication/register";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
-import KanbanBoard from "../Boards/MainBoard/Kanban";
+
 import AppLayout from "../components/Layout";
 import CustomerAgreementPage from "../pages/CustomerAgreement";
 import MaterialOrderPage from "../pages/MaterialOrder";
 import WarrantyInformationPage from "../pages/WarrantyInformation";
 import CommissionAgreementPage from "../pages/CommisionAgreement";
-import AddMaterialPage from "../pages/AddMaterial";
 
 export function AppRoute() {
   return (
@@ -30,7 +29,6 @@ export function AppRoute() {
             path="/commission-agreement"
             element={<CommissionAgreementPage />}
           />
-          <Route path="/add-material" element={<AddMaterialPage />} />
         </Route>
         <Route path="/" element={<MainBoardLayout />}>
           {/* {/* <Route index element={<Navigate replace to="jobs" />} /> */}
