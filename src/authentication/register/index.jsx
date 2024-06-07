@@ -7,7 +7,7 @@ import { Form, Input } from "antd";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Authentication/Navbar";
-const RegisterPage = () => {
+const Register = () => {
   const navigate = useNavigate();
 
   return (
@@ -55,4 +55,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default Register;

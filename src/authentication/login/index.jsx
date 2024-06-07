@@ -1,12 +1,11 @@
 import React from "react";
-import Logo from "../../components/Logo";
 import Button from "../../components/Button";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Authentication/Navbar";
-const LoginPage = () => {
+const Login = () => {
   const navigate = useNavigate();
   const handleNavigation = () => {
     navigate("/register");
@@ -69,4 +68,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
