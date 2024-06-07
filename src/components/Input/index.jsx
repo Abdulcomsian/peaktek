@@ -11,10 +11,7 @@ const Input = ({
 }) => {
   return (
     <div className={`w-full ${className}`}>
-      <label
-        htmlFor={id}
-        className="block mb-2 text-sm font-medium text-gray-900"
-      >
+      <label htmlFor={id} className="block text-sm font-medium text-gray-900">
         {label}
       </label>
       <input

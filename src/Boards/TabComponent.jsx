@@ -58,6 +58,36 @@ const TabComponent = ({ selectedTask }) => {
     };
   }, []);
 
+  const testData = [
+    {
+      headerData: {
+        title: "Customer Agreement",
+        to: "/customer-agreement",
+        children: "Create Agreement",
+      },
+    },
+    {
+      headerData: {
+        title: "Warranty Information",
+        to: "/warranty-information",
+        children: "Create Warranty Information",
+      },
+    },
+    {
+      headerData: {
+        title: "Material Order",
+        to: "/material-order",
+        children: "Create Material Order",
+      },
+    },
+    {
+      headerData: {
+        title: "Job Detail",
+      },
+      component: <JobDetailFormComponent />,
+    },
+  ];
+
   return (
     <div>
       {selectedTask}
@@ -73,97 +103,17 @@ const TabComponent = ({ selectedTask }) => {
       </div>
       <div className="flex justify-between">
         <div className="tab-pan-container flex-shrink-0 basis-2/3">
-          <section
-            ref={(el) => (sectionRefs.current[0] = el)}
-            className="tab-section flex items-center justify-between"
-          >
-            <h2>Customer Agreement</h2>
-            <Link className="btn" to="/customer-agreement">
-              Create Agreement
-            </Link>
-          </section>
-          <section
-            ref={(el) => (sectionRefs.current[1] = el)}
-            className="tab-section flex justify-between items-center"
-          >
-            <h2>Warranty Information</h2>
-            <Link className="btn" to="/warranty-information">
-              Create Warranty Information
-            </Link>
-          </section>
-          <section
-            ref={(el) => (sectionRefs.current[2] = el)}
-            className="tab-section flex items-center justify-between"
-          >
-            <h2>Material Order</h2>
-            <Link className="btn" to="/material-order">
-              Create Material Order
-            </Link>
-          </section>
-          <section
-            ref={(el) => (sectionRefs.current[3] = el)}
-            className="tab-section"
-          >
-            <h2>Job details</h2>
-            <div className="grid grid-cols-3 items-center gap-2">
-              <Form.Item
-                label="Assignee"
-                labelAlign="top"
-                className="mb-0 flex-col"
-              >
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  placeholder="Tags Mode"
-                  size="large"
-                >
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">Yiminghe</Option>
-                  <Option value="disabled" disabled>
-                    Disabled
-                  </Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Workflow & stages"
-                labelAlign="top"
-                className="mb-0"
-              >
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  placeholder="Tags Mode"
-                  size="large"
-                >
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">Yiminghe</Option>
-                  <Option value="disabled" disabled>
-                    Disabled
-                  </Option>
-                </Select>
-              </Form.Item>
-              <Form.Item label="Source" labelAlign="top" className="mb-0">
-                <Input
-                  style={{ width: "100%" }}
-                  placeholder="Start typing to add new"
-                />
-              </Form.Item>
-              <Form.Item label="Job value" labelAlign="top" className="mb-0">
-                <Input
-                  style={{ width: "100%" }}
-                  placeholder="Start typing to add new"
-                />
-              </Form.Item>
-              <div className="rounded-md bg-blue-200 border border-blue-400 flex gap-2 p-2">
-                <GoLightBulb className="mr-3" />{" "}
-                <p className="text-black text-xs">
-                  Job value will help you prioritize and report on your project
-                </p>
-              </div>
-            </div>
-          </section>
+          {testData.map((data, index) => {
+            const { title, to, children } = data.headerData;
+            console.log(title, to, children);
+            // const currentRef = (sectionRefs.current[index] = el
+            return (
+              <TabSection index={index}>
+                <SectionHeader title={title} to={to} children={children} />
+                {data.component ? data.component : null}
+              </TabSection>
+            );
+          })}
         </div>
         <div className=" w-full pt-4 pl-4">
           <div className="border border-gray-400 rounded-lg p-3 mb-3 flex justify-between items-center">
@@ -173,7 +123,7 @@ const TabComponent = ({ selectedTask }) => {
               Add Customer
             </Button>
           </div>
-          <div className="bg-gray-100 border rounded-lg p-3">
+          <div className="bg-gray-100 border rounded-lg p-3 h-[35vh] overflow-auto scrollbar-hide">
             <Switch defaultChecked className="mr-3" />
             <span className="text-gray-700 text-sm">Hide system updates</span>
             <ul className="mt-4 flex flex-col gap-3">
@@ -191,7 +141,7 @@ const TabComponent = ({ selectedTask }) => {
                     </div>
                     <p className="text-xs">
                       Job assignee updated from none to PeakTek Pro by PeakTech
-                      Pro.PeakTek Pro by PeakTech Pro.
+                      Pro.
                     </p>
                   </div>
                 </div>
@@ -222,3 +172,81 @@ const TabComponent = ({ selectedTask }) => {
 };
 
 export default TabComponent;
+
+function TabSection({ children, index }) {
+  return (
+    <section
+      // ref={(el) => (sectionRefs.current[index] = el)}
+      className=" bg-gray-100 p-3 rounded-lg"
+    >
+      {children}
+    </section>
+  );
+}
+
+function SectionHeader({ title, to, children }) {
+  return (
+    <div className="flex items-center justify-between">
+      <h2 className="text-base">{title}</h2>
+      {to ? (
+        <Link
+          className="text-sm bg-gradient-to-r from-blue-500 to-blue-800 text-white font-medium  hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2"
+          to={to}
+        >
+          {children}
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
+function JobDetailFormComponent() {
+  return (
+    <Form
+      layout="vertical"
+      className="mb-4 grid grid-cols-3 items-center justify-center gap-3"
+    >
+      <Form.Item label="Assignee" name="assignee" className="mb-0">
+        <Input placeholder="Enter Email" type="email" size="large" />
+      </Form.Item>
+      <Form.Item label="Workflow & stages" name="stages" className="mb-0">
+        <Input placeholder="Enter Email" type="email" size="large" />
+      </Form.Item>
+      <Form.Item
+        label="Source"
+        name="source"
+        className="mb-0"
+        rules={[{ required: true, message: "Please enter your source" }]}
+      >
+        <Input
+          placeholder="Source typing to add new"
+          type="text"
+          size="large"
+        />
+      </Form.Item>
+      <Form.Item
+        label="Job value"
+        name="jobValue"
+        className="mb-0"
+        rules={[{ required: true, message: "Please enter your job value" }]}
+      >
+        <Input type="text" size="large" />
+      </Form.Item>
+      <div className="rounded-md col-span-2 self-end	text-xs p-[0.75rem] border-1 border-blue-400 bg-blue-200">
+        Job value will help you prioritize and report on your projects.
+      </div>
+      <Form.Item
+        label="Details"
+        name="jobValue"
+        className="mb-0 col-start-1 col-span-3"
+        rules={[{ required: true, message: "Please enter your job detail" }]}
+      >
+        <Input
+          type="text"
+          placeholder="Frequently referenced info (gate codes, meterial selection, parking, etc)"
+          size="large"
+        />
+      </Form.Item>
+    </Form>
+  );
+}

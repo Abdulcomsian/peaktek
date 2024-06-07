@@ -37,11 +37,3 @@
 
 
 
-/* 
-{addNewBoard && (
-    <AddBoardModal
-      open={addNewBoard}
-      onOk={() => setAddNewJobModal(false)}
-      onCancel={() => setAddNewJobModal(false)}
-    />
-  )} */
