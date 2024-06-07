@@ -1,11 +1,8 @@
-import { useState } from "react";
-import Input from "../Input";
 import { Modal } from "antd";
-import { useDispatch } from "react-redux";
-import { addJob } from "../../store/slices/JobsSlice";
+
 import TabComponent from "../../Boards/TabComponent";
 
-function JobDetailModal({ onClick, open, onCancel, onOk, selectedTask }) {
+function JobDetailModal({ open, onCancel, onOk, selectedTask }) {
   return (
     <Modal
       open={open}
@@ -14,7 +11,7 @@ function JobDetailModal({ onClick, open, onCancel, onOk, selectedTask }) {
       className="w-full"
       footer={null}
       width="95%"
-      height="80vh"
+      // height="80vh"
     >
       <TabComponent selectedTask={selectedTask} />
     </Modal>

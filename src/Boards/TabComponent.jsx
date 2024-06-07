@@ -5,7 +5,6 @@ import { Button, Form, Switch } from "antd";
 import { IoPersonAddOutline } from "react-icons/io5";
 import Logo from "../components/Logo";
 import Input from "../components/Input";
-import { GoLightBulb } from "react-icons/go";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -99,8 +98,8 @@ const TabComponent = ({ selectedTask }) => {
           </button>
         ))}
       </div>
-      <div className="flex justify-between">
-        <div className="tab-pan-container flex-shrink-0 basis-2/3">
+      <div className="flex justify-between max-h-96 my-2">
+        <div className=" overflow-y-scroll flex-shrink-0 basis-2/3">
           {tabsData.map((data, index) => {
             const { title, to, children } = data.headerData;
 
@@ -112,7 +111,7 @@ const TabComponent = ({ selectedTask }) => {
             );
           })}
         </div>
-        <div className=" w-full pt-4 pl-4">
+        <div className="w-full  pl-4">
           <div className="border border-gray-400 rounded-lg p-3 mb-3 flex justify-between items-center">
             <h3 className="font-medium text-base">Job customer</h3>
             <Button className="rounded-full">
@@ -120,13 +119,13 @@ const TabComponent = ({ selectedTask }) => {
               Add Customer
             </Button>
           </div>
-          <div className="bg-gray-100 border rounded-lg p-3 h-[35vh] overflow-auto scrollbar-hide">
+          <div className="bg-gray-100 border rounded-lg p-3">
             <Switch defaultChecked className="mr-3" />
             <span className="text-gray-700 text-sm">Hide system updates</span>
             <ul className="mt-4 flex flex-col gap-3">
               <li>
                 <div className="bg-gray-200 p-3 rounded-lg flex items-center gap-3">
-                  <Logo className="w-6" />
+                  <Logo className="w-6 h-6" />
                   <div className="text-xs">
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-sm font-medium">
@@ -145,7 +144,7 @@ const TabComponent = ({ selectedTask }) => {
               </li>
               <li>
                 <div className="bg-gray-200 p-3 rounded-lg flex items-center gap-3">
-                  <Logo className="w-6" />
+                  <Logo className="w-6 h-6" />
                   <div className="text-xs">
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-sm font-medium">Job created</p>
@@ -173,8 +172,8 @@ export default TabComponent;
 function TabSection({ children, index, sectionRefs }) {
   return (
     <section
-      ref={(el) => (sectionRefs.current[index] = el)}
-      className=" bg-gray-100 p-3 rounded-lg"
+      // ref={(el) => (sectionRefs.current[index] = el)}
+      className=" bg-gray-100 p-3 rounded-lg mb-2 mx-2"
     >
       {children}
     </section>
