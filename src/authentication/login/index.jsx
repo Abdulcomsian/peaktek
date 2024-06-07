@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Authentication/Navbar";
 const LoginPage = () => {
   const navigate = useNavigate();
   const handleNavigation = () => {
@@ -12,26 +13,10 @@ const LoginPage = () => {
   };
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div className="flex justify-between items-center px-4 py-3">
-        <div className="flex items-center">
-          <Logo className="w-10 h-10 mr-2" />
-          <h1 className="font-bold text-2xl text-gray-800 ">PeakTek</h1>
-        </div>
-        <div>
-          <Button className="text-blue-600 font-medium text-base  rounded-full px-3 py-2 mr-3">
-            Contact us
-          </Button>
-          <Button
-            className="text-blue-600 font-medium text-base bg-blue-100 hover:bg-blue-200 rounded-full px-3 py-2 mr-3"
-            onClick={handleNavigation}
-          >
-            Register
-          </Button>
-        </div>
-      </div>
-      <div className="max-w-md mx-auto my-2">
+      <Navbar btnText="Register" />
+      <div className="max-w-md mx-auto mt-6">
         <div className="flex flex-col">
-          <h1 className="font-bold text-xl text-gray-800 text-center mb-4">
+          <h1 className="font-semibold text-3xl text-gray-700 text-center mb-4">
             Log in to PeakTek
           </h1>
           <Button className="flex justify-center items-center text-gray-700 font-medium text-base  hover:bg-blue-50 border border-blue-200 rounded-full px-3 py-2 mr-3 mb-4">
