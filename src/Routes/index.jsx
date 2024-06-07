@@ -14,7 +14,7 @@ export function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/create-password" element={<CreatePassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
@@ -33,7 +33,7 @@ export function AppRoute() {
             element={<CommissionAgreementPage />}
           />
         </Route>
-        <Route path="/" element={<MainBoardLayout />} />
+        <Route path="/dashboard" element={<MainBoardLayout />} />
       </Routes>
     </BrowserRouter>
   );
