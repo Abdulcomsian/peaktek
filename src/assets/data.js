@@ -240,7 +240,35 @@ const contractDetails = [
       "Customers must inform the Company of any property covenants, conditions, or restrictions, as the Company is not liable unless notified in writing and reference is made in the contract terms.",
   },
 ];
-
+const colors = [
+  { value: "Red", label: "Red" },
+  { value: "Blue", label: "Blue" },
+  { value: "Green", label: "Green" },
+  { value: "Yellow", label: "Yellow" },
+  { value: "Orange", label: "Orange" },
+  { value: "Purple", label: "Purple" },
+  { value: "Black", label: "Black" },
+  { value: "White", label: "White" },
+  { value: "Gray", label: "Gray" },
+  { value: "Brown", label: "Brown" },
+];
+const materials = [
+  { value: "Material 1", label: "Material 1" },
+  { value: "Material 2", label: "Material 2" },
+  { value: "Material 3", label: "Material 3" },
+  { value: "Material 4", label: "Material 4" },
+  { value: "Material 5", label: "Material 5" },
+  { value: "Material 6", label: "Material 6" },
+  { value: "Material 7", label: "Material 7" },
+  { value: "Material 8", label: "Material 8" },
+  { value: "Material 9", label: "Material 9" },
+  { value: "Material 10", label: "Material 10" },
+  { value: "Material 11", label: "Material 11" },
+  { value: "Material 12", label: "Material 12" },
+  { value: "Material 13", label: "Material 13" },
+  { value: "Material 14", label: "Material 14" },
+  { value: "Material 15", label: "Material 15" },
+];
 export {
   warrantyDuration,
   notificationOfIssuance,
@@ -251,4 +279,6 @@ export {
   insurance,
   pricing,
   contractDetails,
+  colors,
+  materials,
 };

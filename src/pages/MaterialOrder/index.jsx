@@ -2,6 +2,7 @@ import React from "react";
 import CustomerInformationForm from "../../components/Forms/CustomerInformation";
 import Container from "../../components/Container";
 import DeliveryInformationForm from "../../components/Forms/DeliveryInformation";
+import AddMaterialForm from "../../components/Forms/AddMaterial";
 
 const MaterialOrderPage = () => {
   return (
@@ -14,6 +15,7 @@ const MaterialOrderPage = () => {
         DELIVERY INFORMATION
       </h2>
       <DeliveryInformationForm />
+      <AddMaterialForm />
     </Container>
   );
 };
