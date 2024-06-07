@@ -10,7 +10,7 @@
 }
 
 .tab-pan-container{
-    height: 45vh;
+    /* height: 100; */
     overflow-y: auto;
     display: flex;
     flex-direction: column;

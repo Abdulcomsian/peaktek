@@ -58,7 +58,13 @@ const TabComponent = ({ selectedTask }) => {
     };
   }, []);
 
-  const testData = [
+  const tabsData = [
+    {
+      headerData: {
+        title: "Job Detail",
+      },
+      component: <JobDetailFormComponent />,
+    },
     {
       headerData: {
         title: "Customer Agreement",
@@ -80,12 +86,6 @@ const TabComponent = ({ selectedTask }) => {
         children: "Create Material Order",
       },
     },
-    {
-      headerData: {
-        title: "Job Detail",
-      },
-      component: <JobDetailFormComponent />,
-    },
   ];
 
   return (
@@ -103,9 +103,9 @@ const TabComponent = ({ selectedTask }) => {
       </div>
       <div className="flex justify-between">
         <div className="tab-pan-container flex-shrink-0 basis-2/3">
-          {testData.map((data, index) => {
+          {tabsData.map((data, index) => {
             const { title, to, children } = data.headerData;
-            console.log(title, to, children);
+
             // const currentRef = (sectionRefs.current[index] = el
             return (
               <TabSection index={index}>
