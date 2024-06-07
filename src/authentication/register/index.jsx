@@ -6,33 +6,16 @@ import { MdFacebook } from "react-icons/md";
 import { Form, Input } from "antd";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Authentication/Navbar";
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const handleNavigation = () => {
-    navigate("/login");
-  };
+
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div className="flex justify-between items-center px-4 py-3">
-        <div className="flex items-center">
-          <Logo className="w-10 h-10 mr-2" />
-          <h1 className="font-bold text-2xl text-gray-800 ">PeakTek</h1>
-        </div>
-        <div>
-          <Button className="text-blue-600 font-medium text-base  rounded-full px-3 py-2 mr-3">
-            Contact us
-          </Button>
-          <Button
-            className="text-blue-600 font-medium text-base bg-blue-100 hover:bg-blue-200 rounded-full px-3 py-2 mr-3"
-            onClick={handleNavigation}
-          >
-            Login
-          </Button>
-        </div>
-      </div>
-      <div className="max-w-md mx-auto ">
+      <Navbar btnText="Login" />
+      <div className="max-w-md mx-auto mt-10">
         <div className="flex flex-col">
-          <h1 className="font-bold text-xl text-gray-800 text-center mb-4">
+          <h1 className="font-semibold text-3xl text-gray-700 text-center mb-4">
             Register to PeakTek
           </h1>
           <p className="mb-4">
