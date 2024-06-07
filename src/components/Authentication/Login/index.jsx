@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "../../components/Button";
+import Button from "../../Button";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Authentication/Navbar";
+import Navbar from "../Navbar";
 const Login = () => {
   const navigate = useNavigate();
   const handleNavigation = () => {

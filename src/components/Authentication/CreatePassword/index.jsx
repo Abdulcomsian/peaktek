@@ -1,10 +1,9 @@
 import React from "react";
 
-import Button from "../../components/Button";
+import Button from "../../Button";
 import { Form, Input, Checkbox } from "antd";
-import { useNavigate } from "react-router-dom";
 import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
-import Navbar from "../../components/Authentication/Navbar";
+import Navbar from "../Navbar";
 const CreatePassword = () => {
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
