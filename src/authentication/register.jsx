@@ -1,6 +1,6 @@
 import Button from "../components/Button";
 // import Container from "../components/Container";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";

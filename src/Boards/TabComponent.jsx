@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./tabComponent.css";
-
 import { Link } from "react-router-dom";
 import { Button, Form, Switch } from "antd";
 import { IoPersonAddOutline } from "react-icons/io5";
@@ -22,8 +21,8 @@ const TabComponent = ({ selectedTask }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const scrollToSection = (index) => {
-    console.log(index);
     const section = sectionRefs.current[index];
+    console.log("section", section);
     if (section) {
       setActiveTab(index);
       section.scrollIntoView({ behavior: "smooth" });
@@ -91,6 +90,7 @@ const TabComponent = ({ selectedTask }) => {
       <div className="tabs-container">
         {tabTitle.map((title, index) => (
           <button
+            key={index}
             className={`p-2 btn-tab  ${activeTab === index ? "active" : ""}`}
             onClick={() => scrollToSection(index)}
           >
@@ -103,9 +103,8 @@ const TabComponent = ({ selectedTask }) => {
           {tabsData.map((data, index) => {
             const { title, to, children } = data.headerData;
 
-            // const currentRef = (sectionRefs.current[index] = el
             return (
-              <TabSection index={index}>
+              <TabSection key={index} index={index} sectionRefs={sectionRefs}>
                 <SectionHeader title={title} to={to} children={children} />
                 {data.component ? data.component : null}
               </TabSection>
@@ -170,7 +169,7 @@ const TabComponent = ({ selectedTask }) => {
 
 export default TabComponent;
 
-function TabSection({ children, index }) {
+function TabSection({ children, index, sectionRefs }) {
   return (
     <section
       // ref={(el) => (sectionRefs.current[index] = el)}
