@@ -172,7 +172,7 @@ export default TabComponent;
 function TabSection({ children, index, sectionRefs }) {
   return (
     <section
-      // ref={(el) => (sectionRefs.current[index] = el)}
+      ref={(el) => (sectionRefs.current[index] = el)}
       className=" bg-gray-100 p-3 rounded-lg mb-2 mx-2"
     >
       {children}
