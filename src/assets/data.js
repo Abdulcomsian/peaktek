@@ -121,125 +121,122 @@ const pricing = [
 const contractDetails = [
   {
     id: 1,
-    content:
-      "This Contract and any agreements made pursuant thereto between PeakTek Roofing & Restoration (referred to as the 'Co.' or 'Company' or 'PeakTek') and the customer(s) named herein on the Agreement’s page 1 will be subject to all appropriate laws, regulations, and ordinances in the state of record.",
+    text: "All contracts are subject to the approval of our credit department and office without exception. The person executing this contract must obtain the consent of the officer of the Company for this contract to be effective under any conditions in the state of record.",
   },
   {
     id: 2,
-    content:
-      "In the event of default in payment under this contract, charges shall be applied from the date thereof at a rate equivalent to the greater of one and one-half percent (1.5%) per month (18% per annum), with a minimum charge of $20.00 per month or the maximum amount permitted by law. If legal action is required for collection, the Customer shall bear all attorney's fees and associated costs.",
+    text: "SHOULD DEFAULT BE MADE IN PAYMENT OF THIS CONTRACT, CHARGES SHALL BE ADDED FROM THE DATE THEREOF AT A RATE EQUAL TO THE GREATER OF ONE- AND ONE-HALF PERCENT (1.5%) PER MONTH (18% PER ANNUM) WITH A MINIMUM CHARGE OF $20.00 PER MONTH OR THE MAXIMUM AMOUNT ALLOWED BY LAW. IF PLACED IN THE HANDS OF AN ATTORNEY FOR COLLECTION, CUSTOMER SHALL BE RESPONSIBLE FOR ALL ATTORNEY’S FEES AND COSTS.",
   },
   {
     id: 3,
-    content:
-      "PeakTek Roofing & Restoration ('the Company') disclaims responsibility for damages arising from rain, fire, tornadoes, windstorms, or other perils unless specifically agreed upon in writing before commencing work or covered by homeowner's insurance or business risk insurance.",
+    text: "The Company shall have no responsibility for damages from rain, fire, tornado, windstorm, or other perils, including as is normally contemplated to be covered by HOMEOWNER’S INSURANCE or BUSINESS RISK INSURANCE, or unless specified in writing, made therefor before the commencement of work.",
   },
   {
     id: 4,
-    content:
-      "Unless stated otherwise in the contract, replacement of deteriorated decking, fascia boards, roof jacks, ventilators, flashing, or other materials is not included and will be billed separately on a time and material basis.",
+    text: "The quotation on the face hereof does not include expenses or charges for bond insurance premiums or costs beyond standard insurance coverage, and any such additional expenses, premiums, or costs shall be added to the amount of the contract. (For example, Performance Bonds or Maintenance Bonds.)",
   },
   {
     id: 5,
-    content:
-      "After 90 days, the Company reserves the right to adjust the price based on current costs, such as material expenses.",
+    text: "Replacement of deteriorated decking, fascia boards, roof jacks, ventilators, flashing, or other materials, unless otherwise STATED IN THE CONTRACT, are NOT INCLUDED and will be charged as an extra on a time and material basis.",
   },
   {
     id: 6,
-    content:
-      "The Company shall not be liable for performance failures due to uncontrollable circumstances such as labor disputes, strikes, fires, pandemics, wars, riots, protests, supply shortages, weather, or other events beyond its control.",
+    text: "After 90 days, Company reserves the right to revise the price in accordance with costs in effect at the time. (For example, increases in material cost).",
   },
   {
     id: 7,
-    content:
-      "The Company is not responsible for any damage on or below the roof due to leaks, excessive wind-driven rain, ice, or hail during the period of warranty. EXCESSIVE WIND is 50 M.P.H. or faster.",
+    text: "The Company shall not be liable for the failure of performance due to labor controversies, strikes, fires, pandemics, wars, riots, protests, supply shortages, labor shortages, weather, inability to obtain materials from usual sources, or any other circumstances beyond the control of the Company, whether of a similar or dissimilar nature.",
   },
   {
     id: 8,
-    content:
-      "In case of material reorder or restocking due to customer cancellation, a restocking fee equal to fifteen percent (15%) of the contract price will be applied. The Company disclaims liability for any mold, mildew or interior damage resulting from prior leaks.",
+    text: "The Company is not responsible for any damage on or below the roof due to leaks, excessive wind-driven rain, ice, or hail during the period of warranty. EXCESSIVE WIND is 50 M.P.H. or faster.",
   },
   {
     id: 9,
-    content:
-      "Cancellation of this contract later than 5 days from execution incurs a fee of $200.00 per person per hour expended in property evaluation or $2,000.00, whichever is greater, as liquidated damages.",
+    text: "If material must be reordered or restocked because of cancellation by the Customer, there will be a RESTOCKING FEE equal to fifteen percent (15%) of the contract price.",
   },
   {
     id: 10,
-    content:
-      "Once work has commenced, this contract cannot be canceled except by mutual written agreement.",
+    text: "This contract or warranty shall not be assigned except by or with the written permission of the Company.",
   },
   {
     id: 11,
-    content:
-      "If any provision of this contract is deemed invalid or unenforceable, the remaining provisions shall remain unaffected.",
+    text: "The Company is not responsible for any mold or interior damage resulting from mildew.",
   },
   {
     id: 12,
-    content:
-      "Any verbal communications outside this contract are deemed immaterial and not relied upon by either party.",
+    text: "IF THIS CONTRACT IS CANCELLED BY THE CUSTOMER LATER THAN 5 DAYS from the execution, Customer shall pay the Company a fee for the inspection and construction consulting services provided by PeakTek Roofing & Restoration LLC. By signing this contract, Customer agrees that the appropriate damages for cancellation shall be $200.00 (two hundred dollars) per person per hour expended in evaluating the property or $2,000.00 whichever is greater, as liquidated damages, not as a penalty. The Company agrees to accept such a reasonable and just compensation for cancellation. For the cancellation to be effective, notice must be sent via certified mail to PeakTek Roofig & Restoration LLC.",
   },
   {
     id: 13,
-    content:
-      "During work, the customer's homeowner's insurance is responsible for interior damage if the Company has protected the roof adequately.",
+    text: "THIS CONTRACT CANNOT BE CANCELLED ONCE WORK IS COMMENCED EXCEPT BY MUTUAL WRITTEN AGREEMENT OF THE PARTIES.",
   },
   {
     id: 14,
-    content:
-      "The Company disclaims responsibility for any damage to solar panels during repairs.",
+    text: "If any provision of this contract should be held to be invalid or unenforceable, the validity and enforceability of the remaining provisions of this contract shall not be affected thereby.",
   },
   {
     id: 15,
-    content:
-      "The Company is not liable for construction issues of the customer's home unless notified and specified in writing.",
+    text: "ANY REPRESENTATIONS, STATEMENTS, OR OTHER COMMUNICATIONS NOT WRITTEN ON THIS CONTRACT ARE AGREED TO BE IMMATERIAL, and not relied on by either party and do not survive the execution of this contract.",
   },
   {
     id: 16,
-    content:
-      "The Company disclaims responsibility for damage from leaks from skylights unless it completes the skylight replacement.",
+    text: "The maximum liability for the Company shall be the original cost of labor and materials for the repair, which Customer agrees shall be a liquidated sum, under any event of default by Company herein.",
   },
   {
     id: 17,
-    content:
-      "Warranty periods are specified for different types of work, and extended service warranties are available for additional charges.",
+    text: "During the duration of the work, the Customer’s homeowner’s insurance will be responsible for any interior damage as long as the Company has taken appropriate action to protect the roof during the repair of the roof.",
   },
   {
     id: 18,
-    content:
-      "Payments are to be made in accordance with the agreed terms, with insurance checks to be endorsed to the Company promptly.",
+    text: "If there are any solar panels on the roof, the Company will not be responsible for any damage during the repair, so the homeowner agrees to have a solar panel company take the appropriate action to protect it if necessary.",
   },
   {
     id: 19,
-    content:
-      "Additional labor or material costs due to hidden conditions or building code issues require a signed change order.",
+    text: "The Company is not responsible for the construction problems of your home. If pointed out and notified to our Company, we will try and assist you in correcting them on a timely and material basis.",
   },
   {
     id: 20,
-    content:
-      "The Company is not responsible for fixing existing framing issues unless necessary, on a time and material basis.",
+    text: "The Company is not responsible for any damage on or below the roof due to leaks from skylights unless the Company completes the skylight replacement.",
   },
   {
     id: 21,
-    content:
-      "All insurance proceeds for approved repairs are to be paid to the Company unless stated otherwise in writing.",
+    text: "Warranty is for two (2) years on roof replacement, one (1) year on siding replacement, and one (1) year on gutter repairs. There is no warranty on roof repairs. Extended service warranties are available for an additional charge. THE WARRANTY IS NON-TRANSFERABLE.",
   },
   {
     id: 22,
-    content:
-      "Customers are required to pay in full upon completion of the project.",
+    text: "Payments are to be made Half-down payment or first insurance check, whichever is greater. The Company reserves the right to bill proportionately based on the percentage of work completed. Further, the Customer agrees to endorse and turn over to the Company any check received from an insurance company or the third party within seven (7) days of receipt thereof will be considered default. Customer’s violation of this provision shall be considered conversion and entitle the Company to the greater of punitive damages or treble damages.",
   },
   {
     id: 23,
-    content:
-      "Customers have the right to cancel the contract within three business days of being notified by their insurer that the claim or contract is not covered, except for emergency repairs already completed.",
+    text: "Any hidden conditions or building code-related issues which result in additional labor and/or material costs will require a signed change order to proceed. The Customer understands the Company may issue a stop-work order if the change order is not accepted. (For example, rotten decking, fascia, gas vents, HVAC lines or coils, etc.) The Company is not responsible for damages.",
   },
   {
     id: 24,
-    content:
-      "Customers must inform the Company of any property covenants, conditions, or restrictions, as the Company is not liable unless notified in writing and reference is made in the contract terms.",
+    text: "Customer understands that existing framing issues such as uneven rafter and bowed sheeting are not the responsibility of the Company to fix and will only be repaired if needed and on a time and material basis.",
+  },
+  {
+    id: 25,
+    text: "Customer understands all insurance proceeds are to be paid to the Company for insurance-approved repairs unless noted in writing on the customer agreement or a change order contract.",
+  },
+  {
+    id: 26,
+    text: "ADDITIONALLY, THE COMPANY MAY ENFORCE ITS RIGHT TO PAYMENT BY OTHER MEANS, INCLUDING, BUT NOT LIMITED TO, FILING OF A LIEN AGAINST THE PROPERTY OF THE CUSTOMER INVOLVED IN THIS CONTRACT, REPORTING TO APPROPRIATE CREDIT REPORTING AGENCIES, AND ANY OTHER LEGAL REMEDIES AVAILABLE AT LAW.",
+  },
+  {
+    id: 27,
+    text: "Customer Understands that the Company, subcontracts all dumpster work. Any flat tires due to nails left under the dumpster, driveway, or garage damage are the responsibility of the contracted dumpster company.",
+  },
+  {
+    id: 28,
+    text: "CUSTOMER AGREES TO PAY IN FULL AT THE TIME OF COMPLETION OF EACH CONTRACT If you are notified by your insurer that all or part of the claim or contract is not a covered loss under your insurance policy, you may cancel the contract by mailing or delivering a signed and dated copy of this cancellation notice or any other signed and dated written notice to the address listed below, ADMIN@PEAKTEKPRO.COM at any time prior to midnight on the third business day after you have received such notice from your insurer. If you cancel, any payments made by you under the contract, except those for emergency repairs already performed by the Company, will be returned to you within 10 business days of receipt of your cancellation notice.",
+  },
+  {
+    id: 29,
+    text: "Customer is responsible for advising the Company of any covenants, conditions, or restrictions for the property. The Company is not responsible for the violation of any covenants, conditions, or restrictions unless Customer notifies the Company in writing and reference is made in the specific terms of this Agreement.",
   },
 ];
+
 const colors = [
   { value: "Red", label: "Red" },
   { value: "Blue", label: "Blue" },
