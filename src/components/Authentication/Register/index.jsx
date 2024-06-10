@@ -1,11 +1,11 @@
 import React from "react";
-import Button from "../../Button";
+import Button from "@components/Button";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { Form, Input } from "antd";
 import { FaArrowRightLong } from "react-icons/fa6";
-import Navbar from "../Navbar";
-const Register = () => {
+import Navbar from "@components/Authentication/Navbar";
+const Register = ({ onNext }) => {
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <Navbar btnText="Login" />
@@ -33,7 +33,10 @@ const Register = () => {
               <Input placeholder="name@company.com" type="email" size="large" />
             </Form.Item>
 
-            <Button className="flex justify-center w-full items-center bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3 group">
+            <Button
+              className="flex justify-center w-full items-center bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3 group"
+              onClick={onNext}
+            >
               Continue{" "}
               <FaArrowRightLong className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
