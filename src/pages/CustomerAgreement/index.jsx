@@ -1,14 +1,18 @@
 import React from "react";
-import CustomerInformationForm from "../../components/Forms/CustomerInformation";
-import Container from "../../components/Container";
-import SignaturesForm from "../../components/Forms/Signatures";
+import CustomerInformationForm from "@components/Forms/CustomerInformation";
+import Container from "@components/Container";
+import SignaturesForm from "@components/Forms/Signatures";
+import styles from "./CustomerAgreement.module.css";
 import {
   acknowledgement,
   insurance,
   pricing,
   contractDetails,
-} from "../../assets/data";
+} from "@assets/data";
+import { DatePicker, Input } from "antd";
+import dayjs from "dayjs";
 const CustomerAgreementPage = () => {
+  const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
     <Container className="my-6 mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]">
       <h1 className="text-black text-xl font-semibold mb-4">
@@ -61,17 +65,28 @@ const CustomerAgreementPage = () => {
         Indemnity Statement:
       </h2>
       <p className="font-medium text-black mb-4">
-        The homeowner shall not be held liable for any injuries, accidents, or
-        damages that occur on the property during the re-roof project. PeakTek
-        Roofing & Restoration assumes full responsibility for all job site
-        accidents and incidents, ensuring coverage through our workers'
-        compensation insurance and any other applicable insurance policies.
+        This Contract and any agreements entered into between PeakTek Roofing &
+        Restoration (hereinafter referred to as the “Company” or “PeakTek”) and
+        the customer(s) identified herein on the Agreement’s page 1 shall adhere
+        to all applicable copyright laws, regulations, and ordinances in the
+        state of record
       </p>
-      {contractDetails?.map((items) => (
-        <p key={items?.id} className="mb-3">
-          {items?.content}
-        </p>
-      ))}
+      <ul className="list-decimal pl-4 mb-4">
+        {contractDetails?.map((items) => (
+          <li key={items?.id} className="text-gray-600 mb-3">
+            {items?.text}
+          </li>
+        ))}
+      </ul>
+      <p className="flex items-end mb-4">
+        I <Input className={`max-w-sm mx-2 ${styles["custom-input"]} `} />, the
+        undersigned, hereby cancel this transaction as of{" "}
+        <DatePicker
+          className={`ml-2 ${styles["custom-datepicker"]} `}
+          defaultValue={dayjs("01/01/2015", dateFormatList[0])}
+          format={dateFormatList}
+        />
+      </p>
     </Container>
   );
 };
