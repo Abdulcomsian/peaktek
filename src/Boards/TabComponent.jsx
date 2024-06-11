@@ -8,10 +8,10 @@ import Input from "../components/Input";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
+    "Job details",
     "Customer Agreement",
     "Warranty Information",
     "Material Order",
-    "Job details",
     "Tasks",
     "Proposals",
     "Invoices",
