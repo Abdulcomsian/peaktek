@@ -18,15 +18,13 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
-import { Button, Form } from "react-bootstrap";
+import Button from "@components/Button";
 import TabComponent from "../TabComponent";
 import "./kanban.css";
 
 import NewJobModal from "../../components/Modals/NewJobModal";
 import { Modal } from "antd";
-import { getTasks, updateTasks } from "../../store/slices/JobsSlice";
 import JobDetailModal from "../../components/Modals/JobDetailModal";
 import AddBoardModal from "../../components/Modals/AddBoardModal";
 

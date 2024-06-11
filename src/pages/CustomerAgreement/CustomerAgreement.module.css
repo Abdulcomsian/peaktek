@@ -1,20 +1,20 @@
 /* Add these styles in your CSS file */
 .custom-input {
     border: 0;
-    border-bottom: 2px solid gray;
+    border-bottom: 1px solid gray;
     border-radius: 0;
   }
   
   .custom-input:hover,
   .custom-input:focus {
     border: 0;
-    border-bottom: 2px solid blue; /* Customize hover and focus bottom border color */
+    border-bottom: 1px solid blue; /* Customize hover and focus bottom border color */
     box-shadow: none; /* Remove any box shadow that might appear */
   }
   
   .custom-datepicker .ant-picker {
     border: 0;
-    border-bottom: 2px solid gray;
+    border-bottom: 1px solid gray;
     border-radius: 0;
   }
   

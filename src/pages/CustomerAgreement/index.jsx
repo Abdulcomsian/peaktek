@@ -78,15 +78,18 @@ const CustomerAgreementPage = () => {
           </li>
         ))}
       </ul>
-      <p className="flex items-end mb-4">
-        I <Input className={`max-w-sm mx-2 ${styles["custom-input"]} `} />, the
-        undersigned, hereby cancel this transaction as of{" "}
+      <div className="flex justify-between items-center mb-4">
+        I <Input className={`w-full mx-2  ${styles["custom-input"]} `} />
+        <span className=" w-full">
+          the undersigned, hereby cancel this transaction as of{" "}
+        </span>
         <DatePicker
-          className={`ml-2 ${styles["custom-datepicker"]} `}
+          className={`ml-2 w-full max-w-xs`}
           defaultValue={dayjs("01/01/2015", dateFormatList[0])}
           format={dateFormatList}
         />
-      </p>
+      </div>
+      <div>Customer SIgnature:</div>
     </Container>
   );
 };
