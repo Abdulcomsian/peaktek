@@ -1,6 +1,6 @@
 import React from "react";
-import Input from "../../Input";
-import InputContainer from "../../InputContainer";
+import Input from "@components/Input";
+import InputContainer from "@components/InputContainer";
 
 const InspectionForm = ({ className }) => {
   return (

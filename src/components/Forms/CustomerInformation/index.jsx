@@ -1,11 +1,11 @@
 import React from "react";
-import Input from "../../Input";
-import InputContainer from "../../InputContainer";
+import Input from "@components/Input";
+import InputContainer from "@components/InputContainer";
 
 const CustomerInformationForm = ({ className }) => {
   return (
     <div className={`w-full ${className}`}>
-      <InputContainer className="flex flex-col sm:flex-row justify-between ">
+      <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
           label="Name:"
           placeholder="John Doe"
@@ -25,7 +25,7 @@ const CustomerInformationForm = ({ className }) => {
           className="  mb-4 sm:mb-0"
         />
       </InputContainer>
-      <InputContainer className="flex flex-col sm:flex-row justify-between ">
+      <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
           label="Street:"
           placeholder="west Bridge"
@@ -51,7 +51,7 @@ const CustomerInformationForm = ({ className }) => {
           className="sm:max-w-40  mb-4 sm:mb-0"
         />
       </InputContainer>
-      <InputContainer className="flex flex-col sm:flex-row justify-between">
+      <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <Input
           label="Insurance:"
           placeholder="eg. Health Insurance"

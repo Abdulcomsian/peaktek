@@ -1,12 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "@components/Authentication/Login";
-
+import {
+  CertificateOfCompletion,
+  CommissionAgreement,
+  CustomerAgreement,
+  WarrantyInformation,
+  MaterialOrder,
+} from "@pages";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
 import AppLayout from "@components/Layout";
-import CustomerAgreementPage from "@pages/CustomerAgreement";
-import MaterialOrderPage from "@pages/MaterialOrder";
-import WarrantyInformationPage from "@pages/WarrantyInformation";
-import CommissionAgreementPage from "@pages/CommisionAgreement";
 import RegisterFlow from "@components/Authentication/RegistrationFlow";
 
 export function AppRoute() {
@@ -17,18 +19,19 @@ export function AppRoute() {
         <Route path="/register" element={<RegisterFlow />} />
 
         <Route element={<AppLayout />}>
-          <Route
-            path="/customer-agreement"
-            element={<CustomerAgreementPage />}
-          />
-          <Route path="/material-order" element={<MaterialOrderPage />} />
+          <Route path="/customer-agreement" element={<CustomerAgreement />} />
+          <Route path="/material-order" element={<MaterialOrder />} />
           <Route
             path="/warranty-information"
-            element={<WarrantyInformationPage />}
+            element={<WarrantyInformation />}
           />
           <Route
             path="/commission-agreement"
-            element={<CommissionAgreementPage />}
+            element={<CommissionAgreement />}
+          />
+          <Route
+            path="/certificate-of-completion"
+            element={<CertificateOfCompletion />}
           />
         </Route>
         <Route path="/dashboard" element={<MainBoardLayout />} />
