@@ -11,14 +11,14 @@ import {
 } from "@assets/data";
 import { DatePicker, Input } from "antd";
 import dayjs from "dayjs";
-const CustomerAgreementPage = () => {
+const CustomerAgreement = () => {
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
     <Container className="my-6 mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]">
       <h1 className="text-black text-xl font-semibold mb-4">
         Customer Information
       </h1>
-      <CustomerInformationForm />
+      <CustomerInformationForm className="mb-4" />
       <div className="mb-4">
         <h2 className="text-lg font-semibold text-black mb-2">
           ACKNOWLEDGEMENTS
@@ -73,25 +73,29 @@ const CustomerAgreementPage = () => {
       </p>
       <ul className="list-decimal pl-4 mb-4">
         {contractDetails?.map((items) => (
-          <li key={items?.id} className="text-gray-600 mb-3">
+          <li key={items?.id} className="text-gray-600 mb-3 text-justify">
             {items?.text}
           </li>
         ))}
       </ul>
-      <div className="flex justify-between items-center mb-4">
-        I <Input className={`w-full mx-2  ${styles["custom-input"]} `} />
-        <span className=" w-full">
+      <div className="flex flex-col md:flex-row  md:justify-between md:items-center mb-4">
+        <div className="flex items-center md:mb-0 mb-4 w-full mx-2">
+          <span className="mr-2">I</span>{" "}
+          <Input className={`${styles["custom-input"]} md:mr-2`} />
+        </div>
+        <span className="w-full md:mb-0 mb-4">
           the undersigned, hereby cancel this transaction as of{" "}
         </span>
         <DatePicker
-          className={`ml-2 w-full max-w-xs`}
+          className={` w-full md:max-w-xs`}
+          size="large"
           defaultValue={dayjs("01/01/2015", dateFormatList[0])}
           format={dateFormatList}
         />
       </div>
-      <div>Customer SIgnature:</div>
+      <div>Customer Signature:</div>
     </Container>
   );
 };
 
-export default CustomerAgreementPage;
+export default CustomerAgreement;

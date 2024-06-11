@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { DatePicker } from "antd";
 
-const CustomDatePicker = ({ label }) => {
+const CustomDatePicker = ({ label, className }) => {
   return (
-    <div className="w-full sm:mr-4">
+    <div className={`w-full ${className}`}>
       <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
         {label}
       </label>

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { colors, materials } from "../../../assets/data";
+import React from "react";
+import { colors, materials } from "@assets/data";
 import { Input, Select } from "antd";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
@@ -11,7 +11,7 @@ const Row = ({
   handleDeleteRow,
 }) => {
   return (
-    <tr className="">
+    <tr>
       <td className="px-2 py-2">
         <Select
           className="w-full max-w-sm"

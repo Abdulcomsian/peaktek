@@ -1,10 +1,10 @@
 import React from "react";
-import Input from "../../Input";
-import InputContainer from "../../InputContainer";
-import CustomDatePicker from "../../DatePicker/Index";
-const DeliveryInformationForm = () => {
+import Input from "@components/Input";
+import InputContainer from "@components/InputContainer";
+import CustomDatePicker from "@components/DatePicker";
+const DeliveryInformationForm = ({ className }) => {
   return (
-    <form className="w-full">
+    <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col sm:flex-row justify-between sm:mb-4">
         <CustomDatePicker label="Select Date" />
         <Input
@@ -37,7 +37,7 @@ const DeliveryInformationForm = () => {
         />
         <Input label="Drip Edge LF:" placeholder="245" type="number" />
       </InputContainer>
-    </form>
+    </div>
   );
 };
 

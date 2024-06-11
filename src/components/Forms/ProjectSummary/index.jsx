@@ -1,48 +1,57 @@
 import React from "react";
 import Input from "@components/Input";
 import InputContainer from "@components/InputContainer";
-import CustomDatePicker from "@components/DatePicker";
-const SignaturesForm = ({ className }) => {
+const ProjectSummaryForm = ({ className }) => {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
-          label="Customer Signature:"
+          label="Job Total :"
           placeholder="john Snow"
           type="text"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
         />
         <Input
-          label="Printed Name:"
+          label="Customer Paid Upgrades :"
           placeholder="john Snow"
           type="text"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
         />
-
-        <CustomDatePicker label="Select a Date" className="mb-4 md:mb-0" />
+        <Input
+          label="Deductible :"
+          placeholder="john Snow"
+          type="text"
+          applyMarginBottom={true}
+          className="mb-4 md:mb-0"
+        />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
-          label="Customer Signature:"
+          label="ACV Check :"
           placeholder="john Snow"
           type="text"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
         />
         <Input
-          label="Printed Name:"
+          label="RCV Check :"
           placeholder="john Snow"
           type="text"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
         />
-
-        <CustomDatePicker label="Select a Date" className="mb-4 md:mb-0" />
+        <Input
+          label="Supplemental Items :"
+          placeholder="john Snow"
+          type="text"
+          applyMarginBottom={true}
+          className="mb-4 md:mb-0"
+        />
       </InputContainer>
     </div>
   );
 };
 
-export default SignaturesForm;
+export default ProjectSummaryForm;

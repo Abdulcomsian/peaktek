@@ -5,14 +5,17 @@ import Logo from "@components/Logo";
 export default function Sidebar({ isShow, onCloseSidebar }) {
   const sidebarLinks = [
     {
+      id: 1,
       linkSrc: "/dashboard",
       linkText: "Jobs",
     },
     {
+      id: 2,
       linkSrc: "/dashboard",
       linkText: "Proposals",
     },
     {
+      id: 3,
       linkSrc: "/dashboard",
       linkText: "Invoices",
     },
@@ -38,7 +41,10 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       </div>
       <ul className="flex flex-col justify-center items-center pt-10">
         {sidebarLinks?.map((link) => (
-          <li className="py-2 hover:bg-blue-200 w-full text-center">
+          <li
+            className="py-2 hover:bg-blue-200 w-full text-center"
+            key={link?.id}
+          >
             <Link to={link?.linkSrc}>{link?.linkText}</Link>
           </li>
         ))}
