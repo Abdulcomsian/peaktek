@@ -11,11 +11,13 @@ const InspectionForm = ({ className }) => {
           placeholder="John Doe"
           type="text"
           className="sm:mr-4"
+          applyMarginBottom={true}
         />
         <Input
           label="Commission %:"
           placeholder="80"
           type="number"
+          applyMarginBottom={true}
           className="sm:max-w-xs"
         />
       </InputContainer>
@@ -24,12 +26,14 @@ const InspectionForm = ({ className }) => {
           label="Company Representative:"
           placeholder="John Doe"
           type="text"
+          applyMarginBottom={true}
           className="sm:mr-4"
         />
         <Input
           label="Commission %:"
           placeholder="80"
           type="number"
+          applyMarginBottom={true}
           className="sm:max-w-xs"
         />
       </InputContainer>
