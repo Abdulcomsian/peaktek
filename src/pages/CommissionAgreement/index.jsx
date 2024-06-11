@@ -1,8 +1,8 @@
 import React from "react";
-import CustomerInformationForm from "../../components/Forms/CustomerInformation";
-import Container from "../../components/Container";
-import InspectionForm from "../../components/Forms/Inspection";
-import SignaturesForm from "../../components/Forms/Signatures";
+import CustomerInformationForm from "@components/Forms/CustomerInformation";
+import Container from "@components/Container";
+import InspectionForm from "@components/Forms/Inspection";
+import SignaturesForm from "@components/Forms/Signatures";
 
 const CommissionAgreement = () => {
   return (
