@@ -4,6 +4,7 @@ import CustomerAgreement from "./CustomerAgreement";
 import WarrantyInformation from "./WarrantyInformation";
 import MaterialOrder from "./MaterialOrder";
 import Dashboard from "./Dashboard";
+import Commission from "./Commission";
 export {
   CertificateOfCompletion,
   CommissionAgreement,
@@ -11,4 +12,5 @@ export {
   WarrantyInformation,
   MaterialOrder,
   Dashboard,
+  Commission,
 };
