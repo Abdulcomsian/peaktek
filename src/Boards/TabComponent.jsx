@@ -3,8 +3,8 @@ import "./tabComponent.css";
 import { Link } from "react-router-dom";
 import { Button, Form, Switch } from "antd";
 import { IoPersonAddOutline } from "react-icons/io5";
-import Logo from "@components/Logo";
-import Input from "@components/Input";
+import { Logo, Input } from "@components";
+
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([

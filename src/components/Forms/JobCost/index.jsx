@@ -1,6 +1,5 @@
 import React from "react";
-import Input from "@components/Input";
-import OtherInput from "@components/OtherInput";
+import { Input, OtherInput } from "@components";
 const JobCostForm = ({ className }) => {
   return (
     <div className={`bg-blue-50  w-full ${className}`}>

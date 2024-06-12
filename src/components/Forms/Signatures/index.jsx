@@ -1,7 +1,5 @@
 import React from "react";
-import Input from "@components/Input";
-import InputContainer from "@components/InputContainer";
-import CustomDatePicker from "@components/DatePicker";
+import { Input, InputContainer, CustomDatePicker } from "@components";
 const SignaturesForm = ({ className }) => {
   return (
     <div className={`w-full ${className}`}>
