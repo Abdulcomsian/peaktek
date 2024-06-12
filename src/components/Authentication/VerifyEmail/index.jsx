@@ -1,10 +1,10 @@
 import React from "react";
 import Navbar from "@components/Authentication/Navbar";
 import { Form, Input } from "antd";
-import Button from "@components/Button";
+import { Button } from "@components";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
-const VerifyEmail = ({ currentStep, onNext, onBack }) => {
+const VerifyEmail = ({ currentStep, onNext }) => {
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <Navbar btnText="Login" />

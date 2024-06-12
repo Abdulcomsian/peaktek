@@ -1,9 +1,8 @@
 import React from "react";
-
-import Button from "../../Button";
+import { Button } from "@components";
 import { Form, Input, Checkbox } from "antd";
 import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
-import Navbar from "../Navbar";
+import { Navbar } from "@components/Authentication";
 const CreatePassword = ({ currentStep, onNext, onBack }) => {
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

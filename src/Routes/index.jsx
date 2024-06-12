@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "@components/Authentication/Login";
+import { Login, RegisterFlow } from "@components/Authentication";
 import {
   CertificateOfCompletion,
   CommissionAgreement,
@@ -9,7 +9,6 @@ import {
 } from "@pages";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
 import AppLayout from "@components/Layout";
-import RegisterFlow from "@components/Authentication/RegistrationFlow";
 
 export function AppRoute() {
   return (

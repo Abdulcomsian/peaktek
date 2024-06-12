@@ -1,8 +1,8 @@
 import React from "react";
-import Button from "../Button";
+import { Button } from "@components";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-const Header = ({ children }) => {
+const Header = () => {
   const navigate = useNavigate();
   const BackToHome = () => {
     navigate("/");

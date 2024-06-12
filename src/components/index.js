@@ -5,6 +5,7 @@ import Input from "./Input";
 import InputContainer from "./InputContainer";
 import Logo from "./Logo";
 import OtherInput from "./OtherInput";
+import Header from "./Header";
 export {
   Button,
   Container,
@@ -13,4 +14,5 @@ export {
   InputContainer,
   Logo,
   OtherInput,
+  Header,
 };

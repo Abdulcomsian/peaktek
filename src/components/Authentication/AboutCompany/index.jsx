@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "@components/Authentication/Navbar";
+import { Navbar } from "@components/Authentication";
 import { Form, Input } from "antd";
-import Button from "@components/Button";
+import { Button } from "@components";
 import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
