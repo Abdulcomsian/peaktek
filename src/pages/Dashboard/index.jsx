@@ -1,12 +1,9 @@
-import { Outlet } from "react-router-dom";
-import NavBar from "./NavBar";
-import Sidebar from "./Sidebar";
+import { useState } from "react";
+import { NavBar, Sidebar, KanbanBoard } from "@components/Dashboard";
 
 import "./main.css";
-import { useState } from "react";
-import KanbanBoard from "./Kanban";
 
-export default function MainBoardLayout() {
+export default function Dashboard() {
   const [isShowNav, setIsShowNav] = useState(false);
 
   const handleCloseSideBar = function () {
