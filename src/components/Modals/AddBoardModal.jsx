@@ -1,16 +1,8 @@
 import { useState } from "react";
-import Input from "../Input";
+import Input from "@components/Input";
 import { Modal } from "antd";
-import { useDispatch } from "react-redux";
-import { addJob } from "../../store/slices/JobsSlice";
 
-export default function AddBoardModal({
-  onClick,
-  open,
-  onCancel,
-  onOk,
-  onAddTitle,
-}) {
+export default function AddBoardModal({ open, onCancel, onOk, onAddTitle }) {
   const [title, setTitle] = useState("");
   // const dispatch = useDispatch();
   const handleChange = function (e) {
@@ -28,6 +20,7 @@ export default function AddBoardModal({
       <h2 className="text-center text-xl">New Board</h2>
       <form onSubmit={handleSubmit}>
         <Input
+          applyMarginBottom={true}
           label="Title"
           placeholder="Enter board title"
           value={title}

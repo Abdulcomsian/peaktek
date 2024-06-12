@@ -1,12 +1,9 @@
 import { useState } from "react";
-import Input from "../Input";
+import Input from "@components/Input";
 import { Modal } from "antd";
-import { useDispatch } from "react-redux";
-import { addJob } from "../../store/slices/JobsSlice";
 
-function NewJobModal({ onClick, open, onCancel, onOk, onAddJob }) {
+function NewJobModal({ open, onCancel, onOk, onAddJob }) {
   const [job, setJob] = useState("");
-  const dispatch = useDispatch();
 
   const handleChange = function (e) {
     setJob(e.target.value);
@@ -24,6 +21,7 @@ function NewJobModal({ onClick, open, onCancel, onOk, onAddJob }) {
       <h1 className="text-center text-xl font-semibold my-4">New Job</h1>
       <form onSubmit={handleSubmit}>
         <Input
+          applyMarginBottom={true}
           label="Job Address"
           placeholder="Enter new job"
           value={job}
