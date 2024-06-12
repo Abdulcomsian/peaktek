@@ -5,7 +5,10 @@ import InspectionForm from "./Inspection";
 import JobCostForm from "./JobCost";
 import ProjectSummaryForm from "./ProjectSummary";
 import SignaturesForm from "./Signatures";
+import ContractInformationForm from "./ContractInformation";
 import Row from "./Row";
+import DynamicForm from "./DynamicForm";
+import ComissionTotal from "./ComissionTotal";
 export {
   Row,
   AddMaterialForm,
@@ -15,4 +18,7 @@ export {
   JobCostForm,
   ProjectSummaryForm,
   SignaturesForm,
+  ContractInformationForm,
+  DynamicForm,
+  ComissionTotal,
 };

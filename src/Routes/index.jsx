@@ -6,6 +6,7 @@ import {
   CustomerAgreement,
   WarrantyInformation,
   MaterialOrder,
+  Commission,
 } from "@pages";
 import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
 import AppLayout from "@components/Layout";
@@ -20,6 +21,7 @@ export function AppRoute() {
         <Route element={<AppLayout />}>
           <Route path="/customer-agreement" element={<CustomerAgreement />} />
           <Route path="/material-order" element={<MaterialOrder />} />
+
           <Route
             path="/warranty-information"
             element={<WarrantyInformation />}
@@ -32,6 +34,7 @@ export function AppRoute() {
             path="/certificate-of-completion"
             element={<CertificateOfCompletion />}
           />
+          <Route path="/commission" element={<Commission />} />
         </Route>
         <Route path="/dashboard" element={<MainBoardLayout />} />
       </Routes>
