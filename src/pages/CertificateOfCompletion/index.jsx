@@ -1,10 +1,13 @@
 import React from "react";
-import Container from "@components/Container";
-import CustomerInformationForm from "@components/Forms/CustomerInformation";
-import JobCostForm from "@components/Forms/JobCost";
-import ProjectSummaryForm from "@components/Forms/ProjectSummary";
-import Input from "@components/Input";
-import SignaturesForm from "@components/Forms/Signatures";
+import {
+  CustomerInformationForm,
+  JobCostForm,
+  ProjectSummaryForm,
+  SignaturesForm,
+} from "@components/Forms";
+import { Container, Input } from "@components";
+
+
 const CertificateOfCompletion = () => {
   return (
     <Container className="my-6 mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]">

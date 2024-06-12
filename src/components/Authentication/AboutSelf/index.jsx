@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Navbar from "@components/Authentication/Navbar";
+import { Navbar } from "@components/Authentication";
 import { Form, Input, Row, Col, Checkbox, Select } from "antd";
-import Button from "@components/Button";
+import { Button } from "@components";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-const AboutSelf = ({ currentStep, onNext, onBack }) => {
+const AboutSelf = ({ currentStep, onNext }) => {
   const [form] = Form.useForm();
   const [showPhoneAndCheckbox, setShowPhoneAndCheckbox] = useState(false);
   const [showSelectBox, setShowSelectBox] = useState(false);

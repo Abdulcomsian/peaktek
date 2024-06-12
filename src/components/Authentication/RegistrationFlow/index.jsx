@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import Register from "../Register";
-import CreatePassword from "../CreatePassword";
-import VerifyEmail from "../VerifyEmail";
-import AboutSelf from "../AboutSelf";
-import AboutCompany from "../AboutCompany";
+import {
+  AboutCompany,
+  AboutSelf,
+  VerifyEmail,
+  CreatePassword,
+  Register,
+} from "@components/Authentication";
 
 const RegisterFlow = () => {
   const [currentStep, setCurrentStep] = useState(1);

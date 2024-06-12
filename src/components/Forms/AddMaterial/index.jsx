@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Row from "../Row";
+import { Row } from "@components/Forms";
 
 const AddMaterialForm = () => {
   const [rows, setRows] = useState([

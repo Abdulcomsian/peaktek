@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Input from "@components/Input";
+import { Input } from "@components";
 import { Modal } from "antd";
 
 export default function AddBoardModal({ open, onCancel, onOk, onAddTitle }) {
