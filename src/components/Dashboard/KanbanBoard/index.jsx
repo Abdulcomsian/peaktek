@@ -19,18 +19,16 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 
-import Button from "@components/Button";
-import TabComponent from "../TabComponent";
-import "./kanban.css";
+import { Button } from "@components";
 
-import NewJobModal from "../../components/Modals/NewJobModal";
-import { Modal } from "antd";
-import JobDetailModal from "../../components/Modals/JobDetailModal";
-import AddBoardModal from "../../components/Modals/AddBoardModal";
+import { NewJobModal, JobDetailModal, AddBoardModal } from "@components/Modals";
+
+import "./kanban.css";
+// import { useCustomer } from "../../../";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
-  { id: "signedDeal", title: "Single Deal" },
+  { id: "signedDeal", title: "Signed Deal" },
   { id: "adjuster", title: "Adjustor" },
 ];
 
@@ -54,6 +52,9 @@ function KanbanBoard() {
 
   const [isDragging, setIsDragging] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
+
+  // const { customer } = useCustomer();
+  // console.log(customer);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {

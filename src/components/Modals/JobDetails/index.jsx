@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 
-import TabComponent from "../../Boards/TabComponent";
+import { TabComponent } from "@components/Dashboard";
 
 function JobDetailModal({ open, onCancel, onOk, selectedTask }) {
   return (
