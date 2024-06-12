@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import Button from "@components/Button";
-import Logo from "@components/Logo";
+import { Button, Logo } from "@components";
 
 export default function Sidebar({ isShow, onCloseSidebar }) {
   const sidebarLinks = [

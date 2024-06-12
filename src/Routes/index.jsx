@@ -6,8 +6,9 @@ import {
   CustomerAgreement,
   WarrantyInformation,
   MaterialOrder,
+  Dashboard,
 } from "@pages";
-import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
+// import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
 import AppLayout from "@components/Layout";
 
 export function AppRoute() {
@@ -33,7 +34,7 @@ export function AppRoute() {
             element={<CertificateOfCompletion />}
           />
         </Route>
-        <Route path="/dashboard" element={<MainBoardLayout />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
