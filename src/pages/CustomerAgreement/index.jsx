@@ -1,8 +1,7 @@
 import React from "react";
-import CustomerInformationForm from "@components/Forms/CustomerInformation";
-import Container from "@components/Container";
-import SignaturesForm from "@components/Forms/Signatures";
+import { Container } from "@components";
 import styles from "./CustomerAgreement.module.css";
+import { CustomerInformationForm, SignaturesForm } from "@components/Forms";
 import {
   acknowledgement,
   insurance,

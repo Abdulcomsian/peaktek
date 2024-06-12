@@ -3,8 +3,8 @@ import "./tabComponent.css";
 import { Link } from "react-router-dom";
 import { Button, Form, Switch } from "antd";
 import { IoPersonAddOutline } from "react-icons/io5";
-import Logo from "../components/Logo";
-import Input from "../components/Input";
+import Logo from "@components/Logo";
+import Input from "@components/Input";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -80,6 +80,20 @@ const TabComponent = ({ selectedTask }) => {
         title: "Material Order",
         to: "/material-order",
         children: "Create Material Order",
+      },
+    },
+    {
+      headerData: {
+        title: "Commission Agreement",
+        to: "/commission-agreement",
+        children: "Create Commission Agreement",
+      },
+    },
+    {
+      headerData: {
+        title: "Certificate of Completion",
+        to: "/certificate-of-completion",
+        children: "Create Certificate of Completion",
       },
     },
   ];
