@@ -106,6 +106,13 @@ const TabComponent = ({ selectedTask }) => {
         children: "Create Certificate of Completion",
       },
     },
+    {
+      headerData: {
+        title: "Comission",
+        to: "/comission",
+        children: "Create Comission",
+      },
+    },
   ];
 
   return (
@@ -145,7 +152,7 @@ const TabComponent = ({ selectedTask }) => {
           ))}
         </div>
 
-        <div className="flex justify-between max-h-96 my-2">
+        <div className="flex justify-between flex-col  my-2 md:flex-row max-h-96 overflow-y-auto	">
           <div className=" overflow-y-scroll flex-shrink-0 basis-2/3">
             {tabsData.map((data, index) => {
               const { title, to, children } = data.headerData;

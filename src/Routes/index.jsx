@@ -35,7 +35,7 @@ export function AppRoute() {
             path="/certificate-of-completion"
             element={<CertificateOfCompletion />}
           />
-          <Route path="/commission" element={<Commission />} />
+          <Route path="/comission" element={<Commission />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
