@@ -1,7 +1,8 @@
 import React from "react";
+import { FaUpload } from "react-icons/fa";
 
 const Input = ({
-  className,
+  className = "",
   label,
   type = "text",
   placeholder,

@@ -10,9 +10,11 @@ import {
   Commission,
   CommissionContractor,
   ContractPaySheet,
+  Projects,
 } from "@pages";
 
 import AppLayout from "@components/Layout";
+import Title from "@components/Forms/Title";
 
 export function AppRoute() {
   return (
@@ -20,7 +22,11 @@ export function AppRoute() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<RegisterFlow />} />
-
+        <Route path="/projects" element={<Projects />}>
+          <Route path="title" element={<Title />} />
+          <Route path="introduction" element={<div>Introduction Form</div>} />
+          <Route path="inspection" element={<div>Inspection Form</div>} />
+        </Route>
         <Route element={<AppLayout />}>
           <Route path="/customer-agreement" element={<CustomerAgreement />} />
           <Route path="/material-order" element={<MaterialOrder />} />
