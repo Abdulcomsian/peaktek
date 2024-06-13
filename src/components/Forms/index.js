@@ -9,6 +9,9 @@ import ContractInformationForm from "./ContractInformation";
 import Row from "./Row";
 import DynamicForm from "./DynamicForm";
 import ComissionTotal from "./ComissionTotal";
+import TitleSidebarForm from "./TitleSidebar";
+import IntroductionSidebarForm from "./IntroductionSidebar";
+import InspectionSidebarForm from "./InspectionSidebar";
 export {
   Row,
   AddMaterialForm,
@@ -21,4 +24,7 @@ export {
   ContractInformationForm,
   DynamicForm,
   ComissionTotal,
+  TitleSidebarForm,
+  IntroductionSidebarForm,
+  InspectionSidebarForm,
 };
