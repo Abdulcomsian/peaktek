@@ -109,8 +109,22 @@ const TabComponent = ({ selectedTask }) => {
     {
       headerData: {
         title: "Comission",
-        to: "/comission",
+        to: "/commission",
         children: "Create Comission",
+      },
+    },
+    {
+      headerData: {
+        title: "Comission Contractor",
+        to: "/commission-contractor",
+        children: "Create Comission Contractor",
+      },
+    },
+    {
+      headerData: {
+        title: "Contractor PaySheet",
+        to: "/contractor-pay-sheet",
+        children: "Create Paysheet",
       },
     },
   ];

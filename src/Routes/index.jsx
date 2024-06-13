@@ -8,9 +8,11 @@ import {
   MaterialOrder,
   Dashboard,
   Commission,
+  CommissionContractor,
+  ContractPaySheet,
   Projects,
 } from "@pages";
-// import MainBoardLayout from "../Boards/MainBoard/MainBoardLayout";
+
 import AppLayout from "@components/Layout";
 import Title from "@components/Forms/Title";
 
@@ -41,7 +43,12 @@ export function AppRoute() {
             path="/certificate-of-completion"
             element={<CertificateOfCompletion />}
           />
-          <Route path="/comission" element={<Commission />} />
+          <Route path="/commission" element={<Commission />} />
+          <Route
+            path="/commission-contractor"
+            element={<CommissionContractor />}
+          />
+          <Route path="/contractor-pay-sheet" element={<ContractPaySheet />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>

@@ -6,6 +6,7 @@ import InputContainer from "./InputContainer";
 import Logo from "./Logo";
 import OtherInput from "./OtherInput";
 import Header from "./Header";
+import TableRows from "./TableRows";
 export {
   Button,
   Container,
@@ -15,4 +16,5 @@ export {
   Logo,
   OtherInput,
   Header,
+  TableRows,
 };
