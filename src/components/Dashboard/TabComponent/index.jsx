@@ -127,6 +127,13 @@ const TabComponent = ({ selectedTask }) => {
         children: "Create Paysheet",
       },
     },
+    {
+      headerData: {
+        title: "Projects",
+        to: "/projects/title",
+        children: "Create Projects",
+      },
+    },
   ];
 
   return (
