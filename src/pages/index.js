@@ -8,7 +8,6 @@ import Commission from "./Commission";
 import CommissionContractor from "./CommissionContractor";
 import ContractPaySheet from "./ContractorPaySheet";
 
-import Projects from "./Projects";
 export {
   CertificateOfCompletion,
   CommissionAgreement,
@@ -17,4 +16,6 @@ export {
   MaterialOrder,
   Dashboard,
   Commission,
+  CommissionContractor,
+  ContractPaySheet,
 };
