@@ -1,11 +1,11 @@
 import React from "react";
 import { Input, InputContainer, CustomDatePicker } from "@components";
-const Title = () => {
+const TitleSidebarForm = () => {
   return (
     <div className="bg-white">
       <Input
         label="Report Type:"
-        placeholder="John Doe"
+        placeholder="Enter report type"
         type="text"
         className="mb-4"
         applyMarginBottom={true}
@@ -71,7 +71,7 @@ const Title = () => {
         <Input
           label="Zip Code/Postal Code:"
           placeholder="10118"
-          type="text"
+          type="number"
           className="mb-4"
           applyMarginBottom={true}
         />
@@ -80,4 +80,4 @@ const Title = () => {
   );
 };
 
-export default Title;
+export default TitleSidebarForm;

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { TfiAlignJustify } from "react-icons/tfi";
 import { FaRegEdit } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Switch } from "antd";
 import { Button } from "@components/index";
 
@@ -14,12 +14,12 @@ const Projects = () => {
     },
     {
       id: 2,
-      link: "/introduction",
+      link: "/projects/introduction",
       linkText: "Introduction",
     },
     {
       id: 3,
-      link: "/inspection",
+      link: "/projects/inspection",
       linkText: "Inspection",
     },
   ];
@@ -29,8 +29,21 @@ const Projects = () => {
     e.stopPropagation();
   };
 
+  const location = useLocation();
+  const getTitle = () => {
+    if (location.pathname.endsWith("title")) {
+      return "Title";
+    } else if (location.pathname.endsWith("introduction")) {
+      return "Introduction";
+    } else if (location.pathname.endsWith("inspection")) {
+      return "Inspection";
+    } else {
+      return "Default Text";
+    }
+  };
+
   return (
-    <Fragment className="overflow-hidden">
+    <Fragment>
       <button
         data-drawer-target="logo-sidebar"
         data-drawer-toggle="logo-sidebar"
@@ -67,23 +80,30 @@ const Projects = () => {
           </p>
 
           <ul className="space-y-2 font-medium">
-            {sidebarData?.map((sidebar) => (
-              <li
-                className="w-full flex justify-between items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                key={sidebar?.id}
-              >
-                <Link
-                  to={sidebar?.link}
-                  className="flex items-center flex-grow"
+            {sidebarData?.map((sidebar) => {
+              const isActive = location.pathname === sidebar.link;
+              return (
+                <li
+                  className={`w-full flex justify-between items-center p-2 rounded-lg group ${
+                    isActive
+                      ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
+                      : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`}
+                  key={sidebar?.id}
                 >
-                  <div className="flex items-center">
-                    <TfiAlignJustify />
-                    <span className="mx-4">{sidebar?.linkText}</span>
-                  </div>
-                </Link>
-                <Switch className="ml-4" onClick={handleSwitchClick} />
-              </li>
-            ))}
+                  <Link
+                    to={sidebar?.link}
+                    className="flex items-center flex-grow"
+                  >
+                    <div className="flex items-center">
+                      <TfiAlignJustify />
+                      <span className="mx-4">{sidebar?.linkText}</span>
+                    </div>
+                  </Link>
+                  <Switch className="ml-4" onClick={handleSwitchClick} />
+                </li>
+              );
+            })}
           </ul>
         </div>
       </aside>
@@ -95,11 +115,11 @@ const Projects = () => {
           </Button>
         </div>
         <div className="flex items-center gap-2 mb-4 cursor-pointer">
-          <span className="font-semibold">Title</span>
+          <span className="font-semibold">{getTitle()}</span>
           <FaRegEdit />
         </div>
 
-        <div className="p-4 bg-white flex-grow border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+        <div className="p-8 bg-white flex-grow shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]  rounded-lg dark:border-gray-700">
           <Outlet />
         </div>
       </div>

@@ -6,6 +6,7 @@ import InputContainer from "./InputContainer";
 import Logo from "./Logo";
 import OtherInput from "./OtherInput";
 import Header from "./Header";
+import CkeditorComponent from "./CkEditor";
 import TableRows from "./TableRows";
 export {
   Button,
@@ -16,5 +17,6 @@ export {
   Logo,
   OtherInput,
   Header,
+  CkeditorComponent,
   TableRows,
 };
