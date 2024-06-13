@@ -9,8 +9,11 @@ import {
   MaterialOrder,
   Dashboard,
   Commission,
+  CommissionContractor,
+  ContractPaySheet,
   Projects,
 } from "@pages";
+
 import AppLayout from "@components/Layout";
 import {
   TitleSidebarForm,
@@ -39,6 +42,11 @@ export function AppRoute() {
             element={<CertificateOfCompletion />}
           />
           <Route path="/commission" element={<Commission />} />
+          <Route
+            path="/commission-contractor"
+            element={<CommissionContractor />}
+          />
+          <Route path="/contractor-pay-sheet" element={<ContractPaySheet />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />}>

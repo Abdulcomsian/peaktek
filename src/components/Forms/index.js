@@ -9,6 +9,7 @@ import ContractInformationForm from "./ContractInformation";
 import Row from "./Row";
 import DynamicForm from "./DynamicForm";
 import ComissionTotal from "./ComissionTotal";
+import PaySheetTable from "./PaySheetTable";
 import TitleSidebarForm from "./TitleSidebar";
 import IntroductionSidebarForm from "./IntroductionSidebar";
 import InspectionSidebarForm from "./InspectionSidebar";
@@ -24,7 +25,8 @@ export {
   ContractInformationForm,
   DynamicForm,
   ComissionTotal,
+  PaySheetTable,
   TitleSidebarForm,
-  IntroductionSidebarForm,
   InspectionSidebarForm,
+  IntroductionSidebarForm,
 };

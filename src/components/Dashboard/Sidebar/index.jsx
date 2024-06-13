@@ -40,11 +40,10 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       </div>
       <ul className="flex flex-col justify-center items-center pt-10">
         {sidebarLinks?.map((link) => (
-          <li
-            className="py-2 hover:bg-blue-200 w-full text-center"
-            key={link?.id}
-          >
-            <Link to={link?.linkSrc}>{link?.linkText}</Link>
+          <li className="py-2 hover:bg-blue-200 w-full " key={link?.id}>
+            <Link to={link?.linkSrc} className="pl-5">
+              {link?.linkText}
+            </Link>
           </li>
         ))}
       </ul>
