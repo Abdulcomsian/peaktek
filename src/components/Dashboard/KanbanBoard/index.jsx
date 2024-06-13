@@ -152,9 +152,8 @@ function KanbanBoard() {
     ]);
     setTasks((tasks) => ({
       ...tasks,
-      [`column-${id}`]: [], // Add an empty array for tasks associated with the new column
+      [`column-${id}`]: [],
     }));
-    // setAddNewJobModal(false);
   };
 
   console.log("data", columns, tasks);
@@ -189,9 +188,9 @@ function KanbanBoard() {
                   someoneIsDragging={isDragging}
                 />
               ))}
-              <Button className="btn-add" onClick={handleAddNewBoard}>
+              {/* <Button className="btn-add" onClick={handleAddNewBoard}>
                 &#x2B;
-              </Button>
+              </Button> */}
             </div>
           </SortableContext>
         </DndContext>

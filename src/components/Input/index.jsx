@@ -10,17 +10,21 @@ const Input = ({
   onChange,
   applyMarginBottom = false,
   name = "",
+  labelClass=""
 }) => {
+  console.log(label);
   return (
     <div className={`w-full ${className}`}>
-      <label
-        htmlFor={id}
-        className={`block w-full text-sm font-medium text-gray-900 ${
-          applyMarginBottom ? "mb-2" : ""
-        }`}
-      >
-        {label}
-      </label>
+      {label !== undefined && (
+        <label
+          htmlFor={id}
+          className={`block ${labelClass} w-full text-sm font-medium text-gray-900 ${
+            applyMarginBottom ? "mb-2" : ""
+          }`}
+        >
+          {label}
+        </label>
+      )}
       <input
         type={type}
         id={id}
