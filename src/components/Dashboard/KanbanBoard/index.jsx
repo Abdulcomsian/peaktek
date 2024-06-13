@@ -24,7 +24,6 @@ import { Button } from "@components";
 import { NewJobModal, JobDetailModal, AddBoardModal } from "@components/Modals";
 
 import "./kanban.css";
-// import { useCustomer } from "../../../";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
@@ -52,9 +51,6 @@ function KanbanBoard() {
 
   const [isDragging, setIsDragging] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
-
-  // const { customer } = useCustomer();
-  // console.log(customer);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {

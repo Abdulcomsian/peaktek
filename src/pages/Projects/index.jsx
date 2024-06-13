@@ -30,17 +30,20 @@ const Projects = () => {
   };
 
   const location = useLocation();
-  const getTitle = () => {
-    if (location.pathname.endsWith("title")) {
-      return "Title";
-    } else if (location.pathname.endsWith("introduction")) {
-      return "Introduction";
-    } else if (location.pathname.endsWith("inspection")) {
-      return "Inspection";
-    } else {
-      return "Default Text";
+
+  // Determine active sidebar item based on current pathname
+  const getActiveItem = () => {
+    for (const sidebar of sidebarData) {
+      if (location.pathname.startsWith(sidebar.link)) {
+        return sidebar;
+      }
     }
+    // Return default if no match found (though this scenario shouldn't occur based on provided data)
+    return sidebarData[0];
   };
+
+  // Get active sidebar item
+  const activeItem = getActiveItem();
 
   return (
     <Fragment>
@@ -80,30 +83,27 @@ const Projects = () => {
           </p>
 
           <ul className="space-y-2 font-medium">
-            {sidebarData?.map((sidebar) => {
-              const isActive = location.pathname === sidebar.link;
-              return (
-                <li
-                  className={`w-full flex justify-between items-center p-2 rounded-lg group ${
-                    isActive
-                      ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
-                      : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                  }`}
-                  key={sidebar?.id}
+            {sidebarData.map((sidebar) => (
+              <li
+                key={sidebar.id}
+                className={`w-full flex justify-between items-center p-2 rounded-lg group ${
+                  sidebar === activeItem
+                    ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
+                    : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                <Link
+                  to={sidebar.link || "/projects/title"}
+                  className="flex items-center flex-grow"
                 >
-                  <Link
-                    to={sidebar?.link}
-                    className="flex items-center flex-grow"
-                  >
-                    <div className="flex items-center">
-                      <TfiAlignJustify />
-                      <span className="mx-4">{sidebar?.linkText}</span>
-                    </div>
-                  </Link>
-                  <Switch className="ml-4" onClick={handleSwitchClick} />
-                </li>
-              );
-            })}
+                  <div className="flex items-center">
+                    <TfiAlignJustify />
+                    <span className="mx-4">{sidebar.linkText}</span>
+                  </div>
+                </Link>
+                <Switch className="ml-4" onClick={handleSwitchClick} />
+              </li>
+            ))}
           </ul>
         </div>
       </aside>
@@ -115,7 +115,7 @@ const Projects = () => {
           </Button>
         </div>
         <div className="flex items-center gap-2 mb-4 cursor-pointer">
-          <span className="font-semibold">{getTitle()}</span>
+          <span className="font-semibold">{activeItem.linkText}</span>
           <FaRegEdit />
         </div>
 
