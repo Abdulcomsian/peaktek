@@ -13,8 +13,11 @@ import PaySheetTable from "./PaySheetTable";
 import TitleSidebarForm from "./TitleSidebar";
 import IntroductionSidebarForm from "./IntroductionSidebar";
 import InspectionSidebarForm from "./InspectionSidebar";
+import AuthorizationSidebarForm from "./AuthorizationSidebar";
+import FormHeader from "./FormHeader";
 export {
   Row,
+  FormHeader,
   AddMaterialForm,
   CustomerInformationForm,
   DeliveryInformationForm,
@@ -29,4 +32,5 @@ export {
   TitleSidebarForm,
   InspectionSidebarForm,
   IntroductionSidebarForm,
+  AuthorizationSidebarForm,
 };
