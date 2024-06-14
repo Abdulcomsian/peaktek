@@ -8,9 +8,11 @@ import Header from "./Header";
 import CkeditorComponent from "./CkEditor";
 import TableRows from "./TableRows";
 import { Button, Card } from "./UI";
+import Textarea from "./Textarea";
 export {
   Button,
   Card,
+  Textarea,
   Container,
   CustomDatePicker,
   Input,
