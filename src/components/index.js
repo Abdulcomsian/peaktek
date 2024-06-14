@@ -1,4 +1,3 @@
-import Button from "./Button";
 import Container from "./Container";
 import CustomDatePicker from "./DatePicker";
 import Input from "./Input";
@@ -8,8 +7,10 @@ import OtherInput from "./OtherInput";
 import Header from "./Header";
 import CkeditorComponent from "./CkEditor";
 import TableRows from "./TableRows";
+import { Button, Card } from "./UI";
 export {
   Button,
+  Card,
   Container,
   CustomDatePicker,
   Input,

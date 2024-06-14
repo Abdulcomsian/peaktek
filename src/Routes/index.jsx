@@ -19,6 +19,7 @@ import {
   TitleSidebarForm,
   IntroductionSidebarForm,
   InspectionSidebarForm,
+  AuthorizationSidebarForm,
 } from "@components/Forms";
 export function AppRoute() {
   return (
@@ -53,6 +54,7 @@ export function AppRoute() {
           <Route path="title" element={<TitleSidebarForm />} />
           <Route path="introduction" element={<IntroductionSidebarForm />} />
           <Route path="inspection" element={<InspectionSidebarForm />} />
+          <Route path="authorization" element={<AuthorizationSidebarForm />} />
         </Route>
       </Routes>
     </BrowserRouter>
