@@ -15,8 +15,12 @@ import IntroductionSidebarForm from "./IntroductionSidebar";
 import InspectionSidebarForm from "./InspectionSidebar";
 import AuthorizationSidebarForm from "./AuthorizationSidebar";
 import FormHeader from "./FormHeader";
+import AuthRows from "./AuthRows";
+import AuthList from "./AuthList";
 export {
   Row,
+  AuthList,
+  AuthRows,
   FormHeader,
   AddMaterialForm,
   CustomerInformationForm,
