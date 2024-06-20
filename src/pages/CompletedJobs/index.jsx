@@ -25,7 +25,7 @@ const CompletedJobs = () => {
       dataIndex: "actions",
       render: (_, record) => (
         <Button type="primary" onClick={() => handleOpenModal(record)}>
-          Open Modal
+          View Job details
         </Button>
       ),
     },

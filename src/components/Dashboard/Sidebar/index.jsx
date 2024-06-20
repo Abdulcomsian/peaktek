@@ -18,6 +18,11 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       linkSrc: "/dashboard",
       linkText: "Invoices",
     },
+    {
+      id: 3,
+      linkSrc: "completedTasks",
+      linkText: "Completed Jobs",
+    },
   ];
   return (
     <div
