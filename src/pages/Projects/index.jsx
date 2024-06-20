@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { TfiAlignJustify } from "react-icons/tfi";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Switch } from "antd";
-import { Button } from "@components/index";
 
 const Projects = () => {
   const sidebarData = [
@@ -26,6 +25,26 @@ const Projects = () => {
       link: "/projects/authorization",
       linkText: "Authorization",
     },
+    {
+      id: 5,
+      link: "/projects/payment-schedule",
+      linkText: "Payment Schedule",
+    },
+    {
+      id: 6,
+      link: "/projects/roof-components",
+      linkText: "Roof Components Generic",
+    },
+    {
+      id: 7,
+      link: "/projects/insurance-report",
+      linkText: "Xactimate Report from Insurance",
+    },
+    {
+      id: 7,
+      link: "/projects/terms-and-conditions",
+      linkText: "Terms and Conditions",
+    },
   ];
 
   const handleSwitchClick = (e) => {
@@ -44,6 +63,14 @@ const Projects = () => {
     }
     // Return default if no match found (though this scenario shouldn't occur based on provided data)
     return sidebarData[0];
+  };
+
+  // Truncate text if it exceeds the specified length
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
   };
 
   // Get active sidebar item
@@ -75,22 +102,24 @@ const Projects = () => {
       </button>
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-[16rem] h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <h1 className="text-base font-semibold text-black uppercase">
-            Pages
-          </h1>
-          <p className="text-sm mb-4">
-            Choose the page to include in your page
-          </p>
+        <div className="h-full  overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <div className="p-4">
+            <h1 className="text-base font-semibold text-black uppercase">
+              Pages
+            </h1>
+            <p className="text-sm mb-4">
+              Choose the pages to include in your report.
+            </p>
+          </div>
 
           <ul className="space-y-2 font-medium">
             {sidebarData.map((sidebar) => (
               <li
                 key={sidebar.id}
-                className={`w-full flex justify-between items-center p-2 rounded-lg group ${
+                className={`w-full flex px-4 py-3 justify-between items-center  group ${
                   sidebar === activeItem
                     ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
                     : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -102,10 +131,12 @@ const Projects = () => {
                 >
                   <div className="flex items-center">
                     <TfiAlignJustify />
-                    <span className="mx-4">{sidebar.linkText}</span>
+                    <span className="mx-4 text-sm">
+                      {truncateText(sidebar.linkText, 13)}
+                    </span>
                   </div>
                 </Link>
-                <Switch className="ml-4" onClick={handleSwitchClick} />
+                <Switch className="" onClick={handleSwitchClick} />
               </li>
             ))}
           </ul>

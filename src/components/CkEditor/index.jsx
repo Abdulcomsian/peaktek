@@ -3,14 +3,14 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./ckeditor-styles.css"; // Import your custom CSS here
 
-const CkeditorComponent = ({ className }) => {
-  const [editorData, setEditorData] = useState("");
+const CkeditorComponent = ({ className, initialData }) => {
+  const [editorData, setEditorData] = useState(initialData || "");
 
   return (
     <div className={className}>
       <CKEditor
         editor={ClassicEditor}
-        data="<p>Enter some text!</p>"
+        data={editorData}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
           console.log("Editor is ready to use!", editor);

@@ -20,6 +20,10 @@ import {
   IntroductionSidebarForm,
   InspectionSidebarForm,
   AuthorizationSidebarForm,
+  PaymentSchedule,
+  RoofComponentsGeneric,
+  InsuranceReport,
+  TermsAndConditions,
 } from "@components/Forms";
 export function AppRoute() {
   return (
@@ -55,6 +59,10 @@ export function AppRoute() {
           <Route path="introduction" element={<IntroductionSidebarForm />} />
           <Route path="inspection" element={<InspectionSidebarForm />} />
           <Route path="authorization" element={<AuthorizationSidebarForm />} />
+          <Route path="payment-schedule" element={<PaymentSchedule />} />
+          <Route path="roof-components" element={<RoofComponentsGeneric />} />
+          <Route path="insurance-report" element={<InsuranceReport />} />
+          <Route path="terms-and-conditions" element={<TermsAndConditions />} />
         </Route>
       </Routes>
     </BrowserRouter>

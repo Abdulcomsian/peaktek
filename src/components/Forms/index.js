@@ -14,6 +14,10 @@ import TitleSidebarForm from "./TitleSidebar";
 import IntroductionSidebarForm from "./IntroductionSidebar";
 import InspectionSidebarForm from "./InspectionSidebar";
 import AuthorizationSidebarForm from "./AuthorizationSidebar";
+import PaymentSchedule from "./PaymentSchedule";
+import RoofComponentsGeneric from "./RoofComponentsGeneric";
+import InsuranceReport from "./InsuranceReport";
+import TermsAndConditions from "./TermsAndConditions";
 import FormHeader from "./FormHeader";
 import AuthRows from "./AuthRows";
 import AuthList from "./AuthList";
@@ -37,4 +41,8 @@ export {
   InspectionSidebarForm,
   IntroductionSidebarForm,
   AuthorizationSidebarForm,
+  PaymentSchedule,
+  RoofComponentsGeneric,
+  TermsAndConditions,
+  InsuranceReport,
 };
