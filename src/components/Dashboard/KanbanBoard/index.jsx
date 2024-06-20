@@ -11,24 +11,22 @@ import { FaPlus } from "react-icons/fa6";
 import {
   arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   rectSortingStrategy,
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
-
-import { Button } from "@components";
-
 import { NewJobModal, JobDetailModal, AddBoardModal } from "@components/Modals";
 
 import "./kanban.css";
+import Button from "@components/Button";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
   { id: "signedDeal", title: "Signed Deal" },
   { id: "adjuster", title: "Adjustor" },
+  { id: "jobCompleted", title: "Completed" },
 ];
 
 const initialTasks = {
@@ -42,16 +40,103 @@ const initialTasks = {
     { id: "task-4", content: "Task 4" },
     { id: "task-5", content: "Task 5" },
   ],
+  jobCompleted: [
+    { id: "task-6", content: "Task 4" },
+    { id: "task-7", content: "Task 5" },
+  ],
 };
 
+const boardData = [
+  {
+    id: "column-1",
+    title: "New Lead",
+    order: 0,
+    type: 1,
+    tasks: [
+      {
+        id: 1,
+        content: {
+          jobTitle: "Leon Simmons",
+          address: "F-17 Islamabad",
+          createdAt: "",
+        },
+      },
+      {
+        id: 2,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-2",
+    title: "Signed Deal",
+    type: 2,
+    order: 1,
+    tasks: [
+      {
+        id: 3,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 4,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+      {
+        id: 5,
+        content: { jobTitle: "Marker", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-3",
+    title: "Adjustor",
+    type: 3,
+    order: 2,
+    tasks: [
+      {
+        id: 6,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 7,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+      {
+        id: 8,
+        content: { jobTitle: "Marker", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-4",
+    title: "Completed",
+    type: 4,
+    order: 3,
+    tasks: [
+      {
+        id: 9,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 10,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+      {
+        id: 11,
+        content: { jobTitle: "Marker", address: "", createdAt: "" },
+      },
+    ],
+  },
+];
+
 function KanbanBoard() {
-  const [tasks, setTasks] = useState(initialTasks);
-  const [columns, setColumns] = useState(initialColumns);
+  // const [tasks, setTasks] = useState(initialTasks);
+  // const [columns, setColumns] = useState(initialColumns);
+  const [data, setData] = useState(boardData);
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
 
   const [isDragging, setIsDragging] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
-
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -59,14 +144,13 @@ function KanbanBoard() {
       },
     })
   );
-
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
 
     const { id: activeId } = active;
     const { id: overId } = over;
-    console.log("IDs", activeId, overId.slice(overId.indexOf("-") + 1));
+    console.log("IDS", activeId, overId);
 
     if (activeId.startsWith("column-") && overId.startsWith("column-")) {
       // Handle column dragging
@@ -80,20 +164,14 @@ function KanbanBoard() {
         setColumns((columns) => arrayMove(columns, activeIndex, overIndex));
       }
     } else {
-      // Handle task dragging
-      const sourceColumn = columns.find((column) =>
-        tasks[column.id].some((task) => task.id === activeId)
-      );
-
+      // const sourceColumn = data.find((column) =>
+      //   // tasks[column.id].some((task) => task.id === activeId)
+      //   // column.tasks
+      // );
+      const sourceColumn = data.tasks.filter((task) => task.id === activeId);
       const destinationColumn = columns.find(
         (column) => column.id === overId.slice(overId.indexOf("-") + 1)
       );
-
-      // console.log(
-      //   "Source and Destination COlumn",
-      //   sourceColumn.id,
-      //   destinationColumn
-      // );
       if (
         sourceColumn &&
         destinationColumn &&
@@ -123,24 +201,19 @@ function KanbanBoard() {
       }
     }
   };
-
   const handleAddJob = () => {
     setAddNewJobModal((is) => !is);
   };
-
   const handleAddNewJob = (newJob) => {
     setTasks((tasks) => ({
       ...tasks,
       newLead: [newJob, ...tasks.newLead],
     }));
   };
-
   const handleAddNewBoard = function () {
     setAddNewBoard((is) => !is);
   };
-
   const handleAdd = function (newTitle) {
-    // console.log("title", newTitle);
     const id = crypto.randomUUID();
     setColumns((columns) => [
       ...columns,
@@ -151,8 +224,6 @@ function KanbanBoard() {
       [`column-${id}`]: [],
     }));
   };
-
-  console.log("data", columns, tasks);
 
   return (
     <>
@@ -165,25 +236,27 @@ function KanbanBoard() {
       </button>
       <div className="kanban-container">
         <DndContext
-          autoScroll={false}
+          autoScroll={true}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
           sensors={sensors}
         >
           <SortableContext
-            items={columns.map((col) => `column-${col.id}`)}
+            items={data.map((col) => col.id)}
             strategy={rectSortingStrategy}
           >
             <div style={{ display: "flex", gap: "16px" }}>
-              {columns.map((column) => (
-                <DraggableColumn
-                  key={column.id}
-                  id={`column-${column.id}`}
-                  title={column.title}
-                  tasks={tasks[column.id] ? tasks[column.id] : []}
-                  someoneIsDragging={isDragging}
-                />
-              ))}
+              {data.map((column, index) => {
+                return (
+                  <DraggableColumn
+                    key={column.id}
+                    id={column.id}
+                    title={column.title}
+                    tasks={column.tasks}
+                    someoneIsDragging={isDragging}
+                  />
+                );
+              })}
               {/* <Button className="btn-add" onClick={handleAddNewBoard}>
                 &#x2B;
               </Button> */}
@@ -234,11 +307,7 @@ function DraggableColumn({ id, title, tasks, someoneIsDragging }) {
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <h3 className="border-b border-gray-300 px-3 py-3 ">{title}</h3>
-      <Column
-        id={id.replace("column-", "")}
-        tasks={tasks}
-        someoneIsDragging={someoneIsDragging}
-      />
+      <Column id={id} tasks={tasks} someoneIsDragging={someoneIsDragging} />
     </div>
   );
 }
@@ -280,7 +349,6 @@ function Task({ id, content, someoneIsDragging }) {
     isDragging,
   } = useDraggable({ id });
   const [showJobDetailModal, setShowJobDetailModal] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
 
   const style = {
@@ -297,7 +365,7 @@ function Task({ id, content, someoneIsDragging }) {
   };
 
   const handleTaskClick = function (task) {
-    setSelectedTask(task);
+    // setSelectedTask(task);
     setShowJobDetailModal(true);
   };
   return (
@@ -316,14 +384,15 @@ function Task({ id, content, someoneIsDragging }) {
             console.log("this card is being dragged still");
             return;
           }
-          handleTaskClick(content);
+          handleTaskClick();
         }}
       >
         <div className="p-3">
           <h1 className="text-base font-semibold text-gray-600 mb-2 hover:text-blue-700">
-            Leon Simmons
+            {content.jobTitle}
           </h1>
-          <p className=" text-sm">{content}</p>
+          <Button>Delete</Button>
+          <p className=" text-sm">{content.address}</p>
         </div>
         <div className="border-b border-gray-200" />
         <div className="flex justify-between items-center px-3 py-2 bg-slate-50">
