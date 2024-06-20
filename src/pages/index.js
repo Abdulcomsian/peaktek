@@ -8,6 +8,7 @@ import Commission from "./Commission";
 import CommissionContractor from "./CommissionContractor";
 import ContractPaySheet from "./ContractorPaySheet";
 import Projects from "./Projects";
+import CompletedJobs from "./CompletedJobs";
 export {
   CertificateOfCompletion,
   CommissionAgreement,
@@ -19,4 +20,5 @@ export {
   CommissionContractor,
   ContractPaySheet,
   Projects,
+  CompletedJobs,
 };

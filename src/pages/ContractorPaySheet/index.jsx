@@ -11,7 +11,7 @@ function ContractPaySheet({ className }) {
   return (
     <Container className="my-6 mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]">
       <h1 className="text-black text-xl font-semibold mb-4 uppercase after:block after:mt-2 after:w-2/12 after:border after:border-blue-400">
-        Contractor information
+        Contractor paysheet
       </h1>
       <div className={`w-full ${className}`}>
         <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">

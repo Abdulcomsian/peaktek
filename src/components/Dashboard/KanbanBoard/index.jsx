@@ -21,6 +21,7 @@ import { NewJobModal, JobDetailModal, AddBoardModal } from "@components/Modals";
 
 import "./kanban.css";
 import { Button } from "@components";
+import { Link } from "react-router-dom";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
@@ -109,8 +110,8 @@ const boardData = [
   },
   {
     id: "column-4",
-    title: "Completed",
-    type: 4,
+    title: "Full Approval and overturn",
+    type: 3,
     order: 3,
     tasks: [
       {
@@ -124,6 +125,161 @@ const boardData = [
       {
         id: 11,
         content: { jobTitle: "Marker", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-5",
+    title: "Appraisal",
+    type: 3,
+    order: 4,
+    tasks: [
+      {
+        id: 12,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 13,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+      {
+        id: 14,
+        content: { jobTitle: "Marker", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-6",
+    title: "Approved",
+    type: 3,
+    order: 5,
+    tasks: [
+      {
+        id: 15,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 16,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+      {
+        id: 17,
+        content: { jobTitle: "Marker", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-7",
+    title: "Design Meeting",
+    type: 3,
+    order: 6,
+    tasks: [
+      {
+        id: 18,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 19,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-8",
+    title: "Schedule",
+    type: 3,
+    order: 7,
+    tasks: [
+      {
+        id: 20,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 21,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+      {
+        id: 22,
+        content: { jobTitle: "Marker", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-9",
+    title: "Ready to Built",
+    type: 3,
+    order: 8,
+    tasks: [
+      {
+        id: 23,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-10",
+    title: "In Progress",
+    type: 3,
+    order: 9,
+    tasks: [
+      {
+        id: 24,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 25,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-11",
+    title: "CoC",
+    type: 3,
+    order: 10,
+    tasks: [
+      {
+        id: 26,
+        content: { jobTitle: "Leon Simmons", address: "", createdAt: "" },
+      },
+      {
+        id: 27,
+        content: { jobTitle: "Steve", address: "", createdAt: "" },
+      },
+    ],
+  },
+  {
+    id: "column-13",
+    title: "Completed",
+    type: 4,
+    order: 11,
+    tasks: [
+      {
+        id: 28,
+        content: {
+          jobTitle: "Leon Simmons",
+          address: "",
+          createdAt: "",
+          status: "completed",
+        },
+      },
+      {
+        id: 29,
+        content: {
+          jobTitle: "Steve",
+          address: "",
+          createdAt: "",
+          status: "completed",
+        },
+      },
+      {
+        id: 30,
+        content: {
+          jobTitle: "Marker",
+          address: "",
+          createdAt: "",
+          status: "completed",
+        },
       },
     ],
   },
@@ -150,55 +306,97 @@ function KanbanBoard() {
 
     const { id: activeId } = active;
     const { id: overId } = over;
-    console.log("IDS", activeId, overId);
+    console.log("IDS", activeId, overId, event);
 
-    if (activeId.startsWith("column-") && overId.startsWith("column-")) {
+    if (`${activeId}`.startsWith("column-") && overId.startsWith("column-")) {
       // Handle column dragging
-      const activeIndex = columns.findIndex(
-        (col) => col.id === activeId.replace("column-", "")
-      );
-      const overIndex = columns.findIndex(
-        (col) => col.id === overId.replace("column-", "")
-      );
+      const activeIndex = data.findIndex((col) => col.id === activeId);
+      const overIndex = data.findIndex((col) => col.id === overId);
       if (activeIndex !== overIndex) {
-        setColumns((columns) => arrayMove(columns, activeIndex, overIndex));
+        setData((data) => arrayMove(data, activeIndex, overIndex));
       }
+      console.log("index", activeIndex, overIndex);
     } else {
       // const sourceColumn = data.find((column) =>
       //   // tasks[column.id].some((task) => task.id === activeId)
       //   // column.tasks
       // );
-      const sourceColumn = data.tasks.filter((task) => task.id === activeId);
-      const destinationColumn = columns.find(
-        (column) => column.id === overId.slice(overId.indexOf("-") + 1)
-      );
+      const sourceColumn = data.find((job) => {
+        const task = job.tasks;
+        const isIn = task.some((task) => task.id === activeId);
+        if (isIn) return job;
+      });
+      const destinationColumn = data.find((job) => job.id === overId);
+      console.log("fkajhsd", sourceColumn, destinationColumn);
+
       if (
         sourceColumn &&
         destinationColumn &&
         sourceColumn.id !== destinationColumn.id
       ) {
-        setTasks((prevTasks) => {
-          const sourceTasks = [...prevTasks[sourceColumn.id]]; // Create a copy of source tasks
-          const destinationTasks = [...(prevTasks[destinationColumn.id] || [])]; // Create a copy of destination tasks, or initialize as an empty array if it doesn't exist
+        const dragedTask = sourceColumn.tasks.find(
+          (task) => task.id === activeId
+        );
+        const sourceTask = {
+          ...sourceColumn,
+          tasks: sourceColumn.tasks.filter((task) => task.id !== activeId),
+        };
 
-          const activeTaskIndex = sourceTasks.findIndex(
-            (task) => task.id === activeId
-          );
-          const activeTask = sourceTasks[activeTaskIndex];
-
-          // Remove the task from the source column
-          sourceTasks.splice(activeTaskIndex, 1);
-
-          // Add the task to the destination column
-          destinationTasks.push(activeTask);
-
-          return {
-            ...prevTasks,
-            [sourceColumn.id]: sourceTasks,
-            [destinationColumn.id]: destinationTasks,
-          };
-        });
+        setData((data) =>
+          data.map((job) => {
+            const task = job.tasks;
+            const isIn = task.some((task) => task.id === activeId);
+            if (isIn)
+              return {
+                ...job,
+                tasks: job.tasks.filter((task) => task.id !== activeId),
+              };
+            if (job.id === destinationColumn.id)
+              return { ...job, tasks: [dragedTask, ...job.tasks] };
+            else return job;
+          })
+        );
+        // sourceColumn.map((colum) => {
+        //   if (colum.tasks.some((task) => task.id !== activeId))
+        //     ({
+        //       ...colum,
+        //       tasks: colum.tasks.filter((task) => task.id !== activeId),
+        //     });
+        //   else return colum;
+        // });
+        console.log(dragedTask, sourceTask);
+        // setData((data) => []);
       }
+      // const destinationColumn = columns.find(
+      //   (column) => column.id === overId.slice(overId.indexOf("-") + 1)
+      // );
+      // if (
+      //   sourceColumn &&
+      //   destinationColumn &&
+      //   sourceColumn.id !== destinationColumn.id
+      // ) {
+      //   setTasks((prevTasks) => {
+      //     const sourceTasks = [...prevTasks[sourceColumn.id]]; // Create a copy of source tasks
+      //     const destinationTasks = [...(prevTasks[destinationColumn.id] || [])]; // Create a copy of destination tasks, or initialize as an empty array if it doesn't exist
+
+      //     const activeTaskIndex = sourceTasks.findIndex(
+      //       (task) => task.id === activeId
+      //     );
+      //     const activeTask = sourceTasks[activeTaskIndex];
+
+      //     // Remove the task from the source column
+      //     sourceTasks.splice(activeTaskIndex, 1);
+
+      //     // Add the task to the destination column
+      //     destinationTasks.push(activeTask);
+
+      //     return {
+      //       ...prevTasks,
+      //       [sourceColumn.id]: sourceTasks,
+      //       [destinationColumn.id]: destinationTasks,
+      //     };
+      //   });
+      // }
     }
   };
   const handleAddJob = () => {
@@ -396,9 +594,18 @@ function Task({ id, content, someoneIsDragging }) {
         </div>
         <div className="border-b border-gray-200" />
         <div className="flex justify-between items-center px-3 py-2 bg-slate-50">
-          <div className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
-            New
-          </div>
+          {content.status === "completed" ? (
+            <Link
+              to="/dashboard/completedTasks"
+              className="text-xs text-green-700 uppercase"
+            >
+              WON
+            </Link>
+          ) : (
+            <div className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
+              New
+            </div>
+          )}
           <p className="text-xs text-gray-400">
             Updated 3 min ago{" "}
             <span className="p-1 rounded bg-gray-200">TD</span>

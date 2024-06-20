@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Login, RegisterFlow } from "@components/Authentication";
 import {
   CertificateOfCompletion,
@@ -25,6 +25,8 @@ import {
   InsuranceReport,
   TermsAndConditions,
 } from "@components/Forms";
+import { KanbanBoard } from "@components/Dashboard";
+import { CompletedJobs } from "@pages/index";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -53,7 +55,11 @@ export function AppRoute() {
           />
           <Route path="/contractor-pay-sheet" element={<ContractPaySheet />} />
         </Route>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<Navigate to="jobs" />} />
+          <Route path="jobs" element={<KanbanBoard />} />
+          <Route path="completedTasks" element={<CompletedJobs />} />
+        </Route>
         <Route path="/projects" element={<Projects />}>
           <Route path="title" element={<TitleSidebarForm />} />
           <Route path="introduction" element={<IntroductionSidebarForm />} />
