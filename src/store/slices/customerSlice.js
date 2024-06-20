@@ -26,3 +26,23 @@ export default customerSlice.reducer;
 export const getCustomerName = (state) => {
   return state.customer.customerName;
 };
+
+// const sourceTasks = [...prevTasks[sourceColumn.id]]; // Create a copy of source tasks
+// const destinationTasks = [...(prevTasks[destinationColumn.id] || [])]; // Create a copy of destination tasks, or initialize as an empty array if it doesn't exist
+
+// const activeTaskIndex = sourceTasks.findIndex(
+//   (task) => task.id === activeId
+// );
+// const activeTask = sourceTasks[activeTaskIndex];
+
+// // Remove the task from the source column
+// sourceTasks.splice(activeTaskIndex, 1);
+
+// // Add the task to the destination column
+// destinationTasks.push(activeTask);
+
+// return {
+//   ...prevTasks,
+//   [sourceColumn.id]: sourceTasks,
+//   [destinationColumn.id]: destinationTasks,
+// };
