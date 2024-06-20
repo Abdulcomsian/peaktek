@@ -9,6 +9,8 @@ import CkeditorComponent from "./CkEditor";
 import TableRows from "./TableRows";
 import { Button, Card } from "./UI";
 import Textarea from "./Textarea";
+import RadioBox from "./RadioBox";
+import FileUploader from "./FileUploader";
 export {
   Button,
   Card,
@@ -22,4 +24,6 @@ export {
   Header,
   CkeditorComponent,
   TableRows,
+  RadioBox,
+  FileUploader,
 };
