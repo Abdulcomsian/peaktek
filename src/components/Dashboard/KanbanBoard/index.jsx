@@ -20,7 +20,7 @@ import { useState } from "react";
 import { NewJobModal, JobDetailModal, AddBoardModal } from "@components/Modals";
 
 import "./kanban.css";
-import Button from "@components/Button";
+import { Button } from "@components";
 
 const initialColumns = [
   { id: "newLead", title: "New Lead" },
