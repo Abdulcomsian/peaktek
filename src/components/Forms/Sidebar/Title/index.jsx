@@ -1,21 +1,18 @@
-import React from "react";
-import { Input, Button, InputContainer, CustomDatePicker } from "@components";
-import { FaRegEdit } from "react-icons/fa";
-const TitleSidebarForm = () => {
+import React, { Fragment } from "react";
+import {
+  Input,
+  InputContainer,
+  CustomDatePicker,
+  Card,
+  FileInput,
+} from "@components";
+import { FormHeader } from "@components/Forms";
+const Title = () => {
   return (
-    <>
-      <div className="flex justify-between">
-        <h2 className="text-base uppercase">Page Content</h2>
-        <Button className="px-4 py-2 bg-white rounded-md font-medium">
-          View Page
-        </Button>
-      </div>
-      <div className="flex items-center gap-2 mb-4 cursor-pointer">
-        <span className="font-semibold">Title</span>
-        <FaRegEdit />
-      </div>
+    <Fragment>
+      <FormHeader className="" btnText="View Page" pageTitle="Title" />
 
-      <div className="p-8 bg-white flex-grow shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]  rounded-lg dark:border-gray-700">
+      <Card className="px-8 py-6  mb-4">
         <Input
           label="Report Type:"
           placeholder="Enter report type"
@@ -24,17 +21,11 @@ const TitleSidebarForm = () => {
           applyMarginBottom={true}
         />
         <CustomDatePicker label="Date:" className="mb-4" />
-        <Input
-          label="Primary Image:"
-          type="file"
-          className=" mb-4"
-          applyMarginBottom={true}
-        />
-        <Input
+        <FileInput label="Primary Image:" type="file" className="mb-6" />
+        <FileInput
           label="Certification/Secondary Logo:"
           type="file"
-          className="mb-4"
-          applyMarginBottom={true}
+          className="mb-6"
         />
         <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
           <Input
@@ -89,9 +80,9 @@ const TitleSidebarForm = () => {
             applyMarginBottom={true}
           />
         </InputContainer>
-      </div>
-    </>
+      </Card>
+    </Fragment>
   );
 };
 
-export default TitleSidebarForm;
+export default Title;

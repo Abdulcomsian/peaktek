@@ -16,10 +16,10 @@ import {
 
 import AppLayout from "@components/Layout";
 import {
-  TitleSidebarForm,
-  IntroductionSidebarForm,
-  InspectionSidebarForm,
-  AuthorizationSidebarForm,
+  Title,
+  Introduction,
+  Inspection,
+  Authorization,
   PaymentSchedule,
   RoofComponentsGeneric,
   InsuranceReport,
@@ -61,10 +61,10 @@ export function AppRoute() {
           <Route path="completedTasks" element={<CompletedJobs />} />
         </Route>
         <Route path="/projects" element={<Projects />}>
-          <Route path="title" element={<TitleSidebarForm />} />
-          <Route path="introduction" element={<IntroductionSidebarForm />} />
-          <Route path="inspection" element={<InspectionSidebarForm />} />
-          <Route path="authorization" element={<AuthorizationSidebarForm />} />
+          <Route path="title" element={<Title />} />
+          <Route path="introduction" element={<Introduction />} />
+          <Route path="inspection" element={<Inspection />} />
+          <Route path="authorization" element={<Authorization />} />
           <Route path="payment-schedule" element={<PaymentSchedule />} />
           <Route path="roof-components" element={<RoofComponentsGeneric />} />
           <Route path="insurance-report" element={<InsuranceReport />} />

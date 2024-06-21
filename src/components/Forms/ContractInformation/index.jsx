@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, InputContainer } from "@components";
-import RadioBox from "@components/RadioBox";
+import RadioBox from "@components/FormControls/RadioBox";
 
 const ContractInformationForm = ({ className }) => {
   const options = [
