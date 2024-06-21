@@ -1,12 +1,9 @@
 import React from "react";
-import { CkeditorComponent } from "@components";
+import { Ckeditor } from "@components";
 const TextPage = ({ initialEditorData }) => {
   return (
     <div>
-      <CkeditorComponent
-        className="custom-editor"
-        initialData={initialEditorData}
-      />
+      <Ckeditor className="custom-editor" initialData={initialEditorData} />
     </div>
   );
 };

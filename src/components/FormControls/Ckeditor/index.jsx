@@ -3,7 +3,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./ckeditor-styles.css"; // Import your custom CSS here
 
-const CkeditorComponent = ({ className, initialData }) => {
+const Ckeditor = ({ className, initialData }) => {
   const [editorData, setEditorData] = useState(initialData || "");
 
   return (
@@ -31,4 +31,4 @@ const CkeditorComponent = ({ className, initialData }) => {
   );
 };
 
-export default CkeditorComponent;
+export default Ckeditor;

@@ -21,9 +21,9 @@ const TermsAndConditions = () => {
         "Company shall provide the services and materials specified in the Scope or a portion thereof as identified in the Scope, Description of Services, and any other services or materials identified below which may be necessary to repair the damage to my property arising out of or discovered as a result of the recent insurable incident (“Claim”).",
     },
     {
-      title: "",
+      title: "2. Conditions of Insurance",
       content:
-        "2. In no event is Company required to commence the Services until the Insurance Company has approved payment of Insurance Proceeds for the Claim in an amount that is not less than the amount set forth on the Insurance Estimate.",
+        "In no event is Company required to commence the Services until the Insurance Company has approved payment of Insurance Proceeds for the Claim in an amount that is not less than the amount set forth on the Insurance Estimate.",
     },
     {
       title: "3. Payment for Services:",
