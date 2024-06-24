@@ -20,14 +20,15 @@ import {
   InsuranceReport,
   TermsAndConditions,
   FormHeader,
+  QuoteDetails,
 } from "./Sidebar";
 
-import AuthRows from "./AuthRows";
-import AuthList from "./AuthList";
+import ItemsRow from "./ItemsRow";
+import ItemsList from "./ItemsList";
 export {
   Row,
-  AuthList,
-  AuthRows,
+  ItemsList,
+  ItemsRow,
   FormHeader,
   AddMaterialForm,
   CustomerInformationForm,
@@ -48,4 +49,5 @@ export {
   RoofComponentsGeneric,
   TermsAndConditions,
   InsuranceReport,
+  QuoteDetails,
 };
