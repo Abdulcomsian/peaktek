@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { AiOutlineMail } from "react-icons/ai";
 import { LuMessagesSquare } from "react-icons/lu";
 import { BiTask } from "react-icons/bi";
+import Task from "@components/Tasks/Task";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -70,6 +71,12 @@ const TabComponent = ({ selectedTask }) => {
         title: "Job Detail",
       },
       component: <JobDetailFormComponent />,
+    },
+    {
+      headerData: {
+        title: "Tasks",
+      },
+      component: <Task />,
     },
     {
       headerData: {
