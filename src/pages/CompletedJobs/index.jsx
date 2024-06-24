@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, Modal, Button } from "antd";
 import { JobDetailModal } from "@components/Modals";
+import LinkButton from "@components/UI/LinkButton";
 
 const CompletedJobs = () => {
   const [modalVisible, setModalVisible] = useState(false); // State to control modal visibility
@@ -24,9 +25,9 @@ const CompletedJobs = () => {
       title: "Actions",
       dataIndex: "actions",
       render: (_, record) => (
-        <Button type="primary" onClick={() => handleOpenModal(record)}>
+        <LinkButton onClick={() => handleOpenModal(record)}>
           View Job details
-        </Button>
+        </LinkButton>
       ),
     },
   ];

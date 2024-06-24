@@ -62,6 +62,7 @@ export function AppRoute() {
           <Route path="jobs" element={<KanbanBoard />} />
           <Route path="completedTasks" element={<CompletedJobs />} />
           <Route path="users" element={<UserList />} />
+          <Route path="manage-user" element={<ManageUser />} />
         </Route>
         <Route path="/projects" element={<Projects />}>
           <Route path="title" element={<Title />} />

@@ -15,11 +15,16 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     },
     {
       id: 3,
+      linkSrc: "manage-user",
+      linkText: "Manage User",
+    },
+    {
+      id: 4,
       linkSrc: "/dashboard",
       linkText: "Invoices",
     },
     {
-      id: 4,
+      id: 5,
       linkSrc: "completedTasks",
       linkText: "Completed Jobs",
     },
