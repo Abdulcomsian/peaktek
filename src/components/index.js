@@ -1,17 +1,24 @@
 import Container from "./Container";
-import CustomDatePicker from "./DatePicker";
-import Input from "./Input";
+import {
+  Input,
+  SearchInput,
+  OtherInput,
+  Ckeditor,
+  Textarea,
+  RadioBox,
+  FileUploader,
+  CustomDatePicker,
+  FileInput,
+} from "./FormControls";
 import InputContainer from "./InputContainer";
 import Logo from "./Logo";
-import OtherInput from "./OtherInput";
+
 import Header from "./Header";
-import CkeditorComponent from "./CkEditor";
+
 import TableRows from "./TableRows";
 import { Button, Card } from "./UI";
-import Textarea from "./Textarea";
-import RadioBox from "./RadioBox";
-import FileUploader from "./FileUploader";
 import UserList from "./User/UserList";
+
 export {
   Button,
   Card,
@@ -23,9 +30,11 @@ export {
   Logo,
   OtherInput,
   Header,
-  CkeditorComponent,
+  Ckeditor,
   TableRows,
   RadioBox,
   FileUploader,
+  SearchInput,
+  FileInput,
   UserList,
 };

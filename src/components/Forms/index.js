@@ -10,15 +10,18 @@ import Row from "./Row";
 import DynamicForm from "./DynamicForm";
 import ComissionTotal from "./ComissionTotal";
 import PaySheetTable from "./PaySheetTable";
-import TitleSidebarForm from "./TitleSidebar";
-import IntroductionSidebarForm from "./IntroductionSidebar";
-import InspectionSidebarForm from "./InspectionSidebar";
-import AuthorizationSidebarForm from "./AuthorizationSidebar";
-import PaymentSchedule from "./PaymentSchedule";
-import RoofComponentsGeneric from "./RoofComponentsGeneric";
-import InsuranceReport from "./InsuranceReport";
-import TermsAndConditions from "./TermsAndConditions";
-import FormHeader from "./FormHeader";
+import {
+  Title,
+  Introduction,
+  Inspection,
+  Authorization,
+  PaymentSchedule,
+  RoofComponentsGeneric,
+  InsuranceReport,
+  TermsAndConditions,
+  FormHeader,
+} from "./Sidebar";
+
 import AuthRows from "./AuthRows";
 import AuthList from "./AuthList";
 export {
@@ -37,10 +40,10 @@ export {
   DynamicForm,
   ComissionTotal,
   PaySheetTable,
-  TitleSidebarForm,
-  InspectionSidebarForm,
-  IntroductionSidebarForm,
-  AuthorizationSidebarForm,
+  Title,
+  Introduction,
+  Inspection,
+  Authorization,
   PaymentSchedule,
   RoofComponentsGeneric,
   TermsAndConditions,

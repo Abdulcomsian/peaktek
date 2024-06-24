@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card } from "@components";
 import { FormHeader } from "@components/Forms";
 import { Switch, Radio } from "antd";
-import { MyPdfs, SingleUsePdf, TextPage } from "@components/Payment";
+import { MyPdfs, SharedPdf, SingleUsePdf, TextPage } from "@components/Payment";
 
 const RoofComponentsGeneric = () => {
   const [selectedOption, setSelectedOption] = useState(1);
@@ -29,7 +29,7 @@ const RoofComponentsGeneric = () => {
       case 1:
         return <MyPdfs />;
       case 2:
-        return "Content for Shared PDFs";
+        return <SharedPdf />;
       case 3:
         return <SingleUsePdf />;
       case 4:

@@ -2,10 +2,10 @@ import { SearchInput } from "@components";
 import React, { Fragment } from "react";
 import { BsFillGrid3X2GapFill } from "react-icons/bs";
 import { MdList } from "react-icons/md";
-const MyPdfs = () => {
+const SharedPdf = () => {
   return (
     <Fragment>
-      <h1 className="text-black font-semibold mb-8">My PDFs</h1>
+      <h1 className="text-black font-semibold mb-8">Shared PDFs</h1>
       <SearchInput className="max-w-sm mb-8" size="large" />
 
       <div className="flex justify-between items-center mb-8">
@@ -20,4 +20,4 @@ const MyPdfs = () => {
   );
 };
 
-export default MyPdfs;
+export default SharedPdf;

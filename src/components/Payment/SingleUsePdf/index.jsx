@@ -1,11 +1,11 @@
 import { FileUploader } from "@components";
-import React from "react";
+import React, { Fragment } from "react";
 
 const SingleUsePdf = () => {
   return (
-    <div>
+    <Fragment>
       <FileUploader label="Upload new PDF:" id="fileUploader" />
-    </div>
+    </Fragment>
   );
 };
 

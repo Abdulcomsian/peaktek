@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Card } from "@components";
 import { FormHeader } from "@components/Forms";
 import { Switch, Radio } from "antd";
-import { MyPdfs, SingleUsePdf, TextPage } from "@components/Payment";
+import { MyPdfs, SharedPdf, SingleUsePdf, TextPage } from "@components/Payment";
 
 const InsuranceReport = () => {
   const [selectedOption, setSelectedOption] = useState(1);
@@ -29,7 +29,7 @@ const InsuranceReport = () => {
       case 1:
         return <MyPdfs />;
       case 2:
-        return "Content for Shared PDFs";
+        return <SharedPdf />;
       case 3:
         return <SingleUsePdf />;
       case 4:
@@ -40,11 +40,11 @@ const InsuranceReport = () => {
   };
 
   return (
-    <div>
+    <Fragment>
       <FormHeader
         className=""
         btnText="View Page"
-        pageTitle="Roof Components Generic"
+        pageTitle="Xactimate Report from Insurance"
       />
       <Card className="px-8 py-6 flex justify-between mb-4">
         <div>
@@ -71,7 +71,7 @@ const InsuranceReport = () => {
         </Radio.Group>
       </Card>
       <Card className="px-8 py-6 mb-4">{renderContent()}</Card>
-    </div>
+    </Fragment>
   );
 };
 

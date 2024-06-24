@@ -3,7 +3,7 @@ import { Input, InputContainer, Button, Card, Textarea } from "@components";
 import { FormHeader, AuthList } from "@components/Forms";
 import { FaRegEdit } from "react-icons/fa";
 
-const AuthorizationSidebar = () => {
+const Authorization = () => {
   const [disclaimer, setDisclaimer] = useState(
     "I hereby irrevocably direct my Insurer to include the name ____________ (Roofing Co.) as the payee on any check or draft issued in payment of said insurance claim with regard to the building or contents repair and to send that check directly to the contractor. I am responsible for payment of the deductible in the amount of $_____, and any depreciation (if applicable)."
   );
@@ -129,4 +129,4 @@ const AuthorizationSidebar = () => {
   );
 };
 
-export default AuthorizationSidebar;
+export default Authorization;
