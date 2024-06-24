@@ -11,6 +11,7 @@ import { Button, Card } from "./UI";
 import Textarea from "./Textarea";
 import RadioBox from "./RadioBox";
 import FileUploader from "./FileUploader";
+import UserList from "./User/UserList";
 export {
   Button,
   Card,
@@ -26,4 +27,5 @@ export {
   TableRows,
   RadioBox,
   FileUploader,
+  UserList,
 };

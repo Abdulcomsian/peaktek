@@ -10,8 +10,8 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     },
     {
       id: 2,
-      linkSrc: "/dashboard",
-      linkText: "Proposals",
+      linkSrc: "users",
+      linkText: "Users",
     },
     {
       id: 3,
@@ -19,7 +19,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       linkText: "Invoices",
     },
     {
-      id: 3,
+      id: 4,
       linkSrc: "completedTasks",
       linkText: "Completed Jobs",
     },
