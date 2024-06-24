@@ -49,7 +49,11 @@ export default function TaskItem({
 
   return (
     <li>
-      <div className="py-4 px-3 border border-gray-300 rounded-md flex items-center">
+      <div
+        className={`py-4 px-3 border border-gray-300 rounded-md flex items-center bg-slate-50 ${
+          task.isCompleted ? "opacity-50" : ""
+        }`}
+      >
         <Checkbox
           onChange={() => onToggleCompleted(task.id)}
           checked={task.isCompleted}
