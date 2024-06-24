@@ -7,7 +7,10 @@ import RoofComponentsGeneric from "./RoofComponentsGeneric";
 import TermsAndConditions from "./TermsAndConditions";
 import Title from "./Title";
 import PaymentSchedule from "./PaymentSchedule";
+import QuoteDetails from "./QuoteDetails";
 export {
+  Title,
+  QuoteDetails,
   Authorization,
   FormHeader,
   Inspection,
@@ -16,5 +19,4 @@ export {
   RoofComponentsGeneric,
   TermsAndConditions,
   PaymentSchedule,
-  Title,
 };
