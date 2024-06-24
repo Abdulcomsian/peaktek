@@ -13,14 +13,16 @@ const Input = ({
 }) => {
   return (
     <div className={`w-full ${className}`}>
-      <label
-        htmlFor={id}
-        className={`block w-full text-sm font-medium text-gray-900 ${
-          applyMarginBottom ? "mb-2" : ""
-        }`}
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={id}
+          className={`block w-full text-sm font-medium text-gray-900 ${
+            applyMarginBottom ? "mb-2" : ""
+          }`}
+        >
+          {label}
+        </label>
+      )}
       <input
         type={type}
         id={id}
