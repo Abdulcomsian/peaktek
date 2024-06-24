@@ -2,46 +2,51 @@ import React, { Fragment } from "react";
 import { TfiAlignJustify } from "react-icons/tfi";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Switch } from "antd";
-
+import { v4 as uuidv4 } from "uuid";
 const Projects = () => {
   const sidebarData = [
     {
-      id: 1,
+      id: uuidv4(),
       link: "/projects/title",
       linkText: "Title",
     },
     {
-      id: 2,
+      id: uuidv4(),
       link: "/projects/introduction",
       linkText: "Introduction",
     },
     {
-      id: 3,
+      id: uuidv4(),
       link: "/projects/inspection",
       linkText: "Inspection",
     },
     {
-      id: 4,
+      id: uuidv4(),
+      link: "/projects/quote-details",
+      linkText: "Quote Details",
+    },
+    {
+      id: uuidv4(),
       link: "/projects/authorization",
       linkText: "Authorization",
     },
     {
-      id: 5,
+      id: uuidv4(),
       link: "/projects/payment-schedule",
       linkText: "Payment Schedule",
     },
     {
-      id: 6,
+      id: uuidv4(),
       link: "/projects/roof-components",
       linkText: "Roof Components Generic",
     },
     {
-      id: 7,
+      id: uuidv4(),
       link: "/projects/insurance-report",
       linkText: "Xactimate Report from Insurance",
     },
     {
-      id: 7,
+      id: uuidv4(),
       link: "/projects/terms-and-conditions",
       linkText: "Terms and Conditions",
     },
@@ -102,7 +107,7 @@ const Projects = () => {
       </button>
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-[16rem] h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-[16rem] h-screen transition-transform -translate-x-full sm:translate-x-0 overflow-hidden"
         aria-label="Sidebar"
       >
         <div className="h-full  overflow-y-auto bg-gray-50 dark:bg-gray-800">
@@ -132,7 +137,7 @@ const Projects = () => {
                   <div className="flex items-center">
                     <TfiAlignJustify />
                     <span className="mx-4 text-sm">
-                      {truncateText(sidebar.linkText, 13)}
+                      {truncateText(sidebar.linkText, 12)}
                     </span>
                   </div>
                 </Link>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, InputContainer, Button, Card, Textarea } from "@components";
-import { FormHeader, AuthList } from "@components/Forms";
+import { FormHeader, ItemsList } from "@components/Forms";
 import { FaRegEdit } from "react-icons/fa";
 
 const Authorization = () => {
@@ -32,7 +32,7 @@ const Authorization = () => {
           type="text"
           className="focus:outline-1 focus:outline-blue-600 mb-8"
         />
-        <AuthList />
+        <ItemsList />
       </Card>
       <Card className="px-8 py-6 mb-4">
         <h2 className="flex items-center font-semibold text-black text-base mb-2 gap-3">

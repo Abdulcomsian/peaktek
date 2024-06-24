@@ -1,11 +1,22 @@
 import React from "react";
 
-const Textarea = ({ id, label, className, value, onChange, placeholder }) => {
+const Textarea = ({
+  id,
+  label,
+  className,
+  value,
+  onChange,
+  placeholder,
+  applyMarginBottom = false,
+}) => {
   return (
     <div className={className}>
       <label
         htmlFor={id}
-        className="block mb-2 text-sm font-medium text-gray-900"
+        className={`block  text-sm font-medium text-gray-900  ${
+          applyMarginBottom ? "mb-2" : ""
+        }
+        `}
       >
         {label}
       </label>
