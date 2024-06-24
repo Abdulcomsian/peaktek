@@ -28,8 +28,7 @@ import {
   QuoteDetails,
 } from "@components/Forms";
 import { KanbanBoard } from "@components/Dashboard";
-import { CompletedJobs } from "@pages/index";
-import { UserList } from "@components/index";
+import { UserList } from "@components";
 export function AppRoute() {
   return (
     <BrowserRouter>
