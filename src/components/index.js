@@ -18,6 +18,8 @@ import Header from "./Header";
 import TableRows from "./TableRows";
 import { Button, Card } from "./UI";
 import UserList from "./User/UserList";
+import ManageUser from "./User/ManageUser";
+
 
 export {
   Button,
@@ -37,4 +39,5 @@ export {
   SearchInput,
   FileInput,
   UserList,
+  ManageUser,
 };

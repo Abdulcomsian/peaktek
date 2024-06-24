@@ -27,7 +27,8 @@ import {
 } from "@components/Forms";
 import { KanbanBoard } from "@components/Dashboard";
 import { CompletedJobs } from "@pages/index";
-import { UserList } from "@components/index";
+import { ManageUser, UserList } from "@components";
+
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -61,6 +62,7 @@ export function AppRoute() {
           <Route path="jobs" element={<KanbanBoard />} />
           <Route path="completedTasks" element={<CompletedJobs />} />
           <Route path="users" element={<UserList />} />
+          <Route path="manage-user" element={<ManageUser />} />
         </Route>
         <Route path="/projects" element={<Projects />}>
           <Route path="title" element={<Title />} />
