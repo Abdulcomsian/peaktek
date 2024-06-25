@@ -10,9 +10,11 @@ import { useSelector } from "react-redux";
 
 import { AiOutlineMail } from "react-icons/ai";
 import { LuMessagesSquare } from "react-icons/lu";
-import { BiTask } from "react-icons/bi";
+
 import Task from "@components/Tasks/Task";
 import SelectInput from "@components/SelectInput";
+import Attachments from "@components/Attachments";
+import JobSummary from "./JobSummary";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -142,33 +144,19 @@ const TabComponent = ({ selectedTask }) => {
         children: "Create Projects",
       },
     },
+    {
+      headerData: {
+        title: "Attachment",
+      },
+      component: <Attachments />,
+    },
   ];
 
   return (
     <>
       <div>
         <h1 className="text-xl mb-3">{selectedTask}</h1>
-        <div className="flex items-center gap-2 mb-1">
-          <div className="days text-xs px-2">6 days</div>
-          <div className="bg-gray-200 text-xs rounded-md flex items-center gap-2 p-1 px-2 text-gray-600">
-            <BiTask />
-            <p>Task 0/1</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2 border border-1 border-gray-200 rounded-md text-gray-500">
-            <BiTask />
-            <p>No reports</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2 border border-1 border-gray-200 rounded-md text-gray-500">
-            <BiTask />
-            <p>No Proposals</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2  text-gray-500">
-            <p>Updated 4 days ago</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2 text-gray-500">
-            <p>All changes saved</p>
-          </div>
-        </div>
+        <JobSummary />
         <div className="tabs-container">
           {tabTitle.map((title, index) => (
             <button
@@ -284,18 +272,64 @@ function SectionHeader({ title, to, children }) {
   );
 }
 
-const roleOptions = [
+const Workflow = [
   {
-    value: "client",
-    label: "Client",
+    value: "New Lead",
+    label: "newLead",
   },
   {
-    value: "manager",
-    label: "Manager",
+    value: "Signed Deal",
+    label: "signedDeal",
   },
   {
-    value: "designer",
-    label: "Designer",
+    value: "Adjustor",
+    label: "adjustor",
+  },
+  {
+    value: "Full Approval and overturn",
+    label: "fullApproval",
+  },
+  {
+    value: "Appraisal",
+    label: "appraisal",
+  },
+  {
+    value: "Approved",
+    label: "approved",
+  },
+  {
+    value: "Design Meeting",
+    label: "designMeeting",
+  },
+  {
+    value: "Schedule",
+    label: "schedule",
+  },
+  {
+    value: "Ready to Built",
+    label: "readytobuild",
+  },
+  {
+    value: "In Progress",
+    label: "inProgress",
+  },
+  {
+    value: "CoC",
+    label: "coc",
+  },
+  {
+    value: "Completed",
+    label: "completed",
+  },
+];
+const assignee = [
+  {
+    value: "Omega P.A",
+    label: "omega",
+  },
+  {
+    value: "Matt M.",
+    label: "matt",
   },
 ];
 
@@ -307,10 +341,10 @@ function JobDetailFormComponent() {
     >
       <SelectInput
         label="Assignee"
-        defaultValue="client"
+        defaultValue="Omega P.A"
         size="large"
         className="w-full"
-        options={roleOptions}
+        options={assignee}
         onChange={(value) => {
           console.log(value);
           setRole(value);
@@ -318,21 +352,27 @@ function JobDetailFormComponent() {
       />
       <SelectInput
         label="Workflow & stages"
-        defaultValue="client"
+        defaultValue="New Lead"
         size="large"
         className="w-full"
-        options={roleOptions}
+        options={Workflow}
         onChange={(value) => {
           console.log(value);
           setRole(value);
         }}
       />
-      <Input label="Source" placeholder="" className="mb-4" name="username" />
       <Input
-        label="Job Value"
+        label="Source"
         placeholder=""
         className="mb-4"
         name="username"
+        applyMarginBottom={true}
+      />
+      <Input
+        label="Job Value"
+        placeholder=""
+        name="username"
+        applyMarginBottom={true}
       />
       <div className="rounded-md col-span-2 self-end	text-xs p-[0.75rem] border-1 border-blue-400 bg-blue-200">
         Job value will help you prioritize and report on your projects.

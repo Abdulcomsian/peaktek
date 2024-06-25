@@ -11,7 +11,7 @@ function JobDetailModal({ open, onCancel, onOk, selectedTask }) {
       className="w-full"
       footer={null}
       width="95%"
-      // height="80vh"
+      height="80vh"
     >
       <TabComponent selectedTask={selectedTask} />
     </Modal>
