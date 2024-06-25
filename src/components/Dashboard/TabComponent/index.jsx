@@ -12,6 +12,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { LuMessagesSquare } from "react-icons/lu";
 import { BiTask } from "react-icons/bi";
 import Task from "@components/Tasks/Task";
+import SelectInput from "@components/SelectInput";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -283,38 +284,56 @@ function SectionHeader({ title, to, children }) {
   );
 }
 
+const roleOptions = [
+  {
+    value: "client",
+    label: "Client",
+  },
+  {
+    value: "manager",
+    label: "Manager",
+  },
+  {
+    value: "designer",
+    label: "Designer",
+  },
+];
+
 function JobDetailFormComponent() {
   return (
     <Form
       layout="vertical"
       className="mb-4 grid grid-cols-3 items-center justify-center gap-3"
     >
-      <Form.Item label="Assignee" name="assignee" className="mb-0">
-        <Input placeholder="Enter Email" type="email" size="large" />
-      </Form.Item>
-      <Form.Item label="Workflow & stages" name="stages" className="mb-0">
-        <Input placeholder="Enter Email" type="email" size="large" />
-      </Form.Item>
-      <Form.Item
-        label="Source"
-        name="source"
-        className="mb-0"
-        rules={[{ required: true, message: "Please enter your source" }]}
-      >
-        <Input
-          placeholder="Source typing to add new"
-          type="text"
-          size="large"
-        />
-      </Form.Item>
-      <Form.Item
-        label="Job value"
-        name="jobValue"
-        className="mb-0"
-        rules={[{ required: true, message: "Please enter your job value" }]}
-      >
-        <Input type="text" size="large" />
-      </Form.Item>
+      <SelectInput
+        label="Assignee"
+        defaultValue="client"
+        size="large"
+        className="w-full"
+        options={roleOptions}
+        onChange={(value) => {
+          console.log(value);
+          setRole(value);
+        }}
+      />
+      <SelectInput
+        label="Workflow & stages"
+        defaultValue="client"
+        size="large"
+        className="w-full"
+        options={roleOptions}
+        onChange={(value) => {
+          console.log(value);
+          setRole(value);
+        }}
+      />
+      <Input label="Source" placeholder="" className="mb-4" name="username" />
+      <Input
+        label="Job Value"
+        placeholder=""
+        className="mb-4"
+        name="username"
+      />
       <div className="rounded-md col-span-2 self-end	text-xs p-[0.75rem] border-1 border-blue-400 bg-blue-200">
         Job value will help you prioritize and report on your projects.
       </div>

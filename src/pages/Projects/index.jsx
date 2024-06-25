@@ -3,6 +3,7 @@ import { TfiAlignJustify } from "react-icons/tfi";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Switch } from "antd";
 import { v4 as uuidv4 } from "uuid";
+
 const Projects = () => {
   const sidebarData = [
     {

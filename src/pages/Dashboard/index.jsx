@@ -8,7 +8,6 @@ export default function Dashboard() {
   const [isShowNav, setIsShowNav] = useState(false);
 
   const handleCloseSideBar = function () {
-    console.log("hi");
     setIsShowNav((is) => !is);
   };
   return (
