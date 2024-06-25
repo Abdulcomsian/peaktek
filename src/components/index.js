@@ -19,6 +19,7 @@ import TableRows from "./TableRows";
 import { Button, Card } from "./UI";
 import UserList from "./User/UserList";
 import ManageUser from "./User/ManageUser";
+import UploaderInputs from "./UploaderInputs";
 
 export {
   Button,
@@ -39,4 +40,5 @@ export {
   FileInput,
   UserList,
   ManageUser,
+  UploaderInputs,
 };

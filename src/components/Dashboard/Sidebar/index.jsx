@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button, Logo } from "@components";
 
 export default function Sidebar({ isShow, onCloseSidebar }) {
@@ -51,9 +51,9 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       <ul className="flex flex-col justify-center items-center pt-10">
         {sidebarLinks?.map((link) => (
           <li className="py-2 hover:bg-blue-200 w-full " key={link?.id}>
-            <Link to={link?.linkSrc} className="pl-5">
+            <NavLink to={link?.linkSrc} className="pl-5">
               {link?.linkText}
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>

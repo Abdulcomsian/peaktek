@@ -10,8 +10,11 @@ import { useSelector } from "react-redux";
 
 import { AiOutlineMail } from "react-icons/ai";
 import { LuMessagesSquare } from "react-icons/lu";
-import { BiTask } from "react-icons/bi";
+
 import Task from "@components/Tasks/Task";
+import SelectInput from "@components/SelectInput";
+import Attachments from "@components/Attachments";
+import JobSummary from "./JobSummary";
 
 const TabComponent = ({ selectedTask }) => {
   const [tabTitle, setTabTitle] = useState([
@@ -141,33 +144,19 @@ const TabComponent = ({ selectedTask }) => {
         children: "Create Projects",
       },
     },
+    {
+      headerData: {
+        title: "Attachment",
+      },
+      component: <Attachments />,
+    },
   ];
 
   return (
     <>
       <div>
         <h1 className="text-xl mb-3">{selectedTask}</h1>
-        <div className="flex items-center gap-2 mb-1">
-          <div className="days text-xs px-2">6 days</div>
-          <div className="bg-gray-200 text-xs rounded-md flex items-center gap-2 p-1 px-2 text-gray-600">
-            <BiTask />
-            <p>Task 0/1</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2 border border-1 border-gray-200 rounded-md text-gray-500">
-            <BiTask />
-            <p>No reports</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2 border border-1 border-gray-200 rounded-md text-gray-500">
-            <BiTask />
-            <p>No Proposals</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2  text-gray-500">
-            <p>Updated 4 days ago</p>
-          </div>
-          <div className="flex items-center gap-2 p-1 text-xs px-2 text-gray-500">
-            <p>All changes saved</p>
-          </div>
-        </div>
+        <JobSummary />
         <div className="tabs-container">
           {tabTitle.map((title, index) => (
             <button
@@ -283,38 +272,108 @@ function SectionHeader({ title, to, children }) {
   );
 }
 
+const Workflow = [
+  {
+    value: "New Lead",
+    label: "newLead",
+  },
+  {
+    value: "Signed Deal",
+    label: "signedDeal",
+  },
+  {
+    value: "Adjustor",
+    label: "adjustor",
+  },
+  {
+    value: "Full Approval and overturn",
+    label: "fullApproval",
+  },
+  {
+    value: "Appraisal",
+    label: "appraisal",
+  },
+  {
+    value: "Approved",
+    label: "approved",
+  },
+  {
+    value: "Design Meeting",
+    label: "designMeeting",
+  },
+  {
+    value: "Schedule",
+    label: "schedule",
+  },
+  {
+    value: "Ready to Built",
+    label: "readytobuild",
+  },
+  {
+    value: "In Progress",
+    label: "inProgress",
+  },
+  {
+    value: "CoC",
+    label: "coc",
+  },
+  {
+    value: "Completed",
+    label: "completed",
+  },
+];
+const assignee = [
+  {
+    value: "Omega P.A",
+    label: "omega",
+  },
+  {
+    value: "Matt M.",
+    label: "matt",
+  },
+];
+
 function JobDetailFormComponent() {
   return (
     <Form
       layout="vertical"
       className="mb-4 grid grid-cols-3 items-center justify-center gap-3"
     >
-      <Form.Item label="Assignee" name="assignee" className="mb-0">
-        <Input placeholder="Enter Email" type="email" size="large" />
-      </Form.Item>
-      <Form.Item label="Workflow & stages" name="stages" className="mb-0">
-        <Input placeholder="Enter Email" type="email" size="large" />
-      </Form.Item>
-      <Form.Item
+      <SelectInput
+        label="Assignee"
+        defaultValue="Omega P.A"
+        size="large"
+        className="w-full"
+        options={assignee}
+        onChange={(value) => {
+          console.log(value);
+          setRole(value);
+        }}
+      />
+      <SelectInput
+        label="Workflow & stages"
+        defaultValue="New Lead"
+        size="large"
+        className="w-full"
+        options={Workflow}
+        onChange={(value) => {
+          console.log(value);
+          setRole(value);
+        }}
+      />
+      <Input
         label="Source"
-        name="source"
-        className="mb-0"
-        rules={[{ required: true, message: "Please enter your source" }]}
-      >
-        <Input
-          placeholder="Source typing to add new"
-          type="text"
-          size="large"
-        />
-      </Form.Item>
-      <Form.Item
-        label="Job value"
-        name="jobValue"
-        className="mb-0"
-        rules={[{ required: true, message: "Please enter your job value" }]}
-      >
-        <Input type="text" size="large" />
-      </Form.Item>
+        placeholder=""
+        className="mb-4"
+        name="username"
+        applyMarginBottom={true}
+      />
+      <Input
+        label="Job Value"
+        placeholder=""
+        name="username"
+        applyMarginBottom={true}
+      />
       <div className="rounded-md col-span-2 self-end	text-xs p-[0.75rem] border-1 border-blue-400 bg-blue-200">
         Job value will help you prioritize and report on your projects.
       </div>
