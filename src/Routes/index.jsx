@@ -29,6 +29,7 @@ import {
 } from "@components/Forms";
 import { KanbanBoard } from "@components/Dashboard";
 import { UserList } from "@components";
+import { ManageUser } from "@components/index";
 export function AppRoute() {
   return (
     <BrowserRouter>

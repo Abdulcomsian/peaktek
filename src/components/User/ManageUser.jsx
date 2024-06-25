@@ -30,7 +30,7 @@ const initialData = [
   },
 ];
 
-const ManageUser = () => {
+function ManageUser() {
   const [data, setData] = useState(initialData);
   const [columns, setColumns] = useState(initialColumns);
   const [showModal, setShowModal] = useState(false);
@@ -57,6 +57,6 @@ const ManageUser = () => {
       />
     </>
   );
-};
+}
 
 export default ManageUser;
