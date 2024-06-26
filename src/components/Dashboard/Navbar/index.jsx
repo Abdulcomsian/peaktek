@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
 import "./nav.css";
+import ProfileAvatar from "@components/ProfileAvatar";
 
 export default function NavBar({ onCloseSidebar }) {
   return (
     <nav className="dashboard-nav">
-      <div className="welcome-box">
+      <div className="welcome-box items-center">
         <button className="btn btn-icon-close" onClick={onCloseSidebar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -21,16 +22,14 @@ export default function NavBar({ onCloseSidebar }) {
             />
           </svg>
         </button>
-        <div>
-          <ul className="list nav-list">
+        <div className="mr-auto">
+          <ul className="list nav-list justify-between">
             <li>
-              <Link>Board</Link>
+              <Link>Deals</Link>
             </li>
-            {/* <li>
-              <Link to="/customer-agreement">Customer Agrement</Link>
-            </li> */}
           </ul>
         </div>
+        <ProfileAvatar />
       </div>
     </nav>
   );

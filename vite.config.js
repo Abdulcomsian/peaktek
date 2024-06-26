@@ -13,4 +13,7 @@ export default defineConfig({
       // add more aliases as needed
     },
   },
+  build: {
+    outDir: "dist",
+  },
 });
