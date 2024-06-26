@@ -30,6 +30,7 @@ import {
 import { KanbanBoard } from "@components/Dashboard";
 import { UserList } from "@components";
 import { ManageUser } from "@components/index";
+import Dealdetail from "@components/Dealdetail";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -64,6 +65,7 @@ export function AppRoute() {
           <Route path="completedTasks" element={<CompletedJobs />} />
           <Route path="users" element={<UserList />} />
           <Route path="manage-user" element={<ManageUser />} />
+          <Route path="deals/:id" element={<Dealdetail />} />
         </Route>
         <Route path="/projects" element={<Projects />}>
           <Route path="title" element={<Title />} />

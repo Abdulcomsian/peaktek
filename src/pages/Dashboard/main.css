@@ -27,13 +27,14 @@
 }
 
 .dashboard-nav{
-    padding: 1.5rem;
+    padding-block: 0.2rem;
+    padding-inline: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #eee;
     box-shadow: 0 3px -2px 6px #eee;
-    min-height: 82px;
+    min-height: 50px;
 }
 .dashboard-nav .welcome-box{
     display: flex;
@@ -49,7 +50,6 @@
 }
 
 .dashboard-main-content{
-    padding: 1.5rem;
     height: 100%;
     overflow-y: auto;
 }
@@ -66,7 +66,6 @@
 .dashboard-sidebar {
     position: relative;
     transition: all 0.3s;
-    min-width: 260px;
 }
 .dashboard-sidebar .btn-close{
     box-shadow:  0 0 5px 2px #aaa;
@@ -111,11 +110,14 @@
 }
 
 .dashboard-sidebar .sidebar-logo{
-    padding: 1.2rem;
+    padding: 0.7rem;
     display: flex;
     align-items: center;
     gap: 19px;
-    border-bottom: 1px solid #d3d3d378;
+}
+.dashboard-sidebar .mainNavLinks a.active{
+    background-color: #1373e3;
+
 }
 .profile-box{
     display: flex;
