@@ -11,11 +11,15 @@ const Button = ({
   to,
 }) => {
   console.log(variant);
-  const base = `flex items-center justify-center gap-1 text-white font-medium text-base  border border-transparent rounded-full px-3 py-2 group `;
+  const base = `flex items-center justify-center gap-1 font-medium text-base rounded-full px-3 py-2 group w-full`;
 
   const variantStyle = {
     gradient:
-      base + "bg-gradient-to-r from-blue-400 to-blue-800 bg-custom-gradient",
+      base +
+      "bg-gradient-to-r from-blue-400 to-blue-800 bg-custom-gradient text-white",
+    primaryOutline:
+      base +
+      `text-gray-700 font-medium text-base  hover:bg-blue-50 border border-blue-200`,
     danger: base + "bg-red-500 text-white hover:bg-red-400",
     accent: base + "bg-green-500 text-white hover:bg-green-400",
   };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, InputContainer } from "@components";
 
-const CustomerInformationForm = ({ className }) => {
+const CustomerInformationForm = ({ className, register }) => {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -11,6 +11,8 @@ const CustomerInformationForm = ({ className }) => {
           type="text"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
+          name="name"
+          register={register}
         />
         <Input
           label="Email:"
@@ -18,6 +20,8 @@ const CustomerInformationForm = ({ className }) => {
           type="email"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
+          name="email"
+          register={register}
         />
         <Input
           label="Phone:"
@@ -25,6 +29,8 @@ const CustomerInformationForm = ({ className }) => {
           type="number"
           applyMarginBottom={true}
           className="  mb-4 md:mb-0"
+          name="phone"
+          register={register}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -34,6 +40,8 @@ const CustomerInformationForm = ({ className }) => {
           type="text"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
+          name="street"
+          register={register}
         />
         <Input
           label="City:"
@@ -41,6 +49,8 @@ const CustomerInformationForm = ({ className }) => {
           type="text"
           applyMarginBottom={true}
           className="md:mr-4 md:max-w-xs  mb-4 md:mb-0"
+          name="city"
+          register={register}
         />
         <Input
           label="State:"
@@ -48,6 +58,8 @@ const CustomerInformationForm = ({ className }) => {
           type="text"
           applyMarginBottom={true}
           className="md:mr-4 md:max-w-40  mb-4 md:mb-0"
+          name="state"
+          register={register}
         />
         <Input
           label="Zip:"
@@ -55,6 +67,8 @@ const CustomerInformationForm = ({ className }) => {
           type="number"
           applyMarginBottom={true}
           className="md:max-w-40  mb-4 md:mb-0"
+          name="zip"
+          register={register}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -64,6 +78,8 @@ const CustomerInformationForm = ({ className }) => {
           type="text"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
+          name="insurance"
+          register={register}
         />
         <Input
           label="Claim Number:"
@@ -71,6 +87,8 @@ const CustomerInformationForm = ({ className }) => {
           type="number"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
+          name="claimNumber"
+          register={register}
         />
         <Input
           label="Policy Number:"
@@ -78,6 +96,8 @@ const CustomerInformationForm = ({ className }) => {
           type="number"
           applyMarginBottom={true}
           className="  mb-4 md:mb-0"
+          name="policyNumber"
+          register={register}
         />
       </InputContainer>
     </div>

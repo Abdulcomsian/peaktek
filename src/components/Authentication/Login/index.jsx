@@ -1,10 +1,12 @@
 import React from "react";
-import { Button } from "@components";
+import { Button } from "@components/UI";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
-import { Form, Input } from "antd";
+import { Form } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@components/Authentication";
+import { Input } from "@components/FormControls";
+
 const Login = () => {
   const navigate = useNavigate();
   const handleNavigation = () => {
@@ -30,27 +32,24 @@ const Login = () => {
             <span className="mx-4">Or, sign in with email</span>
             <div className="flex-grow border-t border-gray-300" />
           </div>
-          <Form layout="vertical" className="mb-4">
-            <Form.Item
+          <form action="">
+            <Input
               label="Email address"
               name="email"
-              rules={[{ required: true, message: "Please enter your email" }]}
-            >
-              <Input placeholder="Enter Email" type="email" size="large" />
-            </Form.Item>
-            <Form.Item
+              applyMarginBottom={true}
+              className="mb-4"
+              placeholder="example@gmail.com"
+            />
+            <Input
               label="Password"
               name="password"
-              rules={[
-                { required: true, message: "Please enter your password" },
-              ]}
-            >
-              <Input.Password placeholder="Password" size="large" />
-            </Form.Item>
-            <Button className="flex justify-center w-full items-center bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base  hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3">
+              className="mb-2"
+              placeholder="***********"
+            />
+            <Button variant="gradient" className="w-full">
               Login
             </Button>
-          </Form>
+          </form>
           <div className="flex justify-between">
             <Button className="text-gray-500 font-medium text-base">
               Forget password?

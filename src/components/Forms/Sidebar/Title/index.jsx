@@ -7,27 +7,17 @@ import {
   FileInput,
 } from "@components";
 import { FormHeader } from "@components/Forms";
+import { UploaderInputs } from "@components/index";
+import { useForm } from "react-hook-form";
+
 const Title = () => {
+  const { register, handleSubmit } = useForm();
   return (
-    <Fragment>
+    <>
       <FormHeader className="" btnText="View Page" pageTitle="Title" />
 
       <Card className="px-8 py-6  mb-4">
-        <Input
-          label="Report Type:"
-          placeholder="Enter report type"
-          type="text"
-          className="mb-4"
-          applyMarginBottom={true}
-        />
-        <CustomDatePicker label="Date:" className="mb-4" />
-        <FileInput label="Primary Image:" type="file" className="mb-6" />
-        <FileInput
-          label="Certification/Secondary Logo:"
-          type="file"
-          className="mb-6"
-        />
-        <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
+        <InputContainer className="flex flex-col md:flex-row justify-between">
           <Input
             label="First Name:"
             placeholder="John"
@@ -57,7 +47,7 @@ const Title = () => {
           className="md:mr-4 mb-4"
           applyMarginBottom={true}
         />
-        <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
+        <InputContainer className="flex flex-col lg:flex-row justify-between">
           <Input
             label="City:"
             placeholder="New York"
@@ -80,8 +70,20 @@ const Title = () => {
             applyMarginBottom={true}
           />
         </InputContainer>
+        <Input
+          label="Report Type:"
+          placeholder="Enter report type"
+          type="text"
+          className="mb-4"
+          applyMarginBottom={true}
+        />
+        <CustomDatePicker label="Date:" className="mb-4" />
+        <div className="flex flex-col md:flex-row items-center gap-4 ">
+          <UploaderInputs wrapperClass="grow w-full" title="Primary Image:" />
+          <UploaderInputs wrapperClass="grow w-full" title="Secondary Logo:" />
+        </div>
       </Card>
-    </Fragment>
+    </>
   );
 };
 

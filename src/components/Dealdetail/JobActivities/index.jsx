@@ -3,6 +3,7 @@ import { Collapse } from "antd";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { BiSolidFlagCheckered } from "react-icons/bi";
 import { Button } from "@components/UI";
+import { Input } from "@components/FormControls";
 
 const { Panel } = Collapse;
 export default function JobActivities() {
@@ -18,40 +19,25 @@ export default function JobActivities() {
 
           {/* <div className="col-span-2">
             <label htmlFor="" className="text-xs block">
-              Job Total
+            Job Total
             </label>
             <input type="number" name="" id="" className=" py-1" />
           </div> */}
         </div>
         <div className="grid grid-cols-[auto_1fr_1fr] gap-2 mb-3">
           <input type="checkbox" className="self-end mb-2" />
-          <Value title="First Payment" />
-          <div>
-            <label htmlFor="" className="text-xs">
-              Check #
-            </label>
-            <input type="number" name="" id="" className=" py-1" />
-          </div>
+          <Input label="First Payment" />
+          <Input label="Check #" />
         </div>
         <div className="grid grid-cols-[auto_1fr_1fr] gap-2 mb-3">
           <input type="checkbox" className="self-end mb-2" />
-          <Value title="Deductable" />
-          <div>
-            <label htmlFor="" className="text-xs">
-              Check #
-            </label>
-            <input type="number" name="" id="" className=" py-1" />
-          </div>
+          <Input label="Deductable" />
+          <Input label="Check #" />
         </div>
         <div className="grid grid-cols-[auto_1fr_1fr] gap-2 mb-3">
           <input type="checkbox" className="self-end mb-2" />
           <Value title="Upgrades" />
-          <div>
-            <label htmlFor="" className="text-xs">
-              Check #
-            </label>
-            <input type="number" name="" id="" className=" py-1" />
-          </div>
+          <Input label="Check #" />
         </div>
         <div className="flex items-center gap-1">
           <BiSolidFlagCheckered />
@@ -59,11 +45,7 @@ export default function JobActivities() {
             {new Date().toLocaleDateString()}
           </OnShowEditIcon>
         </div>
-
-        <div className="flex items-center justify-end">
-          <p className="font-semibold text-base">Balance:</p>
-          <span>$1000</span>
-        </div>
+        <TotalBalance />
       </Panel>
       <Panel
         header={<p className="text-base font-semibold">Customer Agreement</p>}
@@ -96,6 +78,15 @@ function Value({ title }) {
       <OnShowEditIcon className="flex items-center justify-between w-full px-3 bg-slate-100">
         100
       </OnShowEditIcon>
+    </div>
+  );
+}
+
+function TotalBalance() {
+  return (
+    <div className="flex items-center justify-end">
+      <p className="font-semibold text-base">Balance:</p>
+      <span>$1000</span>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import React from "react";
 import { Button } from "@components";
 import { FaRegEdit } from "react-icons/fa";
+
 const FormHeader = ({ className, btnText, pageTitle }) => {
   return (
-    <div className={className}>
+    <div className={` ${className}`}>
       <div className="flex justify-between items-center">
         <h2 className="text-xs font-bold text-gray-600 uppercase">
           Page Content
@@ -13,7 +14,7 @@ const FormHeader = ({ className, btnText, pageTitle }) => {
         </Button>
       </div>
       <div className="flex items-center gap-2 mb-8 cursor-pointer">
-        <span className="font-semibold">{pageTitle}</span>
+        <span className="font-semibold uppercase tracking-wide text-2xl">{pageTitle}</span>
         <FaRegEdit />
       </div>
     </div>

@@ -83,7 +83,7 @@ const Projects = () => {
   const activeItem = getActiveItem();
 
   return (
-    <Fragment>
+    <div>
       <button
         data-drawer-target="logo-sidebar"
         data-drawer-toggle="logo-sidebar"
@@ -112,11 +112,11 @@ const Projects = () => {
         aria-label="Sidebar"
       >
         <div className="h-full  overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <div className="p-4">
+          <div className="p-4 pt-8">
             <h1 className="text-base font-semibold text-black uppercase">
               Pages
             </h1>
-            <p className="text-sm mb-4">
+            <p className="text-xs mb-4">
               Choose the pages to include in your report.
             </p>
           </div>
@@ -127,7 +127,7 @@ const Projects = () => {
                 key={sidebar.id}
                 className={`w-full flex px-4 py-3 justify-between items-center  group ${
                   sidebar === activeItem
-                    ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
+                    ? "bg-gradient-to-r  from-blue-600 to-blue-200 text-white "
                     : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 }`}
               >
@@ -149,9 +149,11 @@ const Projects = () => {
         </div>
       </aside>
       <div className="px-6 py-4 sm:ml-64 bg-blue-50 min-h-screen flex flex-col overflow-hidden">
-        <Outlet />
+        <div className="max-w-screen-lg">
+          <Outlet />
+        </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

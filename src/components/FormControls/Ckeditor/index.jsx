@@ -7,7 +7,7 @@ const Ckeditor = ({ className, initialData }) => {
   const [editorData, setEditorData] = useState(initialData || "");
 
   return (
-    <div className={className}>
+    <div className={`${className}`}>
       <CKEditor
         editor={ClassicEditor}
         data={editorData}
