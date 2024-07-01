@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Login, RegisterFlow } from "@components/Authentication";
+import { Login, Register } from "@components/Authentication";
 import {
   CertificateOfCompletion,
   CommissionAgreement,
@@ -36,7 +36,7 @@ export function AppRoute() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/register" element={<RegisterFlow />} />
+        <Route path="/register" element={<Register />} />
         <Route element={<AppLayout />}>
           <Route path="/customer-agreement" element={<CustomerAgreement />} />
           <Route path="/material-order" element={<MaterialOrder />} />

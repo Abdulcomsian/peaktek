@@ -1,7 +1,6 @@
 import React from "react";
 import { Input, InputContainer } from "@components";
 
-
 const InspectionForm = ({ className }) => {
   return (
     <div className={`w-full ${className}`}>
