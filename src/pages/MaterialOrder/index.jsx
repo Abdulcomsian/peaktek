@@ -18,8 +18,8 @@ const MaterialOrder = ({ register }) => {
       <h2 className="text-black text-xl font-semibold mb-4">
         DELIVERY INFORMATION
       </h2>
-      {/* <DeliveryInformationForm />
-      <AddMaterialForm /> */}
+      <DeliveryInformationForm />
+      <AddMaterialForm />
     </Container>
   );
 };

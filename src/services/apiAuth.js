@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { clientBaseURL, clientEndPoints } from "./config";
 
 export async function register(data) {
@@ -29,13 +30,34 @@ export async function register(data) {
     if (error.response.data) {
       throw error.response.data; // This will contain server-provided error message
     } else if (error.request) {
-      // The request was made but no response was received
-      console.error(error.request);
       throw new Error("Network error occurred"); // Handle network error
     } else {
-      // Something happened in setting up the request that triggered an Error
-      console.error("Error", error.message);
       throw new Error("Unknown error occurred"); // Handle unknown error
     }
   }
+}
+
+export async function login({ email, password }) {
+  console.log(email, password);
+  const myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+
+  const formdata = new FormData();
+  formdata.append("email", email);
+  formdata.append("password", password);
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: formdata,
+    redirect: "follow",
+  };
+
+  const resp = await fetch(
+    "https://test7.accrualdev.com/api/login",
+    requestOptions
+  );
+
+  const data = await resp.json();
+  return data;
 }

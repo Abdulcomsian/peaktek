@@ -14,7 +14,6 @@ const Input = ({
   ref = null,
   register,
 }) => {
-  console.log(register);
   return (
     <div className={`w-full ${className}`}>
       {label && (
