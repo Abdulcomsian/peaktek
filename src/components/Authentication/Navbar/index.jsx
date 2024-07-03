@@ -21,9 +21,9 @@ const Navbar = ({ btnText }) => {
         </Button>
         <Button
           className="text-blue-600 font-medium text-base bg-blue-100 hover:bg-blue-200 rounded-full px-3 py-2 mr-3"
-          onClick={() => handleNavigation("/register")}
+          to={`${btnText === "Register" ? "/register" : "/"}`}
         >
-          {btnText}
+          {btnText === "Register" ? "Register" : "Login"}
         </Button>
       </div>
     </div>

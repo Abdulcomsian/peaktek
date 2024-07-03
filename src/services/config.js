@@ -8,6 +8,7 @@ const clientBaseURL = axios.create({
 
 const clientEndPoints = {
   register: "/api/register",
+  login: "/api/login",
 };
 
 export { clientBaseURL, clientEndPoints };

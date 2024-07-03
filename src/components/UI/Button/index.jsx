@@ -10,7 +10,6 @@ const Button = ({
   variant,
   to,
 }) => {
-  console.log(variant);
   const base = `flex items-center justify-center gap-1 font-medium text-base rounded-full px-3 py-2 group w-full`;
 
   const variantStyle = {

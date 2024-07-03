@@ -27,16 +27,17 @@ import { useSelector } from "react-redux";
 import { getJobs } from "@services/apiJobs";
 import { Spin } from "antd";
 import { useDispatch } from "react-redux";
-import { useAuth } from "@context/AuthContext";
+import { boardData } from "@assets/data";
 
 function KanbanBoard() {
-  const { logout } = useAuth();
+  // const [data, setData] = useState(boardData);
   const data = useSelector((store) => store.jobs.boardData);
-  const [invalidatePage, setInvalidatePage] = useState(false);
+  const [validataBoard, setValidateBoard] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
+
   const [isDragging, setIsDragging] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
 
@@ -49,9 +50,6 @@ function KanbanBoard() {
           if (resp.status >= 200 && resp.status < 300) {
             dispatch(boardDataLoaded(resp.data));
           }
-          if (resp.status === 401) {
-            logout();
-          }
         } catch (err) {
           console.log(err);
         } finally {
@@ -61,10 +59,8 @@ function KanbanBoard() {
 
       fetchBoardData();
     },
-    [invalidatePage]
+    [validataBoard]
   );
-
-  console.log("isInvalidate", invalidatePage);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -83,12 +79,12 @@ function KanbanBoard() {
 
     if (`${activeId}`.startsWith("column-") && overId.startsWith("column-")) {
       // Handle column dragging
-      // const activeIndex = data.findIndex((col) => col.id === activeId);
-      // const overIndex = data.findIndex((col) => col.id === overId);
-      // if (activeIndex !== overIndex) {
-      //   setData((data) => arrayMove(data, activeIndex, overIndex));
-      // }
-      // console.log("index", activeIndex, overIndex);
+      const activeIndex = data.findIndex((col) => col.id === activeId);
+      const overIndex = data.findIndex((col) => col.id === overId);
+      if (activeIndex !== overIndex) {
+        setData((data) => arrayMove(data, activeIndex, overIndex));
+      }
+      console.log("index", activeIndex, overIndex);
     } else {
       const sourceColumn = data.find((job) => {
         const task = job.tasks;
@@ -220,7 +216,7 @@ function KanbanBoard() {
                   <DraggableColumn
                     key={column.id}
                     id={column.id}
-                    title={column.name}
+                    title={column.title}
                     tasks={column.tasks}
                     someoneIsDragging={isDragging}
                   />
@@ -237,7 +233,7 @@ function KanbanBoard() {
             open={showAddNewJobModal}
             onOk={() => setAddNewJobModal(false)}
             onCancel={() => setAddNewJobModal(false)}
-            onAddJob={() => setInvalidatePage((is) => !is)}
+            onAddJob={handleAddNewJob}
           />
         )}
         {addNewBoard && (
@@ -296,8 +292,8 @@ function Column({ id, tasks, someoneIsDragging }) {
             {tasks?.map((task) => (
               <Task
                 key={task.id}
-                data={task}
                 id={task.id}
+                content={task.content}
                 someoneIsDragging={someoneIsDragging}
               />
             ))}
@@ -308,7 +304,7 @@ function Column({ id, tasks, someoneIsDragging }) {
   );
 }
 
-function Task({ id, data, someoneIsDragging }) {
+function Task({ id, content, someoneIsDragging }) {
   const {
     attributes,
     listeners,
@@ -358,14 +354,14 @@ function Task({ id, data, someoneIsDragging }) {
       >
         <div className="p-3">
           <h1 className="text-base font-semibold text-gray-600 mb-2 hover:text-blue-700">
-            {data.name}
+            {content.jobTitle}
           </h1>
           <Button>Delete</Button>
-          <p className=" text-sm">{data.address}</p>
+          <p className=" text-sm">{content.address}</p>
         </div>
         <div className="border-b border-gray-200" />
         <div className="flex justify-between items-center px-3 py-2 bg-slate-50">
-          {/* {content.status === "completed" ? (
+          {content.status === "completed" ? (
             <Link
               to="/dashboard/completedTasks"
               className="text-xs text-green-700 uppercase"
@@ -376,7 +372,7 @@ function Task({ id, data, someoneIsDragging }) {
             <div className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
               New
             </div>
-          )} */}
+          )}
           <p className="text-xs text-gray-400">
             Updated 3 min ago{" "}
             <span className="p-1 rounded bg-gray-200">TD</span>

@@ -31,6 +31,7 @@ import { KanbanBoard } from "@components/Dashboard";
 import { UserList } from "@components";
 import { ManageUser } from "@components/index";
 import Dealdetail from "@components/Dealdetail";
+import ProtectedRoute from "@components/ProtectedRoute";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -59,7 +60,14 @@ export function AppRoute() {
           />
           <Route path="/contractor-pay-sheet" element={<ContractPaySheet />} />
         </Route>
-        <Route path="/dashboard" element={<Dashboard />}>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate to="jobs" />} />
           <Route path="jobs" element={<KanbanBoard />} />
           <Route path="completedTasks" element={<CompletedJobs />} />

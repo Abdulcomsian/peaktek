@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm();
 
   const onSubmit = async (data) => {
     const datatoLoad = {
@@ -87,6 +87,7 @@ const Register = () => {
               register={register}
             />
             <Button
+              disabled={formState.isSubmitting}
               type="Submit"
               className="flex justify-center w-full items-center bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3 group"
             >

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@components/UI";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
@@ -6,12 +6,41 @@ import { Form } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@components/Authentication";
 import { Input } from "@components/FormControls";
+import { useSelector } from "react-redux";
+import { useAuth } from "@context/AuthContext";
+import { useForm } from "react-hook-form";
+import { login } from "@services/apiAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { register, handleSubmit, formState } = useForm();
   const navigate = useNavigate();
-  const handleNavigation = () => {
-    navigate("/register");
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
+
+  useEffect(
+    function () {
+      if (isAuthenticated) navigate("/dashboard");
+    },
+    [isAuthenticated, navigate]
+  );
+
+  const onSubmit = async function (data) {
+    try {
+      const resp = await login(data);
+      if (resp.status >= 200 && resp.status < 300) {
+        localStorage.setItem("token", resp.token);
+        setIsAuthenticated(true);
+        navigate("/dashboard");
+        toast.success(resp.message);
+      } else {
+        toast.error(resp.message);
+      }
+    } catch (error) {
+      console.log("Error from catch block", error);
+      // toast.error(error);
+    }
   };
+
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <Navbar btnText="Register" />
@@ -32,22 +61,25 @@ const Login = () => {
             <span className="mx-4">Or, sign in with email</span>
             <div className="flex-grow border-t border-gray-300" />
           </div>
-          <form action="">
+          <form action="" onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Email address"
               name="email"
               applyMarginBottom={true}
               className="mb-4"
               placeholder="example@gmail.com"
+              register={register}
             />
             <Input
               label="Password"
+              type="password"
               name="password"
               className="mb-2"
               placeholder="***********"
+              register={register}
             />
-            <Button variant="gradient" className="w-full">
-              Login
+            <Button variant="gradient" type="submit" className="w-full mt-5">
+              {formState.isSubmitted ? "Logging..." : "Login"}
             </Button>
           </form>
           <div className="flex justify-between">
@@ -56,7 +88,7 @@ const Login = () => {
             </Button>
             <Button
               className="text-blue-600 font-medium text-base"
-              onClick={handleNavigation}
+              to="/register"
             >
               Register
             </Button>

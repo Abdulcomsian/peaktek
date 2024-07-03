@@ -266,6 +266,7 @@ const materials = [
   { value: "Material 14", label: "Material 14" },
   { value: "Material 15", label: "Material 15" },
 ];
+
 export {
   warrantyDuration,
   notificationOfIssuance,
