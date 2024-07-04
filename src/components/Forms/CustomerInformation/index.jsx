@@ -67,7 +67,7 @@ const CustomerInformationForm = ({ className, register }) => {
           type="number"
           applyMarginBottom={true}
           className="md:max-w-40  mb-4 md:mb-0"
-          name="zip"
+          name="zip_code"
           register={register}
         />
       </InputContainer>
@@ -87,7 +87,7 @@ const CustomerInformationForm = ({ className, register }) => {
           type="number"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
-          name="claimNumber"
+          name="claim_number"
           register={register}
         />
         <Input
@@ -96,7 +96,7 @@ const CustomerInformationForm = ({ className, register }) => {
           type="number"
           applyMarginBottom={true}
           className="  mb-4 md:mb-0"
-          name="policyNumber"
+          name="policy_name"
           register={register}
         />
       </InputContainer>

@@ -2,7 +2,13 @@ import { Modal } from "antd";
 import { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
-export default function SignatureModal({ open, onCancel, onOk }) {
+export default function SignatureModal({
+  open,
+  onCancel,
+  onOk,
+  onSubmit,
+  isSubmitting,
+}) {
   const signatureRef = useRef();
 
   // Function to clear the signature canvas
@@ -14,6 +20,7 @@ export default function SignatureModal({ open, onCancel, onOk }) {
   const saveSignature = () => {
     const imageData = signatureRef.current.toDataURL();
     console.log(imageData); // You can send this data to your backend or use it as needed
+    onSubmit(imageData);
   };
   return (
     <Modal open={open} onCancel={onCancel} onOk={onOk} footer={null}>
@@ -25,19 +32,21 @@ export default function SignatureModal({ open, onCancel, onOk }) {
           ref={signatureRef}
           penColor="black"
           canvasProps={{
-            width: `100%`,
-            height: 200,
+            width: "300px",
+            height: 100,
             className: "border rounded-lg bg-[#fff]",
           }}
         />
         <div className="flex items-center gap-2 mt-4">
           <button
+            disabled={isSubmitting}
             onClick={clearSignature}
             className="border border-red-300 bg-red-500 px-4 py-2 rounded-md text-white font-semibold"
           >
             Clear
           </button>
           <button
+            disabled={isSubmitting}
             onClick={saveSignature}
             className="border border-blue-300 bg-blue-500 rounded-md px-4 py-2 text-white font-semibold"
           >

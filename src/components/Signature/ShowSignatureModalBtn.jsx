@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "../UI";
 import SignatureModal from "@components/Modals/SignatureModal";
 
-export default function ShowSignatureModalBtn() {
+export default function ShowSignatureModalBtn({ onSubmit, isSubmitting }) {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -18,6 +18,8 @@ export default function ShowSignatureModalBtn() {
           open={showModal}
           onCancel={() => setShowModal(false)}
           onOk={() => setShowModal(false)}
+          onSubmit={onSubmit}
+          isSubmitting={isSubmitting}
         />
       )}
     </>

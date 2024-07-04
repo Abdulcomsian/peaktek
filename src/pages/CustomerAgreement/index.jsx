@@ -17,29 +17,58 @@ import ShowSignatureModalBtn from "@components/Signature/ShowSignatureModalBtn";
 import { useForm } from "react-hook-form";
 import { createAgreement } from "@services/apiCreateCustomer";
 import { useAuth } from "@context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import createSignature from "@services/apiPostSignature";
 
 const CustomerAgreement = () => {
-  const { register, handleSubmit } = useForm();
+  const { id } = useParams();
+
+  const { register, handleSubmit, reset } = useForm();
   const { logout } = useAuth();
   const navigate = useNavigate();
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async function (data) {
-    console.log(data);
-    const resp = await createAgreement(data);
-    if (resp.status === 401) {
-      logout();
-      navigate("/");
+    try {
+      console.log(data);
+      const resp = await createAgreement(data);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.message);
+        reset();
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
+      }
+      console.log(resp);
+    } catch (error) {
+    } finally {
     }
-    console.log(resp);
+  };
+
+  const handleSignatureSubmit = async function (image) {
+    try {
+      console.log(image, "id", id);
+      setIsLoading(true);
+      const resp = await createSignature({ id, image });
+      console.log(resp);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Container className="my-6 mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px] max-w-screen-xl relative">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="absolute right-5 flex items-center gap-3">
-          <ShowSignatureModalBtn />
+          <ShowSignatureModalBtn
+            onSubmit={handleSignatureSubmit}
+            isSubmitting={isLoading}
+          />
           <Button className="mb-3 text-xs md:text-sm" variant="gradient">
             Sign by Email
           </Button>

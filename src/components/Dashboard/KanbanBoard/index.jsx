@@ -196,7 +196,7 @@ function KanbanBoard() {
   if (isLoading) return <Spin fullscreen={true} />;
 
   return (
-    <>
+    <div className="p-4">
       <button
         onClick={handleAddJob}
         className="flex items-center justify-center gap-1 mb-3  bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3 group"
@@ -250,7 +250,7 @@ function KanbanBoard() {
           />
         )}
       </div>
-    </>
+    </div>
   );
 }
 
