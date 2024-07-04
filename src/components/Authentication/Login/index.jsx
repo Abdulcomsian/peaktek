@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@components/UI";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
-import { Form } from "antd";
+import { Form, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@components/Authentication";
 import { Input } from "@components/FormControls";
@@ -16,6 +16,7 @@ const Login = () => {
   const { register, handleSubmit, formState } = useForm();
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(
     function () {
@@ -26,8 +27,10 @@ const Login = () => {
 
   const onSubmit = async function (data) {
     try {
+      setIsLoading(true);
       const resp = await login(data);
       if (resp.status >= 200 && resp.status < 300) {
+        console.log("HEREEEEE");
         localStorage.setItem("token", resp.token);
         setIsAuthenticated(true);
         navigate("/dashboard");
@@ -38,8 +41,11 @@ const Login = () => {
     } catch (error) {
       console.log("Error from catch block", error);
       // toast.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
+  console.log(isLoading);
 
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -78,8 +84,13 @@ const Login = () => {
               placeholder="***********"
               register={register}
             />
-            <Button variant="gradient" type="submit" className="w-full mt-5">
-              {formState.isSubmitted ? "Logging..." : "Login"}
+            <Button
+              variant="gradient"
+              type="submit"
+              className="w-full mt-5 py-3"
+              disabled={isLoading}
+            >
+              {isLoading ? <Spin /> : "Login"}
             </Button>
           </form>
           <div className="flex justify-between">

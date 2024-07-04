@@ -46,6 +46,7 @@ function KanbanBoard() {
         try {
           setIsLoading(true);
           const resp = await getJobs();
+          console.log("RESPO STATUS", resp.status);
           if (resp.status >= 200 && resp.status < 300) {
             dispatch(boardDataLoaded(resp.data));
           }

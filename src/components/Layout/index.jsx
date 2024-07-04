@@ -4,21 +4,10 @@ import { Header } from "@components";
 import { useForm } from "react-hook-form";
 
 const AppLayout = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = function (data) {
-    console.log(data);
-  };
   return (
     <div>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
-        <Header />
-        <Outlet />
-      </form>
+      <Header />
+      <Outlet />
     </div>
   );
 };

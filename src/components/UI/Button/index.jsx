@@ -26,7 +26,9 @@ const Button = ({
   if (to) {
     return (
       <Link
-        className={`${variantStyle[variant]} ${className}`}
+        className={`${variantStyle[variant]} ${
+          disabled ? "cursor-not-allowed" : ""
+        } ${className}`}
         disabled={disabled}
         to={to}
       >

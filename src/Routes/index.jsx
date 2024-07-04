@@ -39,7 +39,10 @@ export function AppRoute() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<AppLayout />}>
-          <Route path="/customer-agreement" element={<CustomerAgreement />} />
+          <Route
+            path="/customer-agreement/:id"
+            element={<CustomerAgreement />}
+          />
           <Route path="/material-order" element={<MaterialOrder />} />
           <Route
             path="/warranty-information"
