@@ -50,9 +50,9 @@ function KanbanBoard() {
           if (resp.status >= 200 && resp.status < 300) {
             dispatch(boardDataLoaded(resp.data));
           }
-          // if (resp.status === 401) {
-          //   logout();
-          // }
+          if (resp.status === 401) {
+            logout();
+          }
         } catch (err) {
           console.log(err);
         } finally {
@@ -196,7 +196,7 @@ function KanbanBoard() {
   if (isLoading) return <Spin fullscreen={true} />;
 
   return (
-    <>
+    <div className="p-4">
       <button
         onClick={handleAddJob}
         className="flex items-center justify-center gap-1 mb-3  bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3 group"
@@ -250,7 +250,7 @@ function KanbanBoard() {
           />
         )}
       </div>
-    </>
+    </div>
   );
 }
 

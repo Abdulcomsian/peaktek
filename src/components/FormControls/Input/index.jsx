@@ -13,6 +13,8 @@ const Input = ({
   name = "",
   ref = null,
   register,
+  defaultValue,
+  disabled,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -27,6 +29,8 @@ const Input = ({
         </label>
       )}
       <input
+        disabled={disabled}
+        defaultValue={defaultValue}
         ref={ref}
         type={type}
         id={id}
