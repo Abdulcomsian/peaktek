@@ -5,7 +5,7 @@ import SignatureCanvas from "react-signature-canvas";
 export default function SignatureModal({
   open,
   onCancel,
-  onOk,
+  onOk = false,
   onSubmit,
   isSubmitting,
 }) {

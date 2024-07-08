@@ -62,6 +62,7 @@ export function AppRoute() {
             element={<CommissionContractor />}
           />
           <Route path="/contractor-pay-sheet" element={<ContractPaySheet />} />
+          <Route path="*" element={<p>Page Not Found</p>} />
         </Route>
         <Route
           path="/dashboard"
@@ -89,6 +90,7 @@ export function AppRoute() {
           <Route path="insurance-report" element={<InsuranceReport />} />
           <Route path="terms-and-conditions" element={<TermsAndConditions />} />
         </Route>
+        <Route path="*" element={<p>Page Not Found</p>} />
       </Routes>
     </BrowserRouter>
   );

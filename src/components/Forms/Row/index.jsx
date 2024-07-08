@@ -13,7 +13,14 @@ const Row = ({
   return (
     <tr>
       <td className="px-2 py-2">
-        <Select
+        <Input
+          size="large"
+          type="number"
+          placeholder="12"
+          className="w-full max-w-sm"
+          onChange={(e) => handleInputChange(e, rowIndex, "quantity")}
+        />
+        {/* <Select
           className="w-full max-w-sm"
           size="large"
           defaultValue="material 1"
@@ -26,7 +33,7 @@ const Row = ({
               {material.label}
             </Option>
           ))}
-        </Select>
+        </Select> */}
       </td>
       <td className="px-2 py-2">
         <Input

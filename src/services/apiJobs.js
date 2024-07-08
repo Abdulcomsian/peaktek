@@ -1,5 +1,6 @@
-const token = localStorage.getItem("token");
 export async function getJobs() {
+  const token = localStorage.getItem("token");
+  console.log("FROM API CALL", token);
   const myHeaders = new Headers();
   myHeaders.append("Accept", "application/json");
   myHeaders.append("Content-Type", "application/json");
@@ -21,6 +22,7 @@ export async function getJobs() {
 
 export async function createJob({ address, name, email, phone }) {
   console.log(token, name, email, phone);
+  const token = localStorage.getItem("token");
   const myHeaders = new Headers();
   myHeaders.append("Accept", "application/json");
   myHeaders.append("Authorization", `Bearer ${token}`);

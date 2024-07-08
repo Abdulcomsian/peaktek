@@ -1,6 +1,7 @@
 const token = localStorage.getItem("token");
 
 export default async function createSignature({ id, image }) {
+  console.log("SIGNATURE", id, image);
   const myHeaders = new Headers();
   myHeaders.append("Accept", "application/json");
   myHeaders.append("Authorization", `Bearer ${token}`);
@@ -16,7 +17,7 @@ export default async function createSignature({ id, image }) {
   };
 
   const resp = await fetch(
-    `http://127.0.0.1:8000/api/update/customer-agreement/${id}`,
+    `https://test7.accrualdev.com/api/update/customer-agreement/${id}`,
     requestOptions
   );
   const data = await resp.json();

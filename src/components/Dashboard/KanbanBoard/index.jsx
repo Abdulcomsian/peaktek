@@ -50,9 +50,9 @@ function KanbanBoard() {
           if (resp.status >= 200 && resp.status < 300) {
             dispatch(boardDataLoaded(resp.data));
           }
-          // if (resp.status === 401) {
-          //   logout();
-          // }
+          if (resp.status === 401) {
+            logout();
+          }
         } catch (err) {
           console.log(err);
         } finally {
