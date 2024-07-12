@@ -40,7 +40,9 @@ const Button = ({
   return (
     <button
       type={type ? type : "button"} // If type prop is empty, default to "button"
-      className={`${variantStyle[variant]} ${className}`}
+      className={`${variantStyle[variant]} ${className} ${
+        disabled ? "cursor-not-allowed" : ""
+      }`}
       onClick={onClick}
       disabled={disabled}
     >

@@ -1,5 +1,3 @@
-import React from "react";
-
 const Input = ({
   className = "",
   label,
@@ -15,6 +13,7 @@ const Input = ({
   register,
   defaultValue,
   disabled,
+  required = true,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -38,7 +37,7 @@ const Input = ({
         name={name}
         onFocus={onFocus}
         className={`bg-gray-50 hover:bg-white outline-none border border-gray-300 hover:border-blue-500 text-gray-900 text-sm rounded-md block w-full p-2.5 focus:outline-none focus:border-blue-500`}
-        {...register?.(name, { required: true })}
+        {...register?.(name, { required: required })}
       />
     </div>
   );

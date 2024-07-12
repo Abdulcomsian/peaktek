@@ -1,28 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Container } from "@components";
-import styles from "./CustomerAgreement.module.css";
 import { CustomerInformationForm, SignaturesForm } from "@components/Forms";
-import {
-  acknowledgement,
-  insurance,
-  pricing,
-  contractDetails,
-} from "@assets/data";
-import { DatePicker, Input, Spin } from "antd";
+import { Spin } from "antd";
 import dayjs from "dayjs";
 
 import { Button } from "@components/UI";
-import TitledSection from "@components/UI/TitledSection";
 import ShowSignatureModalBtn from "@components/Signature/ShowSignatureModalBtn";
 import { useForm } from "react-hook-form";
 import {
+  checkCustomerAgreement,
   createAgreement,
-  getCustomerAgreement,
+  sendEmailToSign,
 } from "@services/apiCreateCustomer";
 import { useAuth } from "@context/AuthContext";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import createSignature from "@services/apiPostSignature";
+import TextSection1 from "./TextSection1";
+import TextSection2 from "./TextSection2";
+import Footer from "./Footer";
 
 const CustomerAgreement = () => {
   const { id } = useParams();
@@ -46,43 +42,53 @@ const CustomerAgreement = () => {
         : false
       : false;
 
+  const isAgremeentCreated = Object.keys(defaultValuesform).length > 0;
+
   const onSubmit = async function (data) {
-    console.log(data);
     try {
-      const resp = await createAgreement(data);
+      const resp = await createAgreement(data, id);
       if (resp.status >= 200 && resp.status < 300) {
-        toast.success(resp.message);
         reset();
+        setIsEditing(true);
+        setDefaultValue(resp.agreement);
+        toast.success(resp.message);
       }
       if (resp.status === 401) {
         logout();
         navigate("/");
       }
-      console.log(resp);
     } catch (error) {
-      // Handle error
+      console.log(error);
+    } finally {
     }
   };
 
   const handleSignatureSubmit = async function (image) {
     try {
       const resp = await createSignature({ id, image });
-      console.log("RESP", resp);
     } catch (err) {
       console.log(err);
     } finally {
     }
   };
 
+  const handleSignByEmail = async function () {
+    const resp = await sendEmailToSign(agreementId);
+  };
+
   useEffect(() => {
     async function getAgreement() {
       try {
-        const resp = await getCustomerAgreement(id);
+        const resp = await checkCustomerAgreement(id);
 
-        if (resp.status === 200) {
+        if (resp.status === 200 && Object.keys(resp.agreement).length > 0) {
+          console.log("EDITING MODE", resp.agreement);
           setIsEditing(true);
           setDefaultValue(resp.agreement);
         } else if (resp.status === 422) {
+          toast.error("Corresponding Job not found.");
+          navigate("/dashboard");
+        } else {
           setIsEditing(false);
           setDefaultValue({});
         }
@@ -100,22 +106,30 @@ const CustomerAgreement = () => {
 
   if (!id) return <p>Not validate identity for creating Agreement</p>;
 
+  const onerror = function (errror) {
+    console.log(errror);
+  };
+
   return (
     <Container className="my-6 mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px] max-w-screen-xl relative">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, onerror)}>
         <div className="absolute right-5 flex items-center gap-3">
-          {!isSigned && (
-            <>
-              <ShowSignatureModalBtn
-                onSubmit={handleSignatureSubmit}
-                isSubmitting={isLoading}
-                onOk={isSubmitted}
-              />
-              <Button className="mb-3 text-xs md:text-sm" variant="gradient">
-                Sign by Email
-              </Button>
-            </>
-          )}
+          <>
+            <ShowSignatureModalBtn
+              onSubmit={handleSignatureSubmit}
+              isSubmitting={isLoading}
+              onOk={isSubmitted}
+              disabled={!isSigned && !isAgremeentCreated}
+            />
+            <Button
+              className="mb-3 text-xs md:text-sm"
+              variant="gradient"
+              disabled={!isSigned && !isAgremeentCreated}
+              onClick={handleSignByEmail}
+            >
+              Sign by Email
+            </Button>
+          </>
           <Button
             className="mb-3 text-xs md:text-sm"
             variant="primaryOutline"
@@ -133,33 +147,7 @@ const CustomerAgreement = () => {
           defaultValue={defaultValuesform} // Pass defaultValues to the form component
           disabled={isSigned}
         />
-        <TitledSection title="ACKNOWLEDGEMENTS">
-          <ul className="list-disc pl-6">
-            {acknowledgement?.map((items) => (
-              <li key={items?.id} className="mb-2 text-sm">
-                {items?.text}
-              </li>
-            ))}
-          </ul>
-        </TitledSection>
-        <TitledSection title="INSURANCE">
-          <ul>
-            {insurance?.map((items) => (
-              <li key={items?.id} className="mb-4 text-sm">
-                {items?.text}
-              </li>
-            ))}
-          </ul>
-        </TitledSection>
-        <TitledSection title="PRICING">
-          <ul>
-            {pricing?.map((items) => (
-              <li key={items?.id} className="mb-4 text-sm">
-                {items?.text}
-              </li>
-            ))}
-          </ul>
-        </TitledSection>
+        <TextSection1 />
 
         <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
         <SignaturesForm
@@ -169,50 +157,8 @@ const CustomerAgreement = () => {
           defaultValue={defaultValuesform} // Pass defaultValues to the signatures form component
           disabled={isSigned}
         />
-        <TitledSection>
-          <p className="font-medium text-sm mb-4">
-            This Contract and any agreements entered into between PeakTek
-            Roofing & Restoration (hereinafter referred to as the “Company” or
-            “PeakTek”) and the customer(s) identified herein on the Agreement’s
-            page 1 shall adhere to all applicable copyright laws, regulations,
-            and ordinances in the state of record.
-          </p>
-        </TitledSection>
-        <TitledSection title="Indemnity Statement:">
-          <p className="font-medium text-sm mb-4">
-            This Contract and any agreements entered into between PeakTek
-            Roofing & Restoration (hereinafter referred to as the “Company” or
-            “PeakTek”) and the customer(s) identified herein on the Agreement’s
-            page 1 shall adhere to all applicable copyright laws, regulations,
-            and ordinances in the state of record
-          </p>
-        </TitledSection>
-        <ul className="list-decimal pl-4 mb-4">
-          {contractDetails?.map((items) => (
-            <li
-              key={items?.id}
-              className="text-gray-600 mb-3 text-justify text-sm"
-            >
-              {items?.text}
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-col md:flex-row  md:justify-between md:items-center mb-4">
-          <div className="flex items-center md:mb-0 mb-4 w-full mx-2">
-            <span className="mr-2">I</span>{" "}
-            <Input className={`${styles["custom-input"]} md:mr-2`} />
-          </div>
-          <span className="w-full md:mb-0 mb-4">
-            the undersigned, hereby cancel this transaction as of{" "}
-          </span>
-          <DatePicker
-            className={` w-full md:max-w-xs`}
-            size="large"
-            defaultValue={dayjs("01/01/2015", dateFormatList[0])}
-            format={dateFormatList}
-          />
-        </div>
-        <div>Customer Signature:</div>
+        <TextSection2 />
+        {/* <Footer /> */}
       </form>
     </Container>
   );

@@ -32,6 +32,7 @@ import { UserList } from "@components";
 import { ManageUser } from "@components/index";
 import Dealdetail from "@components/Dealdetail";
 import ProtectedRoute from "@components/ProtectedRoute";
+import Test from "@pages/Test";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -39,11 +40,12 @@ export function AppRoute() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<AppLayout />}>
+          <Route path="/test" element={<Test />} />
           <Route
             path="/customer-agreement/:id"
             element={<CustomerAgreement />}
           />
-          <Route path="/material-order" element={<MaterialOrder />} />
+          <Route path="/material-order/:id" element={<MaterialOrder />} />
           <Route
             path="/warranty-information"
             element={<WarrantyInformation />}
@@ -80,8 +82,8 @@ export function AppRoute() {
           <Route path="deals/:id" element={<Dealdetail />} />
         </Route>
         <Route path="/projects" element={<Projects />}>
-          <Route path="title" element={<Title />} />
-          <Route path="introduction" element={<Introduction />} />
+          <Route path="title/:id" element={<Title />} />
+          <Route path="introduction/:id" element={<Introduction />} />
           <Route path="inspection" element={<Inspection />} />
           <Route path="quote-details" element={<QuoteDetails />} />
           <Route path="authorization" element={<Authorization />} />

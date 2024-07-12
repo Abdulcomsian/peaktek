@@ -7,11 +7,12 @@ const CustomerInformationForm = ({
   defaultValue,
   disabled,
 }) => {
+  console.log("Default values fom customer inf", defaultValue);
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
-          disabled={disabled}
+          disabled={true}
           label="Name:"
           placeholder="John Doe"
           type="text"
@@ -19,29 +20,29 @@ const CustomerInformationForm = ({
           className="md:mr-4  mb-4 md:mb-0"
           name="name"
           id="name"
-          register={register}
+          ref={register}
           defaultValue={defaultValue?.name || ""}
         />
         <Input
-          disabled={disabled}
+          disabled={true}
           label="Email:"
           placeholder="john@gmail.com"
           type="email"
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
           name="email"
-          register={register}
+          ref={register}
           defaultValue={defaultValue?.email || ""}
         />
         <Input
-          disabled={disabled}
+          disabled={true}
           label="Phone:"
           placeholder="923081177825"
           type="number"
           applyMarginBottom={true}
           className="  mb-4 md:mb-0"
           name="phone"
-          register={register}
+          ref={register}
           defaultValue={defaultValue?.phone || ""}
         />
       </InputContainer>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { DatePicker } from "antd";
 import { Controller } from "react-hook-form";
 import dayjs from "dayjs";
@@ -13,11 +13,12 @@ const CustomDatePicker = ({
   defaultValue,
   disabled,
 }) => {
-  // Format defaultValue for Ant Design DatePicker
   const antdDefaultValue = defaultValue
-    ? dayjs(defaultValue, "DD/MM/YYYY")
-    : undefined;
+    ? moment(defaultValue, "DD/MM/YYYY")
+    : new Date().toLocaleDateString();
 
+  // console.log(antdDefaultValue);
+  const [value, setValue] = useState("");
   return (
     <div className={`w-full ${className}`}>
       <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -34,12 +35,12 @@ const CustomDatePicker = ({
             className="w-full bg-gray-50 p-2 focus:outline-1 focus:outline-blue-500"
             size="large"
             onChange={(date) => {
+              console.log(date, date.format("DD/MM/YYYY"));
               const formattedDate = date ? date.format("DD/MM/YYYY") : null;
-              field.onChange(formattedDate); // Update form value
+              field.onChange(date); // Update form value
             }}
-            defaultValue={
-              antdDefaultValue ? moment(antdDefaultValue) : undefined
-            }
+            value={field.value || ""}
+            defaultValue={dayjs(antdDefaultValue, "DD/MM/YYYY")}
             disabled={disabled}
           />
         )}

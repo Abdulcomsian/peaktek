@@ -6,6 +6,7 @@ export default function ShowSignatureModalBtn({
   onSubmit,
   isSubmitting,
   onOk,
+  disabled,
 }) {
   const [showModal, setShowModal] = useState(false);
   return (
@@ -14,6 +15,7 @@ export default function ShowSignatureModalBtn({
         className="mb-3  text-xs md:text-sm"
         variant="gradient"
         onClick={() => setShowModal(true)}
+        disabled={disabled}
       >
         Sign now
       </Button>
