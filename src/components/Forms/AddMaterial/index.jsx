@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row } from "@components/Forms";
 
-const AddMaterialForm = () => {
+const AddMaterialForm = ({ register, control, defaultValue }) => {
   const [rows, setRows] = useState([
     { material: "", quantity: "", color: "", orderKey: "" },
   ]);
+  useEffect(() => {
+    if (defaultValue?.materials?.length > 0) setRows(defaultValue.materials);
+  }, [defaultValue]);
 
   const handleAddRow = () => {
     setRows([...rows, { material: "", quantity: "", color: "", orderKey: "" }]);
@@ -19,17 +22,6 @@ const AddMaterialForm = () => {
     setRows(newRows);
   };
 
-  const handleInputChange = (e, index, field) => {
-    const newRows = [...rows];
-    newRows[index][field] = e.target.value;
-    setRows(newRows);
-  };
-
-  const handleSelectChange = (e, index, field) => {
-    const newRows = [...rows];
-    newRows[index][field] = e.target.value;
-    setRows(newRows);
-  };
   return (
     <table className="w-full bg-white border rounded">
       <thead>
@@ -46,10 +38,11 @@ const AddMaterialForm = () => {
           <Row
             key={index}
             rowIndex={index}
-            handleInputChange={handleInputChange}
-            handleSelectChange={handleSelectChange}
             handleAddSameRow={handleAddSameRow}
             handleDeleteRow={handleDeleteRow}
+            register={register}
+            control={control}
+            defaultValue={rows[index]}
           />
         ))}
       </tbody>

@@ -1,0 +1,71 @@
+export async function createProjectTitle(dataToLoad, id) {
+  const token = localStorage.getItem("token");
+  const {
+    firstName,
+    lastName,
+    address,
+    city,
+    company_name,
+    date,
+    postal_code,
+    primary_image,
+    report_type,
+    secondary_image,
+    state,
+  } = dataToLoad;
+
+  const myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const formdata = new FormData();
+  formdata.append("first_name", firstName);
+  formdata.append("last_name", lastName);
+  formdata.append("company_name", company_name);
+  formdata.append("address", address);
+  formdata.append("city", city);
+  formdata.append("state", state);
+  formdata.append("zip", postal_code);
+  formdata.append("report_type", report_type);
+  formdata.append("date", date);
+  formdata.append("primary_image", primary_image);
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: formdata,
+    redirect: "follow",
+  };
+
+  const resp = await fetch(
+    `https://test7.accrualdev.com/api/store/project-design/title/${id}`,
+    requestOptions
+  );
+  const data = await resp.json();
+  return data;
+}
+
+export async function createIntroduction(intro, id) {
+  console.log(intro);
+  const token = localStorage.getItem("token");
+  const myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const formdata = new FormData();
+  formdata.append("introduction", intro);
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: formdata,
+    redirect: "follow",
+  };
+
+  const resp = await fetch(
+    `https://test7.accrualdev.com/api/store/project-design/introduction/${id}`,
+    requestOptions
+  );
+  const data = await resp.json();
+  return data;
+}

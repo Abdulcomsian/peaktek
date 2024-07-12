@@ -1,4 +1,4 @@
-export async function createAgreement(dataToLoad) {
+export async function createAgreement(dataToLoad, id) {
   const token = localStorage.getItem("token");
   const {
     street,
@@ -32,13 +32,13 @@ export async function createAgreement(dataToLoad) {
   formdata.append("company_printed_name", company_printed_name);
   formdata.append(
     "company_date",
-    new Date(company_date.$d).toLocaleDateString()
+    new Date(dataToLoad.company_date.$d).toLocaleDateString()
   );
   formdata.append("customer_signature", customer_signature);
   formdata.append("customer_printed_name", customer_printed_name);
   formdata.append(
     "customer_date",
-    new Date(customer_date.$d).toLocaleDateString()
+    new Date(dataToLoad.customer_date.$d).toLocaleDateString()
   );
 
   const requestOptions = {
@@ -49,7 +49,7 @@ export async function createAgreement(dataToLoad) {
   };
 
   const resp = await fetch(
-    "https://test7.accrualdev.com/api/customer-agreement/1",
+    `https://test7.accrualdev.com/api/customer-agreement/${id}`,
     requestOptions
   );
 
@@ -57,7 +57,7 @@ export async function createAgreement(dataToLoad) {
   return data;
 }
 
-export async function getCustomerAgreement(id) {
+export async function checkCustomerAgreement(id) {
   const token = localStorage.getItem("token");
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
@@ -69,9 +69,32 @@ export async function getCustomerAgreement(id) {
   };
 
   const resp = await fetch(
-    `https://test7.accrualdev.com/api/get/customer-agreement/${id}`,
+    `https://test7.accrualdev.com/api/check/customer-agreement/${id}`,
     requestOptions
   );
   const data = await resp.json();
+  return data;
+}
+
+export async function sendEmailToSign(id) {
+  console.log(id);
+  const token = localStorage.getItem("token");
+  const myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  const resp = await fetch(
+    `https://test7.accrualdev.com/api/sign-by-email/${id}`,
+    requestOptions
+  );
+  const data = await resp.json();
+
   return data;
 }
