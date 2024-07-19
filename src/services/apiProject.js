@@ -1,3 +1,47 @@
+export async function getProjectTitleApi(id) {
+  const token = localStorage.getItem("token");
+  const myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  const resp = await fetch(
+    `https://test7.accrualdev.com/api/get/project-design/title/${id}`,
+    requestOptions
+  );
+  const data = await resp.json();
+  return data;
+}
+
+export async function getProjectIntroApi(id) {
+  const token = localStorage.getItem("token");
+  const myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  // const formdata = new FormData();
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+  const resp = await fetch(
+    `https://test7.accrualdev.com/api/get/project-design/introduction/${id}`,
+    requestOptions
+  );
+
+  const data = await resp.json();
+  return data;
+}
+
 export async function createProjectTitle(dataToLoad, id) {
   const token = localStorage.getItem("token");
   const {
@@ -15,7 +59,6 @@ export async function createProjectTitle(dataToLoad, id) {
   } = dataToLoad;
 
   const myHeaders = new Headers();
-  myHeaders.append("Accept", "application/json");
   myHeaders.append("Authorization", `Bearer ${token}`);
 
   const formdata = new FormData();
@@ -29,6 +72,8 @@ export async function createProjectTitle(dataToLoad, id) {
   formdata.append("report_type", report_type);
   formdata.append("date", date);
   formdata.append("primary_image", primary_image);
+  formdata.append("secondary_image", secondary_image);
+  console.log("FORM DATA", formdata);
 
   const requestOptions = {
     method: "POST",

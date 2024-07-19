@@ -12,7 +12,7 @@ export default function UploaderInputs({
   const [images, setImage] = useState("");
 
   const handleFileChange = function (e) {
-    console.log(e.target.files[0].name);
+    console.log("inasdfasd", e.target.files[0]);
     setImage(e.target.files[0].name);
   };
   return (
