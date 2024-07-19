@@ -33,6 +33,7 @@ import { ManageUser } from "@components/index";
 import Dealdetail from "@components/Dealdetail";
 import ProtectedRoute from "@components/ProtectedRoute";
 import Test from "@pages/Test";
+import { JobDetail } from "@pages/index";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -84,13 +85,16 @@ export function AppRoute() {
         <Route path="/projects" element={<Projects />}>
           <Route path="title/:id" element={<Title />} />
           <Route path="introduction/:id" element={<Introduction />} />
-          <Route path="inspection" element={<Inspection />} />
+          <Route path="inspection/:id" element={<Inspection />} />
           <Route path="quote-details" element={<QuoteDetails />} />
           <Route path="authorization" element={<Authorization />} />
           <Route path="payment-schedule" element={<PaymentSchedule />} />
           <Route path="roof-components" element={<RoofComponentsGeneric />} />
           <Route path="insurance-report" element={<InsuranceReport />} />
           <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+        </Route>
+        <Route element={<Dashboard />}>
+          <Route path="/job-detail/:jobId" element={<JobDetail />} />
         </Route>
         <Route path="*" element={<p>Page Not Found</p>} />
       </Routes>

@@ -22,7 +22,7 @@ import { boardDataLoaded } from "@store/slices/JobsSlice";
 
 import "./kanban.css";
 import { Button } from "@components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getJobs } from "@services/apiJobs";
 import { Spin } from "antd";
@@ -310,6 +310,7 @@ function Column({ id, tasks, someoneIsDragging }) {
 }
 
 function Task({ id, data, someoneIsDragging }) {
+  const navigate = useNavigate();
   const {
     attributes,
     listeners,
@@ -336,7 +337,8 @@ function Task({ id, data, someoneIsDragging }) {
 
   const handleTaskClick = function (task) {
     // setSelectedTask(task);
-    setShowJobDetailModal(true);
+    // setShowJobDetailModal(true);
+    navigate(`/job-detail/${id}?jobStatus=${data.status.name}`);
   };
   return (
     <>

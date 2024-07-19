@@ -48,3 +48,25 @@ export async function createJob({ address, name, email, phone }) {
   const data = await resp.json();
   return data;
 }
+
+export async function getJobApi(id) {
+  const token = localStorage.getItem("token");
+  const myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  const resp = await fetch(
+    `https://test7.accrualdev.com/api/get-single/job/${id}`,
+    requestOptions
+  );
+
+  const data = await resp.json();
+  return data;
+}

@@ -8,47 +8,47 @@ const Projects = () => {
   const sidebarData = [
     {
       id: uuidv4(),
-      link: "/projects/title",
+      link: "/projects/title/1",
       linkText: "Title",
     },
     {
       id: uuidv4(),
-      link: "/projects/introduction",
+      link: "/projects/introduction/1",
       linkText: "Introduction",
     },
     {
       id: uuidv4(),
-      link: "/projects/inspection",
+      link: "/projects/inspection/1",
       linkText: "Inspection",
     },
     {
       id: uuidv4(),
-      link: "/projects/quote-details",
+      link: "/projects/quote-details/1",
       linkText: "Quote Details",
     },
     {
       id: uuidv4(),
-      link: "/projects/authorization",
+      link: "/projects/authorization/1",
       linkText: "Authorization",
     },
     {
       id: uuidv4(),
-      link: "/projects/payment-schedule",
+      link: "/projects/payment-schedule/1",
       linkText: "Payment Schedule",
     },
     {
       id: uuidv4(),
-      link: "/projects/roof-components",
+      link: "/projects/roof-components/1",
       linkText: "Roof Components Generic",
     },
     {
       id: uuidv4(),
-      link: "/projects/insurance-report",
+      link: "/projects/insurance-report/1",
       linkText: "Xactimate Report from Insurance",
     },
     {
       id: uuidv4(),
-      link: "/projects/terms-and-conditions",
+      link: "/projects/terms-and-conditions/1",
       linkText: "Terms and Conditions",
     },
   ];

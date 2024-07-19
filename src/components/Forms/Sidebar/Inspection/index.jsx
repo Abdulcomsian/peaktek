@@ -1,15 +1,22 @@
 import { Button, Ckeditor, FileInput } from "@components";
 import { FormHeader } from "@components/Forms";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { TfiAlignJustify } from "react-icons/tfi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { Modal } from "antd"; // Assuming you use antd for the modal
 import { UploaderInputs } from "@components/index";
+import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Inspection = () => {
+  const { id: jobId } = useParams();
+  const [receivedData, setReceivedData] = useState("");
   const [rows, setRows] = useState([{}]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
+  const [initialData, setInitialData] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { register, handleSubmit, formState } = useForm({});
 
   const addRow = () => {
     setRows([...rows, {}]);
@@ -29,6 +36,26 @@ const Inspection = () => {
     setIsModalVisible(false);
   };
 
+  const handleDataChange = (data) => {
+    setReceivedData(data);
+  };
+
+  const handleClick = async () => {
+    console.log("Received data from editor:", receivedData);
+    // Perform any action with receivedData
+    try {
+      setIsLoading(true);
+      const resp = await createIntroduction(receivedData, jobId);
+      console.log(resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.message);
+        setInitialData(null);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Fragment>
       <FormHeader className="" btnText="View Page" pageTitle="Inspection" />
@@ -44,8 +71,16 @@ const Inspection = () => {
               className="justify-self-end h-full mt-2 text-red-500 cursor-pointer"
               onClick={() => confirmDelete(index)}
             />
-            <Ckeditor className="col-span-2 md:col-start-1" />
-            <UploaderInputs wrapperClass="col-span-2" />
+            <Ckeditor
+              className="col-span-2 md:col-start-1"
+              onDataChange={handleDataChange}
+              initialData={initialData}
+            />
+            <UploaderInputs
+              wrapperClass="col-span-2"
+              name="xyz"
+              register={register}
+            />
           </div>
         ))}
         <Button

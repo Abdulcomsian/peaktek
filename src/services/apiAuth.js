@@ -40,7 +40,6 @@ export async function register(data) {
 export async function login({ email, password }) {
   console.log(email, password);
   const myHeaders = new Headers();
-  myHeaders.append("Accept", "application/json");
 
   const formdata = new FormData();
   formdata.append("email", email);

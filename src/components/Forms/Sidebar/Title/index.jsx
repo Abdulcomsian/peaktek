@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Input,
   InputContainer,
@@ -9,21 +9,68 @@ import {
 import { FormHeader } from "@components/Forms";
 import { Button, UploaderInputs } from "@components/index";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
-import { createProjectTitle } from "@services/apiProject";
+import { useNavigate, useParams } from "react-router-dom";
+import { createProjectTitle, getProjectTitleApi } from "@services/apiProject";
+import toast from "react-hot-toast";
+import { Spin } from "antd";
 
 const Title = () => {
   const { id: jobId } = useParams();
-  const { register, handleSubmit, control } = useForm();
+  const [defaultValues, setDefaultValues] = useState({});
+  const { id: titleFormId, ...defaultValuesform } = defaultValues;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditting, setIsEditting] = useState(false);
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { isSubmitting },
+  } = useForm({
+    defaultValues: titleFormId && isEditting ? defaultValuesform : {},
+  });
+
+  useEffect(
+    function () {
+      async function getProjectTitle() {
+        try {
+          setIsLoading(true);
+          const resp = await getProjectTitleApi(jobId);
+          console.log(resp);
+          if (resp.status === 200 && Object.keys(resp.data).length > 0) {
+            setDefaultValues(resp.data);
+            setIsEditting(true);
+          }
+          if (resp.status === 422) {
+            toast.error(resp.message);
+            navigate("/dashboard");
+          }
+        } finally {
+          setIsLoading(false);
+        }
+      }
+
+      if (jobId) getProjectTitle();
+    },
+    [jobId]
+  );
 
   const onSubmit = async function (data) {
     const finalDataToUpload = {
       ...data,
       date: new Date(data.date.$d).toLocaleDateString(),
+      primary_image: data.primary_image?.[0],
+      secondary_image: data?.secondary_image?.[0],
     };
 
     const resp = await createProjectTitle(finalDataToUpload, jobId);
     console.log("Resp", resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.message);
+      reset();
+    }
   };
 
   return (
@@ -41,6 +88,7 @@ const Title = () => {
               applyMarginBottom={true}
               register={register}
               name="firstName"
+              defaultValue={defaultValues?.firstName || ""}
             />
             <Input
               label="Last Name:"
@@ -50,6 +98,7 @@ const Title = () => {
               applyMarginBottom={true}
               register={register}
               name="lastName"
+              defaultValue={defaultValues?.lastName || ""}
             />
           </InputContainer>
           <Input
@@ -60,6 +109,7 @@ const Title = () => {
             applyMarginBottom={true}
             register={register}
             name="company_name"
+            defaultValue={defaultValues?.company_name || ""}
           />
           <Input
             label="Address:"
@@ -69,6 +119,7 @@ const Title = () => {
             applyMarginBottom={true}
             register={register}
             name="address"
+            defaultValue={defaultValues?.address || ""}
           />
           <InputContainer className="flex flex-col lg:flex-row justify-between">
             <Input
@@ -79,6 +130,7 @@ const Title = () => {
               applyMarginBottom={true}
               register={register}
               name="city"
+              defaultValue={defaultValues?.city || ""}
             />
             <Input
               label="State/Province:"
@@ -88,6 +140,7 @@ const Title = () => {
               applyMarginBottom={true}
               register={register}
               name="state"
+              defaultValue={defaultValues?.state || ""}
             />
             <Input
               label="Zip Code/Postal Code:"
@@ -97,6 +150,7 @@ const Title = () => {
               applyMarginBottom={true}
               register={register}
               name="postal_code"
+              defaultValue={defaultValues?.postal_code || ""}
             />
           </InputContainer>
           <Input
@@ -107,12 +161,14 @@ const Title = () => {
             applyMarginBottom={true}
             register={register}
             name="report_type"
+            defaultValue={defaultValues?.report_type || ""}
           />
           <CustomDatePicker
             label="Date:"
             className="mb-4"
             control={control}
             name="date"
+            defaultValue={defaultValues?.date || ""}
           />
           <div className="flex flex-col md:flex-row items-center gap-4 ">
             <UploaderInputs
@@ -125,13 +181,13 @@ const Title = () => {
             <UploaderInputs
               wrapperClass="grow w-full"
               title="Secondary Logo:"
-              register={register}
               name="secondary_image"
               id="secondary_image"
+              register={register}
             />
           </div>
           <Button type="submit" variant="gradient" className="w-full mt-6">
-            Submit
+            {isSubmitting ? <Spin /> : "Submit"}
           </Button>
         </form>
       </Card>
