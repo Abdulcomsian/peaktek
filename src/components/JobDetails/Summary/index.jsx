@@ -30,24 +30,24 @@ const Summary = () => {
   return (
     <Fragment>
       {/**First part start*/}
-      <div className="bg-white rounded-2xl p-5 w-full max-w-3xl flex justify-between mb-6">
-        <div className="flex flex-col font-poppins font-normal text-sm">
+      <div className="bg-white rounded-2xl p-5 w-full max-w-3xl flex flex-col md:flex-row justify-between mb-6">
+        <div className="flex flex-col font-poppins font-normal text-sm mb-4 md:mb-0">
           <div className="text-black text-opacity-30 mb-4">Job Total</div>
           <div className="text-black">10,000</div>
         </div>
-        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+        <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
           <div className="text-black text-opacity-30 mb-4">First Payment</div>
           <MoneyInput label="100" id="first-payment" />
         </div>
-        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+        <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
           <div className="text-black text-opacity-30 mb-4">Deductable</div>
           <MoneyInput label="100" id="first-payment" />
         </div>
-        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+        <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
           <div className="text-black text-opacity-30 mb-4">Upgrades</div>
           <MoneyInput label="100" id="first-payment" />
         </div>
-        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+        <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
           <div className="text-black text-opacity-30 mb-4">Final Payment</div>
           <MoneyInput label="100" id="first-payment" />
         </div>
