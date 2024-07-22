@@ -4,6 +4,7 @@ import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
 import { useSelector } from "react-redux";
 import { Ckeditor } from "@components/FormControls";
+import TabsContentBox from "@components/UI/Tabs/TabsContentBox";
 const items = [
   { id: 1, title: "Text", icon: <TextIcon className="mr-1" /> },
   { id: 2, title: "Notes", icon: <FileIcon className="mr-1" /> },
@@ -57,13 +58,10 @@ const Summary = () => {
         </div>
       </div>
       {/**First part Ends*/}
-      <div className="bg-white rounded-2xl p-5 w-full max-w-screen-xl">
-        <h1 className="text-xl font-poppins font-medium text-black mb-4">
-          Job Content
-        </h1>
+      <TabsContentBox contentTitle="Job Content">
         <Tabs items={items} onClick={setActiveTab} />
         <div>{renderActiveTab()}</div>
-      </div>
+      </TabsContentBox>
     </Fragment>
   );
 };
