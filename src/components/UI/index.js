@@ -5,4 +5,14 @@ import MoneyIcon from "./Icons/Money";
 import FileIcon from "./Icons/File";
 import GalleryIcon from "./Icons/Gallery";
 import TextIcon from "./Icons/Text";
-export { Button, Card, BreadCrumb, MoneyIcon, FileIcon, GalleryIcon, TextIcon };
+import Tabs from "./Tabs";
+export {
+  Button,
+  Card,
+  BreadCrumb,
+  MoneyIcon,
+  FileIcon,
+  GalleryIcon,
+  TextIcon,
+  Tabs,
+};

@@ -1,6 +1,13 @@
 import React, { Fragment } from "react";
 import MoneyInput from "../MoneyInput";
+import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
+
+const items = [
+  { title: "Text", icon: <TextIcon className="mr-1" /> },
+  { title: "Notes", icon: <FileIcon className="mr-1" /> },
+  { title: "Photos", icon: <GalleryIcon className="mr-1" /> },
+];
 
 const Summary = () => {
   return (
@@ -38,20 +45,7 @@ const Summary = () => {
         <h1 className="text-xl font-poppins font-medium text-black mb-4">
           Job Content
         </h1>
-        <div className="flex p-2 w-full max-w-xs mb-4">
-          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
-            <TextIcon className="mr-1" />
-            <span> Text</span>
-          </div>
-          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
-            <FileIcon className="mr-1" />
-            <span>Notes</span>
-          </div>
-          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
-            <GalleryIcon className="mr-1" />
-            <span>Photos</span>
-          </div>
-        </div>
+        <Tabs items={items} />
       </div>
     </Fragment>
   );
