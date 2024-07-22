@@ -52,6 +52,7 @@ const Introduction = () => {
         toast.success(resp.message);
         setInitialData(null);
       }
+      if (resp.status === 500) toast.error("Something went wrong.");
     } finally {
       setIsLoading(false);
     }
