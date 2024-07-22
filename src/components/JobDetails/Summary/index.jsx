@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import MoneyInput from "../MoneyInput";
 import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
@@ -11,10 +11,9 @@ const items = [
 ];
 
 const Summary = () => {
-  const selectedTab = useSelector((state) => state?.tabs?.activeTab);
-  console.log("Selected Tabs", selectedTab);
+  const [activeTab, setActiveTab] = useState(1);
   const renderActiveTab = () => {
-    switch (selectedTab) {
+    switch (activeTab) {
       case 1:
         return "Text content";
       case 2:
@@ -62,7 +61,7 @@ const Summary = () => {
         <h1 className="text-xl font-poppins font-medium text-black mb-4">
           Job Content
         </h1>
-        <Tabs items={items} />
+        <Tabs items={items} onClick={setActiveTab} />
         <div>{renderActiveTab()}</div>
       </div>
     </Fragment>
