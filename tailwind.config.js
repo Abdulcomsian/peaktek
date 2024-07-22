@@ -4,8 +4,12 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        poppins: "Poppins, sans-serif",
+      },
       backgroundColor: {
-        lightBlue: "#EDF0F2", // Base color
+        lightBlue: "#EDF0F2",
+        bluish: "#ebf4ff", // Base color
       },
       backgroundImage: {
         "custom-gradient":

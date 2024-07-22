@@ -27,6 +27,7 @@ import {
   TermsAndConditions,
   QuoteDetails,
 } from "@components/Forms";
+import { Summary } from "@components/JobDetails";
 import { KanbanBoard } from "@components/Dashboard";
 import { UserList } from "@components";
 import { ManageUser } from "@components/index";
@@ -94,7 +95,9 @@ export function AppRoute() {
           <Route path="terms-and-conditions" element={<TermsAndConditions />} />
         </Route>
         <Route element={<Dashboard />}>
-          <Route path="/job-detail/:jobId" element={<JobDetail />} />
+          <Route path="/job-details" element={<JobDetail />}>
+            <Route path="summary" element={<Summary />} />
+          </Route>
         </Route>
         <Route path="*" element={<p>Page Not Found</p>} />
       </Routes>

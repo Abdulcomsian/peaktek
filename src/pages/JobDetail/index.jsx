@@ -1,7 +1,7 @@
 import { BreadCrumb } from "@components/UI";
 import Header from "./Header";
 import Tabs from "./Tabs";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getJobApi } from "@services/apiJobs";
 import { useAuth } from "@context/AuthContext";
@@ -36,11 +36,12 @@ export default function JobDetail() {
 
   if (isFetchingJob) return <CenteredSpinner />;
   return (
-    <div className="m-4">
-      <Header companyName={jobDetails?.name}>
+    <div className="bg-bluish h-full p-5">
+      <Header companyName="Company Name" className="mb-4">
         <BreadCrumb items={[{ title: "Dashboard" }, { title: "Leads" }]} />
       </Header>
       <Tabs />
+      <Outlet />
     </div>
   );
 }

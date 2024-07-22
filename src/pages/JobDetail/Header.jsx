@@ -1,7 +1,7 @@
-export default function Header({ children, companyName }) {
+export default function Header({ children, companyName, className }) {
   return (
-    <header>
-      <h1 className="text-2xl font-medium">{companyName}</h1>
+    <header className={className}>
+      <h1 className="text-2xl font-poppins font-medium">{companyName}</h1>
       {children}
     </header>
   );
