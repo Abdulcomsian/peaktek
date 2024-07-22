@@ -40,7 +40,7 @@ export default function JobDetail() {
       <Header companyName="Company Name" className="mb-4">
         <BreadCrumb items={[{ title: "Dashboard" }, { title: "Leads" }]} />
       </Header>
-      <Tabs />
+      <Tabs className="mb-4" />
       <Outlet />
     </div>
   );
