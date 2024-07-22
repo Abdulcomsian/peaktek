@@ -38,7 +38,7 @@ const Summary = () => {
         <h1 className="text-xl font-poppins font-medium text-black mb-4">
           Job Content
         </h1>
-        <div className="flex p-2 w-full max-w-xs mb-4">
+        <div className="flex p-2 w-full max-w-max mb-4">
           <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
             <TextIcon className="mr-1" />
             <span> Text</span>
