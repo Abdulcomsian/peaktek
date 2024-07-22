@@ -61,7 +61,7 @@ const Summary = () => {
         <h1 className="text-xl font-poppins font-medium text-black mb-4">
           Job Content
         </h1>
-        <Tabs items={items} onClick={setActiveTab} />
+        <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
         <div>{renderActiveTab()}</div>
       </div>
     </Fragment>

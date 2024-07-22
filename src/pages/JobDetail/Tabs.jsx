@@ -6,38 +6,30 @@ export default function Tabs({ className }) {
   const handleNavigation = (path) => {
     navigate(path);
   };
-
-  return (
-    <nav className={`flex items-center gap-6 ${className} `} aria-label="Tabs">
+const buttonsData = [
+  {
+    id: 1,
+    text: "Summary",
+    path: "summary",
+  },
+  {
+    id: 2,
+    text: "Customer Agreement",
+    path: "customer-agreement",
+  },
+];
+return (
+  <nav className={`flex items-center gap-6 ${className} `} aria-label="Tabs">
+    {buttonsData?.map((btn) => (
       <button
+        key={btn?.id}
         className="text-gray-500"
-        onClick={() => handleNavigation("/job-details/summary")}
+        onClick={() => handleNavigation(`/job-details/${btn?.path}/`)}
         aria-current="page" // or "false" depending on the current tab
       >
-        Summary
+        {btn?.text}
       </button>
-      <div className="flex items-center gap-1 text-gray-500">
-        <button aria-current="false">Customer Agreement</button>
-        {/* <span className="bg-blue-400 px-3 py-1 rounded-full text-white text-xs">
-          Completed
-        </span> */}
-      </div>
-      <div className="flex items-center gap-1 text-gray-500">
-        <button aria-current="false">Adjustor Meeting</button>
-        {/* <span className="bg-blue-400 px-3 py-1 rounded-full text-white text-xs">
-          Completed
-        </span> */}
-      </div>
-      <button className="text-gray-500" aria-current="false">
-        Overturn
-      </button>
-      <button
-        className="text-gray-500"
-        aria-current="false"
-        onClick={() => handleNavigation("/job-details/design-meeting")}
-      >
-        Design Meeting
-      </button>
-    </nav>
-  );
+    ))}
+  </nav>
+);
 }
