@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Tabs() {
+export default function Tabs({ className }) {
   const navigate = useNavigate();
   const handleNavigation = (path) => {
     navigate(path);
   };
 
   return (
-    <nav className="flex items-center gap-6" aria-label="Tabs">
+    <nav className={`flex items-center gap-6 ${className} `} aria-label="Tabs">
       <button
         className="text-gray-500"
         onClick={() => handleNavigation("/job-details/summary")}
