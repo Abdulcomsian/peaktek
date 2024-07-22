@@ -1,5 +1,6 @@
 import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
+import TabsContentBox from "@components/UI/Tabs/TabsContentBox";
 import { useState } from "react";
 
 const tabsDesignMeeting = [
@@ -18,9 +19,9 @@ const tabsDesignMeeting = [
 const DesignMeeting = () => {
   const [currTab, setCurrTab] = useState(1);
   return (
-    <section>
+    <TabsContentBox contentTitle="Design Meeting">
       <Tabs items={tabsDesignMeeting} onClick={setCurrTab} />
-    </section>
+    </TabsContentBox>
   );
 };
 
