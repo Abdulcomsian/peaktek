@@ -1,7 +1,60 @@
-import React from "react";
+import React, { Fragment } from "react";
+import MoneyInput from "../MoneyInput";
+import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
 
 const Summary = () => {
-  return <div className="bg-white">Summary</div>;
+  return (
+    <Fragment>
+      {/**First part start*/}
+      <div className="bg-white rounded-2xl p-5 w-full max-w-3xl flex justify-between mb-6">
+        <div className="flex flex-col font-poppins font-normal text-sm">
+          <div className="text-black text-opacity-30 mb-4">Job Total</div>
+          <div className="text-black">10,000</div>
+        </div>
+        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+          <div className="text-black text-opacity-30 mb-4">First Payment</div>
+          <MoneyInput label="100" id="first-payment" />
+        </div>
+        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+          <div className="text-black text-opacity-30 mb-4">Deductable</div>
+          <MoneyInput label="100" id="first-payment" />
+        </div>
+        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+          <div className="text-black text-opacity-30 mb-4">Upgrades</div>
+          <MoneyInput label="100" id="first-payment" />
+        </div>
+        <div className="flex flex-col font-poppins font-normal text-sm box-border">
+          <div className="text-black text-opacity-30 mb-4">Final Payment</div>
+          <MoneyInput label="100" id="first-payment" />
+        </div>
+
+        <div className="flex flex-col  font-poppins font-normal text-sm">
+          <div className="text-black mb-4">Balance</div>
+          <div className="text-black">10,000</div>
+        </div>
+      </div>
+      {/**First part Ends*/}
+      <div className="bg-white rounded-2xl p-5 w-full max-w-screen-xl">
+        <h1 className="text-xl font-poppins font-medium text-black mb-4">
+          Job Content
+        </h1>
+        <div className="flex p-2 w-full max-w-xs mb-4">
+          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
+            <TextIcon className="mr-1" />
+            <span> Text</span>
+          </div>
+          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
+            <FileIcon className="mr-1" />
+            <span>Notes</span>
+          </div>
+          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
+            <GalleryIcon className="mr-1" />
+            <span>Photos</span>
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  );
 };
 
 export default Summary;
