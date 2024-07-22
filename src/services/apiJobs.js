@@ -16,6 +16,7 @@ export async function getJobs() {
     "https://test7.accrualdev.com/api/get/jobs",
     requestOptions
   );
+  // if (!resp.ok) throw new Error("Something went wrong.");
   const data = await resp.json();
   return data;
 }

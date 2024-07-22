@@ -31,7 +31,11 @@ export default function Tabs({ className }) {
       <button className="text-gray-500" aria-current="false">
         Overturn
       </button>
-      <button className="text-gray-500" aria-current="false">
+      <button
+        className="text-gray-500"
+        aria-current="false"
+        onClick={() => handleNavigation("/job-details/design-meeting")}
+      >
         Design Meeting
       </button>
     </nav>

@@ -28,6 +28,7 @@ import { getJobs } from "@services/apiJobs";
 import { Spin } from "antd";
 import { useDispatch } from "react-redux";
 import { useAuth } from "@context/AuthContext";
+import toast from "react-hot-toast";
 
 function KanbanBoard() {
   const { logout } = useAuth();
@@ -50,11 +51,13 @@ function KanbanBoard() {
           if (resp.status >= 200 && resp.status < 300) {
             dispatch(boardDataLoaded(resp.data));
           }
+          if (resp.status === 500) toast.error("Something went wrong.");
           if (resp.status === 401) {
             logout();
           }
         } catch (err) {
           console.log(err);
+          toast.error(err.message);
         } finally {
           setIsLoading(false);
         }

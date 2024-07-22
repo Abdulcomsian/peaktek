@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./ckeditor-styles.css"; // Import your custom CSS here
 import ReactQuill from "react-quill";
-import { render } from "react-dom";
 import "react-quill/dist/quill.snow.css";
 
 const Ckeditor = ({ className, initialData, onEditor, onDataChange }) => {
   const [editorData, setEditorData] = useState(initialData || "");
-  const [code, setCode] = useState("hellllo");
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],

@@ -1,2 +1,3 @@
 import Summary from "./Summary";
-export { Summary };
+import DesignMeeting from "./DesignMeeting";
+export { Summary, DesignMeeting };

@@ -1,8 +1,32 @@
 import React, { Fragment } from "react";
 import MoneyInput from "../MoneyInput";
+import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
+import { useSelector } from "react-redux";
+import { Ckeditor } from "@components/FormControls";
+const items = [
+  { id: 1, title: "Text", icon: <TextIcon className="mr-1" /> },
+  { id: 2, title: "Notes", icon: <FileIcon className="mr-1" /> },
+  { id: 3, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
+];
 
 const Summary = () => {
+  const selectedTab = useSelector((state) => state?.tabs?.activeTab);
+  console.log("Selected Tabs", selectedTab);
+  const renderActiveTab = () => {
+    switch (selectedTab) {
+      case 1:
+        return "Text content";
+      case 2:
+        return <Ckeditor />;
+      case 3:
+        return "photo content";
+
+      default:
+        break;
+    }
+  };
+
   return (
     <Fragment>
       {/**First part start*/}
@@ -38,20 +62,8 @@ const Summary = () => {
         <h1 className="text-xl font-poppins font-medium text-black mb-4">
           Job Content
         </h1>
-        <div className="flex p-2 w-full max-w-max mb-4">
-          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
-            <TextIcon className="mr-1" />
-            <span> Text</span>
-          </div>
-          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
-            <FileIcon className="mr-1" />
-            <span>Notes</span>
-          </div>
-          <div className="icon-container cursor-pointer text-black text-opacity-30 hover:bg-bluish hover:text-black border-b border-gray-200 hover:border-indigo-600 px-4">
-            <GalleryIcon className="mr-1" />
-            <span>Photos</span>
-          </div>
-        </div>
+        <Tabs items={items} />
+        <div>{renderActiveTab()}</div>
       </div>
     </Fragment>
   );
