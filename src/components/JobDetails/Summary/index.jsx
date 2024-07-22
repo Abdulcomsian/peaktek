@@ -59,7 +59,7 @@ const Summary = () => {
       </div>
       {/**First part Ends*/}
       <TabsContentBox contentTitle="Job Content">
-        <Tabs items={items} onClick={setActiveTab} />
+        <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
         <div>{renderActiveTab()}</div>
       </TabsContentBox>
     </Fragment>

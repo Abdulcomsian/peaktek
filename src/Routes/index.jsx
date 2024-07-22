@@ -97,6 +97,10 @@ export function AppRoute() {
         <Route element={<Dashboard />}>
           <Route path="/job-details" element={<JobDetail />}>
             <Route path="summary" element={<Summary />} />
+            <Route
+              path="customer-agreement/:id"
+              element={<CustomerAgreement />}
+            />
             <Route path="design-meeting" element={<DesignMeeting />} />
           </Route>
         </Route>
