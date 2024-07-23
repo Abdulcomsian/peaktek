@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { ItemsRow } from "@components/Forms";
 import { Button } from "@components";
+import { Input } from "@components/FormControls";
+
+const itemFields = [
+  { title: "Item", type: "text", placeholder: "Item Name" },
+  { title: "Qunatity", type: "number", placeholder: "2" },
+  { title: "Price", type: "number", placeholder: "5" },
+  { title: "Line Total", type: "number", placeholder: "10" },
+];
 
 const ItemsList = ({ className }) => {
   const [items, setItems] = useState([{ item: "", quantity: 0, price: 0 }]);
@@ -24,14 +32,9 @@ const ItemsList = ({ className }) => {
   return (
     <div className={className}>
       <div className="w-full mx-auto mb-8">
-        <div className="flex justify-between  items-center text-center  py-2 ">
-          <span className="w-full ">Item</span>
-          <span className="w-full ">Quantity</span>
-          <span className="w-full ">Price</span>
-          <span className="w-full ">Line Total</span>
-        </div>
         {items?.map((item, index) => (
           <ItemsRow
+            fields={itemFields}
             key={index}
             item={item}
             index={index}
@@ -41,10 +44,7 @@ const ItemsList = ({ className }) => {
         ))}
       </div>
       <div className="flex justify-between items-center">
-        <Button
-          onClick={handleAddRow}
-          className="p-2 bg-white border border-gray-400 rounded-md font-medium hover:bg-slate-300"
-        >
+        <Button onClick={handleAddRow} variant="gradient">
           Add Item
         </Button>
         <div>

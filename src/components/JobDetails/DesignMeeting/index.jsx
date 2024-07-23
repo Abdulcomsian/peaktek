@@ -2,8 +2,14 @@ import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
 import TabsContentBox from "@components/UI/Tabs/TabsContentBox";
 import { useState } from "react";
-import { Title } from "@components/Forms";
-import TitleForm from "@components/Forms/TitleForm";
+import {
+  AuthorizationForm,
+  InspectionForm,
+  IntroductionForm,
+  QuoteDetailsForm,
+  Title,
+  TitleForm,
+} from "@components/Forms";
 
 const tabsDesignMeeting = [
   { id: 1, title: "Carrer Scope" },
@@ -20,8 +26,16 @@ const tabsDesignMeeting = [
 
 function renderSection(currTab) {
   switch (currTab) {
-    case 1:
+    case 2:
       return <TitleForm />;
+    case 3:
+      return <IntroductionForm />;
+    case 4:
+      return <InspectionForm />;
+    case 5:
+      return <QuoteDetailsForm />;
+    case 6:
+      return <AuthorizationForm />;
   }
 }
 

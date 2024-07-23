@@ -35,7 +35,7 @@ export default function JobDetail() {
 
   if (isFetchingJob) return <CenteredSpinner />;
   return (
-    <div className="bg-bluish h-full p-5">
+    <div className="bg-bluish min-h-full p-5">
       <Header companyName="Company Name" className="mb-4">
         <BreadCrumb items={[{ title: "Dashboard" }, { title: "Leads" }]} />
       </Header>
