@@ -5,6 +5,7 @@ import MoneyIcon from "./Icons/Money";
 import FileIcon from "./Icons/File";
 import GalleryIcon from "./Icons/Gallery";
 import TextIcon from "./Icons/Text";
+import ImageIcon from "./Icons/Image";
 import Tabs from "./Tabs";
 export {
   Button,
@@ -14,5 +15,6 @@ export {
   FileIcon,
   GalleryIcon,
   TextIcon,
+  ImageIcon,
   Tabs,
 };

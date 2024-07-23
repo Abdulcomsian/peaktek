@@ -27,7 +27,12 @@ import {
   TermsAndConditions,
   QuoteDetails,
 } from "@components/Forms";
-import { DesignMeeting, Summary } from "@components/JobDetails";
+import {
+  DesignMeeting,
+  Summary,
+  CustomerAgreementForm,
+  AdjustorMeeting,
+} from "@components/JobDetails";
 import { KanbanBoard } from "@components/Dashboard";
 import { UserList } from "@components";
 import { ManageUser } from "@components/index";
@@ -96,8 +101,13 @@ export function AppRoute() {
         </Route>
         <Route element={<Dashboard />}>
           <Route path="/job-details/:id" element={<JobDetail />}>
+            <Route index element={<Navigate to="summary" replace />} />
             <Route path="summary" element={<Summary />} />
-            <Route path="customer-agreement" element={<CustomerAgreement />} />
+            <Route
+              path="customer-agreement"
+              element={<CustomerAgreementForm />}
+            />
+            <Route path="adjustor-meeting" element={<AdjustorMeeting />} />
             <Route path="approved" element={<DesignMeeting />} />
           </Route>
         </Route>
