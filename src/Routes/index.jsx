@@ -95,13 +95,10 @@ export function AppRoute() {
           <Route path="terms-and-conditions" element={<TermsAndConditions />} />
         </Route>
         <Route element={<Dashboard />}>
-          <Route path="/job-details" element={<JobDetail />}>
+          <Route path="/job-details/:id" element={<JobDetail />}>
             <Route path="summary" element={<Summary />} />
-            <Route
-              path="customer-agreement/:id"
-              element={<CustomerAgreement />}
-            />
-            <Route path="design-meeting" element={<DesignMeeting />} />
+            <Route path="customer-agreement" element={<CustomerAgreement />} />
+            <Route path="approved" element={<DesignMeeting />} />
           </Route>
         </Route>
         <Route path="*" element={<p>Page Not Found</p>} />

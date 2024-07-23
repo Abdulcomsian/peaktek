@@ -7,7 +7,7 @@ export default function Tabs({ items, activeTab, onClick }) {
       {items.map((item) => (
         <div
           onClick={() => onClick(item?.id)}
-          className={`icon-container cursor-pointer  border-b border-gray-200 px-4 py-2 ${
+          className={`icon-container cursor-pointer  border-b border-gray-200 px-4 py-2 min-w-fit ${
             activeTab === item.id
               ? "bg-bluish text-black border-indigo-600"
               : "text-black text-opacity-30"
