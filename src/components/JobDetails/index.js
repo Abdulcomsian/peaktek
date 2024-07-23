@@ -1,3 +1,16 @@
 import Summary from "./Summary";
 import DesignMeeting from "./DesignMeeting";
-export { Summary, DesignMeeting };
+import CustomerAgreementForm from "./CustomerAgreement";
+import AdjustorMeeting from "./AdjustorMeeting";
+import Header from "@components/JobDetails/MainPage/Header";
+import MainTabs from "@components/JobDetails/MainPage/MainTabs";
+import MobileContent from "@components/JobDetails/MainPage/MobileContent";
+export {
+  Summary,
+  DesignMeeting,
+  CustomerAgreementForm,
+  AdjustorMeeting,
+  Header,
+  MainTabs,
+  MobileContent,
+};
