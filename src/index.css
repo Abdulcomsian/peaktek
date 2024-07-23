@@ -183,4 +183,13 @@ input::placeholder{
   /* background-color: #f0f4f8; Adjust as needed */
   color: #000; /* Change to desired hover color */
 }
+ .btn-gradient{
+  background:linear-gradient(108.74deg, #2E429B -60.43%, #18FAF8 193.77%);
+ }
+ .btn-gradient-dark{
+
+   background: linear-gradient(96.61deg, #1E40AF 27.87%, #60A5FA 151.88%),
+ }
+
+
 

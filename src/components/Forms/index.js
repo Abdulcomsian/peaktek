@@ -6,6 +6,7 @@ import JobCostForm from "./JobCost";
 import ProjectSummaryForm from "./ProjectSummary";
 import SignaturesForm from "./Signatures";
 import ContractInformationForm from "./ContractInformation";
+import AdjustorForm from "./AdjustorForm";
 import Row from "./Row";
 import DynamicForm from "./DynamicForm";
 import ComissionTotal from "./ComissionTotal";
@@ -50,4 +51,5 @@ export {
   TermsAndConditions,
   InsuranceReport,
   QuoteDetails,
+  AdjustorForm,
 };

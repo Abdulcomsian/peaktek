@@ -1,11 +1,10 @@
 import { BreadCrumb } from "@components/UI";
-import Header from "./Header";
-import Tabs from "./Tabs";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getJobApi } from "@services/apiJobs";
 import { useAuth } from "@context/AuthContext";
 import CenteredSpinner from "@components/CenteredSpinner";
+import { MainTabs, Header } from "@components/JobDetails";
 
 export default function JobDetail() {
   const { jobId } = useParams();
@@ -40,8 +39,10 @@ export default function JobDetail() {
       <Header companyName="Company Name" className="mb-4">
         <BreadCrumb items={[{ title: "Dashboard" }, { title: "Leads" }]} />
       </Header>
-      <Tabs className="mb-4" />
-      <Outlet />
+      <MainTabs className="mb-4" />
+      <div className="hidden md:block">
+        <Outlet />
+      </div>
     </div>
   );
 }
