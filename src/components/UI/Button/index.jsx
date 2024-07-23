@@ -10,17 +10,17 @@ const Button = ({
   variant,
   to,
 }) => {
-  const base = `flex items-center justify-center gap-1 font-medium text-base rounded-full px-3 py-2 group w-full`;
+  const base = `flex items-center justify-center gap-1  text-base rounded-md px-3 py-2 group font-light`;
 
   const variantStyle = {
     gradient:
       base +
-      "bg-gradient-to-r from-blue-400 to-blue-800 bg-custom-gradient text-white",
+      "bg-gradient-to-br from-[#18FAF8] to-[#2E429B] bg-custom-gradient text-white",
     primaryOutline:
-      base +
-      `text-gray-700 font-medium text-base  hover:bg-blue-50 border border-blue-200`,
+      base + `text-gray-700 text-base  hover:bg-blue-50 border border-blue-200`,
     danger: base + "bg-red-500 text-white hover:bg-red-400",
     accent: base + "bg-green-500 text-white hover:bg-green-400",
+    deleteBtn: "p-2 bg-red-200 rounded-md",
   };
 
   if (to) {

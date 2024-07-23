@@ -19,7 +19,6 @@ import AppLayout from "@components/Layout";
 import {
   Title,
   Introduction,
-  Inspection,
   Authorization,
   PaymentSchedule,
   RoofComponentsGeneric,
@@ -86,7 +85,7 @@ export function AppRoute() {
         <Route path="/projects" element={<Projects />}>
           <Route path="title/:id" element={<Title />} />
           <Route path="introduction/:id" element={<Introduction />} />
-          <Route path="inspection/:id" element={<Inspection />} />
+          {/* <Route path="inspection/:id" element={<Inspection />} /> */}
           <Route path="quote-details" element={<QuoteDetails />} />
           <Route path="authorization" element={<Authorization />} />
           <Route path="payment-schedule" element={<PaymentSchedule />} />
