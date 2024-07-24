@@ -4,7 +4,7 @@ import React, { Fragment } from "react";
 const AdjustorMeeting = () => {
   return (
     <Fragment>
-      <h1 className="font-poppins font-medium text-xl text-black mb-4">
+      <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Adjustor Meeting
       </h1>
       <div className="bg-white p-5 rounded-2xl">

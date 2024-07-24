@@ -1,5 +1,10 @@
 import React from "react";
-import { Summary, CustomerAgreementForm } from "@components/JobDetails";
+import {
+  Summary,
+  CustomerAgreementForm,
+  AdjustorMeeting,
+  DesignMeeting,
+} from "@components/JobDetails";
 
 const MobileContent = ({ path }) => {
   switch (path) {
@@ -8,11 +13,11 @@ const MobileContent = ({ path }) => {
     case "customer-agreement":
       return <CustomerAgreementForm />;
     case "adjustor-meeting":
-      return <div>Adjustor Meeting Content</div>;
+      return <AdjustorMeeting />;
     case "overturn":
       return <div>Overturn Content</div>;
     case "approved":
-      return <div>Approved Content</div>;
+      return <DesignMeeting />;
     default:
       return null;
   }
