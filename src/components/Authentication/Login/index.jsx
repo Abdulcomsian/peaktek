@@ -13,10 +13,19 @@ import { login } from "@services/apiAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const { register, handleSubmit, formState: error } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({});
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState({});
+
+  // const onError = function (error) {
+  //   setError(error);
+  // };
 
   useEffect(
     function () {
@@ -44,7 +53,6 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  console.log(error);
 
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -74,6 +82,7 @@ const Login = () => {
               className="mb-4"
               placeholder="example@gmail.com"
               register={register}
+              error={errors?.email?.message}
             />
             <Input
               label="Password"
@@ -83,6 +92,7 @@ const Login = () => {
               className="mb-2"
               placeholder="***********"
               register={register}
+              error={errors?.password?.message}
             />
             <Button
               variant="gradient"

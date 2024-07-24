@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Logo } from "@components";
 import { RiUserSettingsLine, RiLogoutCircleLine } from "react-icons/ri";
 import { LiaFileContractSolid } from "react-icons/lia";
@@ -36,16 +36,23 @@ const sidebarLinks = [
 ];
 export default function Sidebar({ isShow, onCloseSidebar }) {
   const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async function () {
+    await logout();
+    navigate("/");
+  };
+
   return (
     <div
-      className="dashboard-sidebar bg-blue-950 flex flex-col items-center "
+      className="dashboard-sidebar gradient-t-b flex flex-col items-center "
       style={isShow ? { transform: "translateX(0)" } : {}}
     >
       <Button className="btn-mob-nav-close" onClick={onCloseSidebar}>
         &times;
       </Button>
       <div className="sidebar-logo mb-8">
-        <Logo className="w-10 h-10" />
+        <Logo className="w-12 h-10" varient="white" />
       </div>
       <ul className="flex flex-col gap-4 justify-center items-center px-3">
         {sidebarLinks?.map((link) => (
@@ -61,7 +68,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       </ul>
       <RiLogoutCircleLine
         className="mt-auto text-white m-3 mb-8 cursor-pointer"
-        onClick={() => logout()}
+        onClick={handleLogout}
       />
     </div>
   );
