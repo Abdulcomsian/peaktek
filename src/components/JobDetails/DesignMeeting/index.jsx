@@ -44,12 +44,22 @@ const DesignMeeting = () => {
   return (
     <>
       <TabsContentBox contentTitle="Design Meeting">
-        <Tabs
-          items={tabsDesignMeeting}
-          activeTab={currTab}
-          onClick={setCurrTab}
-        />
-        {renderSection(currTab)}
+        <div className="hidden md:block">
+          <Tabs
+            items={tabsDesignMeeting}
+            activeTab={currTab}
+            onClick={setCurrTab}
+          />
+          {renderSection(currTab)}
+        </div>
+        <div className="md:hidden">
+          <Tabs
+            items={tabsDesignMeeting}
+            collapsable={true}
+            onClick={setCurrTab}
+            activeTab={currTab}
+          />
+        </div>
       </TabsContentBox>
     </>
   );

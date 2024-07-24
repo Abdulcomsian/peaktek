@@ -61,7 +61,7 @@ export default function TitleForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="my-6">
         <InputContainer className="flex flex-col md:flex-row justify-between">
           <Input
             label="First Name:"
