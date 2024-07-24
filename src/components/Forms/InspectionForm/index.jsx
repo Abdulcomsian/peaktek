@@ -53,12 +53,12 @@ export default function InspectionForm() {
               onClick={() => confirmDelete(row.id)}
             />
             <Ckeditor
-              className=" md:col-start-1"
+              className=" md:col-start-1 col-span-2 md:col-span-1"
               onDataChange={handleDataChange}
               initialData={initialData}
             />
             <UploaderInputs
-              wrapperClass=""
+              wrapperClass="col-span-2 md:col-span-1"
               name={`attachment-${index}`}
               id={`attachment-${index}`}
               register={register}
