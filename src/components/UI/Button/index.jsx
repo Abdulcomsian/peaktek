@@ -15,7 +15,7 @@ const Button = ({
   const variantStyle = {
     gradient:
       base +
-      "bg-gradient-to-br from-[#18FAF8] to-[#2E429B] bg-custom-gradient text-white",
+      " bg-gradient-to-br from-[#2E429B] to-[#18FAF8] bg-custom-gradient text-white",
     primaryOutline:
       base + `text-gray-700 text-base  hover:bg-blue-50 border border-blue-200`,
     danger: base + "bg-red-500 text-white hover:bg-red-400",

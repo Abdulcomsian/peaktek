@@ -60,8 +60,8 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
         ))}
       </ul>
       <RiLogoutCircleLine
-        className="mt-auto text-white m-3 mb-8"
-        onClick={logout}
+        className="mt-auto text-white m-3 mb-8 cursor-pointer"
+        onClick={() => logout()}
       />
     </div>
   );
