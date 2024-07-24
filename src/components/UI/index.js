@@ -7,6 +7,7 @@ import GalleryIcon from "./Icons/Gallery";
 import TextIcon from "./Icons/Text";
 import ImageIcon from "./Icons/Image";
 import Tabs from "./Tabs";
+import TabsContentBox from "./TabsContentBox";
 export {
   Button,
   Card,
@@ -17,4 +18,5 @@ export {
   TextIcon,
   ImageIcon,
   Tabs,
+  TabsContentBox,
 };

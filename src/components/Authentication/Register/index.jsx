@@ -39,7 +39,7 @@ const Register = () => {
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <Navbar btnText="Login" />
-      <div className="max-w-md mx-auto mt-10">
+      <div className="max-w-md mx-auto py-10">
         <div className="flex flex-col">
           <h1 className="font-semibold text-3xl text-gray-700 text-center mb-4">
             Register to PeakTek
@@ -59,12 +59,14 @@ const Register = () => {
               <Input
                 label="First Name"
                 name="firstName"
+                placeholder="Jhon"
                 applyMarginBottom={true}
                 register={register}
               />
               <Input
                 label="Last Name"
                 name="lastName"
+                placeholder="Doe"
                 applyMarginBottom={true}
                 register={register}
               />

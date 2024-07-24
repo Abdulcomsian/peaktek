@@ -67,7 +67,7 @@ const Login = () => {
             <span className="mx-4">Or, sign in with email</span>
             <div className="flex-grow border-t border-gray-300" />
           </div>
-          <form action="" onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
             <Input
               label="Email address"
               name="email"
@@ -80,6 +80,7 @@ const Login = () => {
               label="Password"
               type="password"
               name="password"
+              applyMarginBottom={true}
               className="mb-2"
               placeholder="***********"
               register={register}
