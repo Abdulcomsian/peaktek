@@ -1,6 +1,6 @@
 import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
-import TabsContentBox from "@components/UI/Tabs/TabsContentBox";
+import TabsContentBox from "@components/UI/TabsContentBox";
 import { useState } from "react";
 import {
   AuthorizationForm,
