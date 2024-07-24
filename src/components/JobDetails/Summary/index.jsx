@@ -67,7 +67,7 @@ const Summary = () => {
       e.preventDefault();
       setLoading(true);
       const response = await clientBaseURL.post(
-        `${clientEndPoints?.updateJobDetails}/${1}`,
+        `${clientEndPoints?.updateJobSummary}/${1}`,
         fields,
         {
           headers: {

@@ -55,7 +55,7 @@ export default function Tabs({
 }
 
 function TabItem({ item, activeTab, onClick }) {
-  console.log("SINGLE ITEM", item);
+
   return (
     <div
       onClick={() => onClick(item?.id)}
