@@ -14,7 +14,9 @@ const Input = ({
   defaultValue,
   disabled,
   required = true,
+  error = "",
 }) => {
+  console.log("Eror", error);
   return (
     <div className={`w-full ${className}`}>
       {label && (
@@ -37,8 +39,17 @@ const Input = ({
         name={name}
         onFocus={onFocus}
         className={`bg-gray-50 hover:bg-white outline-none border border-gray-300 hover:border-blue-500 text-gray-900 text-sm rounded-md block w-full p-2.5 focus:outline-none focus:border-blue-500`}
-        {...register?.(name, { required: required })}
+        {...register?.(
+          name,
+          { required: `${name} must be required` },
+          "Value is required"
+        )}
       />
+      {error && (
+        <p className="text-sm mt-1 text-red-500 bg-red-200 rounded-md px-3 py-1">
+          {error}
+        </p>
+      )}
     </div>
   );
 };

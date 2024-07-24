@@ -190,7 +190,10 @@ input::placeholder{
 
    background: linear-gradient(96.61deg, #1E40AF 27.87%, #60A5FA 151.88%),
  }
+ .gradient-t-b{
+  background: linear-gradient(180deg, #2E429B -150.68%, #18FAF8 221.94%);
 
+ }
 
 
 .quill{
