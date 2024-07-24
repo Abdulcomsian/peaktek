@@ -209,6 +209,7 @@ input::placeholder{
   bottom: 0;
   left: 0;
   margin: 10px;
+  z-index: 10000;
 }
 .ql-toolbar.ql-snow + .ql-container.ql-snow{
   border-radius: 8px !important;
