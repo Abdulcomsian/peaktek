@@ -1,19 +1,25 @@
+import React, { useState } from "react";
 import { Ckeditor } from "@components/FormControls";
-import React, { Fragment } from "react";
+import Button from "@components/JobDetails/ui/Button";
 
 const Notes = () => {
+  const [editorContent, setEditorContent] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefalut();
+    console.log(editorContent);
+  };
   return (
-    <Fragment>
+    <form onSubmit={handleSubmit}>
       <Ckeditor className="mb-4" />
-      <div className="flex ">
-        <button className="font-poppins font-medium text-base text-white btn-gradient  px-4 py-1 rounded-md">
+      <div className="flex">
+        <Button type="submit" className=" text-white btn-gradient px-4 py-1">
           Save
-        </button>
-        <button className="font-poppins font-medium text-base text-black  px-4 py-1 rounded-md">
+        </Button>
+        <Button className=" text-black ml-4 border border-gray-300 px-4 py-1">
           Cancel
-        </button>
+        </Button>
       </div>
-    </Fragment>
+    </form>
   );
 };
 

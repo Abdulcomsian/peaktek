@@ -220,7 +220,9 @@ const Summary = () => {
               <div className="text-black">{fields.balance}</div>
             </div>
           </div>
-          <Button type="submit">Save</Button>
+          <Button type="submit" className="text-white btn-gradient px-4 py-1">
+            Save
+          </Button>
         </div>
       </form>
       {/**First part Ends*/}
