@@ -11,29 +11,7 @@ export default function JobDetail() {
   const [jobDetails, setJobDetail] = useState();
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const [isFetchingJob, setIsFetchingJob] = useState(false);
 
-  useEffect(() => {
-    async function getJob() {
-      try {
-        isFetchingJob(true);
-        const resp = await getJobApi(jobId);
-        console.log(resp);
-        if (resp.status >= 200 && resp.status < 300) {
-          setJobDetail(resp.job);
-        }
-        if (resp.status === 401) {
-          logout();
-          navigate("/");
-        }
-      } finally {
-        setIsFetchingJob(false);
-      }
-    }
-    getJob();
-  }, [jobId]);
-
-  if (isFetchingJob) return <CenteredSpinner />;
   return (
     <div className="bg-bluish min-h-full p-5">
       <Header companyName="Company Name" className="mb-4">
