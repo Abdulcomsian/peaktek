@@ -67,7 +67,7 @@ const Summary = () => {
       e.preventDefault();
       setLoading(true);
       const response = await clientBaseURL.post(
-        `${clientEndPoints?.updateJobDetails}/${1}`,
+        `${clientEndPoints?.updateJobSummary}/${1}`,
         fields,
         {
           headers: {
@@ -220,7 +220,9 @@ const Summary = () => {
               <div className="text-black">{fields.balance}</div>
             </div>
           </div>
-          <Button type="submit">Save</Button>
+          <Button type="submit" className="text-white btn-gradient px-4 py-1">
+            Save
+          </Button>
         </div>
       </form>
       {/**First part Ends*/}

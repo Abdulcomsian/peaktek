@@ -1,19 +1,22 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { ImageIcon } from "@components/UI";
-import { FilesUploader } from "@components/FormControls";
+import FilesUploader from "@components/FormControls/FilesUploader"; // Adjust import path accordingly
+
 const Photos = () => {
+  const token = localStorage.getItem("token");
+  const uploadAction = "https://test7.accrualdev.com/api/update/job-content/1";
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   return (
-    <div>
-      <FilesUploader icon={<ImageIcon />} />
-      <div className="flex mt-4 ">
-        <button className="font-poppins font-medium text-base text-white btn-gradient  px-4 py-1 rounded-md">
-          Save
-        </button>
-        <button className="font-poppins font-medium text-base text-black  px-4 py-1 rounded-md">
-          Cancel
-        </button>
-      </div>
-    </div>
+    <Fragment>
+      <FilesUploader
+        icon={<ImageIcon />}
+        action={uploadAction}
+        headers={headers}
+      />
+    </Fragment>
   );
 };
 
