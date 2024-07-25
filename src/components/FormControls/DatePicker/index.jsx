@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { DatePicker } from "antd";
 import { Controller } from "react-hook-form";
 import dayjs from "dayjs";
@@ -17,8 +17,6 @@ const CustomDatePicker = ({
     ? moment(defaultValue, "DD/MM/YYYY")
     : new Date().toLocaleDateString();
 
-  // console.log(antdDefaultValue);
-  const [value, setValue] = useState("");
   return (
     <div className={`w-full ${className}`}>
       <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">

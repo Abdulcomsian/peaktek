@@ -5,6 +5,7 @@ import AdjustorMeeting from "./AdjustorMeeting";
 import Header from "@components/JobDetails/MainPage/Header";
 import MainTabs from "@components/JobDetails/MainPage/MainTabs";
 import MobileContent from "@components/JobDetails/MainPage/MobileContent";
+import Overturn from "./Overturn";
 export {
   Summary,
   DesignMeeting,
@@ -13,4 +14,5 @@ export {
   Header,
   MainTabs,
   MobileContent,
+  Overturn,
 };

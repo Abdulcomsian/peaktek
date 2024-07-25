@@ -4,6 +4,7 @@ import {
   CustomerAgreementForm,
   AdjustorMeeting,
   DesignMeeting,
+  Overturn,
 } from "@components/JobDetails";
 
 const MobileContent = ({ path }) => {
@@ -15,7 +16,7 @@ const MobileContent = ({ path }) => {
     case "adjustor-meeting":
       return <AdjustorMeeting />;
     case "overturn":
-      return <div>Overturn Content</div>;
+      return <Overturn />;
     case "approved":
       return <DesignMeeting />;
     default:
