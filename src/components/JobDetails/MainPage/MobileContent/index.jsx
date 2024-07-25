@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Summary,
   CustomerAgreementForm,
@@ -8,20 +8,24 @@ import {
 } from "@components/JobDetails";
 
 const MobileContent = ({ path }) => {
-  switch (path) {
-    case "summary":
-      return <Summary />;
-    case "customer-agreement":
-      return <CustomerAgreementForm />;
-    case "adjustor-meeting":
-      return <AdjustorMeeting />;
-    case "overturn":
-      return <Overturn />;
-    case "approved":
-      return <DesignMeeting />;
-    default:
-      return null;
-  }
+  const memoizedContent = useMemo(() => {
+    switch (path) {
+      case "summary":
+        return <Summary />;
+      case "customer-agreement":
+        return <CustomerAgreementForm />;
+      case "adjustor-meeting":
+        return <AdjustorMeeting />;
+      case "overturn":
+        return <Overturn />;
+      case "approved":
+        return <DesignMeeting />;
+      default:
+        return null;
+    }
+  }, [path]);
+
+  return memoizedContent;
 };
 
 export default MobileContent;
