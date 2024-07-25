@@ -1,4 +1,5 @@
 import { InputContainer, Input } from "@components";
+import { CustomDatePicker, CustomTimePicker } from "@components/FormControls";
 import React from "react";
 
 const AdjustorForm = () => {
@@ -24,8 +25,12 @@ const AdjustorForm = () => {
           placeholder="john@gmail.com"
           type="email"
           applyMarginBottom={true}
-          className="  mb-4 md:mb-0"
+          className="md:mr-4  mb-4 md:mb-0"
         />
+        <CustomTimePicker label="Select a Time" className="mb-4 md:mb-0" />
+      </InputContainer>
+      <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
+        {/* <CustomDatePicker label="Select a Date" /> */}
       </InputContainer>
     </div>
   );

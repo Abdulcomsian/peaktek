@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "@components";
 import { CustomerInformationForm, SignaturesForm } from "@components/Forms";
 import { Spin } from "antd";
-import dayjs from "dayjs";
-
 import { Button } from "@components/UI";
 import ShowSignatureModalBtn from "@components/Signature/ShowSignatureModalBtn";
 import { useForm } from "react-hook-form";
@@ -13,19 +11,17 @@ import {
   sendEmailToSign,
 } from "@services/apiCreateCustomer";
 import { useAuth } from "@context/AuthContext";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import createSignature from "@services/apiPostSignature";
 import TextSection1 from "./TextSection1";
 import TextSection2 from "./TextSection2";
-import Footer from "./Footer";
 
 const CustomerAgreement = () => {
   const { id } = useParams();
 
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   const [isLoading, setIsLoading] = useState(true); // Initially set to true
   const [isEditing, setIsEditing] = useState(false);
   const [defaultValue, setDefaultValue] = useState({});
