@@ -4,6 +4,7 @@ import {
   ForgotPassword,
   Login,
   Register,
+  ResetPasswordForm,
   VerifyEmail,
 } from "@components/Authentication";
 import {
@@ -53,6 +54,7 @@ export function AppRoute() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route element={<AppLayout />}>
           <Route path="/test" element={<Test />} />
           <Route

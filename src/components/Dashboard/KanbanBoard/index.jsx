@@ -199,8 +199,12 @@ function KanbanBoard() {
   if (isLoading) return <Spin fullscreen={true} />;
 
   return (
-    <div className="p-4 flex flex-col gap-6">
-      <Button onClick={handleAddJob} className="self-end" variant="gradient">
+    <div className="p-4 grid grid-rows-[auto_1fr] gap-y-6 h-full pb-0">
+      <Button
+        onClick={handleAddJob}
+        className="justify-self-end"
+        variant="gradient"
+      >
         <FaPlus className="text-white mr-1" />
         New job
       </Button>
