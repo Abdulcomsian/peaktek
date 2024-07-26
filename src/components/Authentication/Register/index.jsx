@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { createUser } from "@store/slices/registerSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Flex } from "antd";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -101,8 +102,16 @@ const Register = () => {
               variant="gradient"
               className="w-full"
             >
-              Continue{" "}
-              <FaArrowRightLong className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
+              {!isSubmitting ? (
+                <>
+                  <span>Continue</span>
+                  <FaArrowRightLong className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
+                </>
+              ) : (
+                <Flex align="center" gap="middle">
+                  <Spin indicator={<LoadingOutlined spin />} size="small" />
+                </Flex>
+              )}
             </Button>
           </form>
           {/* <Button variant="primaryOutline" className="my-5">

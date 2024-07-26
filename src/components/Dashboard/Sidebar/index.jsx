@@ -1,37 +1,39 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Logo } from "@components";
 import { RiUserSettingsLine, RiLogoutCircleLine } from "react-icons/ri";
-import { LiaFileContractSolid } from "react-icons/lia";
-import { GrCompliance } from "react-icons/gr";
-import { GoTasklist } from "react-icons/go";
 import { MdMyLocation } from "react-icons/md";
 import { useAuth } from "@context/AuthContext";
+import listupIcon from "../../../assets/images/listUp.svg";
+import clipboardCheck from "../../../assets/images/clipboardCheck.svg";
+import settingsMinimalistic from "../../../assets/images/settingsMinimalistic.svg";
+import FileText from "../../../assets/images/FileText.svg";
+import GPS from "../../../assets/images/GPS.svg";
 
 const sidebarLinks = [
   {
     id: 1,
     linkSrc: "/dashboard",
-    linkText: <MdMyLocation size="24px" />,
+    linkText: GPS,
   },
   {
     id: 2,
     linkSrc: "users",
-    linkText: <GoTasklist size="24px" />,
+    linkText: listupIcon,
   },
   {
     id: 3,
     linkSrc: "manage-user",
-    linkText: <GrCompliance size="24px" />,
+    linkText: clipboardCheck,
   },
   {
     id: 4,
     linkSrc: "/",
-    linkText: <RiUserSettingsLine size="24px" />,
+    linkText: settingsMinimalistic,
   },
   {
     id: 5,
     linkSrc: "completedTasks",
-    linkText: <LiaFileContractSolid size="24px" />,
+    linkText: FileText,
   },
 ];
 export default function Sidebar({ isShow, onCloseSidebar }) {
@@ -52,7 +54,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
         &times;
       </Button>
       <div className="sidebar-logo mb-8">
-        <Logo className="w-12 h-10" varient="white" />
+        <Logo className="w-12 h-10" varient="white-main" />
       </div>
       <ul className="flex flex-col gap-4 justify-center items-center px-3">
         {sidebarLinks?.map((link) => (
@@ -61,7 +63,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
               to={link?.linkSrc}
               className="p-2 inline-flex items-center justify-center border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md "
             >
-              {link?.linkText}
+              <img src={link.linkText} alt="" />
             </NavLink>
           </li>
         ))}

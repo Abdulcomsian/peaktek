@@ -1,6 +1,11 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Login, Register } from "@components/Authentication";
+import {
+  ForgotPassword,
+  Login,
+  Register,
+  VerifyEmail,
+} from "@components/Authentication";
 import {
   CertificateOfCompletion,
   CommissionAgreement,
@@ -46,6 +51,8 @@ export function AppRoute() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route element={<AppLayout />}>
           <Route path="/test" element={<Test />} />
           <Route

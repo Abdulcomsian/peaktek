@@ -45,11 +45,7 @@ const Input = ({
           "Value is required"
         )}
       />
-      {error && (
-        <p className="text-sm mt-1 text-red-500 bg-red-200 rounded-md px-3 py-1">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-sm mt-1 text-red-500 py-1">{error}</p>}
     </div>
   );
 };

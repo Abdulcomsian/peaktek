@@ -12,7 +12,7 @@ const Navbar = ({ btnText }) => {
         className="flex items-center cursor-pointer "
         onClick={() => handleNavigation("/dashboard")}
       >
-        <Logo className="w-40 h-auto mr-2" varient="white" />
+        <Logo className="w-[100px] h-auto mr-2" varient="white" />
       </div>
       <div>
         {/* <Button className="text-blue-600 font-medium text-base  rounded-full px-3 py-2 mr-3">

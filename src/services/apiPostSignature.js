@@ -1,9 +1,7 @@
 const token = localStorage.getItem("token");
 
 export default async function createSignature({ id, image }) {
-  console.log("SIGNATURE", id, image);
   const myHeaders = new Headers();
-  myHeaders.append("Accept", "application/json");
   myHeaders.append("Authorization", `Bearer ${token}`);
 
   const formdata = new FormData();

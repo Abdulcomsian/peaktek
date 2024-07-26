@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Register from "./Register";
 import RegisterFlow from "./RegistrationFlow";
 import VerifyEmail from "./VerifyEmail";
+import ForgotPassword from "./ForgotPassword";
 
 export {
   AboutCompany,
@@ -16,4 +17,5 @@ export {
   Register,
   RegisterFlow,
   VerifyEmail,
+  ForgotPassword,
 };

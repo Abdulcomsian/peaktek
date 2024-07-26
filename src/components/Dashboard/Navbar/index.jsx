@@ -6,7 +6,7 @@ import ProfileAvatar from "@components/ProfileAvatar";
 export default function NavBar({ onCloseSidebar }) {
   return (
     <nav className="dashboard-nav">
-      <div className="welcome-box items-center">
+      <div className="welcome-box items-center w-full pr-3">
         <button className="btn btn-icon-close" onClick={onCloseSidebar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

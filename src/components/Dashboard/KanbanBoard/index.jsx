@@ -21,7 +21,7 @@ import { NewJobModal, JobDetailModal, AddBoardModal } from "@components/Modals";
 import { boardDataLoaded } from "@store/slices/JobsSlice";
 
 import "./kanban.css";
-import { Button } from "@components";
+import { Button } from "@components/UI";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getJobs } from "@services/apiJobs";
@@ -199,59 +199,58 @@ function KanbanBoard() {
   if (isLoading) return <Spin fullscreen={true} />;
 
   return (
-    <div className="p-4">
-      <button
-        onClick={handleAddJob}
-        className="flex items-center justify-center gap-1 mb-3  bg-gradient-to-r from-blue-400 to-blue-800 text-white font-medium text-base hover:bg-custom-gradient border border-transparent rounded-full px-3 py-2 mr-3 group"
-      >
+    <div className="p-4 flex flex-col gap-6">
+      <Button onClick={handleAddJob} className="self-end" variant="gradient">
         <FaPlus className="text-white mr-1" />
         New job
-      </button>
-      <div className="kanban-container">
-        <DndContext
-          autoScroll={true}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-          sensors={sensors}
-        >
-          <SortableContext
-            items={data.map((col) => col.id)}
-            strategy={rectSortingStrategy}
+      </Button>
+      <div className="max-w-full overflow-y-auto">
+        <div className="kanban-container">
+          <DndContext
+            autoScroll={true}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+            sensors={sensors}
           >
-            <div style={{ display: "flex", gap: "16px" }}>
-              {data.map((column, index) => {
-                return (
-                  <DraggableColumn
-                    key={column.id}
-                    id={column.id}
-                    title={column.name}
-                    tasks={column.tasks}
-                    someoneIsDragging={isDragging}
-                  />
-                );
-              })}
-              {/* <Button className="btn-add" onClick={handleAddNewBoard}>
+            <SortableContext
+              items={data.map((col) => col.id)}
+              strategy={rectSortingStrategy}
+            >
+              <div style={{ display: "flex", gap: "16px" }}>
+                {data.map((column, index) => {
+                  return (
+                    <DraggableColumn
+                      key={column.id}
+                      id={column.id}
+                      title={column.name}
+                      tasks={column.tasks}
+                      someoneIsDragging={isDragging}
+                    />
+                  );
+                })}
+                {/* <Button className="btn-add" onClick={handleAddNewBoard}>
                 &#x2B;
               </Button> */}
-            </div>
-          </SortableContext>
-        </DndContext>
-        {showAddNewJobModal && (
-          <NewJobModal
-            open={showAddNewJobModal}
-            onOk={() => setAddNewJobModal(false)}
-            onCancel={() => setAddNewJobModal(false)}
-            onAddJob={() => setInvalidatePage((is) => !is)}
-          />
-        )}
-        {addNewBoard && (
-          <AddBoardModal
-            open={addNewBoard}
-            onOk={() => setAddNewBoard(false)}
-            onCancel={() => setAddNewBoard(false)}
-            onAddTitle={handleAdd}
-          />
-        )}
+              </div>
+            </SortableContext>
+          </DndContext>
+          {showAddNewJobModal && (
+            <NewJobModal
+              open={showAddNewJobModal}
+              onOk={() => setAddNewJobModal(false)}
+              onCancel={() => setAddNewJobModal(false)}
+              onAddJob={() => setInvalidatePage((is) => !is)}
+            />
+          )}
+          {addNewBoard && (
+            <AddBoardModal
+              open={addNewBoard}
+              onOk={() => setAddNewBoard(false)}
+              onCancel={() => setAddNewBoard(false)}
+              onAddTitle={handleAdd}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
