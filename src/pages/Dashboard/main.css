@@ -51,7 +51,7 @@
 
 .dashboard-main-content{
     height: 100%;
-    /* overflow-y: auto; */
+    overflow-y: auto;
 }
 .dashboard-nav .dash-nav-title{
     font-size: 2.6rem;

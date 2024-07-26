@@ -3,7 +3,7 @@ import { Button } from "@components/UI";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { Form, Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@components/Authentication";
 import { Input } from "@components/FormControls";
 import { useSelector } from "react-redux";
@@ -104,9 +104,12 @@ const Login = () => {
             </Button>
           </form>
           <div className="flex justify-end mt-4">
-            {/* <Button className="text-gray-500 font-medium text-base">
+            <Link
+              to="forgotpassword"
+              className="text-gray-500 font-medium text-base"
+            >
               Forget password?
-            </Button> */}
+            </Link>
             {/* <Button
               className="text-blue-600 font-medium text-base"
               to="/register"
