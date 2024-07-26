@@ -16,7 +16,7 @@ const Input = ({
   required = true,
   error = "",
 }) => {
-  console.log("Eror", error);
+
   return (
     <div className={`w-full ${className}`}>
       {label && (
