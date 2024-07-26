@@ -6,9 +6,22 @@ import { createJob } from "@services/apiJobs";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addJob } from "@store/slices/JobsSlice";
+import { Button } from "@components/UI";
+
+const modalInputsData = [
+  { name: "address", label: "Job Address", placeholder: "Enter new job" },
+  { name: "name", label: "Name", placeholder: "Enter customer name" },
+  { name: "email", label: "Email", placeholder: "Email address" },
+  { name: "phone", label: "Phone", placeholder: "Phone number" },
+];
 
 function NewJobModal({ open, onCancel, onOk, onAddJob }) {
-  const { handleSubmit, register, reset } = useForm();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm();
   const dispatch = useDispatch();
   const [job, setJob] = useState("");
   const [isCreating, setIsCreating] = useState(false);
@@ -39,45 +52,25 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
     <Modal open={open} onCancel={onCancel} onOk={onOk} footer={null}>
       <h1 className="text-center text-xl font-semibold my-4">New Job</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          applyMarginBottom={true}
-          name="address"
-          label="Job Address"
-          placeholder="Enter new job"
-          className="mb-4"
-          register={register}
-        />
-        <Input
-          applyMarginBottom={true}
-          label="Name"
-          name="name"
-          placeholder="Enter customer name"
-          className="mb-4"
-          register={register}
-        />
-        <Input
-          applyMarginBottom={true}
-          label="Email"
-          name="email"
-          placeholder="Email address"
-          className="mb-4"
-          register={register}
-        />
-        <Input
-          applyMarginBottom={true}
-          name="phone"
-          label="Phone"
-          placeholder="Phone number"
-          className="mb-4"
-          register={register}
-        />
+        {modalInputsData.map((data) => (
+          <Input
+            applyMarginBottom={true}
+            name={data.name}
+            label={data.label}
+            placeholder={data.placeholder}
+            className="mb-3"
+            register={register}
+            error={errors?.[data.name]?.message}
+          />
+        ))}
         <div className="flex justify-center">
-          <button
+          <Button
+            variant="gradient"
             type="Submit"
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white min-w-[100px]"
+            className="px-4 py-2  text-white uppercase font-semibold min-w-[100px]"
           >
             {isCreating ? <Spin /> : "Add Job"}
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

@@ -4,14 +4,16 @@ import { Form } from "antd";
 import { Button } from "@components";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Flex, Input, Typography } from "antd";
+import toast from "react-hot-toast";
 const { Title } = Typography;
 
-const VerifyEmail = ({ currentStep, onNext }) => {
-  const [isVerified, setIsVerified] = useState(false);
-  const location = useLocation();
-  const { email } = location.state || "";
+const VerifyEmail = () => {
+  const [searchParam, setSearchParam] = useSearchParams();
+  const email = searchParam.get("email");
+  const navigate = useNavigate();
+  const [isSubmitting, setisSubmitting] = useState(false);
 
   const onChange = (text) => {
     console.log("onChange:", text);
@@ -20,6 +22,7 @@ const VerifyEmail = ({ currentStep, onNext }) => {
 
       const formdata = new FormData();
       formdata.append("otp", text);
+      formdata.append("email", email);
 
       const requestOptions = {
         method: "POST",
@@ -28,15 +31,21 @@ const VerifyEmail = ({ currentStep, onNext }) => {
         redirect: "follow",
       };
 
-      const resp = await fetch(
-        "https://test7.accrualdev.com/api/verify/otp",
-        requestOptions
-      );
-      const data = await resp.json();
-      if (data.status >= 200 && data.status < 300) {
-        setIsVerified((is) => !is);
+      try {
+        setisSubmitting(true);
+        const resp = await fetch(
+          "https://test7.accrualdev.com/api/verify/otp",
+          requestOptions
+        );
+        const data = await resp.json();
+        if (data.status >= 200 && data.status < 300) {
+          toast.success(data.message);
+          navigate(`/reset-password?email=${email}`, { replace: false });
+        }
+        if (data.status === 422) toast.error(data.message);
+      } finally {
+        setisSubmitting(false);
       }
-      console.log("data", data);
     };
 
     if (text) varifyOTP();
@@ -53,7 +62,8 @@ const VerifyEmail = ({ currentStep, onNext }) => {
             Please verify your email
           </h1>
           <p className="text-gray-700 text-sm">
-            You're almost there! We've sent a verification code to your email:
+            You're almost there! We've sent a verification code to your email:{" "}
+            {email}
           </p>
           <p className="mb-3 text-black font-medium">{email}</p>
           <p className="mb-3 text-sm">
@@ -67,13 +77,9 @@ const VerifyEmail = ({ currentStep, onNext }) => {
 
           <div className="flex items-end justify-between mt-4">
             <form>
-              <Title level={4}>Enter 6-digit code</Title>
-              <Input.OTP length={4} {...sharedProps} />
+              <Title level={4}>Enter 4-digit code</Title>
+              <Input.OTP length={4} {...sharedProps} disabled={isSubmitting} />
             </form>
-            {/* <Button variant="gradient" onClick={onNext} className="">
-              Verify Email
-              <FaArrowRightLong className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
-            </Button> */}
             <div>
               <p className="text-center text-sm">Can't find the code?</p>
               <Button className="w-full flex justify-center  items-center  text-blue-600 font-medium text-base   group">

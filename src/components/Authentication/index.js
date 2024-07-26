@@ -7,6 +7,7 @@ import Register from "./Register";
 import RegisterFlow from "./RegistrationFlow";
 import VerifyEmail from "./VerifyEmail";
 import ForgotPassword from "./ForgotPassword";
+import ResetPasswordForm from "./ResetPasswordForm";
 
 export {
   AboutCompany,
@@ -18,4 +19,5 @@ export {
   RegisterFlow,
   VerifyEmail,
   ForgotPassword,
+  ResetPasswordForm,
 };

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@components/UI";
-import { FcGoogle } from "react-icons/fc";
-import { MdFacebook } from "react-icons/md";
-import { Form, Spin } from "antd";
+import { Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@components/Authentication";
 import { Input } from "@components/FormControls";
-import { useSelector } from "react-redux";
 import { useAuth } from "@context/AuthContext";
 import { useForm } from "react-hook-form";
 import { login } from "@services/apiAuth";
@@ -21,11 +18,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState({});
-
-  // const onError = function (error) {
-  //   setError(error);
-  // };
 
   useEffect(
     function () {
