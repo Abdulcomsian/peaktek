@@ -6,7 +6,7 @@ const Button = ({ children, type, disabled, onClick, className }) => {
       type={type ? type : "button"} // If type prop is empty, default to "button"
       onClick={onClick}
       disabled={disabled}
-      className={`font-poppins font-medium text-base rounded-md ${className}`}
+      className={`font-poppins font-medium text-base rounded-md focus:outline-none ${className}`}
     >
       {children}
     </button>

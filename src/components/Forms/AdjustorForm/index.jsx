@@ -1,38 +1,82 @@
-import { InputContainer, Input } from "@components";
-import { CustomDatePicker, CustomTimePicker } from "@components/FormControls";
-import React from "react";
+import { InputContainer } from "@components";
+import {
+  CustomTimePicker,
+  DateSelector,
+  TextBox,
+} from "@components/FormControls";
+import React, { Fragment } from "react";
 
-const AdjustorForm = () => {
+const AdjustorForm = ({
+  handleChange,
+  handleBlur,
+  touched,
+  errors,
+  values,
+  setFieldValue,
+}) => {
   return (
-    <div>
+    <Fragment>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <Input
+        <TextBox
           label="Name:"
           placeholder="John Doe"
           type="text"
-          applyMarginBottom={true}
-          className="md:mr-4  mb-4 md:mb-0"
+          name="name"
+          className="md:mr-4 mb-4 md:mb-0"
+          value={values.name}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          error={errors.name}
+          touched={touched.name}
         />
-        <Input
+        <TextBox
           label="Phone:"
           placeholder="923081177825"
           type="number"
-          applyMarginBottom={true}
-          className="md:mr-4  mb-4 md:mb-0"
+          name="phone"
+          className="md:mr-4 mb-4 md:mb-0"
+          value={values.phone}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          error={errors.phone}
+          touched={touched.phone}
         />
-        <Input
+        <TextBox
           label="Email:"
           placeholder="john@gmail.com"
           type="email"
-          applyMarginBottom={true}
-          className="md:mr-4  mb-4 md:mb-0"
+          name="email"
+          value={values.email}
+          className="md:mr-4 mb-4 md:mb-0"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          error={errors.email}
+          touched={touched.email}
         />
-        <CustomTimePicker label="Select a Time" className="mb-4 md:mb-0" />
+        <CustomTimePicker
+          label="Select a Time"
+          className="mb-4 md:mb-0"
+          value={values.time}
+          name="time"
+          onBlur={handleBlur}
+          onChange={(timeString) => setFieldValue("time", timeString)}
+          error={errors.time}
+          touched={touched.time}
+        />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        {/* <CustomDatePicker label="Select a Date" /> */}
+        <DateSelector
+          label="Select a Date"
+          className=""
+          name="date"
+          value={values.date}
+          onBlur={handleBlur}
+          onChange={(dateString) => setFieldValue("date", dateString)}
+          error={errors.date}
+          touched={touched.date}
+        />
       </InputContainer>
-    </div>
+    </Fragment>
   );
 };
 

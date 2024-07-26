@@ -1,29 +1,56 @@
-import { InputContainer, Input } from "@components";
-import { CustomDatePicker, CustomTimePicker } from "@components/FormControls";
-import Button from "@components/JobDetails/ui/Button";
-import React from "react";
+import { InputContainer } from "@components";
+import {
+  CustomTimePicker,
+  DateSelector,
+  TextBox,
+} from "@components/FormControls";
+import React, { Fragment } from "react";
 
-const OverturnForm = ({ className }) => {
+const OverturnForm = ({
+  handleChange,
+  handleBlur,
+  touched,
+  errors,
+  values,
+  setFieldValue,
+}) => {
   return (
-    <form className={className}>
+    <Fragment>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <Input
+        <TextBox
           label="Email:"
           placeholder="john@gmail.com"
           type="email"
-          applyMarginBottom={true}
+          name="email"
           className="md:mr-4  mb-4 md:mb-0"
+          value={values.email}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          error={errors.email}
+          touched={touched.email}
         />
-        <CustomTimePicker label="Select a Time" className="mb-4 md:mb-0" />
-        {/* <CustomDatePicker
-          label="Select a Date"
-       
-        /> */}
+        <CustomTimePicker
+          label="Select a Time"
+          value={values.time}
+          name="time"
+          onBlur={handleBlur}
+          onChange={(timeString) => setFieldValue("time", timeString)}
+          error={errors.time}
+          touched={touched.time}
+          className="mb-4 md:mb-0 md:mr-4"
+        />
+        <DateSelector
+          label="Select Date"
+          className="mb-4 md:mb-0 "
+          name="date"
+          value={values.date}
+          onBlur={handleBlur}
+          onChange={(dateString) => setFieldValue("date", dateString)}
+          error={errors.date}
+          touched={touched.date}
+        />
       </InputContainer>
-      <Button type="submit" className={`text-white btn-gradient px-4 py-1`}>
-        Create
-      </Button>
-    </form>
+    </Fragment>
   );
 };
 

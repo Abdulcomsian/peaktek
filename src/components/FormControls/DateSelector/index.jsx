@@ -1,8 +1,8 @@
 import React from "react";
-import { TimePicker } from "antd";
+import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
-const CustomTimePicker = ({
+const DateSelector = ({
   label,
   className,
   value,
@@ -16,13 +16,12 @@ const CustomTimePicker = ({
       <label className="block mb-2 text-sm font-medium text-gray-700">
         {label}
       </label>
-      <TimePicker
-        use12Hours
-        format="h:mm a"
-        value={value ? dayjs(value, "h:mm a") : null}
+      <DatePicker
+        value={value ? dayjs(value, "DD/MM/YYYY") : null}
         size="large"
         onChange={onChange}
         name={name}
+        format="DD/MM/YYYY"
         className={`w-full bg-gray-50 p-2 focus:outline-1 ${
           error && touched ? "border border-red-600" : "focus:outline-blue-500"
         }`}
@@ -32,4 +31,4 @@ const CustomTimePicker = ({
   );
 };
 
-export default CustomTimePicker;
+export default DateSelector;

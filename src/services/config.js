@@ -11,6 +11,7 @@ const clientEndPoints = {
   login: "/api/login",
   updateJobSummary: "/api/update/job-summary",
   updateJobContent: "/api/update/job-content",
+  createAdjustorMeeting: "/api/create/adjustor-meeting",
 };
 
 export { clientBaseURL, clientEndPoints };
