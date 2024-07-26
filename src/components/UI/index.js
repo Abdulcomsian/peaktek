@@ -6,6 +6,7 @@ import FileIcon from "./Icons/File";
 import GalleryIcon from "./Icons/Gallery";
 import TextIcon from "./Icons/Text";
 import ImageIcon from "./Icons/Image";
+import ArrowFileIcon from "./ArrowFile";
 import Tabs from "./Tabs";
 import TabsContentBox from "./TabsContentBox";
 export {
@@ -15,8 +16,10 @@ export {
   MoneyIcon,
   FileIcon,
   GalleryIcon,
+  ArrowFileIcon,
   TextIcon,
   ImageIcon,
   Tabs,
   TabsContentBox,
+
 };

@@ -1,74 +1,59 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { MobileContent } from "@components/JobDetails";
+import { setActiveTab } from "@store/slices/activeTabSlice";
+
 export default function MainTabs({ className }) {
-  const [activeTab, setActiveTab] = useState("summary");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const activeTab = useSelector((state) => state.activeTab.activeTab);
 
   const handleNavigation = (path) => {
     if (activeTab === path) {
-      setActiveTab(null); // Toggle off if the same tab is clicked again
+      dispatch(setActiveTab(null)); // Toggle off if the same tab is clicked again
     } else {
-      setActiveTab(path);
+      dispatch(setActiveTab(path));
       navigate(path);
     }
   };
+
   const buttonsData = [
-    {
-      id: 1,
-      text: "Summary",
-      path: "summary",
-    },
-    {
-      id: 2,
-      text: "Customer Agreement",
-      path: "customer-agreement",
-    },
-    {
-      id: 3,
-      text: "Adjustor Meeting",
-      path: "adjustor-meeting",
-    },
-    {
-      id: 4,
-      text: "Overturn",
-      path: "overturn",
-    },
-    {
-      id: 5,
-      text: "Approved",
-      path: "approved",
-    },
+    { id: 1, text: "Summary", path: "summary" },
+    { id: 2, text: "Customer Agreement", path: "customer-agreement" },
+    { id: 3, text: "Adjustor Meeting", path: "adjustor-meeting" },
+    { id: 4, text: "Overturn", path: "overturn" },
+    { id: 5, text: "Approved", path: "approved" },
   ];
+
   return (
     <nav
-      className={`flex flex-col align-baseline md:flex-row gap-6 ${className} `}
+      className={`flex flex-col align-baseline md:flex-row gap-6 ${className}`}
       aria-label="Tabs"
     >
-      {buttonsData?.map((btn) => (
-        <>
+      {buttonsData.map((btn) => (
+        <React.Fragment key={btn.id}>
           <button
-            key={btn?.id}
-            className={`flex justify-between items-center focus:outline-none  ${
-              activeTab === btn?.path ? "text-black" : "text-gray-500"
+            className={`flex justify-between items-center focus:outline-none ${
+              activeTab === btn.path ? "text-black" : "text-gray-500"
             }`}
-            onClick={() => handleNavigation(`${btn?.path}`)}
+            onClick={() => handleNavigation(btn.path)}
             aria-current="page" // or "false" depending on the current tab
           >
-            {btn?.text}
-            {activeTab === btn?.path ? (
+            {btn.text}
+            {activeTab === btn.path ? (
               <FiChevronDown className="w-5 h-5 block md:hidden" />
             ) : (
               <FiChevronRight className="w-5 h-5 block md:hidden" />
             )}
           </button>
-          {activeTab === btn?.path && (
+          {activeTab === btn.path && (
             <div className="md:hidden">
-              <MobileContent path={btn?.path} />
+              <MobileContent path={btn.path} />
             </div>
           )}
-        </>
+        </React.Fragment>
       ))}
     </nav>
   );

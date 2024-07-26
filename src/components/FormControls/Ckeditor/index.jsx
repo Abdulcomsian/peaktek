@@ -3,7 +3,14 @@ import "./ckeditor-styles.css"; // Import your custom CSS here
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const Ckeditor = ({ className, initialData, onEditor, onDataChange }) => {
+const Ckeditor = ({
+  className,
+  initialData,
+  onEditor,
+  id,
+  onDataChange,
+  label,
+}) => {
   const [editorData, setEditorData] = useState(initialData || "");
   const modules = {
     toolbar: [
@@ -51,6 +58,9 @@ const Ckeditor = ({ className, initialData, onEditor, onDataChange }) => {
 
   return (
     <div className={`${className}`}>
+      <label htmlFor={id} className="block text-gray-700 font-medium mb-2">
+        {label}
+      </label>
       <ReactQuill
         theme="snow"
         modules={modules}

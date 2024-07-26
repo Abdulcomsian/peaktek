@@ -7,7 +7,7 @@ import SearchInput from "./SearchInput";
 import Textarea from "./Textarea";
 import RadioBox from "./RadioBox";
 import FileInput from "./FileInput";
-import FilesUploader from "./FilesUploader";
+import CustomTimePicker from "./TimePicker";
 export {
   Ckeditor,
   CustomDatePicker,
@@ -18,5 +18,5 @@ export {
   Textarea,
   RadioBox,
   FileInput,
-  FilesUploader,
+  CustomTimePicker,
 };

@@ -1,4 +1,3 @@
-import { CustomDatePicker } from "@components/FormControls";
 import styles from "./CustomerAgreement.module.css";
 import { Input } from "@components";
 
