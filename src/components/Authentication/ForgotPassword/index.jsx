@@ -38,7 +38,7 @@ export default function ForgotPassword() {
       const data = await resp.json();
       if (data.status >= 200 && data.status < 300) {
         toast.success(data.message);
-        navigate("/verify-email", { email });
+        navigate(`/verify-email?email=${email}`, { email });
       }
       if (data.status === 422) toast.error(data.message);
     };
@@ -50,9 +50,6 @@ export default function ForgotPassword() {
       <Navbar btnText="Register" />
       <div className="max-w-md mx-auto mt-6">
         <div className="flex flex-col">
-          <h1 className="font-semibold text-3xl text-gray-700 text-center mb-9">
-            Log in to PeakTek
-          </h1>
           <form action="" onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Email address"
