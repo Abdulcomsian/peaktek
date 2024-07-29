@@ -6,6 +6,7 @@ import Header from "@components/JobDetails/MainPage/Header";
 import MainTabs from "@components/JobDetails/MainPage/MainTabs";
 import MobileContent from "@components/JobDetails/MainPage/MobileContent";
 import Overturn from "./Overturn";
+import ReadyToBuild from "./ReadyToBuild";
 export {
   Summary,
   DesignMeeting,
@@ -15,4 +16,5 @@ export {
   MainTabs,
   MobileContent,
   Overturn,
+  ReadyToBuild,
 };

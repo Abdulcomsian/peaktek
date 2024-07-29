@@ -23,4 +23,26 @@ const overturnMeetingSchema = Yup.object().shape({
   date: Yup.date().required("Date is required").typeError("Invalid date"),
 });
 
-export { adjustorMeetingSchema, overturnMeetingSchema };
+const createAgreementSchema = Yup.object({
+  street: Yup.string().required("Street is required"),
+  city: Yup.string().required("City is required"),
+  state: Yup.string().required("State is required"),
+  zip_code: Yup.string()
+    .required("Zip code is required")
+    .matches(/^\d{5}$/, "Zip code must be exactly 5 digits"),
+  insurance: Yup.string().required("Insurance is required"),
+  claim_number: Yup.string().required("Claim number is required"),
+  policy_number: Yup.string().required("Policy number is required"),
+  company_signature: Yup.string().required("Company signature is required"),
+  company_printed_name: Yup.string().required(
+    "Company printed name is required"
+  ),
+  company_date: Yup.date().required("Company date is required"),
+  customer_signature: Yup.string().required("Customer signature is required"),
+  customer_printed_name: Yup.string().required(
+    "Customer printed name is required"
+  ),
+  customer_date: Yup.date().required("Customer date is required"),
+});
+
+export { adjustorMeetingSchema, overturnMeetingSchema, createAgreementSchema };
