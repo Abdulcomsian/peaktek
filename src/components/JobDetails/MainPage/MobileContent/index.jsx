@@ -6,6 +6,7 @@ import {
   DesignMeeting,
   Overturn,
   ReadyToBuild,
+  Complete,
 } from "@components/JobDetails";
 
 const MobileContent = ({ path, key }) => {
@@ -23,6 +24,8 @@ const MobileContent = ({ path, key }) => {
         return <DesignMeeting />;
       case "ready-to-build":
         return <ReadyToBuild />;
+      case "complete":
+        return <Complete />;
       default:
         return null;
     }

@@ -32,6 +32,7 @@ export default function MainTabs({ className }) {
     { id: 4, text: "Overturn", path: "overturn" },
     { id: 5, text: "Approved", path: "approved" },
     { id: 7, text: "Ready To Build", path: "ready-to-build" },
+    { id: 9, text: "Complete", path: "complete" },
   ];
 
   return (

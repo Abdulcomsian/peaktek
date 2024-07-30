@@ -39,6 +39,7 @@ import {
   AdjustorMeeting,
   Overturn,
   ReadyToBuild,
+  Complete,
 } from "@components/JobDetails";
 import { KanbanBoard } from "@components/Dashboard";
 import { UserList } from "@components";
@@ -121,6 +122,7 @@ export function AppRoute() {
             <Route path="overturn" element={<Overturn />} />
             <Route path="approved" element={<DesignMeeting />} />
             <Route path="ready-to-build" element={<ReadyToBuild />} />
+            <Route path="complete" element={<Complete />} />
           </Route>
         </Route>
         <Route path="*" element={<p>Page Not Found</p>} />
