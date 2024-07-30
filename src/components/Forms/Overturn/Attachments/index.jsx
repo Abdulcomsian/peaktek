@@ -110,8 +110,8 @@ const OverturnAttachments = () => {
           className="w-full max-w-2xl mb-4"
           label="Notes"
           id="notes"
-          initialData={notes}
-          onDataChange={setNotes}
+          value={notes}
+          onChange={setNotes}
         />
       </div>
       <Button

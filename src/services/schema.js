@@ -44,5 +44,12 @@ const createAgreementSchema = Yup.object({
   ),
   customer_date: Yup.date().required("Customer date is required"),
 });
+// Define the validation schema using Yup
+const readyToBuildSchema = Yup.object().shape({
+  recipient: Yup.string().required("Recipient is required"),
+  date: Yup.date().nullable().required("Date is required"),
+  time: Yup.date().nullable().required("Time is required"),
+  text: Yup.string().required("Text is required"),
+});
 
-export { adjustorMeetingSchema, overturnMeetingSchema, createAgreementSchema };
+export { adjustorMeetingSchema, overturnMeetingSchema, createAgreementSchema,readyToBuildSchema };

@@ -7,6 +7,7 @@ import MainTabs from "@components/JobDetails/MainPage/MainTabs";
 import MobileContent from "@components/JobDetails/MainPage/MobileContent";
 import Overturn from "./Overturn";
 import ReadyToBuild from "./ReadyToBuild";
+import Complete from "./Complete";
 export {
   Summary,
   DesignMeeting,
@@ -17,4 +18,5 @@ export {
   MobileContent,
   Overturn,
   ReadyToBuild,
+  Complete,
 };
