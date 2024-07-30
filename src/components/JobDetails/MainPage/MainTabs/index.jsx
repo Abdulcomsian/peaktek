@@ -10,7 +10,7 @@ export default function MainTabs({ className }) {
   const navigate = useNavigate();
   const location = useLocation();
   const activeTab = useSelector((state) => state.activeTab.activeTab);
-  console.log("Location", location);
+
   useEffect(() => {
     const currentPath = location.pathname.split("/").pop();
     dispatch(setActiveTab(currentPath));

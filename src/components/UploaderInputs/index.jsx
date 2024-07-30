@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { FaTrashAlt } from "react-icons/fa";
+import { ArrowFileIcon, ImageIcon } from "@components/UI";
 
 export default function UploaderInputs({
   wrapperClass,
@@ -10,24 +11,23 @@ export default function UploaderInputs({
   require = true,
   id,
   fileTypes = [],
-  setFiles,
-  files = [],
   icon,
+  handleDelete,
 }) {
   const [images, setImage] = useState("");
+  const [files, setFiles] = useState([]);
 
   const handleFiles = (selectedFiles) => {
-    const filteredFiles = Array.from(selectedFiles).filter((file) =>
+    console.log("selectedFiles", selectedFiles);
+    const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
     );
 
-    const newFiles = filteredFiles.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }));
+    console.log("Filtered Files", filteredFiles);
 
-    setFiles([...files, ...newFiles]);
+    setFiles((files) => [...files, ...filteredFiles]);
   };
+  console.log("FINAL FILES TO SHOW", files);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -42,11 +42,6 @@ export default function UploaderInputs({
   const handleFileChange = (e) => {
     const selectedFiles = e.target.files;
     handleFiles(selectedFiles);
-  };
-
-  const handleDelete = (index) => {
-    const updatedFiles = files.filter((_, i) => i !== index);
-    setFiles(updatedFiles);
   };
 
   const getShortFileName = (name) => {
@@ -93,27 +88,31 @@ export default function UploaderInputs({
           onChange: handleFileChange,
         })}
       />
-      {files.length > 0 && (
+      {files?.length > 0 && (
         <div className="mt-4">
-          <h3 className="text-gray-700 font-medium mb-2">File Previews</h3>
-          <ul className="flex flex-wrap">
+          <p>test</p>
+          <ul>
             {files.map((file, index) => (
-              <li key={index} className="m-2 relative">
-                <div className="border border-gray-400 p-2 rounded-lg">
-                  <img
-                    src={file.preview}
-                    alt={file.file.name}
-                    className="w-32 h-32 object-cover mb-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(index)}
-                    className="absolute bottom-2 right-2 text-red-600"
-                  >
-                    <FaTrashAlt />
-                  </button>
-                  <p className="text-sm">{getShortFileName(file.file.name)}</p>
+              <li
+                key={index}
+                className="flex items-center justify-between border p-2 rounded mb-2"
+              >
+                <div className="mr-2">
+                  {file.type.startsWith("image/") ? (
+                    <ImageIcon />
+                  ) : (
+                    <ArrowFileIcon />
+                  )}
                 </div>
+                <p className="text-sm">{file.name}</p>
+
+                <button
+                  type="button"
+                  onClick={() => handleDelete(index)}
+                  className="text-red-600"
+                >
+                  <FaTrashAlt />
+                </button>
               </li>
             ))}
           </ul>
