@@ -18,6 +18,7 @@ import AuthorizationForm from "./Authorization";
 import OverturnForm from "./OverturnForm";
 import CustomerInformation from "./CustomerInfo";
 import SignatureForm from "./Signature";
+import PaymentScheduleForm from "./PaymentScheduleForm";
 import {
   Title,
   Introduction,
@@ -64,4 +65,5 @@ export {
   OverturnForm,
   CustomerInformation,
   SignatureForm,
+  PaymentScheduleForm,
 };
