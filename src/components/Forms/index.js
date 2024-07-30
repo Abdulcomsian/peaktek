@@ -19,6 +19,7 @@ import OverturnForm from "./Overturn/Form";
 import OverturnAttachments from "./Overturn/Attachments";
 import CustomerInformation from "./CustomerInfo";
 import SignatureForm from "./Signature";
+import PaymentScheduleForm from "./PaymentScheduleForm";
 import {
   Title,
   Introduction,
@@ -65,5 +66,6 @@ export {
   OverturnForm,
   CustomerInformation,
   SignatureForm,
+  PaymentScheduleForm,
   OverturnAttachments,
 };

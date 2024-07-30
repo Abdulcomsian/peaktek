@@ -26,6 +26,8 @@ const clientEndPoints = {
   //Overturn Meeting
   createOverturn: "/api/create/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",
+  //Ready to build
+  createReadyToBuild: "/api/store/ready-to-build",
 };
 
 export { clientBaseURL, clientEndPoints };
