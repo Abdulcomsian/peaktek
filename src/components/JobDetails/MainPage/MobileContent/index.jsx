@@ -5,6 +5,7 @@ import {
   AdjustorMeeting,
   DesignMeeting,
   Overturn,
+  ReadyToBuild,
 } from "@components/JobDetails";
 
 const MobileContent = ({ path }) => {
@@ -20,6 +21,8 @@ const MobileContent = ({ path }) => {
         return <Overturn />;
       case "approved":
         return <DesignMeeting />;
+      case "ready-to-build":
+        return <ReadyToBuild />;
       default:
         return null;
     }

@@ -67,7 +67,7 @@ const AdjustorForm = ({
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <DateSelector
           label="Select a Date"
-          className=""
+          className="w-full lg:max-w-[18.5rem]"
           name="date"
           value={values.date}
           onBlur={handleBlur}

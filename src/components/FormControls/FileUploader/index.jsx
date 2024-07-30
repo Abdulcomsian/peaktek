@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { FaTrashAlt } from "react-icons/fa";
-
+import { ArrowFileIcon, ImageIcon } from "@components/UI";
 const FileUploader = ({
   label,
   id,
@@ -46,21 +46,13 @@ const FileUploader = ({
     fileInputRef.current.click();
   };
 
-  const getShortFileName = (name) => {
-    const [fileName, extension] = name.split(".");
-    if (fileName.length > 5) {
-      return `${fileName.substring(0, 5)}...${extension}`;
-    }
-    return name;
-  };
-
   return (
     <div className={className}>
       <label htmlFor={id} className="block text-gray-700 font-medium mb-2">
         {label}
       </label>
       <div
-        className="w-full flex items-center justify-center  border-2 border-dotted border-blue-500 rounded-lg py-10 px-4 bg-white cursor-pointer"
+        className="w-full flex items-center justify-center border-2 border-dotted border-blue-500 rounded-lg py-10 px-4 bg-white cursor-pointer"
         onClick={handleClick}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
@@ -84,27 +76,30 @@ const FileUploader = ({
           </p>
         </label>
       </div>
-      {files.length > 0 && (
+      {files?.length > 0 && (
         <div className="mt-4">
-          <h3 className="text-gray-700 font-medium mb-2">File Previews</h3>
-          <ul className="flex flex-wrap">
-            {files.map((file, index) => (
-              <li key={index} className="m-2 relative">
-                <div className="border border-gray-400 p-2 rounded-lg">
-                  <img
-                    src={file.preview}
-                    alt={file.file.name}
-                    className="w-32 h-32 object-cover mb-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(index)}
-                    className="absolute bottom-2 right-2 text-red-600"
-                  >
-                    <FaTrashAlt />
-                  </button>
-                  <p className="text-sm">{getShortFileName(file.file.name)}</p>
+          <ul>
+            {files?.map((file, index) => (
+              <li
+                key={index}
+                className="flex items-center justify-between border p-2 rounded mb-2"
+              >
+                <div className="mr-2">
+                  {file.file.type.startsWith("image/") ? (
+                    <ImageIcon />
+                  ) : (
+                    <ArrowFileIcon />
+                  )}
                 </div>
+                <p className="text-sm">{file.file.name}</p>
+
+                <button
+                  type="button"
+                  onClick={() => handleDelete(index)}
+                  className="text-red-600"
+                >
+                  <FaTrashAlt />
+                </button>
               </li>
             ))}
           </ul>

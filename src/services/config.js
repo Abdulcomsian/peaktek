@@ -23,6 +23,9 @@ const clientEndPoints = {
   getJobContent: "/api/get/job-content",
   //Create Agreement
   createAgreement: "/api/customer-agreement",
+  //Overturn Meeting
+  createOverturn: "/api/create/overturn-meeting",
+  updateOverturn: "/api/update/overturn-meeting-media",
 };
 
 export { clientBaseURL, clientEndPoints };
