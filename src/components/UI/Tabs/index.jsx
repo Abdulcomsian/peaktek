@@ -31,14 +31,17 @@ export default function Tabs({
   activeTab,
   onClick,
 }) {
-  console.log(items);
-
   if (collapsable)
     return (
       <div>
         {items.map((item) => (
           <>
-            <TabItem item={item} activeTab={activeTab} onClick={onClick} />
+            <TabItem
+              item={item}
+              activeTab={activeTab}
+              onClick={onClick}
+              key={item.id}
+            />
             {activeTab === item.id && renderSection(activeTab)}
           </>
         ))}

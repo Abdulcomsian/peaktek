@@ -1,4 +1,5 @@
 import React from "react";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Button } from "@components/UI";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Navbar } from "@components/Authentication";
@@ -9,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { createUser } from "@store/slices/registerSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Flex } from "antd";
+import { Flex, Spin } from "antd";
 
 const Register = () => {
   const dispatch = useDispatch();
