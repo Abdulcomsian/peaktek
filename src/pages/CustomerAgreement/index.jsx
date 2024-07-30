@@ -154,7 +154,7 @@ const CustomerAgreement = () => {
           disabled={isSigned}
         />
         <TextSection2 />
-        {/* <Footer /> */}
+        <Footer />
       </form>
     </Container>
   );

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { MobileContent } from "@components/JobDetails";
 import { setActiveTab } from "@store/slices/activeTabSlice";
@@ -8,7 +8,13 @@ import { setActiveTab } from "@store/slices/activeTabSlice";
 export default function MainTabs({ className }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const activeTab = useSelector((state) => state.activeTab.activeTab);
+  console.log("Location", location);
+  useEffect(() => {
+    const currentPath = location.pathname.split("/").pop();
+    dispatch(setActiveTab(currentPath));
+  }, [location.pathname, dispatch]);
 
   const handleNavigation = (path) => {
     if (activeTab === path) {
@@ -25,6 +31,7 @@ export default function MainTabs({ className }) {
     { id: 3, text: "Adjustor Meeting", path: "adjustor-meeting" },
     { id: 4, text: "Overturn", path: "overturn" },
     { id: 5, text: "Approved", path: "approved" },
+    { id: 7, text: "Ready To Build", path: "ready-to-build" },
   ];
 
   return (

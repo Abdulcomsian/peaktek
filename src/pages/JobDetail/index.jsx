@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { BreadCrumb } from "@components/UI";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import { MainTabs, Header } from "@components/JobDetails";
-
+import { useDispatch } from "react-redux";
+import { fetchSingleJob } from "@store/slices/JobsSlice";
 export default function JobDetail() {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(fetchSingleJob(id));
+  }, [id]);
   const location = useLocation();
   const currentPath = location.pathname.split("/").pop();
 

@@ -16,7 +16,8 @@ import QuoteDetailsForm from "./QuoteDetailsForm";
 import InspectionForm from "./InspectionForm";
 import AuthorizationForm from "./Authorization";
 import OverturnForm from "./OverturnForm";
-import PaymentScheduleForm from "./PaymentScheduleForm";
+import CustomerInformation from "./CustomerInfo";
+import SignatureForm from "./Signature";
 import {
   Title,
   Introduction,
@@ -61,5 +62,6 @@ export {
   TitleForm,
   AdjustorForm,
   OverturnForm,
-  PaymentScheduleForm,
+  CustomerInformation,
+  SignatureForm,
 };
