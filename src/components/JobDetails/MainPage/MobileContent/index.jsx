@@ -7,11 +7,11 @@ import {
   Overturn,
 } from "@components/JobDetails";
 
-const MobileContent = ({ path }) => {
+const MobileContent = ({ path, key }) => {
   const memoizedContent = useMemo(() => {
     switch (path) {
       case "summary":
-        return <Summary />;
+        return <Summary key={key} />;
       case "customer-agreement":
         return <CustomerAgreementForm />;
       case "adjustor-meeting":
@@ -19,7 +19,7 @@ const MobileContent = ({ path }) => {
       case "overturn":
         return <Overturn />;
       case "approved":
-        return <DesignMeeting />;
+        return <DesignMeeting key={key} />;
       default:
         return null;
     }

@@ -5,10 +5,11 @@ import { MdList } from "react-icons/md";
 const SharedPdf = () => {
   return (
     <Fragment>
-      <h1 className="text-black font-semibold mb-8">Shared PDFs</h1>
-      <SearchInput className="max-w-sm mb-8" size="large" />
+      <h1 className="text-black font-semibold mb-4">Shared PDFs</h1>
+      <p className="text-sm mb-2">Search</p>
+      <SearchInput className="max-w-sm mb-6" size="large" />
 
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-4">
         <span>Files /</span>
         <div className="flex justify-between items-center gap-2 ">
           <BsFillGrid3X2GapFill className="w-6 h-6 text-gray-300" />
