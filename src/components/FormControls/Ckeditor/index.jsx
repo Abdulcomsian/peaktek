@@ -3,15 +3,8 @@ import "./ckeditor-styles.css"; // Import your custom CSS here
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const Ckeditor = ({
-  className,
-  initialData,
-  onEditor,
-  id,
-  onDataChange,
-  label,
-}) => {
-  const [editorData, setEditorData] = useState(initialData || "");
+const Ckeditor = ({ className, value, onChange, id, label }) => {
+  const [editorData, setEditorData] = useState(value || "");
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -44,17 +37,14 @@ const Ckeditor = ({
     "font",
   ];
 
-  const handleProcedureContentChange = (content, delta, source, editor) => {
+  const handleProcedureContentChange = (content) => {
     setEditorData(content);
-    onDataChange(content);
+    onChange(content);
   };
 
-  useEffect(
-    function () {
-      if (initialData) setEditorData(initialData);
-    },
-    [initialData]
-  );
+  useEffect(() => {
+    if (value) setEditorData(value);
+  }, [value]);
 
   return (
     <div className={`${className}`}>
