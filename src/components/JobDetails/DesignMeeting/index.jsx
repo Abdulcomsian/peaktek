@@ -11,6 +11,7 @@ import {
   Title,
   TitleForm,
 } from "@components/Forms";
+import CarrierScope from "../CarrierScope";
 
 const tabsDesignMeeting = [
   { id: 1, title: "Carrer Scope" },
@@ -27,6 +28,8 @@ const tabsDesignMeeting = [
 
 function renderSection(currTab) {
   switch (currTab) {
+    case 1:
+      return <CarrierScope />;
     case 2:
       return <TitleForm />;
     case 3:
