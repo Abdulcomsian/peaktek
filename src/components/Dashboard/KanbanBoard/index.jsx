@@ -342,8 +342,6 @@ function Task({ id, data, someoneIsDragging }) {
   };
 
   const handleTaskClick = function (task) {
-    // setSelectedTask(task);
-    // setShowJobDetailModal(true);
     navigate(`/job-details/${id}?jobStatus=${data.status.name}`);
   };
   return (

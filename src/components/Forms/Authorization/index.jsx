@@ -107,13 +107,9 @@ export default function AuthorizationForm() {
           className="focus:outline-1 focus:outline-blue-600"
         />
       </InputContainer>
-      <Button className="px-3 py-2 bg-white border border-gray-400 rounded-md font-medium hover:bg-slate-300">
-        Add signer
-      </Button>
-      <Textarea id="footer" label="Footer notes" className="mb-4" />
-      <Button className="p-2 bg-white border border-gray-400 rounded-md font-medium hover:bg-slate-300">
-        Save as Template
-      </Button>
+      <Button variant="gradient">Add signer</Button>
+      <Textarea id="footer" label="Footer notes" className="mb-4 mt-4" />
+      <Button variant="gradient">Save as Template</Button>
     </>
   );
 }

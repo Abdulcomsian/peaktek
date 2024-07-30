@@ -6,6 +6,7 @@ import {
   AuthorizationForm,
   InspectionForm,
   IntroductionForm,
+  PaymentScheduleForm,
   QuoteDetailsForm,
   Title,
   TitleForm,
@@ -36,6 +37,8 @@ function renderSection(currTab) {
       return <QuoteDetailsForm />;
     case 6:
       return <AuthorizationForm />;
+    case 7:
+      return <PaymentScheduleForm />;
   }
 }
 
