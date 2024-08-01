@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Ckeditor, FileUploader, Form } from "@components/FormControls";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import { ArrowFileIcon, ImageIcon } from "@components/UI";
 import React from "react";
 import { toast } from "react-hot-toast";

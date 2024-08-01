@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import { InputContainer } from "@components/index";
 import { useParams } from "react-router-dom";
 import { readyToBuildSchema } from "@services/schema";
