@@ -5,6 +5,7 @@ const TextBox = forwardRef(
     {
       className,
       disabled,
+      readOnly, // Add readOnly prop
       label,
       type,
       placeholder,
@@ -15,6 +16,7 @@ const TextBox = forwardRef(
       name,
       error,
       touched,
+      defaultValue,
     },
     ref
   ) => {
@@ -36,14 +38,16 @@ const TextBox = forwardRef(
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          defaultValue={defaultValue}
           disabled={disabled}
+          readOnly={readOnly} // Apply readOnly attribute
           ref={ref}
           className={`${
             error && touched
               ? "border border-red-600"
               : "border border-gray-300"
           } bg-gray-50 outline-none text-gray-900 text-sm rounded-md block w-full p-2.5 focus:outline-none ${
-            disabled
+            readOnly
               ? "disabled:cursor-not-allowed"
               : `${
                   error && touched

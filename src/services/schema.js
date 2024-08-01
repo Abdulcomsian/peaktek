@@ -51,5 +51,45 @@ const readyToBuildSchema = Yup.object().shape({
   time: Yup.date().nullable().required("Time is required"),
   text: Yup.string().required("Text is required"),
 });
+const cocSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  phone: Yup.string().required("Phone is required"),
+  street: Yup.string().required("Street is required"),
+  city: Yup.string().required("City is required"),
+  state: Yup.string().required("State is required"),
+  zip_code: Yup.string().required("Zip Code is required"),
+  insurance: Yup.string().required("Insurance is required"),
+  claim_number: Yup.string().required("Claim Number is required"),
+  policy_number: Yup.string().required("Policy Number is required"),
+  awarded_to: Yup.string().required("Awarded To is required"),
+  released_to: Yup.string().required("Released To is required"),
+  job_total: Yup.number().required("Job Total is required"),
+  customer_paid_upgrades: Yup.number().required(
+    "Customer Paid Upgrades is required"
+  ),
+  deductible: Yup.string().required("Deductible is required"),
+  acv_check: Yup.string().required("ACV Check is required"),
+  rcv_check: Yup.string().required("RCV Check is required"),
+  supplemental_items: Yup.string().required("Supplemental Items are required"),
+  company_signature: Yup.string().required("Company Signature is required"),
+  company_printed_name: Yup.string().required(
+    "Company Printed Name is required"
+  ),
+  company_date: Yup.date().required("Company Date is required"),
+  customer_signature: Yup.string().required("Customer Signature is required"),
+  customer_printed_name: Yup.string().required(
+    "Customer Printed Name is required"
+  ),
+  customer_date: Yup.date().required("Customer Date is required"),
+});
 
-export { adjustorMeetingSchema, overturnMeetingSchema, createAgreementSchema,readyToBuildSchema };
+export {
+  adjustorMeetingSchema,
+  overturnMeetingSchema,
+  createAgreementSchema,
+  readyToBuildSchema,
+  cocSchema,
+};

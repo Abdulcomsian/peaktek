@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { overturnMeetingSchema } from "@services/schema";
 import { useParams } from "react-router-dom";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 const OverturnForm = () => {
   const { id } = useParams();
   const {

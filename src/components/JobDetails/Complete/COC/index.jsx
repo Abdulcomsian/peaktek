@@ -1,16 +1,35 @@
-import { TextBox } from "@components/FormControls";
-import React, { Fragment } from "react";
+import React from "react";
 
-const COC = () => {
+const COC = ({
+  name,
+  value,
+  handleChange,
+  handleBlur,
+  errors,
+  touched,
+  inputRefs,
+}) => {
   return (
-    <Fragment>
-      <h2 className="text-black text-xl font-medium mb-4">
+    <div className="mb-4">
+      <h2 className="text-black text-xl font-medium mb-2">
         Certificate of Completion
       </h2>
-      <p className="font-poppins text-sm leading-6">
+      <p className="font-poppins text-sm leading-7">
         This certificate of completion is hereby awarded to
         <span className="inline-flex items-center mx-2">
-          <TextBox className="inline-block w-full  max-w-xs" />
+          <input
+            className={`px-2 py-1 bg-gray-100 outline-none text-gray-900 text-sm rounded-md inline-block w-full max-w-xs ${
+              errors[name] && touched[name]
+                ? "border-red-600 border"
+                : "border-gray-300"
+            }`}
+            name={name}
+            value={value}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="Enter award to value"
+            ref={inputRefs}
+          />
         </span>
         for the successful completion of the loss stated above. This project was
         completed by SOUTHERN ROOFING AND RENOVATIONS, LICENSE # 73775, a
@@ -21,7 +40,10 @@ const COC = () => {
         team of qualified professionals ensured that all work was done to the
         highest standards and met all relevant codes and regulations.
       </p>
-    </Fragment>
+      {errors[name] && touched[name] && (
+        <p className="text-red-600 text-sm mt-1">{errors[name]}</p>
+      )}
+    </div>
   );
 };
 

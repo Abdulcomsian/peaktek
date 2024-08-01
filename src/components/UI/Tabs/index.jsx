@@ -7,6 +7,7 @@ import {
   Title,
   TitleForm,
 } from "@components/Forms";
+import { Fragment } from "react";
 
 function renderSection(currTab) {
   switch (currTab) {
@@ -33,19 +34,14 @@ export default function Tabs({
 }) {
   if (collapsable)
     return (
-      <div>
+      <Fragment>
         {items.map((item) => (
-          <>
-            <TabItem
-              item={item}
-              activeTab={activeTab}
-              onClick={onClick}
-              key={item.id}
-            />
+          <div key={item.id}>
+            <TabItem item={item} activeTab={activeTab} onClick={onClick} />
             {activeTab === item.id && renderSection(activeTab)}
-          </>
+          </div>
         ))}
-      </div>
+      </Fragment>
     );
 
   return (

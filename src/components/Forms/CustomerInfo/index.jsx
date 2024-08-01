@@ -11,26 +11,26 @@ const CustomerInformation = ({
   errors,
   values,
   inputRefs,
+  readOnlyFields = [],
 }) => {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <TextBox
-          disabled={true}
           label="Name:"
           placeholder="John Doe"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="name"
           id="name"
-          value={customer?.name || ""} // Default to empty string if undefined
+          value={customer?.name || ""}
           onBlur={handleBlur}
           onChange={handleChange}
           error={errors?.name}
           touched={touched?.name}
+          readOnly={readOnlyFields.includes("name")}
         />
         <TextBox
-          disabled={true}
           label="Email:"
           placeholder="john@gmail.com"
           type="email"
@@ -43,7 +43,6 @@ const CustomerInformation = ({
           touched={touched?.email}
         />
         <TextBox
-          disabled={true}
           label="Phone:"
           placeholder="923081177825"
           type="number"
