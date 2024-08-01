@@ -3,16 +3,7 @@ import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-const MaterialForm = ({
-  className,
-  handleChange,
-  handleBlur,
-  touched,
-  errors,
-  values,
-  setFieldValue,
-  inputRefs,
-}) => {
+const MaterialForm = ({ values, setFieldValue }) => {
   const handleAddRow = () => {
     setFieldValue("materials", [
       ...values,
@@ -58,7 +49,7 @@ const MaterialForm = ({
                   onChange={(e) =>
                     handleMaterialChange(index, "material", e.target.value)
                   }
-                  className="w-full max-w-sm "
+                  className="w-full max-w-sm"
                 />
               </td>
               <td className="px-8 py-2 text-center">

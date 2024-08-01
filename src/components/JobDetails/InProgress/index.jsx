@@ -56,7 +56,7 @@ const InProgress = () => {
       images: [], // This should be handled by FileUploader
       notes: "", // For CKEditor
     },
-    // validationSchema: inProgressSchema,
+    validationSchema: inProgressSchema,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,
@@ -71,28 +71,28 @@ const InProgress = () => {
       console.log("Formatted Values", formattedValues);
 
       // Uncomment and adjust the following code for actual form submission
-      // try {
-      //   const token = localStorage.getItem("token");
-      //   const response = await clientBaseURL.post(
-      //     `${clientEndPoints?.createCoc}/${id}`,
-      //     formattedValues,
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${token}`,
-      //       },
-      //     }
-      //   );
-      //   if (response?.status >= 200 && response?.status < 300) {
-      //     toast.success(response?.data?.message);
-      //     actions.resetForm();
-      //   }
-      // } catch (error) {
-      //   if (error?.response) {
-      //     toast.error(
-      //       error?.response?.data?.error || error?.response?.data?.message
-      //     );
-      //   }
-      // }
+      try {
+        const token = localStorage.getItem("token");
+        const response = await clientBaseURL.post(
+          `${clientEndPoints?.createQCInspection}/${id}`,
+          formattedValues,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response?.status >= 200 && response?.status < 300) {
+          toast.success(response?.data?.message);
+          actions.resetForm();
+        }
+      } catch (error) {
+        if (error?.response) {
+          toast.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      }
     },
   });
 
@@ -111,8 +111,6 @@ const InProgress = () => {
           <Ckeditor
             value={formik.values.notes}
             onChange={(content) => formik.setFieldValue("notes", content)}
-            id="notes"
-            label="Notes"
           />
         );
       case 2:

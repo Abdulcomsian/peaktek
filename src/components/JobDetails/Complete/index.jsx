@@ -62,28 +62,28 @@ const Complete = () => {
       console.log("Formatted Values", formattedValues);
 
       // Uncomment and adjust the following code for actual form submission
-      // try {
-      //   const token = localStorage.getItem("token");
-      //   const response = await clientBaseURL.post(
-      //     `${clientEndPoints?.createCoc}/${id}`,
-      //     formattedValues,
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${token}`,
-      //       },
-      //     }
-      //   );
-      //   if (response?.status >= 200 && response?.status < 300) {
-      //     toast.success(response?.data?.message);
-      //     actions.resetForm();
-      //   }
-      // } catch (error) {
-      //   if (error?.response) {
-      //     toast.error(
-      //       error?.response?.data?.error || error?.response?.data?.message
-      //     );
-      //   }
-      // }
+      try {
+        const token = localStorage.getItem("token");
+        const response = await clientBaseURL.post(
+          `${clientEndPoints?.createCoc}/${id}`,
+          formattedValues,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response?.status >= 200 && response?.status < 300) {
+          toast.success(response?.data?.message);
+          actions.resetForm();
+        }
+      } catch (error) {
+        if (error?.response) {
+          toast.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      }
     },
   });
   // Update Formik initial values when singleJobData changes
