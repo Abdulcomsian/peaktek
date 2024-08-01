@@ -14,7 +14,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
 import { Button } from "@components/UI";
-import { z } from "zod";
 
 const schema = {};
 

@@ -20,13 +20,13 @@ const SignatureForm = ({
           placeholder="john Snow"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
-          name="company_representative"
-          ref={inputRefs?.company_representative}
-          value={values?.company_representative || ""}
+          name="company_signature"
+          ref={inputRefs?.company_signature}
+          value={values?.company_signature || ""}
           onBlur={handleBlur}
           onChange={handleChange}
-          error={errors?.company_representative}
-          touched={touched?.company_representative}
+          error={errors?.company_signature}
+          touched={touched?.company_signature}
         />
         <TextBox
           label="Printed Name:"

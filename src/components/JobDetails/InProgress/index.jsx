@@ -1,23 +1,31 @@
-import React, { Fragment, useEffect, useRef } from "react";
-import { Form } from "@components/FormControls";
-import { CustomerInformation, ProjectSummaryForm } from "@components/Forms";
-import SignatureForm from "./SignatureForm";
-import { fetchSingleJob } from "@store/slices/JobsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import COC from "./COC";
-import Depreciation from "./Depreciation";
-import OverheadProfit from "./OverheadProfit";
-import Conclusion from "./Conclusion";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { CustomerInformation, SignatureForm } from "@components/Forms";
 import Button from "@components/JobDetails/Button";
+import MaterialForm from "./Material";
+import { useParams } from "react-router-dom";
+import { fetchSingleJob } from "@store/slices/JobsSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
-import { clientBaseURL, clientEndPoints } from "@services/config";
-import { cocSchema } from "@services/schema";
 import dayjs from "dayjs";
-import toast from "react-hot-toast";
-const Complete = () => {
+import { inProgressSchema } from "@services/schema";
+import {
+  FileIcon,
+  GalleryIcon,
+  ImageIcon,
+  Tabs,
+  TabsContentBox,
+} from "@components/UI";
+import { Ckeditor, FileUploader } from "@components/FormControls";
+
+const InProgress = () => {
   const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState(1);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   const { id } = useParams();
+  const items = [
+    { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
+    { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
+  ];
 
   useEffect(() => {
     dispatch(fetchSingleJob(id));
@@ -38,26 +46,27 @@ const Complete = () => {
       insurance: "",
       claim_number: "",
       policy_number: "",
-      awarded_to: "",
-      released_to: "",
-      job_total: "",
-      customer_paid_upgrades: "",
-      deductible: "",
-      acv_check: "",
-      rcv_check: "",
-      supplemental_items: "",
-      company_representative: "",
+      company_signature: "",
       company_printed_name: "",
-      company_signed_date: "",
+      company_date: "",
+      customer_signature: "",
+      customer_printed_name: "",
+      customer_date: "",
+      materials: [{ material: "", damaged: false, notes: "" }],
+      images: [], // This should be handled by FileUploader
+      notes: "", // For CKEditor
     },
-    validationSchema: cocSchema,
+    // validationSchema: inProgressSchema,
     onSubmit: async (values, actions) => {
-      // Format all date values to 'DD/MM/YYYY'
       const formattedValues = {
         ...values,
-        company_signed_date: values.company_signed_date
-          ? dayjs(values.company_signed_date).format("DD/MM/YYYY")
+        company_date: values.company_date
+          ? dayjs(values.company_date).format("DD/MM/YYYY")
           : "",
+        customer_date: values.customer_date
+          ? dayjs(values.customer_date).format("DD/MM/YYYY")
+          : "",
+        images: uploadedFiles.map((file) => file.file), // Ensure to pass file objects
       };
       console.log("Formatted Values", formattedValues);
 
@@ -86,35 +95,53 @@ const Complete = () => {
       // }
     },
   });
+
+  const handleFilesChange = (files) => {
+    setUploadedFiles(files);
+    formik.setFieldValue(
+      "images",
+      files.map((file) => file.file)
+    );
+  };
+
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 1:
+        return (
+          <Ckeditor
+            value={formik.values.notes}
+            onChange={(content) => formik.setFieldValue("notes", content)}
+            id="notes"
+            label="Notes"
+          />
+        );
+      case 2:
+        return (
+          <FileUploader
+            icon={<ImageIcon />}
+            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+            text="Drop your image here, or"
+            files={uploadedFiles}
+            setFiles={handleFilesChange}
+          />
+        );
+      default:
+        break;
+    }
+  };
+
   // Update Formik initial values when singleJobData changes
   useEffect(() => {
     if (singleJobData) {
       formik.setValues({
+        ...formik.values,
         name: singleJobData?.name || "",
         email: singleJobData?.email || "",
         phone: singleJobData?.phone || "",
-        street: formik.values.street,
-        city: formik.values.city,
-        state: formik.values.state,
-        zip_code: formik.values.zip_code,
-        insurance: formik.values.insurance,
-        claim_number: formik.values.claim_number,
-        policy_number: formik.values.policy_number,
-        awarded_to: formik.values.awarded_to,
-        released_to: formik.values.released_to,
-        job_total: formik.values.job_total,
-        customer_paid_upgrades: formik.values.customer_paid_upgrades,
-        deductible: formik.values.deductible,
-        acv_check: formik.values.acv_check,
-        rcv_check: formik.values.rcv_check,
-        supplemental_items: formik.values.supplemental_items,
-        company_representative: formik.values.company_representative,
-        company_printed_name: formik.values.company_printed_name,
-        company_signed_date: formik.values.company_signed_date,
       });
     }
   }, [singleJobData]);
-  // Create refs for each input
+
   const inputRefs = {
     name: useRef(null),
     email: useRef(null),
@@ -126,20 +153,14 @@ const Complete = () => {
     insurance: useRef(null),
     claim_number: useRef(null),
     policy_number: useRef(null),
-    awarded_to: useRef(null),
-    released_to: useRef(null),
-    job_total: useRef(null),
-    customer_paid_upgrades: useRef(null),
-    deductible: useRef(null),
-    acv_check: useRef(null),
-    rcv_check: useRef(null),
-    supplemental_items: useRef(null),
-    company_representative: useRef(null),
+    company_signature: useRef(null),
     company_printed_name: useRef(null),
-    company_signed_date: useRef(null),
+    company_date: useRef(null),
+    customer_signature: useRef(null),
+    customer_printed_name: useRef(null),
+    customer_date: useRef(null),
   };
 
-  // Focus on the first error input on form submission
   useEffect(() => {
     if (formik.isSubmitting && !formik.isValid) {
       const firstErrorField = Object.keys(formik.errors).find(
@@ -154,13 +175,17 @@ const Complete = () => {
   return (
     <Fragment>
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
-        COC
+        In Progress
       </h1>
       <div className="bg-white p-5 rounded-2xl">
+        <TabsContentBox contentTitle="Job Content" className="mb-4">
+          <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
+          {renderActiveTab()}
+        </TabsContentBox>
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
-          Customer Information
+          Quality Control Form (QC)
         </h2>
-        <Form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <CustomerInformation
             customer={singleJobData}
             handleChange={formik.handleChange}
@@ -169,38 +194,15 @@ const Complete = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs} // Pass refs to the component
-            readOnlyFields={["name", "email", "phone"]} // Pass readonly fields
           />
-          <COC
-            name="awarded_to"
-            value={formik.values.awarded_to}
+          <MaterialForm
+            values={formik.values.materials}
+            setFieldValue={formik.setFieldValue}
             handleChange={formik.handleChange}
-            handleBlur={formik?.handleBlur}
-            errors={formik?.errors}
-            touched={formik?.touched}
-            inputRefs={inputRefs?.awarded_to}
+            handleBlur={formik.handleBlur}
+            touched={formik.touched.materials}
+            errors={formik.errors.materials}
           />
-          <Depreciation
-            name="released_to"
-            value={formik.values.released_to}
-            handleChange={formik.handleChange}
-            handleBlur={formik?.handleBlur}
-            errors={formik?.errors}
-            touched={formik?.touched}
-            inputRefs={inputRefs?.released_to}
-          />
-          <OverheadProfit />
-          <ProjectSummaryForm
-            className=""
-            handleChange={formik?.handleChange}
-            handleBlur={formik?.handleBlur}
-            touched={formik?.touched}
-            errors={formik?.errors}
-            values={formik?.values}
-            inputRefs={inputRefs}
-          />
-          <Conclusion />
           <SignatureForm
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
@@ -225,7 +227,9 @@ const Complete = () => {
             </label>
           </div>
           <div className="flex">
-            <Button className="text-black mr-4 px-4 py-1">Cancel</Button>
+            <Button type="button" className="text-black mr-4 px-4 py-1">
+              Cancel
+            </Button>
             <Button
               type="submit"
               className={`text-white btn-gradient px-4 py-1`}
@@ -233,10 +237,10 @@ const Complete = () => {
               Save
             </Button>
           </div>
-        </Form>
+        </form>
       </div>
     </Fragment>
   );
 };
 
-export default Complete;
+export default InProgress;

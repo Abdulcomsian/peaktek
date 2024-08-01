@@ -8,6 +8,7 @@ import MobileContent from "@components/JobDetails/MainPage/MobileContent";
 import Overturn from "./Overturn";
 import ReadyToBuild from "./ReadyToBuild";
 import Complete from "./Complete";
+import InProgress from "./InProgress";
 export {
   Summary,
   DesignMeeting,
@@ -19,4 +20,5 @@ export {
   Overturn,
   ReadyToBuild,
   Complete,
+  InProgress,
 };

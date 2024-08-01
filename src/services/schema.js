@@ -56,14 +56,14 @@ const cocSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
-  phone: Yup.string().required("Phone is required"),
+  phone: Yup.number().required("Phone is required"),
   street: Yup.string().required("Street is required"),
   city: Yup.string().required("City is required"),
   state: Yup.string().required("State is required"),
-  zip_code: Yup.string().required("Zip Code is required"),
+  zip_code: Yup.number().required("Zip Code is required"),
   insurance: Yup.string().required("Insurance is required"),
-  claim_number: Yup.string().required("Claim Number is required"),
-  policy_number: Yup.string().required("Policy Number is required"),
+  claim_number: Yup.number().required("Claim Number is required"),
+  policy_number: Yup.number().required("Policy Number is required"),
   awarded_to: Yup.string().required("Awarded To is required"),
   released_to: Yup.string().required("Released To is required"),
   job_total: Yup.number().required("Job Total is required"),
@@ -74,16 +74,57 @@ const cocSchema = Yup.object().shape({
   acv_check: Yup.string().required("ACV Check is required"),
   rcv_check: Yup.string().required("RCV Check is required"),
   supplemental_items: Yup.string().required("Supplemental Items are required"),
-  company_signature: Yup.string().required("Company Signature is required"),
+  company_representative: Yup.string().required(
+    "Company Representative is required"
+  ),
   company_printed_name: Yup.string().required(
     "Company Printed Name is required"
   ),
-  company_date: Yup.date().required("Company Date is required"),
-  customer_signature: Yup.string().required("Customer Signature is required"),
-  customer_printed_name: Yup.string().required(
-    "Customer Printed Name is required"
+  company_signed_date: Yup.date().required("Company Signed Date is required"),
+});
+
+const inProgressSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  phone: Yup.string().required("Phone is required"),
+  street: Yup.string().required("Street is required"),
+  city: Yup.string().required("City is required"),
+  state: Yup.string().required("State is required"),
+  zip_code: Yup.number().required("Zip code is required"),
+  claim_number: Yup.number().required("Claim number is required"),
+  policy_number: Yup.number().required("Policy number is required"),
+  notes: Yup.string().required("Notes are required"),
+  insurance: Yup.string().required("Insurance is required"),
+  company_signature: Yup.string().required("Company signature is required"),
+  company_printed_name: Yup.string().required(
+    "Company printed name is required"
   ),
-  customer_date: Yup.date().required("Customer Date is required"),
+  company_date: Yup.date()
+    .required("Company date is required")
+    .typeError("Invalid date format"),
+  customer_signature: Yup.string().required("Customer signature is required"),
+  customer_printed_name: Yup.string().required(
+    "Customer printed name is required"
+  ),
+  customer_date: Yup.date()
+    .required("Customer date is required")
+    .typeError("Invalid date format"),
+  // materials: Yup.array()
+  //   .of(
+  //     Yup.object().shape({
+  //       material: Yup.string().required("Material is required"),
+  //       damaged: Yup.boolean().required("Damaged status is required"),
+  //       notes: Yup.string().required("Notes are required"),
+  //     })
+  //   )
+  //   .required("Materials are required")
+  //   .min(1, "At least one material is required"),
+  // images: Yup.array()
+  //   .of(Yup.string().required("Binary data is required"))
+  //   .required("Images are required")
+  //   .min(1, "At least one image is required"),
 });
 
 export {
@@ -92,4 +133,5 @@ export {
   createAgreementSchema,
   readyToBuildSchema,
   cocSchema,
+  inProgressSchema,
 };
