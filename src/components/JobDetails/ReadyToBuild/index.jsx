@@ -10,9 +10,10 @@ import { useFormik } from "formik";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import { InputContainer } from "@components/index";
 import { useParams } from "react-router-dom";
+import { readyToBuildSchema } from "@services/schema";
 
 const ReadyToBuild = () => {
   const { id } = useParams();
@@ -24,7 +25,6 @@ const ReadyToBuild = () => {
     handleBlur,
     handleSubmit,
     setFieldValue,
-    resetForm,
   } = useFormik({
     initialValues: {
       recipient: "",
@@ -32,7 +32,7 @@ const ReadyToBuild = () => {
       time: null,
       text: "",
     },
-    // validationSchema: overturnMeetingSchema,
+    validationSchema: readyToBuildSchema,
     onSubmit: async (values, actions) => {
       // Format time with leading zero for single-digit hours and include AM/PM
       const formattedTime = values.time
@@ -82,7 +82,7 @@ const ReadyToBuild = () => {
         <Form onSubmit={handleSubmit}>
           <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
             <TextBox
-              label="Recipient"
+              label="recipient"
               placeholder="John Doe"
               type="text"
               name="recipient"

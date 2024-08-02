@@ -4,7 +4,7 @@ import { adjustorMeetingSchema } from "@services/schema";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Form } from "@components/FormControls";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
 

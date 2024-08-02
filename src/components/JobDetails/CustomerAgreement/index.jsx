@@ -6,7 +6,7 @@ import { DateSelector, Form, TextBox } from "@components/FormControls";
 import { CustomerInformation, SignatureForm } from "@components/Forms";
 import TextSection1 from "@pages/CustomerAgreement/TextSection1";
 import TextSection2 from "@pages/CustomerAgreement/TextSection2";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import toast from "react-hot-toast";
 import { createAgreementSchema } from "@services/schema";
 import { fetchSingleJob } from "@store/slices/JobsSlice";

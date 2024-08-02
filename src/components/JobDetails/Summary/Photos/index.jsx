@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ImageIcon } from "@components/UI";
 import { FileUploader } from "@components/FormControls";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import { toast } from "react-hot-toast";
 
 const Photos = () => {

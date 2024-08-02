@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Ckeditor } from "@components/FormControls";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
 const Notes = () => {

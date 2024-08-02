@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { FileIcon, GalleryIcon, Tabs, TabsContentBox } from "@components/UI";
-import Button from "@components/JobDetails/ui/Button";
+import Button from "@components/JobDetails/Button";
 import MoneyInput from "./MoneyInput";
 import Notes from "./Notes";
 import Photos from "./Photos";
