@@ -47,6 +47,7 @@ import Dealdetail from "@components/Dealdetail";
 import ProtectedRoute from "@components/ProtectedRoute";
 import Test from "@pages/Test";
 import { JobDetail } from "@pages/index";
+import { Inspection } from "@components/Forms/Sidebar";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -101,7 +102,7 @@ export function AppRoute() {
         <Route path="/projects" element={<Projects />}>
           <Route path="title/:id" element={<Title />} />
           <Route path="introduction/:id" element={<Introduction />} />
-          {/* <Route path="inspection/:id" element={<Inspection />} /> */}
+          <Route path="inspection/:id" element={<Inspection />} />
           <Route path="quote-details" element={<QuoteDetails />} />
           <Route path="authorization" element={<Authorization />} />
           <Route path="payment-schedule" element={<PaymentSchedule />} />

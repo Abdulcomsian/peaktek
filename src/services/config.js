@@ -1,6 +1,4 @@
 import axios from "axios";
-import { createAgreement } from "./apiCreateCustomer";
-
 const baseURL = "https://test7.accrualdev.com";
 
 const clientBaseURL = axios.create({
@@ -23,6 +21,12 @@ const clientEndPoints = {
   getJobContent: "/api/get/job-content",
   //Create Agreement
   createAgreement: "/api/customer-agreement",
+  createTitleForm: "/api/store/project-design/title",
+
+  //Inspection form
+  createInspection: "/api/store/project-design/inspection",
+  //Introduction form
+  createIntroduction: "/api/store/project-design/introduction",
   //Overturn Meeting
   createOverturn: "/api/create/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",

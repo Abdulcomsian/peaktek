@@ -1,11 +1,9 @@
 import { useRef, useState } from "react";
-import { IoCloudUploadOutline } from "react-icons/io5";
-import { FaTrashAlt } from "react-icons/fa";
-import { ArrowFileIcon, ImageIcon } from "@components/UI";
+import UploadedImageItems from "./UploadedImageItems";
 
 export default function UploaderInputs({
   wrapperClass,
-  title = "Upload attachments",
+  text = "Upload attachments",
   name,
   register,
   require = true,
@@ -13,21 +11,19 @@ export default function UploaderInputs({
   fileTypes = [],
   icon,
   handleDelete,
+  files = [],
+  setFiles,
 }) {
-  const [images, setImage] = useState("");
-  const [files, setFiles] = useState([]);
-
   const handleFiles = (selectedFiles) => {
     console.log("selectedFiles", selectedFiles);
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
     );
 
-    console.log("Filtered Files", filteredFiles);
-
+    console.log();
+    console.log("FROM HANDLE FILE", filteredFiles);
     setFiles((files) => [...files, ...filteredFiles]);
   };
-  console.log("FINAL FILES TO SHOW", files);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -60,22 +56,15 @@ export default function UploaderInputs({
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <div className="flex items-center justify-center gap-5">
-          <div>{icon}</div>
-          <div>
-            <p className="font-medium md:text-base text-gray-600 text-sm">
-              {title}
-            </p>
-            {images ? (
-              <p className="text-xs border border-green-400 p-1 rounded-md bg-green-100">
-                {images}
-              </p>
-            ) : (
-              <p className="text-xs">Drag and drop or click here</p>
-            )}
-          </div>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="flex justify-center">{icon}</div>
+          <p className="font-poppins text-sm text-gray-600">
+            {text} <span className="text-indigo-600 font-medium">browse</span>
+          </p>
         </div>
       </label>
+      <UploadedImageItems files={files} />
+
       <input
         type="file"
         accept={fileTypes.join(",")}
@@ -88,36 +77,6 @@ export default function UploaderInputs({
           onChange: handleFileChange,
         })}
       />
-      {files?.length > 0 && (
-        <div className="mt-4">
-          <p>test</p>
-          <ul>
-            {files.map((file, index) => (
-              <li
-                key={index}
-                className="flex items-center justify-between border p-2 rounded mb-2"
-              >
-                <div className="mr-2">
-                  {file.type.startsWith("image/") ? (
-                    <ImageIcon />
-                  ) : (
-                    <ArrowFileIcon />
-                  )}
-                </div>
-                <p className="text-sm">{file.name}</p>
-
-                <button
-                  type="button"
-                  onClick={() => handleDelete(index)}
-                  className="text-red-600"
-                >
-                  <FaTrashAlt />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }

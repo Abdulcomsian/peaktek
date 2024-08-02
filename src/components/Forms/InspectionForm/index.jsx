@@ -5,27 +5,47 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { UploaderInputs } from "@components/index";
 import { Modal } from "antd";
 
-import { Button, Ckeditor, FileInput } from "@components";
+import { Button } from "@components";
+import { Ckeditor } from "@components/FormControls";
+import { ImageIcon } from "@components/UI";
+import { createInspections } from "@services/apiDesignMeeting";
+import { useParams } from "react-router-dom";
 
 export default function InspectionForm() {
+  const { id } = useParams();
   const [initialData, setInitialData] = useState("");
-  const [receivedData, setReceivedData] = useState("");
+  const [receivedData, setReceivedData] = useState([]);
   const [rows, setRows] = useState([{ id: 0 }]);
   const [rowToDelete, setRowToDelete] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { register, handleSubmit, formState } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const addRow = () => {
     const lastRowId = rows.at(-1).id;
     setRows((rows) => [...rows, { id: lastRowId + 1 }]);
+    // Ensure new row data is initialized in receivedData
+    setReceivedData((prevData) => [...prevData, ""]);
   };
 
-  const handleDataChange = (data) => {
-    setReceivedData(data);
+  const handleDataChange = (dataToMap, id) => {
+    console.log("FINAL TO RECIV", dataToMap, id);
+    // Update the receivedData based on the id
+    setReceivedData((prevData) => {
+      const newData = [...prevData];
+      newData[id] = dataToMap;
+      return newData;
+    });
   };
 
   const handleDelete = () => {
     setRows((rows) => rows.filter((row) => row.id !== rowToDelete));
+    setReceivedData((prevData) =>
+      prevData.filter((_, index) => index !== rowToDelete)
+    );
     setIsModalVisible(false);
   };
 
@@ -38,9 +58,34 @@ export default function InspectionForm() {
     setIsModalVisible(true);
   };
 
+  const onSubmit = async function (data) {
+    console.log("DATA TO SUBMIT", data, receivedData);
+    let imagesArrayConst = [];
+    const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
+      const images = data[`attachment-${index}`];
+      if (images.length > 0) {
+        imagesArrayConst = [];
+        for (const file of data[`attachment-${index}`]) {
+          imagesArrayConst.push(file);
+        }
+      } else imagesArrayConst = [];
+
+      return [
+        ...dataToLoad,
+        { inspection: curr, attachment: imagesArrayConst },
+      ];
+    }, []);
+
+    const dataToLoad = { inspections: formatedData };
+    console.log("FINAL ONE", dataToLoad);
+
+    const resp = createInspections(formatedData, id);
+    console.log(resp);
+  };
+
   return (
     <>
-      <form action="">
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
         {rows.map((row, index) => (
           <div
             className="grid grid-cols-2 md:grid-cols-[1fr_1fr] gap-4 mb-6"
@@ -54,17 +99,23 @@ export default function InspectionForm() {
             />
             <Ckeditor
               className=" md:col-start-1 col-span-2 md:col-span-1"
-              onDataChange={handleDataChange}
+              onGetHtml={(data) => handleDataChange(data, index)}
               initialData={initialData}
+              id={index}
             />
             <UploaderInputs
               wrapperClass="col-span-2 md:col-span-1"
               name={`attachment-${index}`}
-              id={`attachment-${index}`}
               register={register}
+              id={`attachment-${index}`}
+              icon={<ImageIcon />}
+              require={false}
             />
           </div>
         ))}
+        <Button variant="gradient" type="submit">
+          Save
+        </Button>
       </form>
       <Button
         onClick={addRow}
