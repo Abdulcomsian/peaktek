@@ -226,7 +226,7 @@ const Summary = () => {
         </div>
       </form>
       {/**First part Ends*/}
-      <TabsContentBox contentTitle="Job Content">
+      <TabsContentBox contentTitle="Job Content" className="p-5">
         <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
         <div>{renderActiveTab()}</div>
       </TabsContentBox>

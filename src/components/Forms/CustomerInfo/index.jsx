@@ -41,6 +41,7 @@ const CustomerInformation = ({
           onChange={handleChange}
           error={errors?.email}
           touched={touched?.email}
+          readOnly={readOnlyFields.includes("email")}
         />
         <TextBox
           label="Phone:"
@@ -53,6 +54,7 @@ const CustomerInformation = ({
           onChange={handleChange}
           error={errors?.phone}
           touched={touched?.phone}
+          readOnly={readOnlyFields.includes("phone")}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">

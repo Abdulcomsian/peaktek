@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import createSignature from "@services/apiPostSignature";
 import TextSection1 from "./TextSection1";
 import TextSection2 from "./TextSection2";
+import Footer from "./Footer";
 
 const CustomerAgreement = () => {
   const { id } = useParams();

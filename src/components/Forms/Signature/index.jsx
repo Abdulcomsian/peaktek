@@ -17,7 +17,7 @@ const SignatureForm = ({
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <TextBox
           label="Company Representative:"
-          placeholder="john Snow"
+          placeholder="john Doe"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="company_signature"
@@ -56,7 +56,7 @@ const SignatureForm = ({
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <TextBox
           label="Customer Signature:"
-          placeholder="john Snow"
+          placeholder="john Doe"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="customer_signature"
@@ -69,7 +69,7 @@ const SignatureForm = ({
         />
         <TextBox
           label="Printed Name:"
-          placeholder="john Snow"
+          placeholder="john Doe"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="customer_printed_name"
