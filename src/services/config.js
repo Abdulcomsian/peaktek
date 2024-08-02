@@ -1,6 +1,5 @@
 import axios from "axios";
-import { createAgreement } from "./apiCreateCustomer";
-
+const stagingURL = "https://peaktek.vercel.app";
 const baseURL = "https://test7.accrualdev.com";
 
 const clientBaseURL = axios.create({
@@ -23,6 +22,8 @@ const clientEndPoints = {
   getJobContent: "/api/get/job-content",
   //Create Agreement
   createAgreement: "/api/customer-agreement",
+  createSignature: "/api/update/customer-agreement",
+  getSignatureEmail: "/api/sign-by-email",
   //Overturn Meeting
   createOverturn: "/api/create/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",
@@ -35,4 +36,4 @@ const clientEndPoints = {
   getCoc: "/api/get/coc",
 };
 
-export { clientBaseURL, clientEndPoints };
+export { clientBaseURL, clientEndPoints, stagingURL };

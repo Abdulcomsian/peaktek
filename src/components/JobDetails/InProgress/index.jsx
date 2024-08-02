@@ -15,12 +15,14 @@ import {
   Tabs,
   TabsContentBox,
 } from "@components/UI";
-import { Ckeditor, FileUploader } from "@components/FormControls";
+import { Ckeditor, FileUploader, Form } from "@components/FormControls";
+import toast from "react-hot-toast";
+import { clientBaseURL, clientEndPoints } from "@services/config";
 
 const InProgress = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState(1);
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [images, setImages] = useState([]);
   const { id } = useParams();
   const items = [
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
@@ -32,7 +34,6 @@ const InProgress = () => {
   }, [id]);
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
-  console.log("Single Job", singleJobData);
 
   const formik = useFormik({
     initialValues: {
@@ -66,25 +67,29 @@ const InProgress = () => {
         customer_date: values.customer_date
           ? dayjs(values.customer_date).format("DD/MM/YYYY")
           : "",
-        images: uploadedFiles.map((file) => file.file), // Ensure to pass file objects
       };
-      console.log("Formatted Values", formattedValues);
 
-      // Uncomment and adjust the following code for actual form submission
+      const formData = new FormData();
+      uploadedFiles.forEach((file) => {
+        formData.append("images[]", file.file);
+      });
+
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
           `${clientEndPoints?.createQCInspection}/${id}`,
-          formattedValues,
+          formData,
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
             },
           }
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
           actions.resetForm();
+          setUploadedFiles([]); // Clear the file upload state after successful submission
         }
       } catch (error) {
         if (error?.response) {
@@ -96,13 +101,13 @@ const InProgress = () => {
     },
   });
 
-  const handleFilesChange = (files) => {
-    setUploadedFiles(files);
-    formik.setFieldValue(
-      "images",
-      files.map((file) => file.file)
-    );
-  };
+  // const handleFilesChange = (files) => {
+  //   setUploadedFiles(files);
+  //   formik.setFieldValue(
+  //     "images",
+  //     files.map((file) => file.file)
+  //   );
+  // };
 
   const renderActiveTab = () => {
     switch (activeTab) {
@@ -119,8 +124,11 @@ const InProgress = () => {
             icon={<ImageIcon />}
             fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
             text="Drop your image here, or"
-            files={uploadedFiles}
-            setFiles={handleFilesChange}
+            files={images}
+            setFiles={setImages}
+            handleDelete={(index) =>
+              setImages(images.filter((_, i) => i !== index))
+            }
           />
         );
       default:
@@ -176,14 +184,15 @@ const InProgress = () => {
         In Progress
       </h1>
       <div className="bg-white p-5 rounded-2xl">
-        <TabsContentBox contentTitle="Job Content" className="mb-4">
-          <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
-          {renderActiveTab()}
-        </TabsContentBox>
-        <h2 className="text-black text-xl font-medium mb-4 font-poppins">
-          Quality Control Form (QC)
-        </h2>
-        <form onSubmit={formik.handleSubmit}>
+        <Form onSubmit={formik.handleSubmit}>
+          <TabsContentBox contentTitle="Job Content" className="mb-4">
+            <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
+            {renderActiveTab()}
+          </TabsContentBox>
+          <h2 className="text-black text-xl font-medium mb-4 font-poppins">
+            Quality Control Form (QC)
+          </h2>
+
           <CustomerInformation
             customer={singleJobData}
             handleChange={formik.handleChange}
@@ -235,7 +244,7 @@ const InProgress = () => {
               Save
             </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </Fragment>
   );

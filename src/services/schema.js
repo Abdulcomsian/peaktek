@@ -88,7 +88,7 @@ const inProgressSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  phone: Yup.string().required("Phone is required"),
+  phone: Yup.number().required("Phone is required"),
   street: Yup.string().required("Street is required"),
   city: Yup.string().required("City is required"),
   state: Yup.string().required("State is required"),
