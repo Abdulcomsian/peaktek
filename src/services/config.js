@@ -26,6 +26,12 @@ const clientEndPoints = {
   getCustomerAgreement: "/api/get/customer-agreement",
   createSignature: "/api/update/customer-agreement",
   getSignatureEmail: "/api/sign-by-email",
+  createTitleForm: "/api/store/project-design/title",
+
+  //Inspection form
+  createInspection: "/api/store/project-design/inspection",
+  //Introduction form
+  createIntroduction: "/api/store/project-design/introduction",
   ///Adjustor Meeting
   createAdjustorMeeting: "/api/create/adjustor-meeting",
   getAdjustorMeeting: "/api/get/adjustor-meeting",

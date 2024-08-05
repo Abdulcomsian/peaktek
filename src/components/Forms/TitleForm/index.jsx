@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { Input, InputContainer, CustomDatePicker } from "@components";
 import { Button, UploaderInputs } from "@components/index";
+import { Spin } from "antd";
+import { createProjectTitle, getProjectTitleApi } from "@services/apiProject";
+import { formateErrorName } from "../../../utils/helper";
+import { ImageIcon } from "@components/UI";
 
 export default function TitleForm() {
   const { id: jobId } = useParams();
@@ -13,18 +17,19 @@ export default function TitleForm() {
     handleSubmit,
     control,
     reset,
-    formState: { isSubmitting },
+    formState: { errors },
   } = useForm({
     defaultValues: titleFormId && isEditting ? defaultValuesform : {},
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(
     function () {
       async function getProjectTitle() {
         try {
-          setIsLoading(true);
+          // setIsLoading(true);
           const resp = await getProjectTitleApi(jobId);
-          console.log(resp);
+          console.log("RESPPP", resp);
           if (resp.status === 200 && Object.keys(resp.data).length > 0) {
             setDefaultValues(resp.data);
             setIsEditting(true);
@@ -51,12 +56,14 @@ export default function TitleForm() {
       secondary_image: data?.secondary_image?.[0],
     };
 
-    const resp = await createProjectTitle(finalDataToUpload, jobId);
-    console.log("Resp", resp);
-    if (resp.status >= 200 && resp.status < 300) {
-      toast.success(resp.message);
-      reset();
-    }
+    console.log(finalDataToUpload);
+    createProjectTitle(finalDataToUpload, jobId);
+    // const resp = await createProjectTitle(finalDataToUpload, jobId);
+    // console.log("Resp", resp);
+    // if (resp.status >= 200 && resp.status < 300) {
+    //   toast.success(resp.message);
+    //   reset();
+    // }
   };
 
   return (
@@ -70,8 +77,11 @@ export default function TitleForm() {
             className="md:mr-4 mb-4"
             applyMarginBottom={true}
             register={register}
-            name="firstName"
+            name="first_name"
             defaultValue={defaultValues?.firstName || ""}
+            error={
+              errors.first_name && formateErrorName(errors?.first_name?.message)
+            }
           />
           <Input
             label="Last Name:"
@@ -80,8 +90,11 @@ export default function TitleForm() {
             className="mb-4"
             applyMarginBottom={true}
             register={register}
-            name="lastName"
+            name="last_name"
             defaultValue={defaultValues?.lastName || ""}
+            error={
+              errors.last_name && formateErrorName(errors?.last_name?.message)
+            }
           />
         </InputContainer>
         <Input
@@ -93,6 +106,10 @@ export default function TitleForm() {
           register={register}
           name="company_name"
           defaultValue={defaultValues?.company_name || ""}
+          error={
+            errors.company_name &&
+            formateErrorName(errors?.company_name?.message)
+          }
         />
         <Input
           label="Address:"
@@ -103,6 +120,7 @@ export default function TitleForm() {
           register={register}
           name="address"
           defaultValue={defaultValues?.address || ""}
+          error={errors.address && formateErrorName(errors?.address?.message)}
         />
         <InputContainer className="flex flex-col lg:flex-row justify-between">
           <Input
@@ -114,6 +132,7 @@ export default function TitleForm() {
             register={register}
             name="city"
             defaultValue={defaultValues?.city || ""}
+            error={errors.city && formateErrorName(errors?.city?.message)}
           />
           <Input
             label="State/Province:"
@@ -124,6 +143,7 @@ export default function TitleForm() {
             register={register}
             name="state"
             defaultValue={defaultValues?.state || ""}
+            error={errors.state && formateErrorName(errors?.state?.message)}
           />
           <Input
             label="Zip Code/Postal Code:"
@@ -134,6 +154,10 @@ export default function TitleForm() {
             register={register}
             name="postal_code"
             defaultValue={defaultValues?.postal_code || ""}
+            error={
+              errors.postal_code &&
+              formateErrorName(errors?.postal_code?.message)
+            }
           />
         </InputContainer>
         <Input
@@ -145,6 +169,9 @@ export default function TitleForm() {
           register={register}
           name="report_type"
           defaultValue={defaultValues?.report_type || ""}
+          error={
+            errors.report_type && formateErrorName(errors?.report_type?.message)
+          }
         />
         <CustomDatePicker
           label="Date:"
@@ -152,6 +179,7 @@ export default function TitleForm() {
           control={control}
           name="date"
           defaultValue={defaultValues?.date || ""}
+          error={errors.date && formateErrorName(errors?.date?.message)}
         />
         <div className="flex flex-col md:flex-row items-center gap-4 ">
           <UploaderInputs
@@ -160,6 +188,8 @@ export default function TitleForm() {
             name="primary_image"
             register={register}
             id="primary_image"
+            icon={<ImageIcon />}
+            require={false}
           />
           <UploaderInputs
             wrapperClass="grow w-full"
@@ -167,10 +197,12 @@ export default function TitleForm() {
             name="secondary_image"
             id="secondary_image"
             register={register}
+            icon={<ImageIcon />}
+            require={false}
           />
         </div>
         <Button type="submit" variant="gradient" className="w-full mt-6">
-          {isSubmitting ? <Spin /> : "Submit"}
+          {isLoading ? <Spin /> : "Submit"}
         </Button>
       </form>
     </>

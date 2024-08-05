@@ -3,22 +3,15 @@ import { ItemsRow } from "@components/Forms";
 import { Button } from "@components";
 import { Input } from "@components/FormControls";
 
-const itemFields = [
-  { title: "Item", type: "text", placeholder: "Item Name" },
-  { title: "Qunatity", type: "number", placeholder: "2" },
-  { title: "Price", type: "number", placeholder: "5" },
-  { title: "Line Total", type: "number", placeholder: "10" },
-];
-
-const ItemsList = ({ className }) => {
+const ItemsList = ({ className, register }) => {
   const [items, setItems] = useState([{ item: "", quantity: 0, price: 0 }]);
   const totalAmount = 6.5;
-  const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const newItems = [...items];
-    newItems[index][name] = value;
-    setItems(newItems);
-  };
+  // const handleInputChange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   const newItems = [...items];
+  //   newItems[index][name] = value;
+  //   setItems(newItems);
+  // };
 
   const handleAddRow = () => {
     setItems([...items, { item: "", quantity: 0, price: 0 }]);
@@ -34,12 +27,11 @@ const ItemsList = ({ className }) => {
       <div className="w-full mx-auto mb-8">
         {items?.map((item, index) => (
           <ItemsRow
-            fields={itemFields}
             key={index}
-            item={item}
+            // item={item}
             index={index}
-            handleInputChange={handleInputChange}
             handleDelete={handleDelete}
+            register={register}
           />
         ))}
       </div>

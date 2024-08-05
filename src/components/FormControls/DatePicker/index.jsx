@@ -34,7 +34,6 @@ const CustomDatePicker = ({
             size="large"
             onChange={(date) => {
               console.log(date, date.format("DD/MM/YYYY"));
-              const formattedDate = date ? date.format("DD/MM/YYYY") : null;
               field.onChange(date); // Update form value
             }}
             value={field.value || ""}

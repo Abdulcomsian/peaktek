@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Input, Button, Card } from "@components";
+import { Button, Card } from "@components";
+import { Input } from "@components/FormControls";
 import { FaTrashAlt } from "react-icons/fa";
 import { Switch } from "antd";
 import { FormHeader, ItemsList } from "@components/Forms";
 import { Textarea } from "@components/FormControls";
+import { useForm } from "react-hook-form";
 
 export default function QuoteDetailsForm() {
   const [sections, setSections] = useState([{ id: uuidv4(), title: "" }]);
   const [progress, setProgress] = useState(30);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const handleSwitchClick = (e) => {
     console.log("Switch toggled", e);
@@ -34,8 +41,11 @@ export default function QuoteDetailsForm() {
   const handleProgressChange = (e) => {
     setProgress(e.target.value);
   };
+  const onSubmit = function (data) {
+    console.log(data);
+  };
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       {sections.map((section, index) => (
         <section
           key={section.id}
@@ -55,14 +65,14 @@ export default function QuoteDetailsForm() {
                 label="Section title"
                 placeholder=""
                 type="text"
-                value={section.title}
-                onChange={(e) => handleTitleChange(section.id, e.target.value)}
+                name={`section_title_${index}`}
+                register={register}
                 className="focus:outline-1  md:max-w-md focus:outline-blue-600 mr-2 md:mr-4"
               />
             </div>
             <Switch className="mt-9" onClick={handleSwitchClick} />
           </div>
-          <ItemsList />
+          <ItemsList register={register} />
         </section>
       ))}
       <div className="py-5  border-b border-gray-150">
@@ -80,8 +90,7 @@ export default function QuoteDetailsForm() {
             type="range"
             min="0"
             max="100"
-            value={progress}
-            onChange={handleProgressChange}
+            {...register("profit_margin")}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
           />
         </div>
@@ -92,6 +101,7 @@ export default function QuoteDetailsForm() {
           name="item"
           placeholder="$6.5"
           className="grow w-fit"
+          register={register}
         />
         <Input
           label="Total"
@@ -100,6 +110,7 @@ export default function QuoteDetailsForm() {
           name="item"
           placeholder="$6.5"
           className="grow w-fit"
+          register={register}
         />
       </div>
       <div className="py-4">
@@ -110,6 +121,9 @@ export default function QuoteDetailsForm() {
           applyMarginBottom="true"
         />
       </div>
-    </>
+      <Button variant="gradient" type="submit">
+        Save Quote
+      </Button>
+    </form>
   );
 }
