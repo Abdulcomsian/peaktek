@@ -24,6 +24,12 @@ const clientEndPoints = {
   createAgreement: "/api/customer-agreement",
   createSignature: "/api/update/customer-agreement",
   getSignatureEmail: "/api/sign-by-email",
+  createTitleForm: "/api/store/project-design/title",
+
+  //Inspection form
+  createInspection: "/api/store/project-design/inspection",
+  //Introduction form
+  createIntroduction: "/api/store/project-design/introduction",
   //Overturn Meeting
   createOverturn: "/api/create/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",

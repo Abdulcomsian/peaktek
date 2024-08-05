@@ -14,7 +14,7 @@ import {
 import CarrierScope from "../CarrierScope";
 
 const tabsDesignMeeting = [
-  { id: 1, title: "Carrer Scope" },
+  { id: 1, title: "Carrier Scope" },
   { id: 2, title: "Title" },
   { id: 3, title: "Introduction" },
   { id: 4, title: "Inseption" },
