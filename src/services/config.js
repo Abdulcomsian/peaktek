@@ -11,17 +11,19 @@ const clientEndPoints = {
   login: "/api/login",
   updateJobSummary: "/api/update/job-summary",
   updateJobContent: "/api/update/job-content",
-  createAdjustorMeeting: "/api/create/adjustor-meeting",
+
   //Jobs End points
   createJob: "/api/create-job",
   getJobs: "/api/get/jobs",
   getSingleJob: "/api/get-single/job",
+  //Job Summary End-Points
   updateJobSummary: "/api/update/job-summary",
   getJobSummary: "/api/get/job-summary",
   updateJobContent: "/api/update/job-content",
   getJobContent: "/api/get/job-content",
-  //Create Agreement
+  //Customer Agreement
   createAgreement: "/api/customer-agreement",
+  getCustomerAgreement: "/api/get/customer-agreement",
   createSignature: "/api/update/customer-agreement",
   getSignatureEmail: "/api/sign-by-email",
   createTitleForm: "/api/store/project-design/title",
@@ -30,6 +32,9 @@ const clientEndPoints = {
   createInspection: "/api/store/project-design/inspection",
   //Introduction form
   createIntroduction: "/api/store/project-design/introduction",
+  ///Adjustor Meeting
+  createAdjustorMeeting: "/api/create/adjustor-meeting",
+  getAdjustorMeeting: "/api/get/adjustor-meeting",
   //Overturn Meeting
   createOverturn: "/api/create/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",

@@ -7,6 +7,9 @@ import Photos from "./Photos";
 import SimpleInput from "./SimpleInput";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import { Spin } from "antd";
+import { Form } from "@components/FormControls";
 
 const items = [
   { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
@@ -14,8 +17,10 @@ const items = [
 ];
 
 const Summary = () => {
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
   const [fields, setFields] = useState({
     job_total: "",
     first_payment: "",
@@ -61,13 +66,47 @@ const Summary = () => {
     }));
   };
 
+  useEffect(() => {
+    const getSummaryFields = async () => {
+      try {
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getJobSummary}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response?.status >= 200 && response?.status < 300) {
+          // toast.success(response?.data?.message);
+          setFields((prevFields) => ({
+            ...prevFields,
+            ...response.data.job, // Set fields with data from the response
+          }));
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) {
+      getSummaryFields();
+    }
+  }, [id, token]);
+
   const handleSubmit = async (e) => {
     try {
-      const token = localStorage.getItem("token");
       e.preventDefault();
       setLoading(true);
       const response = await clientBaseURL.post(
-        `${clientEndPoints?.updateJobSummary}/${1}`,
+        `${clientEndPoints?.updateJobSummary}/${id}`,
         fields,
         {
           headers: {
@@ -92,9 +131,9 @@ const Summary = () => {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 1:
-        return <Notes />;
+        return <Notes id={id} />;
       case 2:
-        return <Photos />;
+        return <Photos id={id} />;
       default:
         break;
     }
@@ -102,8 +141,9 @@ const Summary = () => {
 
   return (
     <Fragment>
+      {loading && <Spin fullscreen={true} />}
       {/**First part start*/}
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div className="bg-white rounded-2xl p-5 w-full max-w-4xl mb-6">
           <div className="flex flex-col lg:flex-row justify-between mb-4">
             <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
@@ -224,7 +264,7 @@ const Summary = () => {
             Save
           </Button>
         </div>
-      </form>
+      </Form>
       {/**First part Ends*/}
       <TabsContentBox contentTitle="Job Content" className="p-5">
         <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
