@@ -10,7 +10,7 @@ import { FormHeader } from "@components/Forms";
 import { Button, UploaderInputs } from "@components/index";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { createProjectTitle, getProjectTitleApi } from "@services/apiProject";
+// import { getProjectTitleApi } from "@services/apiProject";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
 
@@ -35,21 +35,21 @@ const Title = () => {
   useEffect(
     function () {
       async function getProjectTitle() {
-        try {
-          setIsLoading(true);
-          const resp = await getProjectTitleApi(jobId);
-          console.log(resp);
-          if (resp.status === 200 && Object.keys(resp.data).length > 0) {
-            setDefaultValues(resp.data);
-            setIsEditting(true);
-          }
-          if (resp.status === 422) {
-            toast.error(resp.message);
-            navigate("/dashboard");
-          }
-        } finally {
-          setIsLoading(false);
-        }
+        // try {
+        //   setIsLoading(true);
+        //   const resp = await getProjectTitleApi(jobId);
+        //   console.log(resp);
+        //   if (resp.status === 200 && Object.keys(resp.data).length > 0) {
+        //     setDefaultValues(resp.data);
+        //     setIsEditting(true);
+        //   }
+        //   if (resp.status === 422) {
+        //     toast.error(resp.message);
+        //     navigate("/dashboard");
+        //   }
+        // } finally {
+        //   setIsLoading(false);
+        // }
       }
 
       if (jobId) getProjectTitle();
@@ -65,12 +65,12 @@ const Title = () => {
       secondary_image: data?.secondary_image?.[0],
     };
 
-    const resp = await createProjectTitle(finalDataToUpload, jobId);
-    console.log("Resp", resp);
-    if (resp.status >= 200 && resp.status < 300) {
-      toast.success(resp.message);
-      reset();
-    }
+    // const resp = await createProjectTitle(finalDataToUpload, jobId);
+    // console.log("Resp", resp);
+    // if (resp.status >= 200 && resp.status < 300) {
+    //   toast.success(resp.message);
+    //   reset();
+    // }
   };
 
   return (

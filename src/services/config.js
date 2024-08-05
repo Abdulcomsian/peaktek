@@ -26,8 +26,14 @@ const clientEndPoints = {
   getCustomerAgreement: "/api/get/customer-agreement",
   createSignature: "/api/update/customer-agreement",
   getSignatureEmail: "/api/sign-by-email",
-  createTitleForm: "/api/store/project-design/title",
 
+  //Create Carrierscope
+  createCarrierscope: "/api/store/carrier-scope",
+  getCarrierscope: "/api/get/carrier-scope",
+
+  //Title form
+  getTitle: "/api/get/project-design/title",
+  createTitle: "/api/store/project-design/title",
   //Inspection form
   createInspection: "/api/store/project-design/inspection",
   //Introduction form

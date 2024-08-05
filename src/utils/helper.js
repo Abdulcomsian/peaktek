@@ -7,3 +7,8 @@ export function formateErrorName(name) {
       .join(" ") + name.slice(name.indexOf(" "), -1)
   );
 }
+
+export function mapToArray(Obj) {
+  const hasLength = Object.values.length > 0;
+  return hasLength ? Object.values(Obj) : [];
+}

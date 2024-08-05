@@ -13,9 +13,11 @@ export default function UploaderInputs({
   handleDelete,
   files = [],
   setFiles,
+  multiple = true,
+  error,
 }) {
   const handleFiles = (selectedFiles) => {
-    console.log("selectedFiles", selectedFiles);
+    console.log("selectedFilessss", selectedFiles);
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
     );
@@ -63,17 +65,18 @@ export default function UploaderInputs({
           </p>
         </div>
       </label>
+      {error && <p className="text-sm mt-1 text-red-500 py-1">{error}</p>}
       <UploadedImageItems files={files} />
 
       <input
         type="file"
         accept={fileTypes.join(",")}
-        multiple
+        multiple={multiple}
         id={id}
         name={name}
         className="hidden"
         {...register(name, {
-          required: require,
+          required: require ? `${name} must be required` : false,
           onChange: handleFileChange,
         })}
       />
