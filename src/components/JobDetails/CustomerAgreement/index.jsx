@@ -13,19 +13,54 @@ import { fetchSingleJob } from "@store/slices/JobsSlice";
 import { clientBaseURL, clientEndPoints, stagingURL } from "@services/config";
 import dayjs from "dayjs";
 import SignatureModal from "@components/Modals/SignatureModal";
+import { Spin } from "antd";
 const CustomerAgreementForm = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
-
-  const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [isApprovalButtonDisabled, setIsApprovalButtonDisabled] =
     useState(false);
+  const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
+  const [customerData, setCustomerData] = useState(null);
+
+  useEffect(() => {
+    const getCustomerData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getCustomerAgreement}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response?.status >= 200 && response?.status < 300) {
+          // toast.success(response?.data?.message);
+          setCustomerData(response?.data?.agreement);
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    getCustomerData();
+  }, [id]);
+
   useEffect(() => {
     dispatch(fetchSingleJob(id));
   }, [id]);
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
+
   const getSignatureEmail = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -57,25 +92,26 @@ const CustomerAgreementForm = () => {
   const closeSignatureModel = () => {
     setIsSignatureModelOpen(false);
   };
+
   const formik = useFormik({
     initialValues: {
-      street: "",
-      city: "",
-      state: "",
-      zip_code: "",
-      insurance: "",
-      claim_number: "",
-      policy_number: "",
-      company_signature: "",
-      company_printed_name: "",
-      company_date: "",
-      customer_signature: "",
-      customer_printed_name: "",
-      customer_date: "",
+      street: customerData?.street || "",
+      city: customerData?.city || "",
+      state: customerData?.state || "",
+      zip_code: customerData?.zip_code || "",
+      insurance: customerData?.insurance || "",
+      claim_number: customerData?.claim_number || "",
+      policy_number: customerData?.policy_number || "",
+      company_signature: customerData?.company_signature || "",
+      company_printed_name: customerData?.company_printed_name || "",
+      company_date: customerData?.company_date || "",
+      customer_signature: customerData?.customer_signature || "",
+      customer_printed_name: customerData?.customer_printed_name || "",
+      customer_date: customerData?.customer_date || "",
     },
+    enableReinitialize: true,
     validationSchema: createAgreementSchema,
     onSubmit: async (values, actions) => {
-      // Format all date values to 'DD/MM/YYYY'
       const formattedValues = {
         ...values,
         company_date: values.company_date
@@ -111,7 +147,6 @@ const CustomerAgreementForm = () => {
     },
   });
 
-  // Create refs for each input
   const inputRefs = {
     street: useRef(null),
     city: useRef(null),
@@ -128,7 +163,6 @@ const CustomerAgreementForm = () => {
     customer_date: useRef(null),
   };
 
-  // Focus on the first error input on form submission
   useEffect(() => {
     if (formik.isSubmitting && !formik.isValid) {
       const firstErrorField = Object.keys(formik.errors).find(
@@ -142,6 +176,7 @@ const CustomerAgreementForm = () => {
 
   return (
     <Fragment>
+      {loading && <Spin fullscreen={true} />}
       <div className="flex flex-col md:flex-row justify-between mb-4">
         <h1 className="font-poppins font-medium text-xl text-center mb-4 md:mb-0">
           Customer Agreement
@@ -175,8 +210,8 @@ const CustomerAgreementForm = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs} // Pass refs to the component
-            readOnlyFields={["name", "email", "phone"]} // Pass readonly fields
+            inputRefs={inputRefs}
+            readOnlyFields={["name", "email", "phone"]}
           />
           <TextSection1 />
           <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
@@ -187,11 +222,11 @@ const CustomerAgreementForm = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs} // Pass refs to the component
+            inputRefs={inputRefs}
           />
           <TextSection2 />
           <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-            <div className="flex items-center md:mb-0 w-full md:max-w-56 mb-4 mx-2">
+            <div className="flex items-center md:mb-0 w-full md:max-w-[22rem] mb-4">
               <span className="mr-2">I</span>
               <TextBox
                 className={`w-full md:mr-2`}
@@ -204,51 +239,31 @@ const CustomerAgreementForm = () => {
             </div>
             <span className="w-full md:mb-0 mb-4">
               the undersigned, hereby cancel this transaction as of{" "}
-              <span className="font-bold">Customer Signature:</span>
+              <span className="font-bold">Date:</span>
             </span>
-            <TextBox
-              className={`w-full md:max-w-xs md:ml-2`}
-              placeholder="Enter Signature"
-              ref={inputRefs["signature"]}
-              name="signature"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </div>
-          <div className="flex flex-col md:flex-row md:justify-between items-end">
             <DateSelector
-              className="w-full md:max-w-xs mb-4"
-              label="Select a Date"
-              ref={inputRefs["customer_date"]}
-              name="customer_date"
-              value={formik.values.customer_date}
-              onChange={(dateString) =>
-                formik.setFieldValue("customer_date", dateString)
-              }
+              className={`w-full md:max-w-[22rem] md:ml-1`}
+              placeholder="Enter Date"
+              ref={inputRefs["date"]}
+              name="date"
+              onChange={(date) => formik.setFieldValue("date", date)}
               onBlur={formik.handleBlur}
-              error={formik.errors.customer_date}
-              touched={formik.touched.customer_date}
+              value={formik.values.date}
             />
-            <div>
-              <Button className="mr-6">Cancel</Button>
-              <Button
-                className="text-white btn-gradient px-4 py-1"
-                type="submit"
-              >
-                Save
-              </Button>
-            </div>
           </div>
+          <Button
+            type="submit"
+            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+          >
+            Save
+          </Button>
         </Form>
       </div>
-      {isSignatureModelOpen && (
-        <SignatureModal
-          open={isSignatureModelOpen}
-          id={id}
-          onOk={closeSignatureModel}
-          onCancel={closeSignatureModel}
-        />
-      )}
+      <SignatureModal
+        isOpen={isSignatureModelOpen}
+        onClose={closeSignatureModel}
+        jobId={id}
+      />
     </Fragment>
   );
 };
