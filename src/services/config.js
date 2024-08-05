@@ -1,4 +1,5 @@
 import axios from "axios";
+const stagingURL = "https://peaktek.vercel.app";
 const baseURL = "https://test7.accrualdev.com";
 
 const clientBaseURL = axios.create({
@@ -21,6 +22,8 @@ const clientEndPoints = {
   getJobContent: "/api/get/job-content",
   //Create Agreement
   createAgreement: "/api/customer-agreement",
+  createSignature: "/api/update/customer-agreement",
+  getSignatureEmail: "/api/sign-by-email",
   createTitleForm: "/api/store/project-design/title",
 
   //Inspection form
@@ -39,4 +42,4 @@ const clientEndPoints = {
   getCoc: "/api/get/coc",
 };
 
-export { clientBaseURL, clientEndPoints };
+export { clientBaseURL, clientEndPoints, stagingURL };

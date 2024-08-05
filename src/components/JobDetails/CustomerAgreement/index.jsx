@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { DateSelector, Form, TextBox } from "@components/FormControls";
 import { CustomerInformation, SignatureForm } from "@components/Forms";
 import TextSection1 from "@pages/CustomerAgreement/TextSection1";
@@ -10,19 +10,53 @@ import Button from "@components/JobDetails/Button";
 import toast from "react-hot-toast";
 import { createAgreementSchema } from "@services/schema";
 import { fetchSingleJob } from "@store/slices/JobsSlice";
-import { clientBaseURL, clientEndPoints } from "@services/config";
+import { clientBaseURL, clientEndPoints, stagingURL } from "@services/config";
 import dayjs from "dayjs";
-
+import SignatureModal from "@components/Modals/SignatureModal";
 const CustomerAgreementForm = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const location = useLocation();
 
+  const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
+  const [isApprovalButtonDisabled, setIsApprovalButtonDisabled] =
+    useState(false);
   useEffect(() => {
     dispatch(fetchSingleJob(id));
   }, [id]);
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
+  const getSignatureEmail = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await clientBaseURL.post(
+        `${clientEndPoints?.getSignatureEmail}/${id}`,
+        { url: `${stagingURL}${location?.pathname}` },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response?.status >= 200 && response?.status < 300) {
+        toast.success(response?.data?.message);
+        setIsApprovalButtonDisabled(true); // Disable the button on success
+      }
+    } catch (error) {
+      if (error?.response) {
+        toast.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    }
+  };
 
+  const showSignatureModel = () => {
+    setIsSignatureModelOpen(true);
+  };
+  const closeSignatureModel = () => {
+    setIsSignatureModelOpen(false);
+  };
   const formik = useFormik({
     initialValues: {
       street: "",
@@ -55,7 +89,7 @@ const CustomerAgreementForm = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
-          `${clientEndPoints?.createAgreement}/${singleJobData?.id}`,
+          `${clientEndPoints?.createAgreement}/${id}`,
           formattedValues,
           {
             headers: {
@@ -113,10 +147,17 @@ const CustomerAgreementForm = () => {
           Customer Agreement
         </h1>
         <div className="flex items-center justify-center gap-6">
-          <Button className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md">
+          <Button
+            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+            onClick={showSignatureModel}
+          >
             Sign Now
           </Button>
-          <Button className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md">
+          <Button
+            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+            onClick={getSignatureEmail}
+            disabled={isApprovalButtonDisabled}
+          >
             Send for Approval
           </Button>
         </div>
@@ -135,6 +176,7 @@ const CustomerAgreementForm = () => {
             values={formik.values}
             setFieldValue={formik.setFieldValue}
             inputRefs={inputRefs} // Pass refs to the component
+            readOnlyFields={["name", "email", "phone"]} // Pass readonly fields
           />
           <TextSection1 />
           <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
@@ -199,6 +241,14 @@ const CustomerAgreementForm = () => {
           </div>
         </Form>
       </div>
+      {isSignatureModelOpen && (
+        <SignatureModal
+          open={isSignatureModelOpen}
+          id={id}
+          onOk={closeSignatureModel}
+          onCancel={closeSignatureModel}
+        />
+      )}
     </Fragment>
   );
 };

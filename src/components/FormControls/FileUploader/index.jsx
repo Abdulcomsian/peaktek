@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { ArrowFileIcon, ImageIcon } from "@components/UI";
-
 const FileUploader = ({
   label,
   id,
@@ -11,6 +10,7 @@ const FileUploader = ({
   className,
   files,
   setFiles,
+  handleDelete,
 }) => {
   const fileInputRef = useRef(null);
 
@@ -44,10 +44,6 @@ const FileUploader = ({
 
   const handleClick = () => {
     fileInputRef.current.click();
-  };
-
-  const handleDelete = (index) => {
-    setFiles(files.filter((_, i) => i !== index));
   };
 
   return (
