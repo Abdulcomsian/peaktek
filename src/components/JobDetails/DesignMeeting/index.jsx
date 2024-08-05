@@ -49,7 +49,7 @@ const DesignMeeting = () => {
   const [currTab, setCurrTab] = useState(1);
   return (
     <TabsContentBox contentTitle="Design Meeting">
-      <div className="hidden md:block">
+      <div className="hidden md:block p-4">
         <Tabs
           items={tabsDesignMeeting}
           activeTab={currTab}

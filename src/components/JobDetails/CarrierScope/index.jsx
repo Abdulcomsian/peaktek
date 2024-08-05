@@ -1,34 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ImageIcon } from "@components/UI";
 import { FileUploader, Form } from "@components/FormControls";
-import { clientBaseURL, clientEndPoints } from "@services/config";
 import { Button } from "@components/UI";
 import toast from "react-hot-toast";
+import {
+  createCarrierScope,
+  getCarrierScope,
+} from "@services/apiDesignMeeting";
+import { useParams } from "react-router-dom";
 
 export default function CarrierScope() {
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    async function fetchCarrierScope() {
+      const resp = await getCarrierScope(id);
+      if (resp.status >= 200 && resp.status < 300) {
+      }
+      console.log("rrrrrrresp", resp);
+    }
+    if (id) fetchCarrierScope();
+  }, [id]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const token = localStorage.getItem("token");
-    const formData = new FormData();
-    images.forEach((file) => {
-      formData.append("images[]", file.file);
-    });
-
-    console.log("form data", formData);
     try {
-      const response = await clientBaseURL.post(
-        `${clientEndPoints?.updateOverturn}/${id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const imagesToLoad = images.map((image) => image.file);
+      const response = await createCarrierScope(imagesToLoad, id);
+      console.log(response);
 
       if (response.status >= 200 && response.status < 300) {
         toast.success(response.data.message);

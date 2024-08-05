@@ -4,14 +4,15 @@ import { useParams } from "react-router-dom";
 import { Input, InputContainer, CustomDatePicker } from "@components";
 import { Button, UploaderInputs } from "@components/index";
 import { Spin } from "antd";
-import { createProjectTitle, getProjectTitleApi } from "@services/apiProject";
-import { formateErrorName } from "../../../utils/helper";
+import { formateErrorName, mapToArray } from "../../../utils/helper";
 import { ImageIcon } from "@components/UI";
+import { createTitle, getTitle } from "@services/apiDesignMeeting";
 
 export default function TitleForm() {
   const { id: jobId } = useParams();
   const [defaultValues, setDefaultValues] = useState({});
   const { id: titleFormId, ...defaultValuesform } = defaultValues;
+  const [isEditting, setIsEditting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,13 +23,14 @@ export default function TitleForm() {
     defaultValues: titleFormId && isEditting ? defaultValuesform : {},
   });
   const [isLoading, setIsLoading] = useState(false);
+  console.log(errors);
 
   useEffect(
     function () {
       async function getProjectTitle() {
         try {
           // setIsLoading(true);
-          const resp = await getProjectTitleApi(jobId);
+          const resp = await getTitle(jobId);
           console.log("RESPPP", resp);
           if (resp.status === 200 && Object.keys(resp.data).length > 0) {
             setDefaultValues(resp.data);
@@ -49,21 +51,20 @@ export default function TitleForm() {
   );
 
   const onSubmit = async function (data) {
+    console.log(data, "DATTTTTTTTTTA");
+
     const finalDataToUpload = {
       ...data,
       date: new Date(data.date.$d).toLocaleDateString(),
-      primary_image: data.primary_image?.[0],
-      secondary_image: data?.secondary_image?.[0],
+      primary_image: data.primary_image[0],
+      secondary_image: data.secondary_image[0],
     };
-
-    console.log(finalDataToUpload);
-    createProjectTitle(finalDataToUpload, jobId);
-    // const resp = await createProjectTitle(finalDataToUpload, jobId);
-    // console.log("Resp", resp);
-    // if (resp.status >= 200 && resp.status < 300) {
-    //   toast.success(resp.message);
-    //   reset();
-    // }
+    const resp = await createTitle(finalDataToUpload, jobId);
+    console.log("Resp", resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.message);
+      reset();
+    }
   };
 
   return (
@@ -189,7 +190,13 @@ export default function TitleForm() {
             register={register}
             id="primary_image"
             icon={<ImageIcon />}
-            require={false}
+            require={true}
+            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+            multiple={false}
+            error={
+              errors.primary_image &&
+              formateErrorName(errors?.primary_image?.message)
+            }
           />
           <UploaderInputs
             wrapperClass="grow w-full"
@@ -198,7 +205,13 @@ export default function TitleForm() {
             id="secondary_image"
             register={register}
             icon={<ImageIcon />}
-            require={false}
+            require={true}
+            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+            multiple={false}
+            error={
+              errors.secondary_image &&
+              formateErrorName(errors?.secondary_image?.message)
+            }
           />
         </div>
         <Button type="submit" variant="gradient" className="w-full mt-6">

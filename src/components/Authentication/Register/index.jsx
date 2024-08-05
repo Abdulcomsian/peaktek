@@ -109,9 +109,7 @@ const Register = () => {
                   <FaArrowRightLong className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
                 </>
               ) : (
-                <Flex align="center" gap="middle">
-                  <Spin indicator={<LoadingOutlined spin />} size="small" />
-                </Flex>
+                <Spin />
               )}
             </Button>
           </form>
