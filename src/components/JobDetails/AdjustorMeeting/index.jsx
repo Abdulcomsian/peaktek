@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { adjustorMeetingSchema } from "@services/schema";
 import dayjs from "dayjs";
@@ -7,16 +7,53 @@ import { Form } from "@components/FormControls";
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
-
+import { useParams } from "react-router-dom";
+import { Spin } from "antd";
 const AdjustorMeeting = () => {
+  const { id } = useParams();
+
+  const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
+  const [adjustorMeetingData, setAdjustorMeetingData] = useState(null);
+  useEffect(() => {
+    const getAdjustorMeetingData = async () => {
+      try {
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getAdjustorMeeting}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response?.status >= 200 && response?.status < 300) {
+          // toast.success(response?.data?.message);
+          setAdjustorMeetingData(response?.data?.data);
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    getAdjustorMeetingData();
+  }, [id]);
+
   const formik = useFormik({
     initialValues: {
-      name: "",
-      phone: "",
-      email: "",
-      time: null,
-      date: null,
+      name: adjustorMeetingData?.name || "",
+      phone: adjustorMeetingData?.phone || "",
+      email: adjustorMeetingData?.email || "",
+      time: adjustorMeetingData?.time || "",
+      date: adjustorMeetingData?.date || "",
     },
+    enableReinitialize: true,
     validationSchema: adjustorMeetingSchema,
     onSubmit: async (values, actions) => {
       const formatPhone = values?.phone.toString();
@@ -36,11 +73,10 @@ const AdjustorMeeting = () => {
         time: formattedTime,
         date: formattedDate,
       };
-      console.log("Formated values", formattedValues);
+
       try {
-        const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
-          `${clientEndPoints?.createAdjustorMeeting}/1`,
+          `${clientEndPoints?.createAdjustorMeeting}/${id}`,
           formattedValues,
           {
             headers: {
@@ -64,6 +100,7 @@ const AdjustorMeeting = () => {
 
   return (
     <Fragment>
+      {loading && <Spin fullscreen={true} />}
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Adjustor Meeting
       </h1>
