@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { ImageIcon } from "@components/UI";
 import { FileUploader, Form } from "@components/FormControls";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-import Button from "@components/JobDetails/ui/Button";
+import { Button } from "@components/UI";
 import toast from "react-hot-toast";
+
 export default function CarrierScope() {
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
@@ -59,11 +60,7 @@ export default function CarrierScope() {
           setImages(images.filter((_, i) => i !== index))
         }
       />
-      <Button
-        type="submit"
-        className={`text-white btn-gradient px-4 py-1`}
-        disabled={loading}
-      >
+      <Button type="submit" variant="gradient" disabled={loading}>
         {loading ? "Saving..." : "Save"}
       </Button>
     </Form>
