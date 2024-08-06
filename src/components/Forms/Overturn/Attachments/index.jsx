@@ -1,19 +1,22 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Ckeditor, FileUploader, Form } from "@components/FormControls";
 import Button from "@components/JobDetails/Button";
 import { ArrowFileIcon, ImageIcon } from "@components/UI";
-import React from "react";
 import { toast } from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-import { useParams } from "react-router-dom";
-const OverturnAttachments = () => {
-  const { id } = useParams();
+
+const OverturnAttachments = ({ id, data }) => {
+  console.log("Data in attactments", data);
   const [images, setImages] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [manufacturerDocuments, setManufacturerDocuments] = useState([]);
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
-
+  useEffect(() => {
+    if (data) {
+      setNotes(data?.notes || "");
+    }
+  }, [data]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

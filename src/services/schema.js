@@ -95,36 +95,18 @@ const inProgressSchema = Yup.object().shape({
   zip_code: Yup.number().required("Zip code is required"),
   claim_number: Yup.number().required("Claim number is required"),
   policy_number: Yup.number().required("Policy number is required"),
-  notes: Yup.string().required("Notes are required"),
   insurance: Yup.string().required("Insurance is required"),
   company_signature: Yup.string().required("Company signature is required"),
   company_printed_name: Yup.string().required(
     "Company printed name is required"
   ),
-  company_date: Yup.date()
-    .required("Company date is required")
-    .typeError("Invalid date format"),
+  company_date: Yup.date().required("Company date is required"),
+
   customer_signature: Yup.string().required("Customer signature is required"),
   customer_printed_name: Yup.string().required(
     "Customer printed name is required"
   ),
-  customer_date: Yup.date()
-    .required("Customer date is required")
-    .typeError("Invalid date format"),
-  // materials: Yup.array()
-  //   .of(
-  //     Yup.object().shape({
-  //       material: Yup.string().required("Material is required"),
-  //       damaged: Yup.boolean().required("Damaged status is required"),
-  //       notes: Yup.string().required("Notes are required"),
-  //     })
-  //   )
-  //   .required("Materials are required")
-  //   .min(1, "At least one material is required"),
-  // images: Yup.array()
-  //   .of(Yup.string().required("Binary data is required"))
-  //   .required("Images are required")
-  //   .min(1, "At least one image is required"),
+  customer_date: Yup.date().required("Customer date is required"),
 });
 
 export {

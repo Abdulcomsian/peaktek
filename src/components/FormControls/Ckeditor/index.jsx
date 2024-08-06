@@ -3,7 +3,7 @@ import "./ckeditor-styles.css"; // Import your custom CSS here
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const Ckeditor = ({ className, value, onGetHtml, id, label }) => {
+const Ckeditor = ({ className, value, onChange, id, label }) => {
   const [editorData, setEditorData] = useState(value || "");
   const modules = {
     toolbar: [
@@ -39,7 +39,7 @@ const Ckeditor = ({ className, value, onGetHtml, id, label }) => {
 
   const handleProcedureContentChange = (content) => {
     setEditorData(content);
-    onGetHtml(content, id);
+    onChange(content, id);
   };
 
   useEffect(() => {

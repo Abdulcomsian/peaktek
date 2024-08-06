@@ -9,12 +9,13 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
+
 const AdjustorMeeting = () => {
   const { id } = useParams();
-
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
   const [adjustorMeetingData, setAdjustorMeetingData] = useState(null);
+
   useEffect(() => {
     const getAdjustorMeetingData = async () => {
       try {
@@ -45,13 +46,22 @@ const AdjustorMeeting = () => {
     getAdjustorMeetingData();
   }, [id]);
 
+  let formattedInitialDate = adjustorMeetingData?.date
+    ? dayjs(adjustorMeetingData?.date, "DD/MM/YYYY")
+    : null;
+
+  // Parse time correctly using dayjs
+  let formattedInitialTime = adjustorMeetingData?.time
+    ? dayjs(adjustorMeetingData?.time, "hh:mm A")
+    : null;
+
   const formik = useFormik({
     initialValues: {
       name: adjustorMeetingData?.name || "",
       phone: adjustorMeetingData?.phone || "",
       email: adjustorMeetingData?.email || "",
-      time: adjustorMeetingData?.time || "",
-      date: adjustorMeetingData?.date || "",
+      time: formattedInitialTime,
+      date: formattedInitialDate,
     },
     enableReinitialize: true,
     validationSchema: adjustorMeetingSchema,

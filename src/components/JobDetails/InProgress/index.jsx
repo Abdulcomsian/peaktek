@@ -18,11 +18,15 @@ import {
 import { Ckeditor, FileUploader, Form } from "@components/FormControls";
 import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
+import { Spin } from "antd";
 
 const InProgress = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState(1);
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [inProgressData, setInProgressData] = useState(null);
+  const token = localStorage.getItem("token");
   const { id } = useParams();
   const items = [
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
@@ -31,65 +35,95 @@ const InProgress = () => {
 
   useEffect(() => {
     dispatch(fetchSingleJob(id));
+    const getQcInspectionData = async () => {
+      try {
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getQCInspection}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response?.status >= 200 && response?.status < 300) {
+          setInProgressData(response?.data?.data);
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) getQcInspectionData();
   }, [id]);
-
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
-
+  let formattedCompanyDate = inProgressData?.company_signed_date
+    ? dayjs(inProgressData.company_signed_date, "DD/MM/YYYY")
+    : null;
+  let formattedCustomerDate = inProgressData?.customer_signed_date
+    ? dayjs(inProgressData.customer_signed_date, "DD/MM/YYYY")
+    : null;
+  console.log("In-Progress Data", inProgressData);
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-      street: "",
-      city: "",
-      state: "",
-      zip_code: "",
-      insurance: "",
-      claim_number: "",
-      policy_number: "",
-      company_signature: "",
-      company_printed_name: "",
-      company_date: "",
-      customer_signature: "",
-      customer_printed_name: "",
-      customer_date: "",
-      materials: [{ material: "", damaged: false, notes: "" }],
-      images: [], // This should be handled by FileUploader
-      notes: "", // For CKEditor
+      name: inProgressData?.name || "",
+      email: inProgressData?.email || "",
+      phone: inProgressData?.phone || "",
+      street: inProgressData?.street || "",
+      city: inProgressData?.city || "",
+      state: inProgressData?.state || "",
+      zip_code: inProgressData?.zip_code || "",
+      insurance: inProgressData?.insurance || "",
+      claim_number: inProgressData?.claim_number || "",
+      policy_number: inProgressData?.policy_number || "",
+      company_signature: inProgressData?.company_representative || "",
+      company_printed_name: inProgressData?.company_printed_name || "",
+      company_date: formattedCompanyDate,
+      customer_signature: inProgressData?.customer_signature || "",
+      customer_printed_name: inProgressData?.customer_printed_name || "",
+      customer_date: formattedCustomerDate,
+      materials: inProgressData?.materials?.map((material) => ({
+        material: material?.material || "",
+        damaged: material?.damaged || false,
+        notes: material?.notes || "",
+      })) || [{ material: "", damaged: false, notes: "" }],
     },
+    enableReinitialize: true,
     validationSchema: inProgressSchema,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,
         company_date: values.company_date
-          ? dayjs(values.company_date).format("DD/MM/YYYY")
+          ? values.company_date.format("DD/MM/YYYY")
           : "",
         customer_date: values.customer_date
-          ? dayjs(values.customer_date).format("DD/MM/YYYY")
+          ? values.customer_date.format("DD/MM/YYYY")
           : "",
       };
-
-      const formData = new FormData();
-      uploadedFiles.forEach((file) => {
-        formData.append("images[]", file.file);
-      });
-
+      console.log("formatted values", formattedValues);
       try {
-        const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
-          `${clientEndPoints?.createQCInspection}/${id}`,
-          formData,
+          `${clientEndPoints?.storeQCInspection}/${id}`,
+          formattedValues,
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
             },
           }
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
           actions.resetForm();
-          setUploadedFiles([]); // Clear the file upload state after successful submission
         }
       } catch (error) {
         if (error?.response) {
@@ -100,14 +134,6 @@ const InProgress = () => {
       }
     },
   });
-
-  // const handleFilesChange = (files) => {
-  //   setUploadedFiles(files);
-  //   formik.setFieldValue(
-  //     "images",
-  //     files.map((file) => file.file)
-  //   );
-  // };
 
   const renderActiveTab = () => {
     switch (activeTab) {
@@ -180,15 +206,16 @@ const InProgress = () => {
 
   return (
     <Fragment>
+      {loading && <Spin fullscreen={true} />}
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         In Progress
       </h1>
       <div className="bg-white p-5 rounded-2xl">
+        <TabsContentBox contentTitle="Job Content" className="mb-4">
+          <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
+          {renderActiveTab()}
+        </TabsContentBox>
         <Form onSubmit={formik.handleSubmit}>
-          <TabsContentBox contentTitle="Job Content" className="mb-4">
-            <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
-            {renderActiveTab()}
-          </TabsContentBox>
           <h2 className="text-black text-xl font-medium mb-4 font-poppins">
             Quality Control Form (QC)
           </h2>
@@ -201,6 +228,8 @@ const InProgress = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
+            inputRefs={inputRefs}
+            readOnlyFields={["name", "email", "phone"]}
           />
           <MaterialForm
             values={formik.values.materials}

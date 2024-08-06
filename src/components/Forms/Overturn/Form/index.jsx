@@ -11,10 +11,8 @@ import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { overturnMeetingSchema } from "@services/schema";
-import { useParams } from "react-router-dom";
 import Button from "@components/JobDetails/Button";
-const OverturnForm = () => {
-  const { id } = useParams();
+const OverturnForm = ({ id, data }) => {
   const {
     values,
     errors,
@@ -25,10 +23,11 @@ const OverturnForm = () => {
     setFieldValue,
   } = useFormik({
     initialValues: {
-      email: "",
-      time: null,
-      date: null,
+      email: data?.email || "",
+      time: data?.time || "",
+      date: data?.date || "",
     },
+    enableReinitialize: true,
     validationSchema: overturnMeetingSchema,
     onSubmit: async (values, actions) => {
       // Format time with leading zero for single-digit hours and include AM/PM
