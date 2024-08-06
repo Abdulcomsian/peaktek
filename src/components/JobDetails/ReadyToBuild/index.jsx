@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   Ckeditor,
   CustomTimePicker,
@@ -14,9 +14,48 @@ import Button from "@components/JobDetails/Button";
 import { InputContainer } from "@components/index";
 import { useParams } from "react-router-dom";
 import { readyToBuildSchema } from "@services/schema";
+import { Spin } from "antd";
 
 const ReadyToBuild = () => {
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [overTurnData, setOverTurnData] = useState(null);
+  useEffect(() => {
+    const getReadyToBuildData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getReadyToBuild}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response on ready to build form", response);
+        if (response?.status >= 200 && response?.status < 300) {
+          setOverTurnData(response?.data?.data);
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) getReadyToBuildData();
+  }, [id]);
+  let formattedInitialDate = overTurnData?.date
+    ? dayjs(overTurnData?.date, "DD/MM/YYYY")
+    : null;
   const {
     values,
     errors,
@@ -27,11 +66,12 @@ const ReadyToBuild = () => {
     setFieldValue,
   } = useFormik({
     initialValues: {
-      recipient: "",
-      date: null,
-      time: null,
-      text: "",
+      recipient: overTurnData?.recipient || "",
+      date: formattedInitialDate,
+      time: overTurnData?.time || "",
+      text: overTurnData?.text || "",
     },
+    enableReinitialize: true,
     validationSchema: readyToBuildSchema,
     onSubmit: async (values, actions) => {
       // Format time with leading zero for single-digit hours and include AM/PM
@@ -74,7 +114,8 @@ const ReadyToBuild = () => {
     },
   });
   return (
-    <div>
+    <Fragment>
+      {loading && <Spin fullscreen={true} />}
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Ready to Build
       </h1>
@@ -124,7 +165,7 @@ const ReadyToBuild = () => {
           </Button>
         </Form>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

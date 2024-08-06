@@ -43,11 +43,15 @@ const clientEndPoints = {
   getAdjustorMeeting: "/api/get/adjustor-meeting",
   //Overturn Meeting
   createOverturn: "/api/create/overturn-meeting",
+  getOverturn: "/api/get/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",
   //Ready to build
   createReadyToBuild: "/api/store/ready-to-build",
+  getReadyToBuild: "/api/get/ready-to-build",
   //QC Inspection
-  createQCInspection: "/api/store/qc-inspection",
+  storeQCInspection: "/api/store/qc-inspection",
+  storeQCInspectionMedia: "/api/store/qc-inspection/media",
+  getQCInspection: "/api/get/qc-inspection",
   //COC
   createCoc: "/api/store/coc",
   getCoc: "/api/get/coc",

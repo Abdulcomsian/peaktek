@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { ArrowFileIcon, ImageIcon } from "@components/UI";
+
 const FileUploader = ({
   label,
   id,
@@ -42,7 +43,9 @@ const FileUploader = ({
     handleFiles(selectedFiles);
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    // Prevent the default action and stop the event from bubbling up
+    e.stopPropagation();
     fileInputRef.current.click();
   };
 

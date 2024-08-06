@@ -11,6 +11,15 @@ const CustomTimePicker = ({
   error,
   touched,
 }) => {
+  const handleTimeChange = (time) => {
+    onChange({
+      target: {
+        name,
+        value: time,
+      },
+    });
+  };
+
   return (
     <div className={`w-full ${className}`}>
       <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -21,8 +30,7 @@ const CustomTimePicker = ({
         format="h:mm a"
         value={value ? dayjs(value, "h:mm a") : null}
         size="large"
-        onChange={onChange}
-        name={name}
+        onChange={handleTimeChange}
         className={`w-full bg-gray-50 p-2 focus:outline-1 ${
           error && touched ? "border border-red-600" : "focus:outline-blue-500"
         }`}
