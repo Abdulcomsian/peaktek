@@ -110,7 +110,7 @@ const CustomerAgreementForm = () => {
       customer_date: customerData?.customer_date || "",
     },
     enableReinitialize: true,
-    validationSchema: createAgreementSchema,
+    // validationSchema: createAgreementSchema,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,

@@ -8,30 +8,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import dayjs from "dayjs";
 import { inProgressSchema } from "@services/schema";
-import {
-  FileIcon,
-  GalleryIcon,
-  ImageIcon,
-  Tabs,
-  TabsContentBox,
-} from "@components/UI";
-import { Ckeditor, FileUploader, Form } from "@components/FormControls";
+import { Form } from "@components/FormControls";
 import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { Spin } from "antd";
+import MediaForm from "./Media";
 
 const InProgress = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState(1);
-  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [inProgressData, setInProgressData] = useState(null);
   const token = localStorage.getItem("token");
-  const { id } = useParams();
-  const items = [
-    { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
-    { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
-  ];
 
   useEffect(() => {
     dispatch(fetchSingleJob(id));
@@ -73,7 +61,7 @@ const InProgress = () => {
   let formattedCustomerDate = inProgressData?.customer_signed_date
     ? dayjs(inProgressData.customer_signed_date, "DD/MM/YYYY")
     : null;
-  console.log("In-Progress Data", inProgressData);
+
   const formik = useFormik({
     initialValues: {
       name: inProgressData?.name || "",
@@ -110,7 +98,7 @@ const InProgress = () => {
           ? values.customer_date.format("DD/MM/YYYY")
           : "",
       };
-      console.log("formatted values", formattedValues);
+
       try {
         const response = await clientBaseURL.post(
           `${clientEndPoints?.storeQCInspection}/${id}`,
@@ -134,33 +122,6 @@ const InProgress = () => {
       }
     },
   });
-
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case 1:
-        return (
-          <Ckeditor
-            value={formik.values.notes}
-            onChange={(content) => formik.setFieldValue("notes", content)}
-          />
-        );
-      case 2:
-        return (
-          <FileUploader
-            icon={<ImageIcon />}
-            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
-            text="Drop your image here, or"
-            files={images}
-            setFiles={setImages}
-            handleDelete={(index) =>
-              setImages(images.filter((_, i) => i !== index))
-            }
-          />
-        );
-      default:
-        break;
-    }
-  };
 
   // Update Formik initial values when singleJobData changes
   useEffect(() => {
@@ -211,15 +172,11 @@ const InProgress = () => {
         In Progress
       </h1>
       <div className="bg-white p-5 rounded-2xl">
-        <TabsContentBox contentTitle="Job Content" className="mb-4">
-          <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
-          {renderActiveTab()}
-        </TabsContentBox>
+        <MediaForm id={id} className="mb-4" data={inProgressData} />
         <Form onSubmit={formik.handleSubmit}>
           <h2 className="text-black text-xl font-medium mb-4 font-poppins">
             Quality Control Form (QC)
           </h2>
-
           <CustomerInformation
             customer={singleJobData}
             handleChange={formik.handleChange}

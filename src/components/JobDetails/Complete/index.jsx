@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import { Form } from "@components/FormControls";
 import { CustomerInformation, ProjectSummaryForm } from "@components/Forms";
 import SignatureForm from "./SignatureForm";
@@ -15,41 +15,76 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { cocSchema } from "@services/schema";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
+import { Spin } from "antd";
 const Complete = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-
+  const [loading, setLoading] = useState(false);
+  const [cocData, setCocData] = useState(false);
   useEffect(() => {
     dispatch(fetchSingleJob(id));
+    const getCOCData = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getCoc}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response of COC", response);
+        if (response?.status >= 200 && response?.status < 300) {
+          setCocData(response?.data?.data);
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) getCOCData();
   }, [id]);
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
-  console.log("Single Job", singleJobData);
-
+  let formattedInitialDate = cocData?.company_signed_date
+    ? dayjs(cocData?.company_signed_date, "DD/MM/YYYY")
+    : null;
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-      street: "",
-      city: "",
-      state: "",
-      zip_code: "",
-      insurance: "",
-      claim_number: "",
-      policy_number: "",
-      awarded_to: "",
-      released_to: "",
-      job_total: "",
-      customer_paid_upgrades: "",
-      deductible: "",
-      acv_check: "",
-      rcv_check: "",
-      supplemental_items: "",
-      company_representative: "",
-      company_printed_name: "",
-      company_signed_date: "",
+      name: cocData?.name || "",
+      email: cocData?.email || "",
+      phone: cocData?.phone || "",
+      street: cocData?.street || "",
+      city: cocData?.city || "",
+      state: cocData?.state || "",
+      zip_code: cocData?.zip_code || "",
+      insurance: cocData?.insurance || "",
+      claim_number: cocData?.claim_number || "",
+      policy_number: cocData?.policy_number || "",
+      awarded_to: cocData?.awarded_to || "",
+      released_to: cocData?.released_to || "",
+      job_total: cocData?.job_total || "",
+      customer_paid_upgrades: cocData?.customer_paid_upgrades || "",
+      deductible: cocData?.deductible || "",
+      acv_check: cocData?.acv_check || "",
+      rcv_check: cocData?.rcv_check || "",
+      supplemental_items: cocData?.supplemental_items || "",
+      company_representative: cocData?.company_representative || "",
+      company_printed_name: cocData?.company_printed_name || "",
+      company_signed_date: formattedInitialDate,
     },
+    enableReinitialize: true,
     validationSchema: cocSchema,
     onSubmit: async (values, actions) => {
       // Format all date values to 'DD/MM/YYYY'
@@ -153,6 +188,7 @@ const Complete = () => {
 
   return (
     <Fragment>
+      {loading && <Spin fullscreen={true} />}
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         COC
       </h1>
