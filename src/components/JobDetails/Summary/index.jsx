@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { FileIcon, GalleryIcon, Tabs, TabsContentBox } from "@components/UI";
+import { FileIcon, GalleryIcon } from "@components/UI";
 import Button from "@components/JobDetails/Button";
 import MoneyInput from "./MoneyInput";
-import Notes from "./Notes";
+import Notes from "./MediaContent";
 import Photos from "./Photos";
 import SimpleInput from "./SimpleInput";
 import { clientBaseURL, clientEndPoints } from "@services/config";
@@ -10,15 +10,9 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { Form } from "@components/FormControls";
-
-const items = [
-  { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
-  { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
-];
-
+import MediaContent from "./MediaContent";
 const Summary = () => {
   const { id } = useParams();
-  const [activeTab, setActiveTab] = useState(1);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [fields, setFields] = useState({
@@ -128,23 +122,12 @@ const Summary = () => {
     }
   };
 
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case 1:
-        return <Notes id={id} />;
-      case 2:
-        return <Photos id={id} />;
-      default:
-        break;
-    }
-  };
-
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
       {/**First part start*/}
-      <Form onSubmit={handleSubmit}>
-        <div className="bg-white rounded-2xl p-5 w-full max-w-4xl mb-6">
+      <div className="bg-white rounded-2xl p-5 w-full max-w-4xl mb-6">
+        <Form onSubmit={handleSubmit}>
           <div className="flex flex-col lg:flex-row justify-between mb-4">
             <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
               <div className="text-black text-opacity-30 ">Job Total</div>
@@ -154,6 +137,7 @@ const Summary = () => {
                 placeholder="10000"
                 type="number"
                 name="job_total"
+                required={true}
                 value={fields.job_total}
                 onChange={handleChange}
               />
@@ -263,13 +247,11 @@ const Summary = () => {
           <Button type="submit" className="text-white btn-gradient px-4 py-1">
             Save
           </Button>
-        </div>
-      </Form>
-      {/**First part Ends*/}
-      <TabsContentBox contentTitle="Job Content" className="p-5">
-        <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
-        <div>{renderActiveTab()}</div>
-      </TabsContentBox>
+        </Form>
+      </div>
+      <div className="bg-white rounded-2xl p-5 w-full max-w-7xl mb-6">
+        <MediaContent id={id} />
+      </div>
     </Fragment>
   );
 };

@@ -13,6 +13,12 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { overturnMeetingSchema } from "@services/schema";
 import Button from "@components/JobDetails/Button";
 const OverturnForm = ({ id, data }) => {
+  console.log("Data in overturn form", data);
+  let formattedInitialDate = data?.date
+    ? dayjs(data?.date, "DD/MM/YYYY")
+    : null;
+
+  let formattedInitialTime = data?.time ? dayjs(data?.time, "hh:mm A") : null;
   const {
     values,
     errors,
@@ -24,27 +30,24 @@ const OverturnForm = ({ id, data }) => {
   } = useFormik({
     initialValues: {
       email: data?.email || "",
-      time: data?.time || "",
-      date: data?.date || "",
+      time: formattedInitialTime,
+      date: formattedInitialDate,
     },
     enableReinitialize: true,
     validationSchema: overturnMeetingSchema,
     onSubmit: async (values, actions) => {
-      // Format time with leading zero for single-digit hours and include AM/PM
       const formattedTime = values.time
-        ? dayjs(values.time).format("hh:mm A")
+        ? dayjs(values.time, "h:mm A").format("HH:mm")
         : "Invalid Time";
 
-      // Format date to 'DD/MM/YYYY'
       const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
 
-      // Prepare the data to send to the server
       const formattedValues = {
         ...values,
         time: formattedTime,
         date: formattedDate,
       };
-      console.log("Formated values", formattedValues);
+
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(

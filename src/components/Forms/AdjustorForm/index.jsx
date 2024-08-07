@@ -1,10 +1,10 @@
+import React, { Fragment } from "react";
 import { InputContainer } from "@components";
 import {
   CustomTimePicker,
   DateSelector,
   TextBox,
 } from "@components/FormControls";
-import React, { Fragment } from "react";
 
 const AdjustorForm = ({
   handleChange,

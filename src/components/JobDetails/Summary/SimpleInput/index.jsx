@@ -8,6 +8,7 @@ const SimpleInput = ({
   name,
   value,
   onChange,
+  required,
 }) => {
   return (
     <input
@@ -17,6 +18,7 @@ const SimpleInput = ({
       className={`bg-slate-100 hover:bg-bluish border border-bluish hover:border hover:border-indigo-600 text-indigo-600 hover:placeholder:text-indigo-600 text-sm rounded focus:outline-none ${className}  p-[2px]`}
       placeholder={placeholder}
       value={value}
+      required={required}
       onChange={onChange}
     />
   );
