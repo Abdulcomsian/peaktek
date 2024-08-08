@@ -6,7 +6,6 @@ import { toast } from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 
 const OverturnAttachments = ({ id, data }) => {
-  console.log("Data in attactments", data);
   const [images, setImages] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [manufacturerDocuments, setManufacturerDocuments] = useState([]);

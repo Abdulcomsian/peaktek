@@ -39,7 +39,6 @@ const CustomerAgreementForm = () => {
         );
 
         if (response?.status >= 200 && response?.status < 300) {
-          // toast.success(response?.data?.message);
           setCustomerData(response?.data?.agreement);
         }
       } catch (error) {
@@ -75,7 +74,7 @@ const CustomerAgreementForm = () => {
       );
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        setIsApprovalButtonDisabled(true); // Disable the button on success
+        setIsApprovalButtonDisabled(true);
       }
     } catch (error) {
       if (error?.response) {
@@ -89,28 +88,29 @@ const CustomerAgreementForm = () => {
   const showSignatureModel = () => {
     setIsSignatureModelOpen(true);
   };
+
   const closeSignatureModel = () => {
     setIsSignatureModelOpen(false);
   };
 
   const formik = useFormik({
     initialValues: {
-      street: customerData?.street || "",
-      city: customerData?.city || "",
-      state: customerData?.state || "",
-      zip_code: customerData?.zip_code || "",
-      insurance: customerData?.insurance || "",
-      claim_number: customerData?.claim_number || "",
-      policy_number: customerData?.policy_number || "",
-      company_signature: customerData?.company_signature || "",
-      company_printed_name: customerData?.company_printed_name || "",
-      company_date: customerData?.company_date || "",
-      customer_signature: customerData?.customer_signature || "",
-      customer_printed_name: customerData?.customer_printed_name || "",
-      customer_date: customerData?.customer_date || "",
+      street: "",
+      city: "",
+      state: "",
+      zip_code: "",
+      insurance: "",
+      claim_number: "",
+      policy_number: "",
+      company_signature: "",
+      company_printed_name: "",
+      company_date: "",
+      customer_signature: "",
+      customer_printed_name: "",
+      customer_date: "",
     },
-    enableReinitialize: true,
     // validationSchema: createAgreementSchema,
+    enableReinitialize: true,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,
@@ -135,7 +135,7 @@ const CustomerAgreementForm = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          actions.resetForm();
+          // actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -146,6 +146,26 @@ const CustomerAgreementForm = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (customerData) {
+      formik.setValues({
+        street: customerData.street || "",
+        city: customerData.city || "",
+        state: customerData.state || "",
+        zip_code: customerData.zip_code || "",
+        insurance: customerData.insurance || "",
+        claim_number: customerData.claim_number || "",
+        policy_number: customerData.policy_number || "",
+        company_signature: customerData.company_signature || "",
+        company_printed_name: customerData.company_printed_name || "",
+        company_date: customerData.company_date || "",
+        customer_signature: customerData.customer_signature || "",
+        customer_printed_name: customerData.customer_printed_name || "",
+        customer_date: customerData.customer_date || "",
+      });
+    }
+  }, [customerData]);
 
   const inputRefs = {
     street: useRef(null),
