@@ -21,9 +21,9 @@ const InProgress = () => {
   const [inProgressData, setInProgressData] = useState(null);
   const token = localStorage.getItem("token");
 
+  // Fetch QC Inspection data
   useEffect(() => {
-    dispatch(fetchSingleJob(id));
-    const getQcInspectionData = async () => {
+    const fetchData = async () => {
       try {
         if (!token) {
           console.error("No token found");
@@ -52,39 +52,43 @@ const InProgress = () => {
         setLoading(false);
       }
     };
-    if (id) getQcInspectionData();
-  }, [id]);
+
+    if (id) {
+      dispatch(fetchSingleJob(id));
+      fetchData();
+    }
+  }, [id, dispatch, token]);
+
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
-  let formattedCompanyDate = inProgressData?.company_signed_date
+
+  // Format dates
+  const formattedCompanyDate = inProgressData?.company_signed_date
     ? dayjs(inProgressData.company_signed_date, "DD/MM/YYYY")
     : null;
-  let formattedCustomerDate = inProgressData?.customer_signed_date
+  const formattedCustomerDate = inProgressData?.customer_signed_date
     ? dayjs(inProgressData.customer_signed_date, "DD/MM/YYYY")
     : null;
 
+  // Initialize Formik
   const formik = useFormik({
     initialValues: {
-      name: inProgressData?.name || "",
-      email: inProgressData?.email || "",
-      phone: inProgressData?.phone || "",
-      street: inProgressData?.street || "",
-      city: inProgressData?.city || "",
-      state: inProgressData?.state || "",
-      zip_code: inProgressData?.zip_code || "",
-      insurance: inProgressData?.insurance || "",
-      claim_number: inProgressData?.claim_number || "",
-      policy_number: inProgressData?.policy_number || "",
-      company_signature: inProgressData?.company_representative || "",
-      company_printed_name: inProgressData?.company_printed_name || "",
-      company_date: formattedCompanyDate,
-      customer_signature: inProgressData?.customer_signature || "",
-      customer_printed_name: inProgressData?.customer_printed_name || "",
-      customer_date: formattedCustomerDate,
-      materials: inProgressData?.materials?.map((material) => ({
-        material: material?.material || "",
-        damaged: material?.damaged || false,
-        notes: material?.notes || "",
-      })) || [{ material: "", damaged: false, notes: "" }],
+      name: "",
+      email: "",
+      phone: "",
+      street: "",
+      city: "",
+      state: "",
+      zip_code: "",
+      insurance: "",
+      claim_number: "",
+      policy_number: "",
+      company_signature: "",
+      company_printed_name: "",
+      company_date: null,
+      customer_signature: "",
+      customer_printed_name: "",
+      customer_date: null,
+      materials: [{ material: "", damaged: false, notes: "" }],
     },
     enableReinitialize: true,
     validationSchema: inProgressSchema,
@@ -123,17 +127,34 @@ const InProgress = () => {
     },
   });
 
-  // Update Formik initial values when singleJobData changes
+  // Update Formik initial values when inProgressData changes
   useEffect(() => {
-    if (singleJobData) {
+    if (inProgressData) {
       formik.setValues({
-        ...formik.values,
-        name: singleJobData?.name || "",
-        email: singleJobData?.email || "",
-        phone: singleJobData?.phone || "",
+        name: inProgressData.name || "",
+        email: inProgressData.email || "",
+        phone: inProgressData.phone || "",
+        street: inProgressData.street || "",
+        city: inProgressData.city || "",
+        state: inProgressData.state || "",
+        zip_code: inProgressData.zip_code || "",
+        insurance: inProgressData.insurance || "",
+        claim_number: inProgressData.claim_number || "",
+        policy_number: inProgressData.policy_number || "",
+        company_signature: inProgressData.company_representative || "",
+        company_printed_name: inProgressData.company_printed_name || "",
+        company_date: formattedCompanyDate,
+        customer_signature: inProgressData.customer_signature || "",
+        customer_printed_name: inProgressData.customer_printed_name || "",
+        customer_date: formattedCustomerDate,
+        materials: inProgressData.materials?.map((material) => ({
+          material: material.material || "",
+          damaged: material.damaged || false,
+          notes: material.notes || "",
+        })) || [{ material: "", damaged: false, notes: "" }],
       });
     }
-  }, [singleJobData]);
+  }, [inProgressData]);
 
   const inputRefs = {
     name: useRef(null),
@@ -209,7 +230,6 @@ const InProgress = () => {
             <input
               id="complete"
               type="checkbox"
-              defaultValue=""
               className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
             />
             <label

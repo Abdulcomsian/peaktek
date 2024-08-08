@@ -30,7 +30,6 @@ const AdjustorMeeting = () => {
         );
 
         if (response?.status >= 200 && response?.status < 300) {
-          // toast.success(response?.data?.message);
           setAdjustorMeetingData(response?.data?.data);
         }
       } catch (error) {
@@ -46,37 +45,25 @@ const AdjustorMeeting = () => {
     getAdjustorMeetingData();
   }, [id]);
 
-  let formattedInitialDate = adjustorMeetingData?.date
-    ? dayjs(adjustorMeetingData?.date, "DD/MM/YYYY")
-    : null;
-
-  // Parse time correctly using dayjs
-  let formattedInitialTime = adjustorMeetingData?.time
-    ? dayjs(adjustorMeetingData?.time, "hh:mm A")
-    : null;
-
   const formik = useFormik({
     initialValues: {
-      name: adjustorMeetingData?.name || "",
-      phone: adjustorMeetingData?.phone || "",
-      email: adjustorMeetingData?.email || "",
-      time: formattedInitialTime,
-      date: formattedInitialDate,
+      name: "",
+      phone: "",
+      email: "",
+      time: null,
+      date: null,
     },
     enableReinitialize: true,
     validationSchema: adjustorMeetingSchema,
     onSubmit: async (values, actions) => {
       const formatPhone = values?.phone.toString();
 
-      // Format time with leading zero for single-digit hours and include AM/PM
       const formattedTime = values.time
         ? dayjs(values.time).format("hh:mm A")
         : "Invalid Time";
 
-      // Format date to 'DD/MM/YYYY'
       const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
 
-      // Prepare the data to send to the server
       const formattedValues = {
         ...values,
         phone: formatPhone,
@@ -96,7 +83,7 @@ const AdjustorMeeting = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          actions.resetForm();
+          // actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -107,6 +94,26 @@ const AdjustorMeeting = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (adjustorMeetingData) {
+      const formattedInitialDate = adjustorMeetingData?.date
+        ? dayjs(adjustorMeetingData?.date, "DD/MM/YYYY")
+        : null;
+
+      const formattedInitialTime = adjustorMeetingData?.time
+        ? dayjs(adjustorMeetingData?.time, "hh:mm A")
+        : null;
+
+      formik.setValues({
+        name: adjustorMeetingData.name || "",
+        phone: adjustorMeetingData.phone || "",
+        email: adjustorMeetingData.email || "",
+        time: formattedInitialTime,
+        date: formattedInitialDate,
+      });
+    }
+  }, [adjustorMeetingData]);
 
   return (
     <Fragment>

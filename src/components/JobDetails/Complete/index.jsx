@@ -16,13 +16,14 @@ import { cocSchema } from "@services/schema";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
+
 const Complete = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [cocData, setCocData] = useState(false);
+  const [cocData, setCocData] = useState(null); // Initialize as null
+
   useEffect(() => {
-    dispatch(fetchSingleJob(id));
     const getCOCData = async () => {
       const token = localStorage.getItem("token");
       try {
@@ -39,7 +40,6 @@ const Complete = () => {
             },
           }
         );
-        console.log("response of COC", response);
         if (response?.status >= 200 && response?.status < 300) {
           setCocData(response?.data?.data);
         }
@@ -54,49 +54,46 @@ const Complete = () => {
       }
     };
     if (id) getCOCData();
-  }, [id]);
+    dispatch(fetchSingleJob(id));
+  }, [id, dispatch]);
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
-  let formattedInitialDate = cocData?.company_signed_date
-    ? dayjs(cocData?.company_signed_date, "DD/MM/YYYY")
-    : null;
+
+  // Initialize Formik
   const formik = useFormik({
     initialValues: {
-      name: cocData?.name || "",
-      email: cocData?.email || "",
-      phone: cocData?.phone || "",
-      street: cocData?.street || "",
-      city: cocData?.city || "",
-      state: cocData?.state || "",
-      zip_code: cocData?.zip_code || "",
-      insurance: cocData?.insurance || "",
-      claim_number: cocData?.claim_number || "",
-      policy_number: cocData?.policy_number || "",
-      awarded_to: cocData?.awarded_to || "",
-      released_to: cocData?.released_to || "",
-      job_total: cocData?.job_total || "",
-      customer_paid_upgrades: cocData?.customer_paid_upgrades || "",
-      deductible: cocData?.deductible || "",
-      acv_check: cocData?.acv_check || "",
-      rcv_check: cocData?.rcv_check || "",
-      supplemental_items: cocData?.supplemental_items || "",
-      company_representative: cocData?.company_representative || "",
-      company_printed_name: cocData?.company_printed_name || "",
-      company_signed_date: formattedInitialDate,
+      name: "",
+      email: "",
+      phone: "",
+      street: "",
+      city: "",
+      state: "",
+      zip_code: "",
+      insurance: "",
+      claim_number: "",
+      policy_number: "",
+      awarded_to: "",
+      released_to: "",
+      job_total: "",
+      customer_paid_upgrades: "",
+      deductible: "",
+      acv_check: "",
+      rcv_check: "",
+      supplemental_items: "",
+      company_representative: "",
+      company_printed_name: "",
+      company_signed_date: null,
     },
     enableReinitialize: true,
     validationSchema: cocSchema,
     onSubmit: async (values, actions) => {
-      // Format all date values to 'DD/MM/YYYY'
       const formattedValues = {
         ...values,
         company_signed_date: values.company_signed_date
           ? dayjs(values.company_signed_date).format("DD/MM/YYYY")
           : "",
       };
-      console.log("Formatted Values", formattedValues);
 
-      // Uncomment and adjust the following code for actual form submission
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
@@ -110,7 +107,7 @@ const Complete = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          actions.resetForm();
+          // actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -121,34 +118,45 @@ const Complete = () => {
       }
     },
   });
-  // Update Formik initial values when singleJobData changes
+
+  // Update Formik initial values when cocData or singleJobData changes
   useEffect(() => {
-    if (singleJobData) {
+    if (cocData) {
       formik.setValues({
-        name: singleJobData?.name || "",
-        email: singleJobData?.email || "",
-        phone: singleJobData?.phone || "",
-        street: formik.values.street,
-        city: formik.values.city,
-        state: formik.values.state,
-        zip_code: formik.values.zip_code,
-        insurance: formik.values.insurance,
-        claim_number: formik.values.claim_number,
-        policy_number: formik.values.policy_number,
-        awarded_to: formik.values.awarded_to,
-        released_to: formik.values.released_to,
-        job_total: formik.values.job_total,
-        customer_paid_upgrades: formik.values.customer_paid_upgrades,
-        deductible: formik.values.deductible,
-        acv_check: formik.values.acv_check,
-        rcv_check: formik.values.rcv_check,
-        supplemental_items: formik.values.supplemental_items,
-        company_representative: formik.values.company_representative,
-        company_printed_name: formik.values.company_printed_name,
-        company_signed_date: formik.values.company_signed_date,
+        name: cocData.name || "",
+        email: cocData.email || "",
+        phone: cocData.phone || "",
+        street: cocData.street || "",
+        city: cocData.city || "",
+        state: cocData.state || "",
+        zip_code: cocData.zip_code || "",
+        insurance: cocData.insurance || "",
+        claim_number: cocData.claim_number || "",
+        policy_number: cocData.policy_number || "",
+        awarded_to: cocData.awarded_to || "",
+        released_to: cocData.released_to || "",
+        job_total: cocData.job_total || "",
+        customer_paid_upgrades: cocData.customer_paid_upgrades || "",
+        deductible: cocData.deductible || "",
+        acv_check: cocData.acv_check || "",
+        rcv_check: cocData.rcv_check || "",
+        supplemental_items: cocData.supplemental_items || "",
+        company_representative: cocData.company_representative || "",
+        company_printed_name: cocData.company_printed_name || "",
+        company_signed_date: cocData.company_signed_date
+          ? dayjs(cocData.company_signed_date, "DD/MM/YYYY")
+          : null,
+      });
+    } else if (singleJobData) {
+      formik.setValues({
+        ...formik.values,
+        name: singleJobData.name || formik.values.name,
+        email: singleJobData.email || formik.values.email,
+        phone: singleJobData.phone || formik.values.phone,
       });
     }
-  }, [singleJobData]);
+  }, [cocData, singleJobData]);
+
   // Create refs for each input
   const inputRefs = {
     name: useRef(null),
@@ -212,28 +220,28 @@ const Complete = () => {
             name="awarded_to"
             value={formik.values.awarded_to}
             handleChange={formik.handleChange}
-            handleBlur={formik?.handleBlur}
-            errors={formik?.errors}
-            touched={formik?.touched}
-            inputRefs={inputRefs?.awarded_to}
+            handleBlur={formik.handleBlur}
+            errors={formik.errors}
+            touched={formik.touched}
+            inputRefs={inputRefs.awarded_to}
           />
           <Depreciation
             name="released_to"
             value={formik.values.released_to}
             handleChange={formik.handleChange}
-            handleBlur={formik?.handleBlur}
-            errors={formik?.errors}
-            touched={formik?.touched}
-            inputRefs={inputRefs?.released_to}
+            handleBlur={formik.handleBlur}
+            errors={formik.errors}
+            touched={formik.touched}
+            inputRefs={inputRefs.released_to}
           />
           <OverheadProfit />
           <ProjectSummaryForm
             className=""
-            handleChange={formik?.handleChange}
-            handleBlur={formik?.handleBlur}
-            touched={formik?.touched}
-            errors={formik?.errors}
-            values={formik?.values}
+            handleChange={formik.handleChange}
+            handleBlur={formik.handleBlur}
+            touched={formik.touched}
+            errors={formik.errors}
+            values={formik.values}
             inputRefs={inputRefs}
           />
           <Conclusion />
@@ -250,7 +258,6 @@ const Complete = () => {
             <input
               id="complete"
               type="checkbox"
-              defaultValue=""
               className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
             />
             <label
