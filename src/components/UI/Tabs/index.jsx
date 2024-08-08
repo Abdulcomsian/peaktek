@@ -35,7 +35,7 @@ export default function Tabs({
   if (collapsable)
     return (
       <Fragment>
-        {items.map((item) => (
+        {items?.map((item) => (
           <div key={item.id}>
             <TabItem item={item} activeTab={activeTab} onClick={onClick} />
             {activeTab === item.id && renderSection(activeTab)}
@@ -50,7 +50,12 @@ export default function Tabs({
       style={{ "-ms-overflow-style": "none", "scrollbar-width": "none" }}
     >
       {items.map((item) => (
-        <TabItem item={item} activeTab={activeTab} onClick={onClick} />
+        <TabItem
+          key={item?.id}
+          item={item}
+          activeTab={activeTab}
+          onClick={onClick}
+        />
       ))}
     </div>
   );

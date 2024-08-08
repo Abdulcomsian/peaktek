@@ -108,7 +108,49 @@ const inProgressSchema = Yup.object().shape({
   ),
   customer_date: Yup.date().required("Customer date is required"),
 });
-
+const schedulingSchema = Yup.object().shape({
+  street: Yup.string().required("Street is required"),
+  city: Yup.string().required("City is required"),
+  state: Yup.string().required("State is required"),
+  zip_code: Yup.string()
+    .matches(/^[0-9]{5}$/, "Zip code must be 5 digits")
+    .required("Zip code is required"),
+  insurance: Yup.string().required("Insurance is required"),
+  claim_number: Yup.string().required("Claim number is required"),
+  policy_number: Yup.string().required("Policy number is required"),
+  date_needed: Yup.date().nullable().required("Delivery Date is required"),
+  square_count: Yup.number()
+    .positive("Square count must be positive")
+    .required("Square count is required"),
+  total_perimeter: Yup.number()
+    .positive("Total perimeter must be positive")
+    .required("Total perimeter is required"),
+  build_date: Yup.date().nullable().required("Build date is required"),
+  ridge_lf: Yup.number()
+    .positive("Ridge LF must be positive")
+    .required("Ridge LF is required"),
+  valley_sf: Yup.number()
+    .positive("Valley SF must be positive")
+    .required("Valley SF is required"),
+  hip_and_ridge_lf: Yup.number()
+    .positive("Hip and Ridge LF must be positive")
+    .required("Hip and Ridge LF is required"),
+  drip_edge_lf: Yup.number()
+    .positive("Drip Edge LF must be positive")
+    .required("Drip Edge LF is required"),
+  materials: Yup.array()
+    .of(
+      Yup.object().shape({
+        material: Yup.string().required("Material is required"),
+        quantity: Yup.number()
+          .positive("Quantity must be positive")
+          .required("Quantity is required"),
+        color: Yup.string().required("Color is required"),
+        order_key: Yup.string().required("Order key is required"),
+      })
+    )
+    .min(1, "At least one material must be added"),
+});
 export {
   adjustorMeetingSchema,
   overturnMeetingSchema,
@@ -116,4 +158,5 @@ export {
   readyToBuildSchema,
   cocSchema,
   inProgressSchema,
+  schedulingSchema,
 };

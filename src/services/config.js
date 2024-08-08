@@ -1,4 +1,5 @@
 import axios from "axios";
+import { createMaterialOrder } from "./apiMaterialOrder";
 const stagingURL = "https://peaktek.vercel.app";
 const baseURL = "https://test7.accrualdev.com";
 
@@ -45,6 +46,12 @@ const clientEndPoints = {
   createOverturn: "/api/create/overturn-meeting",
   getOverturn: "/api/get/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",
+  // Scheduling
+  createMaterialOrder: "/api/material-order",
+  updateMaterialOrder: "/api/update/material-order",
+  getMaterialorder: "/api/get/material-order",
+  checkMaterialOrder: "/api/check/material-order",
+  materialOrderEmail: "/api/material-order/email",
   //Ready to build
   createReadyToBuild: "/api/store/ready-to-build",
   getReadyToBuild: "/api/get/ready-to-build",

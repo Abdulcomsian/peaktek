@@ -20,6 +20,7 @@ import OverturnAttachments from "./Overturn/Attachments";
 import CustomerInformation from "./CustomerInfo";
 import SignatureForm from "./Signature";
 import PaymentScheduleForm from "./PaymentScheduleForm";
+import DeliveryInformation from "./DeliveryInfo";
 import {
   Title,
   Introduction,
@@ -41,6 +42,7 @@ export {
   FormHeader,
   AddMaterialForm,
   CustomerInformationForm,
+  DeliveryInformation,
   DeliveryInformationForm,
   AuthorizationForm,
   InspectionForm,
