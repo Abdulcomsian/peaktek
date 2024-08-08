@@ -9,6 +9,7 @@ import Overturn from "./Overturn";
 import ReadyToBuild from "./ReadyToBuild";
 import Complete from "./Complete";
 import InProgress from "./InProgress";
+import Scheduling from "./Scheduling";
 export {
   Summary,
   DesignMeeting,
@@ -21,4 +22,5 @@ export {
   ReadyToBuild,
   Complete,
   InProgress,
+  Scheduling,
 };
