@@ -148,6 +148,12 @@ const CustomerAgreementForm = () => {
 
   useEffect(() => {
     if (customerData) {
+      const formattedCompanyDate = customerData.company_date
+        ? dayjs(customerData.company_date, "DD/MM/YYYY")
+        : null;
+      const formattedCustomerDate = customerData.customer_date
+        ? dayjs(customerData.customer_date, "DD/MM/YYYY")
+        : null;
       formik.setValues({
         street: customerData.street || "",
         city: customerData.city || "",
@@ -158,10 +164,10 @@ const CustomerAgreementForm = () => {
         policy_number: customerData.policy_number || "",
         company_signature: customerData.company_signature || "",
         company_printed_name: customerData.company_printed_name || "",
-        company_date: customerData.company_date || "",
+        company_date: formattedCompanyDate,
         customer_signature: customerData.customer_signature || "",
         customer_printed_name: customerData.customer_printed_name || "",
-        customer_date: customerData.customer_date || "",
+        customer_date: formattedCustomerDate,
       });
     }
   }, [customerData]);
