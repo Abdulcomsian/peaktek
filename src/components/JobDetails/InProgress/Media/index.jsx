@@ -10,8 +10,9 @@ import {
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
-const MediaForm = ({ id, className, data }) => {
-  console.log("Data in media form", data);
+import { useParams } from "react-router-dom";
+const MediaForm = ({ className, data }) => {
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
   const [images, setImages] = useState([]);
@@ -69,7 +70,7 @@ const MediaForm = ({ id, className, data }) => {
       );
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        setNotes("");
+        // setNotes("");
         setImages([]);
       }
     } catch (error) {

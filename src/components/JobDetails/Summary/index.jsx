@@ -134,7 +134,7 @@ const Summary = () => {
     <Fragment>
       {loading && <Spin fullscreen={true} />}
       {/**First part start*/}
-      <div className="bg-white rounded-2xl p-5 w-full max-w-4xl mb-6">
+      <div className="bg-white rounded-2xl p-5 w-full max-w-5xl mb-6">
         <Form onSubmit={handleSubmit}>
           <div className="flex flex-col lg:flex-row justify-between mb-4">
             <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
@@ -247,7 +247,7 @@ const Summary = () => {
               </div>
             </div>
 
-            <div className="flex justify-between lg:flex-col  font-poppins font-normal text-sm">
+            <div className="flex justify-between  w-full max-w-28 lg:flex-col  font-poppins font-normal text-sm">
               <div className="text-black  font-medium">Balance</div>
               <div className="text-black">{fields.balance}</div>
             </div>
