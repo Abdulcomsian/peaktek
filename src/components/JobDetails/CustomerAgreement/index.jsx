@@ -19,7 +19,6 @@ const CustomerAgreementForm = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  console.log("location", location);
   const [isApprovalButtonDisabled, setIsApprovalButtonDisabled] =
     useState(false);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);

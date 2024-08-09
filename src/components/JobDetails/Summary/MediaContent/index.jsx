@@ -96,7 +96,7 @@ const MediaContent = ({ id, className }) => {
       );
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        setNotes("");
+        // setNotes("");
         setImages([]);
       }
     } catch (error) {
