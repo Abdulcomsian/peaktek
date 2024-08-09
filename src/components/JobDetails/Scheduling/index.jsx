@@ -12,6 +12,7 @@ import Button from "@components/JobDetails/Button";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import { Spin } from "antd";
+import { Loader } from "@components/UI";
 const Scheduling = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -80,7 +81,7 @@ const Scheduling = () => {
       materials: [{ material: "", quantity: "", color: "", order_key: "" }],
     },
     enableReinitialize: true,
-    validationSchema: schedulingSchema,
+    // validationSchema: schedulingSchema,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,
@@ -225,8 +226,18 @@ const Scheduling = () => {
           <Button type="button" className="text-black mr-4 px-4 py-1">
             Update
           </Button>
-          <Button type="submit" className={`text-white btn-gradient px-4 py-1`}>
-            Submit
+          <Button
+            disabled={formik?.isSubmitting}
+            type="submit"
+            className={`text-white btn-gradient px-4 py-1`}
+          >
+            {formik?.isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"28px"} height={"28px"} color="#fff" />
+              </div>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </div>
       </Form>

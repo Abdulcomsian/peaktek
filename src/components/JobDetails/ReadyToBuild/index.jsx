@@ -15,6 +15,7 @@ import { InputContainer } from "@components/index";
 import { useParams } from "react-router-dom";
 import { readyToBuildSchema } from "@services/schema";
 import { Spin } from "antd";
+import { Loader } from "@components/UI";
 
 const ReadyToBuild = () => {
   const { id } = useParams();
@@ -168,8 +169,18 @@ const ReadyToBuild = () => {
             value={formik.values.text}
             onChange={(content) => formik.setFieldValue("text", content)}
           />
-          <Button type="submit" className="text-white btn-gradient px-4 py-1">
-            Build SMS
+          <Button
+            disabled={formik?.isSubmitting}
+            type="submit"
+            className="text-white btn-gradient px-4 py-1"
+          >
+            {formik?.isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"28px"} height={"28px"} color="#fff" />
+              </div>
+            ) : (
+              "Build SMS"
+            )}
           </Button>
         </Form>
       </div>
