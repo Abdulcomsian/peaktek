@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { Spin } from "antd";
 import MediaForm from "./Media";
+import { Loader } from "@components/UI";
 
 const InProgress = () => {
   const { id } = useParams();
@@ -72,9 +73,9 @@ const InProgress = () => {
   // Initialize Formik
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone: "",
+      name: singleJobData?.name || "",
+      email: singleJobData?.email || "",
+      phone: singleJobData?.phone || "",
       street: "",
       city: "",
       state: "",
@@ -115,7 +116,7 @@ const InProgress = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          actions.resetForm();
+          // actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -131,9 +132,9 @@ const InProgress = () => {
   useEffect(() => {
     if (inProgressData) {
       formik.setValues({
-        name: inProgressData.name || "",
-        email: inProgressData.email || "",
-        phone: inProgressData.phone || "",
+        name: singleJobData?.name || "",
+        email: singleJobData?.email || "",
+        phone: singleJobData?.phone || "",
         street: inProgressData.street || "",
         city: inProgressData.city || "",
         state: inProgressData.state || "",
@@ -153,6 +154,7 @@ const InProgress = () => {
           notes: material.notes || "",
         })) || [{ material: "", damaged: false, notes: "" }],
       });
+      formik.validateForm();
     }
   }, [inProgressData]);
 
@@ -245,9 +247,16 @@ const InProgress = () => {
             </Button>
             <Button
               type="submit"
+              disabled={formik?.isSubmitting}
               className={`text-white btn-gradient px-4 py-1`}
             >
-              Save
+              {formik?.isSubmitting ? (
+                <div className="flex justify-center items-center">
+                  <Loader width={"28px"} height={"28px"} color="#fff" />
+                </div>
+              ) : (
+                "Save"
+              )}
             </Button>
           </div>
         </Form>

@@ -16,6 +16,7 @@ import { cocSchema } from "@services/schema";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
+import { Loader } from "@components/UI";
 
 const Complete = () => {
   const dispatch = useDispatch();
@@ -271,9 +272,16 @@ const Complete = () => {
             <Button className="text-black mr-4 px-4 py-1">Cancel</Button>
             <Button
               type="submit"
+              disabled={formik?.isSubmitting}
               className={`text-white btn-gradient px-4 py-1`}
             >
-              Save
+              {formik?.isSubmitting ? (
+                <div className="flex justify-center items-center">
+                  <Loader width={"28px"} height={"28px"} color="#fff" />
+                </div>
+              ) : (
+                "Save"
+              )}
             </Button>
           </div>
         </Form>
