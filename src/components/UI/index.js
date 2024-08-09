@@ -9,7 +9,7 @@ import ImageIcon from "./Icons/Image";
 import ArrowFileIcon from "./ArrowFile";
 import Tabs from "./Tabs";
 import TabsContentBox from "./TabsContentBox";
-
+import Loader from "./Loader";
 export {
   Button,
   Card,
@@ -22,4 +22,5 @@ export {
   ImageIcon,
   Tabs,
   TabsContentBox,
+  Loader,
 };

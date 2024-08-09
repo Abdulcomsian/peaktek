@@ -9,13 +9,56 @@ import { fetchSingleJob } from "@store/slices/JobsSlice";
 import AddMaterialForm from "./AddMaterialForm";
 import { schedulingSchema } from "@services/schema";
 import Button from "@components/JobDetails/Button";
+import toast from "react-hot-toast";
+import dayjs from "dayjs";
+import { Spin } from "antd";
 const Scheduling = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [materialOrderData, setMaterialOrderData] = useState(null);
+
+  // Fetch Scheduling data
   useEffect(() => {
-    dispatch(fetchSingleJob(id));
-  }, [id]);
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getMaterialOrder}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Response of get API in Scheduling", response);
+        if (response?.status >= 200 && response?.status < 300) {
+          setMaterialOrderData(response?.data?.material_order);
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      dispatch(fetchSingleJob(id));
+      fetchData();
+    }
+  }, [id, dispatch]);
+  console.log("Material order data", materialOrderData);
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
+
   // Initialize Formik
   const formik = useFormik({
     initialValues: {
@@ -60,9 +103,9 @@ const Scheduling = () => {
             },
           }
         );
+        console.log("Response in Material order", response);
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          //   actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -73,6 +116,7 @@ const Scheduling = () => {
       }
     },
   });
+
   const inputRefs = {
     street: useRef(null),
     city: useRef(null),
@@ -90,6 +134,40 @@ const Scheduling = () => {
     hip_and_ridge_lf: useRef(null),
     drip_edge_lf: useRef(null),
   };
+
+  // Update Formik initial values when materialOrderData changes
+  useEffect(() => {
+    if (materialOrderData) {
+      formik.setValues({
+        street: materialOrderData.street || "",
+        city: materialOrderData.city || "",
+        state: materialOrderData.state || "",
+        zip_code: materialOrderData.zip_code || "",
+        insurance: materialOrderData.insurance || "",
+        claim_number: materialOrderData.claim_number || "",
+        policy_number: materialOrderData.policy_number || "",
+        date_needed: materialOrderData.date_needed
+          ? dayjs(materialOrderData.date_needed, "DD/MM/YYYY")
+          : null,
+        square_count: materialOrderData.square_count || "",
+        total_perimeter: materialOrderData.total_perimeter || "",
+        build_date: materialOrderData.build_date
+          ? dayjs(materialOrderData.build_date, "DD/MM/YYYY")
+          : null,
+        ridge_lf: materialOrderData.ridge_lf || "",
+        valley_sf: materialOrderData.valley_sf || "",
+        hip_and_ridge_lf: materialOrderData.hip_and_ridge_lf || "",
+        drip_edge_lf: materialOrderData.drip_edge_lf || "",
+        materials: materialOrderData.materials?.map((material) => ({
+          material: material.material || "",
+          quantity: material.quantity || "",
+          color: material.color || "",
+          order_key: material.order_key || "",
+        })) || [{ material: "", quantity: "", color: "", order_key: "" }],
+      });
+    }
+  }, [materialOrderData]);
+
   useEffect(() => {
     if (formik.isSubmitting && !formik.isValid) {
       const firstErrorField = Object.keys(formik.errors).find(
@@ -100,8 +178,10 @@ const Scheduling = () => {
       }
     }
   }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
+
   return (
     <div className="bg-white p-5 rounded-2xl w-full max-w-7xl">
+      {loading && <Spin fullscreen={true} />}
       <Form onSubmit={formik.handleSubmit}>
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Material Order

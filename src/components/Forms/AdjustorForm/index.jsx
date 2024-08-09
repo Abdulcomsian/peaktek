@@ -7,6 +7,7 @@ import {
 } from "@components/FormControls";
 
 const AdjustorForm = ({
+  className,
   handleChange,
   handleBlur,
   touched,
@@ -15,7 +16,7 @@ const AdjustorForm = ({
   setFieldValue,
 }) => {
   return (
-    <Fragment>
+    <div className={className}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <TextBox
           label="Name:"
@@ -76,7 +77,7 @@ const AdjustorForm = ({
           touched={touched.date}
         />
       </InputContainer>
-    </Fragment>
+    </div>
   );
 };
 
