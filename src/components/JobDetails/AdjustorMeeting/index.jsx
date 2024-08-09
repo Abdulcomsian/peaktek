@@ -47,7 +47,9 @@ const AdjustorMeeting = () => {
         setLoading(false);
       }
     };
-    getAdjustorMeetingData();
+    if (id) {
+      getAdjustorMeetingData();
+    }
   }, [id]);
 
   const formik = useFormik({
@@ -77,7 +79,6 @@ const AdjustorMeeting = () => {
       };
 
       try {
-        setLoading(true);
         const token = localStorage.getItem("token");
         if (!token) {
           console.error("No token found");
@@ -102,8 +103,6 @@ const AdjustorMeeting = () => {
             error?.response?.data?.error || error?.response?.data?.message
           );
         }
-      } finally {
-        setLoading(false);
       }
     },
   });
@@ -130,7 +129,7 @@ const AdjustorMeeting = () => {
 
   return (
     <Fragment>
-      {loading && <Spin fullscreen={true} />}
+      {loading && <Spin fullscreen={true} delay={0} />}
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Adjustor Meeting
       </h1>
