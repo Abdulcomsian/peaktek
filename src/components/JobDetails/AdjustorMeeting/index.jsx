@@ -9,15 +9,20 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
+import { Loader } from "@components/UI";
 
 const AdjustorMeeting = () => {
   const { id } = useParams();
-  const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
   const [adjustorMeetingData, setAdjustorMeetingData] = useState(null);
 
   useEffect(() => {
     const getAdjustorMeetingData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
       try {
         setLoading(true);
         const response = await clientBaseURL.get(
@@ -72,6 +77,12 @@ const AdjustorMeeting = () => {
       };
 
       try {
+        setLoading(true);
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
         const response = await clientBaseURL.post(
           `${clientEndPoints?.createAdjustorMeeting}/${id}`,
           formattedValues,
@@ -91,6 +102,8 @@ const AdjustorMeeting = () => {
             error?.response?.data?.error || error?.response?.data?.message
           );
         }
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -127,6 +140,7 @@ const AdjustorMeeting = () => {
         </h2>
         <Form onSubmit={formik.handleSubmit}>
           <AdjustorForm
+            className="mb-8"
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             touched={formik.touched}
@@ -140,9 +154,16 @@ const AdjustorMeeting = () => {
             </Button>
             <Button
               type="submit"
+              disabled={formik?.isSubmitting}
               className={`text-white btn-gradient px-4 py-1`}
             >
-              Save
+              {formik?.isSubmitting ? (
+                <div className="flex justify-center items-center">
+                  <Loader width={"28px"} height={"28px"} color="#fff" />
+                </div>
+              ) : (
+                "Save"
+              )}
             </Button>
           </div>
         </Form>

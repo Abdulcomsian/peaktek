@@ -4,6 +4,7 @@ import {
   FileIcon,
   GalleryIcon,
   ImageIcon,
+  Loader,
   Tabs,
   TabsContentBox,
 } from "@components/UI";
@@ -14,6 +15,7 @@ const MediaContent = ({ id, className }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
   const [images, setImages] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const items = [
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
     { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
@@ -30,7 +32,6 @@ const MediaContent = ({ id, className }) => {
             },
           }
         );
-        console.log("response in Media content", response?.data?.job?.notes);
 
         if (response?.status >= 200 && response?.status < 300) {
           setNotes(response?.data?.job?.notes);
@@ -72,9 +73,10 @@ const MediaContent = ({ id, className }) => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
+      setIsSubmitting(true);
       const token = localStorage.getItem("token");
-      e.preventDefault();
 
       const formData = new FormData();
       formData.append("notes", notes);
@@ -103,6 +105,8 @@ const MediaContent = ({ id, className }) => {
           error?.response?.data?.error || error?.response?.data?.message
         );
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
@@ -111,8 +115,18 @@ const MediaContent = ({ id, className }) => {
         <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
         {renderActiveTab()}
       </TabsContentBox>
-      <Button type="submit" className={`text-white btn-gradient px-4 py-1`}>
-        Submit
+      <Button
+        type="submit"
+        className={`text-white btn-gradient px-4 py-1`}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <div className="flex justify-center items-center">
+            <Loader width={"28px"} height={"28px"} color="#fff" />
+          </div>
+        ) : (
+          "Submit"
+        )}
       </Button>
     </Form>
   );

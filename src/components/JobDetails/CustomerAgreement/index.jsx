@@ -19,6 +19,7 @@ const CustomerAgreementForm = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  console.log("location", location);
   const [isApprovalButtonDisabled, setIsApprovalButtonDisabled] =
     useState(false);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
@@ -51,11 +52,10 @@ const CustomerAgreementForm = () => {
         setLoading(false);
       }
     };
-    getCustomerData();
-  }, [id]);
-
-  useEffect(() => {
-    dispatch(fetchSingleJob(id));
+    if (id) {
+      dispatch(fetchSingleJob(id));
+      getCustomerData();
+    }
   }, [id]);
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
@@ -279,11 +279,14 @@ const CustomerAgreementForm = () => {
           </Button>
         </Form>
       </div>
-      <SignatureModal
-        isOpen={isSignatureModelOpen}
-        onClose={closeSignatureModel}
-        jobId={id}
-      />
+      {isSignatureModelOpen && (
+        <SignatureModal
+          open={isSignatureModelOpen}
+          onCancel={closeSignatureModel}
+          onOk={closeSignatureModel}
+          id={id}
+        />
+      )}
     </Fragment>
   );
 };

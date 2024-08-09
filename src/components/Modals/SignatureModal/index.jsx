@@ -1,3 +1,4 @@
+import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { Modal } from "antd";
 import { useRef } from "react";
@@ -18,6 +19,7 @@ export default function SignatureModal({ id, open, onCancel, onOk }) {
     console.log(imageData); // You can send this data to your backend or use it as needed
     try {
       const token = localStorage.getItem("token");
+
       const response = await clientBaseURL.post(
         `${clientEndPoints?.createSignature}/${id}`,
         { sign_image: imageData },
@@ -27,6 +29,7 @@ export default function SignatureModal({ id, open, onCancel, onOk }) {
           },
         }
       );
+
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
         onOk();
@@ -47,7 +50,14 @@ export default function SignatureModal({ id, open, onCancel, onOk }) {
       footer={null}
       closeIcon={null}
     >
+      <label
+        htmlFor="signature"
+        className="block w-full text-sm font-medium text-gray-900 mb-2"
+      >
+        Draw Signature
+      </label>
       <SignatureCanvas
+        id="signature"
         ref={signatureRef}
         penColor="black"
         canvasProps={{
@@ -57,18 +67,18 @@ export default function SignatureModal({ id, open, onCancel, onOk }) {
         }}
       />
       <div className="flex items-center gap-2 mt-4">
-        <button
+        <Button
           onClick={clearSignature}
-          className="border border-red-300 bg-red-500 px-4 py-2 rounded-md text-white font-semibold"
+          className="text-black mr-2 border border-gray-300 px-4 py-1"
         >
           Clear
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={saveSignature}
-          className="border border-blue-300 bg-blue-500 rounded-md px-4 py-2 text-white font-semibold"
+          className="text-white btn-gradient px-4 py-1"
         >
           Save
-        </button>
+        </Button>
       </div>
     </Modal>
   );
