@@ -11,7 +11,6 @@ export default function OnShowEditIcon({
   const amountEl = useRef(null);
 
   const handleContentEditable = function () {
-    console.log("click happend");
     if (isHover) {
       setIsEdit(true);
       amountEl.current.focus();

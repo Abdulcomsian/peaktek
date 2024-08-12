@@ -1,6 +1,5 @@
 export async function getJobs() {
   const token = localStorage.getItem("token");
-  console.log("FROM API CALL", token);
   const myHeaders = new Headers();
   myHeaders.append("Accept", "application/json");
   myHeaders.append("Content-Type", "application/json");

@@ -37,7 +37,6 @@ const ReadyToBuild = () => {
             },
           }
         );
-        console.log("response on ready to build form", response);
         if (response?.status >= 200 && response?.status < 300) {
           setOverTurnData(response?.data?.data);
         }
@@ -56,66 +55,65 @@ const ReadyToBuild = () => {
   let formattedInitialDate = overTurnData?.date
     ? dayjs(overTurnData?.date, "DD/MM/YYYY")
     : null;
-    let formattedInitialTime = overTurnData?.time
-      ? dayjs(overTurnData?.time, "hh:mm A")
-      : null;
-    const {
-      values,
-      errors,
-      touched,
-      handleChange,
-      handleBlur,
-      handleSubmit,
-      setFieldValue,
-    } = useFormik({
-      initialValues: {
-        recipient: overTurnData?.recipient || "",
-        date: formattedInitialDate,
-        time: formattedInitialTime,
-        text: overTurnData?.text || "",
-      },
-      enableReinitialize: true,
-      validationSchema: readyToBuildSchema,
-      onSubmit: async (values, actions) => {
-        // Format time with leading zero for single-digit hours and include AM/PM
-        const formattedTime = values.time
-          ? dayjs(values.time).format("hh:mm A")
-          : "Invalid Time";
+  let formattedInitialTime = overTurnData?.time
+    ? dayjs(overTurnData?.time, "hh:mm A")
+    : null;
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      recipient: overTurnData?.recipient || "",
+      date: formattedInitialDate,
+      time: formattedInitialTime,
+      text: overTurnData?.text || "",
+    },
+    enableReinitialize: true,
+    validationSchema: readyToBuildSchema,
+    onSubmit: async (values, actions) => {
+      // Format time with leading zero for single-digit hours and include AM/PM
+      const formattedTime = values.time
+        ? dayjs(values.time).format("hh:mm A")
+        : "Invalid Time";
 
-        // Format date to 'DD/MM/YYYY'
-        const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
+      // Format date to 'DD/MM/YYYY'
+      const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
 
-        // Prepare the data to send to the server
-        const formattedValues = {
-          ...values,
-          time: formattedTime,
-          date: formattedDate,
-        };
-        console.log("Formatted values", formattedValues);
-        try {
-          const token = localStorage.getItem("token");
-          const response = await clientBaseURL.post(
-            `${clientEndPoints?.createReadyToBuild}/${id}`,
-            formattedValues,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          if (response?.status >= 200 && response?.status < 300) {
-            toast.success(response?.data?.message);
-            actions.resetForm();
+      // Prepare the data to send to the server
+      const formattedValues = {
+        ...values,
+        time: formattedTime,
+        date: formattedDate,
+      };
+      try {
+        const token = localStorage.getItem("token");
+        const response = await clientBaseURL.post(
+          `${clientEndPoints?.createReadyToBuild}/${id}`,
+          formattedValues,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        } catch (error) {
-          if (error?.response) {
-            toast.error(
-              error?.response?.data?.error || error?.response?.data?.message
-            );
-          }
+        );
+        if (response?.status >= 200 && response?.status < 300) {
+          toast.success(response?.data?.message);
+          actions.resetForm();
         }
-      },
-    });
+      } catch (error) {
+        if (error?.response) {
+          toast.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      }
+    },
+  });
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}

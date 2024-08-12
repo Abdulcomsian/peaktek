@@ -39,7 +39,6 @@ const Complete = () => {
             },
           }
         );
-        console.log("response of COC", response);
         if (response?.status >= 200 && response?.status < 300) {
           setCocData(response?.data?.data);
         }
@@ -94,8 +93,6 @@ const Complete = () => {
           ? dayjs(values.company_signed_date).format("DD/MM/YYYY")
           : "",
       };
-      console.log("Formatted Values", formattedValues);
-
       // Uncomment and adjust the following code for actual form submission
       try {
         const token = localStorage.getItem("token");

@@ -13,9 +13,7 @@ const SingleUsePdf = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = function (data) {
-    console.log(data);
-  };
+  const onSubmit = function (data) {};
   return (
     <Fragment>
       <form action="" onSubmit={handleSubmit(onSubmit)}>

@@ -47,7 +47,6 @@ function KanbanBoard() {
         try {
           setIsLoading(true);
           const resp = await getJobs();
-          console.log("RESPO STATUS", resp.status);
           if (resp.status >= 200 && resp.status < 300) {
             dispatch(boardDataLoaded(resp.data));
           }
@@ -68,8 +67,6 @@ function KanbanBoard() {
     [invalidatePage]
   );
 
-  console.log("isInvalidate", invalidatePage);
-
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -83,7 +80,6 @@ function KanbanBoard() {
 
     const { id: activeId } = active;
     const { id: overId } = over;
-    console.log("IDS", activeId, overId, event);
 
     if (`${activeId}`.startsWith("column-") && overId.startsWith("column-")) {
       // Handle column dragging
@@ -100,7 +96,6 @@ function KanbanBoard() {
         if (isIn) return job;
       });
       const destinationColumn = data.find((job) => job.id === overId);
-      console.log("fkajhsd", sourceColumn, destinationColumn);
 
       if (
         sourceColumn &&
@@ -137,7 +132,6 @@ function KanbanBoard() {
         //     });
         //   else return colum;
         // });
-        console.log(dragedTask, sourceTask);
         // setData((data) => []);
       }
       // const destinationColumn = columns.find(

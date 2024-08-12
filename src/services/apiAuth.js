@@ -26,7 +26,6 @@ export async function register(data) {
     );
     return response.data;
   } catch (error) {
-    console.log("errrror", error.response.data);
     if (error.response.data) {
       throw error.response.data; // This will contain server-provided error message
     } else if (error.request) {
@@ -38,7 +37,6 @@ export async function register(data) {
 }
 
 export async function login({ email, password }) {
-  console.log(email, password);
   const myHeaders = new Headers();
 
   const formdata = new FormData();

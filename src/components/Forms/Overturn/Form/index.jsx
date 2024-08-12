@@ -13,7 +13,6 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { overturnMeetingSchema } from "@services/schema";
 import Button from "@components/JobDetails/Button";
 const OverturnForm = ({ id, data }) => {
-  console.log("Data in overturn form", data);
   let formattedInitialDate = data?.date
     ? dayjs(data?.date, "DD/MM/YYYY")
     : null;

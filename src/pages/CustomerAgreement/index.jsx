@@ -79,7 +79,6 @@ const CustomerAgreement = () => {
         const resp = await checkCustomerAgreement(id);
 
         if (resp.status === 200 && Object.keys(resp.agreement).length > 0) {
-          console.log("EDITING MODE", resp.agreement);
           setIsEditing(true);
           setDefaultValue(resp.agreement);
         } else if (resp.status === 422) {

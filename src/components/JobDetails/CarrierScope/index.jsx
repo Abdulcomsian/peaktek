@@ -19,7 +19,6 @@ export default function CarrierScope() {
       const resp = await getCarrierScope(id);
       if (resp.status >= 200 && resp.status < 300) {
       }
-      console.log("rrrrrrresp", resp);
     }
     if (id) fetchCarrierScope();
   }, [id]);
@@ -30,7 +29,6 @@ export default function CarrierScope() {
     try {
       const imagesToLoad = images.map((image) => image.file);
       const response = await createCarrierScope(imagesToLoad, id);
-      console.log(response);
 
       if (response.status >= 200 && response.status < 300) {
         toast.success(response.data.message);

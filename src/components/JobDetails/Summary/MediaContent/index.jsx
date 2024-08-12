@@ -30,7 +30,6 @@ const MediaContent = ({ id, className }) => {
             },
           }
         );
-        console.log("response in Media content", response?.data?.job?.notes);
 
         if (response?.status >= 200 && response?.status < 300) {
           setNotes(response?.data?.job?.notes);
@@ -81,7 +80,6 @@ const MediaContent = ({ id, className }) => {
       images.forEach((file) => {
         formData.append("images[]", file.file);
       });
-      console.log("form data", formData);
 
       const response = await clientBaseURL.post(
         `${clientEndPoints?.updateJobContent}/${id}`,

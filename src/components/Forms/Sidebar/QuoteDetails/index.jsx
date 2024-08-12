@@ -11,7 +11,6 @@ const QuoteDetails = () => {
   const [progress, setProgress] = useState(30);
 
   const handleSwitchClick = (e) => {
-    console.log("Switch toggled", e);
     e.stopPropagation();
   };
 

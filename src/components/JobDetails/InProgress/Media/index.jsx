@@ -11,7 +11,6 @@ import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
 const MediaForm = ({ id, className, data }) => {
-  console.log("Data in media form", data);
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
   const [images, setImages] = useState([]);
@@ -56,7 +55,6 @@ const MediaForm = ({ id, className, data }) => {
       images.forEach((file) => {
         formData.append("images[]", file.file);
       });
-      console.log("form data", formData);
 
       const response = await clientBaseURL.post(
         `${clientEndPoints?.storeQCInspectionMedia}/${id}`,

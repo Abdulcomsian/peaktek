@@ -51,9 +51,6 @@ const FileUploader = ({
 
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-gray-700 font-medium mb-2">
-        {label}
-      </label>
       <div
         className="w-full flex items-center justify-center border-2 border-dotted border-blue-500 rounded-lg py-10 px-4 bg-white cursor-pointer"
         onClick={handleClick}

@@ -14,8 +14,7 @@ export default function SignatureModal({ id, open, onCancel, onOk }) {
 
   // Function to get the base64 encoded image data
   const saveSignature = async () => {
-    const imageData = signatureRef.current.toDataURL();
-    console.log(imageData); // You can send this data to your backend or use it as needed
+    const imageData = signatureRef.current.toDataURL(); // You can send this data to your backend or use it as needed
     try {
       const token = localStorage.getItem("token");
       const response = await clientBaseURL.post(

@@ -24,7 +24,6 @@ export async function getProjectIntroApi(id) {
 }
 
 export async function createIntroduction(intro, id) {
-  console.log(intro);
   const token = localStorage.getItem("token");
   const myHeaders = new Headers();
   myHeaders.append("Accept", "application/json");

@@ -1,43 +1,64 @@
 import { Ckeditor } from "@components/FormControls";
 import { Button } from "@components/UI";
+import { useAuth } from "@context/AuthContext";
+import {
+  createIntroduction,
+  getIntroduction as getIntroductionApi,
+} from "@services/apiDesignMeeting";
 import { clientBaseURL, clientEndPoints } from "@services/config";
+import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function IntroductionForm() {
-  const { id } = useParams();
-  const [initialData, setInitialData] = useState(null);
+  const { id: jobId } = useParams();
+  const [initialData, setInitialData] = useState("");
   const [receivedData, setReceivedData] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingInitialData, setIsLoadingInitialData] = useState(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
   const handleDataChange = (data) => {
-    console.log("DATA", data);
     setReceivedData(data);
   };
 
-  const handleClick = async (e) => {
-    const token = localStorage.getItem("token");
-    console.log("Received data from editor:", receivedData);
+  useEffect(function () {
+    async function getIntroduction() {
+      try {
+        setIsLoadingInitialData(true);
+        const resp = await getIntroductionApi(jobId);
+        if (resp.status >= 200 && resp.status < 300) {
+          setInitialData(resp.data.data.introduction);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoadingInitialData(false);
+      }
+    }
 
+    getIntroduction();
+  }, []);
+
+  const handleClick = async (e) => {
     const formdata = new FormData();
     formdata.append("introduction", receivedData);
     try {
       setIsLoading(true);
-      const resp = await clientBaseURL.post(
-        `${clientEndPoints.createIntroduction}/${id}`,
-        formdata,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const resp = await createIntroduction(formdata, jobId);
+      if (resp?.response?.data?.status === 401) {
+        logout();
+        navigate("/");
+      }
       if (resp.status >= 200 && resp.status < 300) {
-        console.log("SUCESS");
         toast.success(resp.data.message);
         setInitialData(null);
       }
       if (resp.status === 500) toast.error("Something went wrong.");
     } catch (err) {
-      console.log(err);
+      console.log("RESP ERROR", err);
     } finally {
       setIsLoading(false);
     }
@@ -45,12 +66,14 @@ export default function IntroductionForm() {
   return (
     <>
       <Ckeditor
-        className="mb-4"
+        className={`mb-4 ${
+          isLoadingInitialData ? "opacity-50 pointer-events-none" : ""
+        }`}
         onChange={handleDataChange}
-        initialData={initialData}
+        value={initialData}
       />
       <Button variant="gradient" onClick={handleClick}>
-        Save
+        {isLoading ? "Saving..." : "Save"}
       </Button>
     </>
   );

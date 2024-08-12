@@ -48,9 +48,11 @@ const Ckeditor = ({ className, value, onChange, id, label }) => {
 
   return (
     <div className={`${className}`}>
-      <label htmlFor={id} className="block text-gray-700 font-medium mb-2">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={id} className="block text-gray-700 font-medium mb-2">
+          {label}
+        </label>
+      )}
       <ReactQuill
         theme="snow"
         modules={modules}

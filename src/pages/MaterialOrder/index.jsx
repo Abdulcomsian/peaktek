@@ -79,7 +79,6 @@ const MaterialOrder = () => {
         const resp = await checkMaterialOrderApi(jobId);
         setIsLoading(false);
         if (resp.status === 200 && Object.keys(resp.data).length > 0) {
-          // console.log("EDITING MODE", resp.data);
           setIsEditting(true);
           setDefaultValues(resp.data);
         } else if (resp.status === 422) {

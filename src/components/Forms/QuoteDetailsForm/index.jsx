@@ -18,7 +18,6 @@ export default function QuoteDetailsForm() {
   } = useForm();
 
   const handleSwitchClick = (e) => {
-    console.log("Switch toggled", e);
     e.stopPropagation();
   };
 
@@ -41,9 +40,7 @@ export default function QuoteDetailsForm() {
   const handleProgressChange = (e) => {
     setProgress(e.target.value);
   };
-  const onSubmit = function (data) {
-    console.log(data);
-  };
+  const onSubmit = function (data) {};
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {sections.map((section, index) => (

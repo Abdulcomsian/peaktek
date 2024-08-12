@@ -13,7 +13,6 @@ const Row = ({
   control,
   defaultValue,
 }) => {
-  console.log(rowIndex, defaultValue);
   return (
     <tr>
       <td className="px-2 py-2">

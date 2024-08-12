@@ -42,12 +42,10 @@ const Inspection = () => {
   };
 
   const handleClick = async () => {
-    console.log("Received data from editor:", receivedData);
     // Perform any action with receivedData
     try {
       setIsLoading(true);
       const resp = await createIntroduction(receivedData, jobId);
-      console.log(resp);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.message);
         setInitialData(null);
@@ -74,11 +72,11 @@ const Inspection = () => {
                 className="justify-self-end h-full mt-2 text-red-500 cursor-pointer"
                 onClick={() => confirmDelete(row.id)}
               />
-              <Ckeditor
+              {/* <Ckeditor
                 className="col-span-2 md:col-start-1"
                 onDataChange={handleDataChange}
                 initialData={initialData}
-              />
+              /> */}
               <UploaderInputs
                 wrapperClass="col-span-2"
                 name={`attachment-${index}`}
