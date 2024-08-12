@@ -21,7 +21,6 @@ const Photos = ({ id }) => {
             },
           }
         );
-        console.log("response in photos", response?.data?.job?.images);
 
         if (response?.status >= 200 && response?.status < 300) {
           // Set filesList if you need to populate existing images

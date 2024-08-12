@@ -26,8 +26,6 @@ export default function CustomerDetailModal({
     }));
   };
 
-  console.log(formState);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createCustomer(formState));

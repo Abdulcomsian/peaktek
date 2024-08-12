@@ -30,14 +30,11 @@ function NewUserModal({ open, onCancel, onOk, onAddUser }) {
 
   const handleChange = function (e) {
     setState((state) => ({ ...state, [e.target.name]: e.target.value }));
-    console.log(e.target.name);
-    console.log(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!role || !state.username) return;
-    console.log(role);
 
     const newUser = {
       key: crypto.randomUUID,
@@ -81,7 +78,6 @@ function NewUserModal({ open, onCancel, onOk, onAddUser }) {
           className="w-full"
           options={roleOptions}
           onChange={(value) => {
-            console.log(value);
             setRole(value);
           }}
         />

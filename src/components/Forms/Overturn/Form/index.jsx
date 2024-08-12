@@ -14,6 +14,9 @@ import { InputContainer } from "@components";
 import Button from "@components/JobDetails/Button";
 
 const OverturnForm = ({ id, data }) => {
+  let formattedInitialDate = data?.date
+    ? dayjs(data?.date, "DD/MM/YYYY")
+    : null;
   const [initialValues, setInitialValues] = useState({
     email: "",
     time: null,

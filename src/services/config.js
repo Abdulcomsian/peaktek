@@ -38,6 +38,7 @@ const clientEndPoints = {
   createInspection: "/api/store/project-design/inspection",
   //Introduction form
   createIntroduction: "/api/store/project-design/introduction",
+  getIntroduction: "/api/get/project-design/introduction",
   ///Adjustor Meeting
   createAdjustorMeeting: "/api/create/adjustor-meeting",
   getAdjustorMeeting: "/api/get/adjustor-meeting",

@@ -32,11 +32,9 @@ const TabComponent = ({ selectedTask }) => {
   const [showCustomerDetailModal, setShowCustomerDetailModal] = useState(false);
 
   const customer = useSelector((state) => state?.customer);
-  console.log(customer);
 
   const scrollToSection = (index) => {
     const section = sectionRefs.current[index];
-    console.log("section", section);
     if (section) {
       setActiveTab(index);
       section.scrollIntoView({ behavior: "smooth" });
@@ -346,7 +344,6 @@ function JobDetailFormComponent() {
         className="w-full"
         options={assignee}
         onChange={(value) => {
-          console.log(value);
           setRole(value);
         }}
       />
@@ -357,7 +354,6 @@ function JobDetailFormComponent() {
         className="w-full"
         options={Workflow}
         onChange={(value) => {
-          console.log(value);
           setRole(value);
         }}
       />

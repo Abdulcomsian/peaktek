@@ -2,6 +2,7 @@ import { ArrowFileIcon, ImageIcon } from "@components/UI";
 import { FaTrashAlt } from "react-icons/fa";
 
 export default function UploadedImageItems({ files }) {
+  if (files.length === 0) return null;
   return (
     <div className="mt-4">
       <ul>
@@ -11,13 +12,13 @@ export default function UploadedImageItems({ files }) {
             className="flex items-center justify-between border p-2 rounded mb-2"
           >
             <div className="mr-2">
-              {file.file.type.startsWith("image/") ? (
+              {file.type.startsWith("image/") ? (
                 <ImageIcon />
               ) : (
                 <ArrowFileIcon />
               )}
             </div>
-            <p className="text-sm">{file.file.name}</p>
+            <p className="text-sm">{file.name}</p>
 
             <button
               type="button"

@@ -8,7 +8,6 @@ const InsuranceReport = () => {
   const [selectedOption, setSelectedOption] = useState(1);
 
   const handleSwitchClick = (e) => {
-    console.log("Switch toggled", e);
     e.stopPropagation();
   };
 

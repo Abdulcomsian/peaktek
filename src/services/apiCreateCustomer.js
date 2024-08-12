@@ -77,7 +77,6 @@ export async function checkCustomerAgreement(id) {
 }
 
 export async function sendEmailToSign(id) {
-  console.log(id);
   const token = localStorage.getItem("token");
   const myHeaders = new Headers();
   myHeaders.append("Accept", "application/json");

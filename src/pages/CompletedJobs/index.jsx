@@ -42,7 +42,6 @@ const CompletedJobs = () => {
   ];
 
   const handleOpenModal = (record) => {
-    console.log("Open modal for:", record);
     setModalVisible(true);
     // Additional logic to handle specific record or data can be added here
   };

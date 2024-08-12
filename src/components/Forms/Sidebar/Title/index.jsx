@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { ArrowFileIcon, ImageIcon } from "@components/UI";
 import {
   Input,
   InputContainer,
@@ -173,17 +174,20 @@ const Title = () => {
           <div className="flex flex-col md:flex-row items-center gap-4 ">
             <UploaderInputs
               wrapperClass="grow w-full"
-              title="Primary Image:"
+              text="Primary Image:"
               name="primary_image"
               register={register}
               id="primary_image"
+              multiple={false}
+              icon={ImageIcon}
             />
             <UploaderInputs
               wrapperClass="grow w-full"
-              title="Secondary Logo:"
+              text="Secondary Logo:"
               name="secondary_image"
               id="secondary_image"
               register={register}
+              multiple={false}
             />
           </div>
           <Button type="submit" variant="gradient" className="w-full mt-6">

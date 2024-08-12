@@ -31,7 +31,6 @@ export default function Task() {
   };
 
   const handleEditTask = function (dataToEdit) {
-    console.log("fasdfasd", dataToEdit);
     setTasks((tasks) =>
       tasks.map((task) =>
         task.id === dataToEdit.id

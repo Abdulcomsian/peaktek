@@ -3,15 +3,9 @@ import { ItemsRow } from "@components/Forms";
 import { Button } from "@components";
 import { Input } from "@components/FormControls";
 
-const ItemsList = ({ className, register }) => {
+const ItemsList = ({ className, sectionIndex, register }) => {
   const [items, setItems] = useState([{ item: "", quantity: 0, price: 0 }]);
   const totalAmount = 6.5;
-  // const handleInputChange = (e, index) => {
-  //   const { name, value } = e.target;
-  //   const newItems = [...items];
-  //   newItems[index][name] = value;
-  //   setItems(newItems);
-  // };
 
   const handleAddRow = () => {
     setItems([...items, { item: "", quantity: 0, price: 0 }]);
@@ -31,6 +25,7 @@ const ItemsList = ({ className, register }) => {
             // item={item}
             index={index}
             handleDelete={handleDelete}
+            sectionIndex={sectionIndex}
             register={register}
           />
         ))}
@@ -43,7 +38,12 @@ const ItemsList = ({ className, register }) => {
           <span className="w-full mr-4 text-gray-600 font-semibold">
             Section total:
           </span>
-          <span className="w-full">{`$${totalAmount}`}</span>
+          <Input
+            disabled={true}
+            type="number"
+            className="inline-block"
+            // value={register.get}
+          />
         </div>
       </div>
     </div>

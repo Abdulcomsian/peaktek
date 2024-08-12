@@ -25,7 +25,6 @@ const Overturn = () => {
             },
           }
         );
-        console.log("response on overturn form", response);
         if (response?.status >= 200 && response?.status < 300) {
           setOverturnData(response?.data?.data);
         }

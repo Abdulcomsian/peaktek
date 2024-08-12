@@ -31,7 +31,6 @@ const OverturnAttachments = ({ id, data }) => {
       formData.append("manufacturer_documents[]", file.file);
     });
     formData.append("notes", notes);
-    console.log("form data", formData);
 
     try {
       const response = await clientBaseURL.post(
