@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Ckeditor, FileUploader, Form } from "@components/FormControls";
 import {
   FileIcon,
@@ -53,7 +53,7 @@ const MediaContent = ({ id, className }) => {
     if (id) {
       getMediaContent();
     }
-  }, [id]);
+  }, [id, activeTab]);
 
   const renderActiveTab = () => {
     switch (activeTab) {
@@ -82,7 +82,6 @@ const MediaContent = ({ id, className }) => {
     try {
       setIsSubmitting(true);
       const token = localStorage.getItem("token");
-
       const formData = new FormData();
       formData.append("notes", notes);
       images.forEach((file) => {
@@ -100,7 +99,7 @@ const MediaContent = ({ id, className }) => {
       );
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        // setNotes("");
+        setShowRenameBox(true);
         setImages([]);
       }
     } catch (error) {
@@ -113,31 +112,35 @@ const MediaContent = ({ id, className }) => {
       setIsSubmitting(false);
     }
   };
-  console.log("files in summery", files);
+  console.log("files content", files);
   return (
-    <Form onSubmit={handleSubmit} className={className}>
-      <TabsContentBox contentTitle="Job Content" className="mb-4">
-        <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
-        {renderActiveTab()}
-      </TabsContentBox>
-      {/* Conditional Rendering */}
+    <Fragment>
+      <Form onSubmit={handleSubmit} className={className}>
+        <TabsContentBox contentTitle="Job Content" className="mb-4">
+          <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
+          {renderActiveTab()}
+        </TabsContentBox>
+        <Button
+          type="submit"
+          className={`text-white btn-gradient px-4 py-1 mb-4`}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <div className="flex justify-center items-center">
+              <Loader width={"28px"} height={"28px"} color="#fff" />
+            </div>
+          ) : (
+            "Submit"
+          )}
+        </Button>
+        {/* Conditional Rendering */}
+      </Form>
       {activeTab === 2 &&
         showRenameBox &&
-        files?.map((file) => <RenameFiles file={file} key={file?.id} />)}
-      <Button
-        type="submit"
-        className={`text-white btn-gradient px-4 py-1`}
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? (
-          <div className="flex justify-center items-center">
-            <Loader width={"28px"} height={"28px"} color="#fff" />
-          </div>
-        ) : (
-          "Submit"
-        )}
-      </Button>
-    </Form>
+        files?.map((file) => (
+          <RenameFiles file={file} key={file?.id} id={file?.id} />
+        ))}
+    </Fragment>
   );
 };
 

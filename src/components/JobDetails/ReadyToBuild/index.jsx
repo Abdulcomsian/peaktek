@@ -159,6 +159,8 @@ const ReadyToBuild = () => {
             />
           </InputContainer>
           <Ckeditor
+            label="Notes"
+            id="notes"
             className="mb-4"
             value={formik.values.text}
             onChange={(content) => formik.setFieldValue("text", content)}
