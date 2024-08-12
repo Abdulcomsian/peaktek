@@ -8,6 +8,7 @@ import {
   ReadyToBuild,
   Complete,
   InProgress,
+  Scheduling,
 } from "@components/JobDetails";
 
 const MobileContent = ({ path, key }) => {
@@ -23,6 +24,8 @@ const MobileContent = ({ path, key }) => {
         return <Overturn />;
       case "approved":
         return <DesignMeeting />;
+      case "scheduling":
+        return <Scheduling />;
       case "ready-to-build":
         return <ReadyToBuild />;
       case "in-progress":

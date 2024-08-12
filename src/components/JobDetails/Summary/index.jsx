@@ -1,9 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { FileIcon, GalleryIcon } from "@components/UI";
 import Button from "@components/JobDetails/Button";
 import MoneyInput from "./MoneyInput";
-import Notes from "./MediaContent";
-import Photos from "./Photos";
 import SimpleInput from "./SimpleInput";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
@@ -11,10 +8,11 @@ import { useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { Form } from "@components/FormControls";
 import MediaContent from "./MediaContent";
+import { Loader } from "@components/UI";
 const Summary = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [fields, setFields] = useState({
     job_total: "",
     first_payment: "",
@@ -62,6 +60,11 @@ const Summary = () => {
 
   useEffect(() => {
     const getSummaryFields = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
       try {
         setLoading(true);
         const response = await clientBaseURL.get(
@@ -93,12 +96,17 @@ const Summary = () => {
     if (id) {
       getSummaryFields();
     }
-  }, [id, token]);
+  }, [id]);
 
   const handleSubmit = async (e) => {
     try {
+      const token = localStorage.getItem("token");
       e.preventDefault();
-      setLoading(true);
+      setIsSubmitting(true);
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
       const response = await clientBaseURL.post(
         `${clientEndPoints?.updateJobSummary}/${id}`,
         fields,
@@ -118,7 +126,7 @@ const Summary = () => {
         );
       }
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -126,7 +134,7 @@ const Summary = () => {
     <Fragment>
       {loading && <Spin fullscreen={true} />}
       {/**First part start*/}
-      <div className="bg-white rounded-2xl p-5 w-full max-w-4xl mb-6">
+      <div className="bg-white rounded-2xl p-5 w-full max-w-5xl mb-6">
         <Form onSubmit={handleSubmit}>
           <div className="flex flex-col lg:flex-row justify-between mb-4">
             <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
@@ -239,13 +247,23 @@ const Summary = () => {
               </div>
             </div>
 
-            <div className="flex justify-between lg:flex-col  font-poppins font-normal text-sm">
+            <div className="flex justify-between  w-full max-w-28 lg:flex-col  font-poppins font-normal text-sm">
               <div className="text-black  font-medium">Balance</div>
               <div className="text-black">{fields.balance}</div>
             </div>
           </div>
-          <Button type="submit" className="text-white btn-gradient px-4 py-1">
-            Save
+          <Button
+            type="submit"
+            className="text-white btn-gradient px-4 py-1"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"28px"} height={"28px"} color="#fff" />
+              </div>
+            ) : (
+              "Save"
+            )}
           </Button>
         </Form>
       </div>

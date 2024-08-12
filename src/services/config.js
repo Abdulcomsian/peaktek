@@ -46,6 +46,12 @@ const clientEndPoints = {
   createOverturn: "/api/create/overturn-meeting",
   getOverturn: "/api/get/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",
+  // Scheduling
+  createMaterialOrder: "/api/material-order",
+  updateMaterialOrder: "/api/update/material-order",
+  getMaterialOrder: "/api/get/material-order",
+  checkMaterialOrder: "/api/check/material-order",
+  materialOrderEmail: "/api/material-order/email",
   //Ready to build
   createReadyToBuild: "/api/store/ready-to-build",
   getReadyToBuild: "/api/get/ready-to-build",

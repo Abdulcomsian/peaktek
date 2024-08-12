@@ -9,15 +9,20 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
+import { Loader } from "@components/UI";
 
 const AdjustorMeeting = () => {
   const { id } = useParams();
-  const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
   const [adjustorMeetingData, setAdjustorMeetingData] = useState(null);
 
   useEffect(() => {
     const getAdjustorMeetingData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
       try {
         setLoading(true);
         const response = await clientBaseURL.get(
@@ -30,7 +35,6 @@ const AdjustorMeeting = () => {
         );
 
         if (response?.status >= 200 && response?.status < 300) {
-          // toast.success(response?.data?.message);
           setAdjustorMeetingData(response?.data?.data);
         }
       } catch (error) {
@@ -43,40 +47,30 @@ const AdjustorMeeting = () => {
         setLoading(false);
       }
     };
-    getAdjustorMeetingData();
+    if (id) {
+      getAdjustorMeetingData();
+    }
   }, [id]);
-
-  let formattedInitialDate = adjustorMeetingData?.date
-    ? dayjs(adjustorMeetingData?.date, "DD/MM/YYYY")
-    : null;
-
-  // Parse time correctly using dayjs
-  let formattedInitialTime = adjustorMeetingData?.time
-    ? dayjs(adjustorMeetingData?.time, "hh:mm A")
-    : null;
 
   const formik = useFormik({
     initialValues: {
-      name: adjustorMeetingData?.name || "",
-      phone: adjustorMeetingData?.phone || "",
-      email: adjustorMeetingData?.email || "",
-      time: formattedInitialTime,
-      date: formattedInitialDate,
+      name: "",
+      phone: "",
+      email: "",
+      time: null,
+      date: null,
     },
     enableReinitialize: true,
     validationSchema: adjustorMeetingSchema,
     onSubmit: async (values, actions) => {
       const formatPhone = values?.phone.toString();
 
-      // Format time with leading zero for single-digit hours and include AM/PM
       const formattedTime = values.time
         ? dayjs(values.time).format("hh:mm A")
         : "Invalid Time";
 
-      // Format date to 'DD/MM/YYYY'
       const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
 
-      // Prepare the data to send to the server
       const formattedValues = {
         ...values,
         phone: formatPhone,
@@ -85,6 +79,11 @@ const AdjustorMeeting = () => {
       };
 
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
         const response = await clientBaseURL.post(
           `${clientEndPoints?.createAdjustorMeeting}/${id}`,
           formattedValues,
@@ -96,7 +95,7 @@ const AdjustorMeeting = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          actions.resetForm();
+          // actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -108,9 +107,29 @@ const AdjustorMeeting = () => {
     },
   });
 
+  useEffect(() => {
+    if (adjustorMeetingData) {
+      const formattedInitialDate = adjustorMeetingData?.date
+        ? dayjs(adjustorMeetingData?.date, "DD/MM/YYYY")
+        : null;
+
+      const formattedInitialTime = adjustorMeetingData?.time
+        ? dayjs(adjustorMeetingData?.time, "hh:mm A")
+        : null;
+
+      formik.setValues({
+        name: adjustorMeetingData.name || "",
+        phone: adjustorMeetingData.phone || "",
+        email: adjustorMeetingData.email || "",
+        time: formattedInitialTime,
+        date: formattedInitialDate,
+      });
+    }
+  }, [adjustorMeetingData]);
+
   return (
     <Fragment>
-      {loading && <Spin fullscreen={true} />}
+      {loading && <Spin fullscreen={true} delay={0} />}
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Adjustor Meeting
       </h1>
@@ -120,6 +139,7 @@ const AdjustorMeeting = () => {
         </h2>
         <Form onSubmit={formik.handleSubmit}>
           <AdjustorForm
+            className="mb-8"
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             touched={formik.touched}
@@ -133,9 +153,16 @@ const AdjustorMeeting = () => {
             </Button>
             <Button
               type="submit"
+              disabled={formik?.isSubmitting}
               className={`text-white btn-gradient px-4 py-1`}
             >
-              Save
+              {formik?.isSubmitting ? (
+                <div className="flex justify-center items-center">
+                  <Loader width={"28px"} height={"28px"} color="#fff" />
+                </div>
+              ) : (
+                "Save"
+              )}
             </Button>
           </div>
         </Form>

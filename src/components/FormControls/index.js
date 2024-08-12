@@ -11,6 +11,7 @@ import CustomTimePicker from "./TimePicker";
 import TextBox from "./TextBox";
 import DateSelector from "./DateSelector";
 import Form from "./Form";
+import SelectBox from "./SelectBox";
 export {
   Ckeditor,
   CustomDatePicker,
@@ -24,5 +25,6 @@ export {
   FileInput,
   CustomTimePicker,
   DateSelector,
+  SelectBox,
   Form,
 };

@@ -43,9 +43,7 @@ const FileUploader = ({
     handleFiles(selectedFiles);
   };
 
-  const handleClick = (e) => {
-    // Prevent the default action and stop the event from bubbling up
-    e.stopPropagation();
+  const handleClick = () => {
     fileInputRef.current.click();
   };
 
@@ -66,10 +64,7 @@ const FileUploader = ({
           onChange={handleFileChange}
           multiple
         />
-        <label
-          htmlFor={id}
-          className="flex flex-col items-center cursor-pointer"
-        >
+        <label className="flex flex-col items-center cursor-pointer">
           <div className="flex justify-center mb-4">{icon}</div>
           <p className="font-poppins text-sm text-gray-600">
             {text} <span className="text-indigo-600 font-medium">browse</span>

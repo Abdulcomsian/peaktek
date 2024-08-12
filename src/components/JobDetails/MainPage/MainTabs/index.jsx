@@ -31,6 +31,7 @@ export default function MainTabs({ className }) {
     { id: 3, text: "Adjustor Meeting", path: "adjustor-meeting" },
     { id: 4, text: "Overturn", path: "overturn" },
     { id: 5, text: "Approved", path: "approved" },
+    { id: 6, text: "Scheduling", path: "scheduling" },
     { id: 7, text: "Ready To Build", path: "ready-to-build" },
     { id: 8, text: "In Progress", path: "in-progress" },
     { id: 9, text: "Complete", path: "complete" },
