@@ -16,7 +16,6 @@ import { useParams } from "react-router-dom";
 import { readyToBuildSchema } from "@services/schema";
 import { Spin } from "antd";
 import { Loader } from "@components/UI";
-
 const ReadyToBuild = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -26,7 +25,6 @@ const ReadyToBuild = () => {
     time: null,
     text: "",
   });
-
   useEffect(() => {
     const getReadyToBuildData = async () => {
       try {
@@ -72,7 +70,6 @@ const ReadyToBuild = () => {
     };
     if (id) getReadyToBuildData();
   }, [id]);
-
   const formik = useFormik({
     initialValues,
     enableReinitialize: true,
@@ -82,10 +79,8 @@ const ReadyToBuild = () => {
       const formattedTime = values.time
         ? dayjs(values.time).format("hh:mm A")
         : "Invalid Time";
-
       // Format date to 'DD/MM/YYYY'
       const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
-
       // Prepare the data to send to the server
       const formattedValues = {
         ...values,
@@ -117,7 +112,6 @@ const ReadyToBuild = () => {
       }
     },
   });
-
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
@@ -187,5 +181,4 @@ const ReadyToBuild = () => {
     </Fragment>
   );
 };
-
 export default ReadyToBuild;

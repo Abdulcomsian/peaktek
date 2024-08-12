@@ -25,7 +25,6 @@ export default function index() {
     let name = e.target.name;
     arrayIs[key][name] = e.target.value;
     setState(arrayIs);
-    console.log(state);
   };
   return (
     <>

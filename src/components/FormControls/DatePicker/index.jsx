@@ -3,7 +3,6 @@ import { DatePicker } from "antd";
 import { Controller } from "react-hook-form";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import moment from "moment";
 
 const CustomDatePicker = ({
   label,
@@ -13,10 +12,6 @@ const CustomDatePicker = ({
   defaultValue,
   disabled,
 }) => {
-  const antdDefaultValue = defaultValue
-    ? moment(defaultValue, "DD/MM/YYYY")
-    : new Date().toLocaleDateString();
-
   return (
     <div className={`w-full ${className}`}>
       <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -25,6 +20,7 @@ const CustomDatePicker = ({
       <Controller
         control={control}
         name={name}
+        defaultValue={defaultValue ? dayjs(defaultValue, "DD/MM/YYYY") : null}
         render={({ field }) => (
           <DatePicker
             {...field}
@@ -33,11 +29,9 @@ const CustomDatePicker = ({
             className="w-full bg-gray-50 p-2 focus:outline-1 focus:outline-blue-500"
             size="large"
             onChange={(date) => {
-              console.log(date, date.format("DD/MM/YYYY"));
-              field.onChange(date); // Update form value
+              field.onChange(date ? date.format("DD/MM/YYYY") : null); // Update form value in DD/MM/YYYY format
             }}
-            value={field.value || ""}
-            defaultValue={dayjs(antdDefaultValue, "DD/MM/YYYY")}
+            value={field.value ? dayjs(field.value, "DD/MM/YYYY") : null}
             disabled={disabled}
           />
         )}

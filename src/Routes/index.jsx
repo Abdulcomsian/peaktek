@@ -114,7 +114,14 @@ export function AppRoute() {
           <Route path="terms-and-conditions" element={<TermsAndConditions />} />
         </Route>
         <Route element={<Dashboard />}>
-          <Route path="/job-details/:id" element={<JobDetail />}>
+          <Route
+            path="/job-details/:id"
+            element={
+              <ProtectedRoute>
+                <JobDetail />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Navigate to="summary" replace />} />
             <Route path="summary" element={<Summary />} />
             <Route

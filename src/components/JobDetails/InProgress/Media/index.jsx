@@ -57,7 +57,6 @@ const MediaForm = ({ className, data }) => {
       images.forEach((file) => {
         formData.append("images[]", file.file);
       });
-      console.log("form data", formData);
 
       const response = await clientBaseURL.post(
         `${clientEndPoints?.storeQCInspectionMedia}/${id}`,

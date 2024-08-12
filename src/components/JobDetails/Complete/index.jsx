@@ -94,7 +94,6 @@ const Complete = () => {
           ? dayjs(values.company_signed_date).format("DD/MM/YYYY")
           : "",
       };
-
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(

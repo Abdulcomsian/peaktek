@@ -10,20 +10,15 @@ export default function UploaderInputs({
   id,
   fileTypes = [],
   icon,
-  handleDelete,
-  files = [],
-  setFiles,
   multiple = true,
   error,
 }) {
+  const [files, setFiles] = useState([]);
   const handleFiles = (selectedFiles) => {
-    console.log("selectedFilessss", selectedFiles);
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
     );
 
-    console.log();
-    console.log("FROM HANDLE FILE", filteredFiles);
     setFiles((files) => [...files, ...filteredFiles]);
   };
 

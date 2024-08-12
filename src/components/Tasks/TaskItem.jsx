@@ -18,7 +18,6 @@ export default function TaskItem({
       title: newTitle,
       id: task.id,
     };
-    console.log(newDataToEdit);
     onEditTask(newDataToEdit);
     setIsEditing(false);
   };

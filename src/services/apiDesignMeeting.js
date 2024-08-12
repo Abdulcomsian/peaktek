@@ -51,7 +51,6 @@ export async function createTitle(dataToLoad, id) {
   formdata.append("date", date);
   formdata.append("primary_image", primary_image);
   formdata.append("secondary_image", secondary_image);
-  console.log("FORM DATA", formdata);
   try {
     const resp = clientBaseURL.post(
       `${clientEndPoints.createTitle}/${id}`,
@@ -78,6 +77,36 @@ export async function getTitle(id) {
     return error;
   }
 }
+
+export async function createIntroduction(formdata, id) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.createIntroduction}/${id}`,
+      formdata,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function getIntroduction(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = clientBaseURL.get(`${clientEndPoints.getIntroduction}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function getCarrierScope(id) {
   const token = localStorage.getItem("token");
   try {
@@ -86,7 +115,6 @@ export async function getCarrierScope(id) {
     });
     return resp;
   } catch (err) {
-    console.log("errrorrrrr", err);
     return err;
   }
 }
@@ -107,7 +135,7 @@ export async function createInspections(dataToLoad, id) {
         },
       }
     );
-    console.log("Response:", resp);
+    return resp;
   } catch (error) {
     if (error.request) {
       console.error("Error Request:", error.request);

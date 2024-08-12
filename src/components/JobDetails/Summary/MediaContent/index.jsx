@@ -83,7 +83,6 @@ const MediaContent = ({ id, className }) => {
       images.forEach((file) => {
         formData.append("images[]", file.file);
       });
-      console.log("form data", formData);
 
       const response = await clientBaseURL.post(
         `${clientEndPoints?.updateJobContent}/${id}`,

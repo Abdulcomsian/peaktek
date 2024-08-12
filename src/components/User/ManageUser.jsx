@@ -36,7 +36,6 @@ function ManageUser() {
   const [showModal, setShowModal] = useState(false);
 
   const handleAddUser = function (newUser) {
-    console.log(newUser);
     setData((data) => [...data, newUser]);
   };
   return (

@@ -32,7 +32,6 @@ export default function InspectionForm() {
   };
 
   const handleDataChange = (dataToMap, id) => {
-    console.log("FINAL TO RECIV", dataToMap, id);
     // Update the receivedData based on the id
     setReceivedData((prevData) => {
       const newData = [...prevData];
@@ -59,7 +58,6 @@ export default function InspectionForm() {
   };
 
   const onSubmit = async function (data) {
-    console.log("DATA TO SUBMIT", data, receivedData);
     let imagesArrayConst = [];
     const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
       const images = data[`attachment-${index}`];
@@ -77,10 +75,8 @@ export default function InspectionForm() {
     }, []);
 
     const dataToLoad = { inspections: formatedData };
-    console.log("FINAL ONE", dataToLoad);
 
-    const resp = createInspections(formatedData, id);
-    console.log(resp);
+    const resp = await createInspections(formatedData, id);
   };
 
   return (
@@ -99,7 +95,7 @@ export default function InspectionForm() {
             />
             <Ckeditor
               className=" md:col-start-1 col-span-2 md:col-span-1"
-              onGetHtml={(data) => handleDataChange(data, index)}
+              onChange={(data) => handleDataChange(data, index)}
               initialData={initialData}
               id={index}
             />
@@ -110,6 +106,7 @@ export default function InspectionForm() {
               id={`attachment-${index}`}
               icon={<ImageIcon />}
               require={false}
+              fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
             />
           </div>
         ))}

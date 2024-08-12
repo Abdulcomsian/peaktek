@@ -16,7 +16,6 @@ const VerifyEmail = () => {
   const [isSubmitting, setisSubmitting] = useState(false);
 
   const onChange = (text) => {
-    console.log("onChange:", text);
     const varifyOTP = async function () {
       const myHeaders = new Headers();
 
