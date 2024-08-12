@@ -151,6 +151,16 @@ const schedulingSchema = Yup.object().shape({
     )
     .min(1, "At least one material must be added"),
 });
+const renameFilesSchema = Yup.object().shape({
+  file_name: Yup.string()
+    .required("File name is required")
+    .matches(
+      /^[a-zA-Z0-9_\- ]+$/,
+      "File name can only contain letters, numbers, underscores, hyphens, and spaces"
+    )
+    .min(3, "File name must be at least 3 characters long")
+    .max(50, "File name cannot exceed 50 characters"),
+});
 export {
   adjustorMeetingSchema,
   overturnMeetingSchema,
@@ -159,4 +169,5 @@ export {
   cocSchema,
   inProgressSchema,
   schedulingSchema,
+  renameFilesSchema,
 };

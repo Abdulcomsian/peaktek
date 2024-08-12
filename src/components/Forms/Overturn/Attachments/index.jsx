@@ -11,11 +11,13 @@ const OverturnAttachments = ({ id, data }) => {
   const [manufacturerDocuments, setManufacturerDocuments] = useState([]);
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
+  console.log("Data in overturn form", data);
   useEffect(() => {
     if (data) {
       setNotes(data?.notes || "");
     }
   }, [data]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

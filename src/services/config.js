@@ -20,6 +20,7 @@ const clientEndPoints = {
   updateJobSummary: "/api/update/job-summary",
   getJobSummary: "/api/get/job-summary",
   updateJobContent: "/api/update/job-content",
+  updateJobContentFileName: "/api/change/job-content/file-name",
   getJobContent: "/api/get/job-content",
   //Customer Agreement
   createAgreement: "/api/customer-agreement",

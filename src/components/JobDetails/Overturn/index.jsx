@@ -8,6 +8,7 @@ const Overturn = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [overturnData, setOverturnData] = useState(null);
+
   useEffect(() => {
     const getOverturnData = async () => {
       try {
