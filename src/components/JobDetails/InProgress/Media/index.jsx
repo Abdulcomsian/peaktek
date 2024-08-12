@@ -7,11 +7,14 @@ import {
   Tabs,
   TabsContentBox,
 } from "@components/UI";
+
 import Button from "@components/JobDetails/Button";
-import { clientBaseURL, clientEndPoints } from "@services/config";
+import { clientBaseURL, clientEndPoints, baseURL } from "@services/config";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-const MediaForm = ({ className, data }) => {
+import { RenameFiles } from "@components/JobDetails";
+
+const MediaForm = ({ className, data, showRenameBox, filesData }) => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
@@ -20,11 +23,13 @@ const MediaForm = ({ className, data }) => {
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
     { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
   ];
+  console.log("showRenameBox value", showRenameBox);
   useEffect(() => {
     if (data) {
       setNotes(data?.notes || "");
     }
   }, [data]);
+
   const renderActiveTab = () => {
     switch (activeTab) {
       case 1:
@@ -69,7 +74,6 @@ const MediaForm = ({ className, data }) => {
       );
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        // setNotes("");
         setImages([]);
       }
     } catch (error) {
@@ -80,12 +84,18 @@ const MediaForm = ({ className, data }) => {
       }
     }
   };
+
   return (
     <Form onSubmit={handleSubmit} className={className}>
       <TabsContentBox contentTitle="Job Content" className="mb-4">
         <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
         {renderActiveTab()}
       </TabsContentBox>
+
+      {/* Conditional Rendering */}
+      {activeTab === 2 &&
+        showRenameBox &&
+        filesData?.map((file) => <RenameFiles file={file} key={file?.id} />)}
       <Button type="submit" className={`text-white btn-gradient px-4 py-1`}>
         Submit
       </Button>
