@@ -11,10 +11,13 @@ import {
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
+import { RenameFiles } from "@components/JobDetails";
 const MediaContent = ({ id, className }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
   const [images, setImages] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [showRenameBox, setShowRenameBox] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const items = [
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
@@ -34,6 +37,8 @@ const MediaContent = ({ id, className }) => {
         );
 
         if (response?.status >= 200 && response?.status < 300) {
+          setShowRenameBox(true);
+          setFiles(response?.data?.job?.images);
           setNotes(response?.data?.job?.notes);
         }
       } catch (error) {
@@ -109,12 +114,17 @@ const MediaContent = ({ id, className }) => {
       setIsSubmitting(false);
     }
   };
+  console.log("files in summery", files);
   return (
     <Form onSubmit={handleSubmit} className={className}>
       <TabsContentBox contentTitle="Job Content" className="mb-4">
         <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
         {renderActiveTab()}
       </TabsContentBox>
+      {/* Conditional Rendering */}
+      {activeTab === 2 &&
+        showRenameBox &&
+        files?.map((file) => <RenameFiles file={file} key={file?.id} />)}
       <Button
         type="submit"
         className={`text-white btn-gradient px-4 py-1`}

@@ -20,12 +20,14 @@ const InProgress = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [inProgressData, setInProgressData] = useState(null);
-  const token = localStorage.getItem("token");
+  const [showRenameBox, setShowRenameBox] = useState(false);
+  const [files, setFiles] = useState([]);
 
   // Fetch QC Inspection data
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("token");
         if (!token) {
           console.error("No token found");
           return;
@@ -41,6 +43,8 @@ const InProgress = () => {
         );
 
         if (response?.status >= 200 && response?.status < 300) {
+          setFiles(response?.data?.data?.images);
+          setShowRenameBox(true);
           setInProgressData(response?.data?.data);
         }
       } catch (error) {
@@ -58,7 +62,7 @@ const InProgress = () => {
       dispatch(fetchSingleJob(id));
       fetchData();
     }
-  }, [id, dispatch, token]);
+  }, [id, dispatch]);
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
 
@@ -94,6 +98,7 @@ const InProgress = () => {
     enableReinitialize: true,
     validationSchema: inProgressSchema,
     onSubmit: async (values, actions) => {
+      const token = localStorage.getItem("token");
       const formattedValues = {
         ...values,
         company_date: values.company_date
@@ -105,6 +110,10 @@ const InProgress = () => {
       };
 
       try {
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
         const response = await clientBaseURL.post(
           `${clientEndPoints?.storeQCInspection}/${id}`,
           formattedValues,
@@ -195,7 +204,13 @@ const InProgress = () => {
         In Progress
       </h1>
       <div className="bg-white p-5 rounded-2xl">
-        <MediaForm id={id} className="mb-4" data={inProgressData} />
+        <MediaForm
+          id={id}
+          className="mb-4"
+          data={inProgressData}
+          filesData={files}
+          showRenameBox={showRenameBox}
+        />
         <Form onSubmit={formik.handleSubmit}>
           <h2 className="text-black text-xl font-medium mb-4 font-poppins">
             Quality Control Form (QC)

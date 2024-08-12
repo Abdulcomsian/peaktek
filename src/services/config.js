@@ -63,4 +63,4 @@ const clientEndPoints = {
   getCoc: "/api/get/coc",
 };
 
-export { clientBaseURL, clientEndPoints, stagingURL };
+export { clientBaseURL, clientEndPoints, stagingURL, baseURL };
