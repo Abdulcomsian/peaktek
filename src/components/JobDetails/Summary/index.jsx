@@ -141,10 +141,11 @@ const Summary = () => {
               <div className="text-black text-opacity-30 ">Job Total</div>
               <SimpleInput
                 id="job_total"
-                className="w-20 ps-2"
+                className="w-24 ps-2"
                 placeholder="10000"
                 type="number"
                 name="job_total"
+                max={8}
                 required={true}
                 value={fields.job_total}
                 onChange={handleChange}
@@ -169,6 +170,7 @@ const Summary = () => {
                     id="first_payment_cheque_number"
                     placeholder="123FP"
                     type="text"
+                    className="w-24"
                     name="first_payment_cheque_number"
                     value={fields.first_payment_cheque_number}
                     onChange={handleChange}
@@ -193,6 +195,7 @@ const Summary = () => {
                     id="deductable_cheque_number"
                     placeholder="123FP"
                     type="text"
+                    className="w-24"
                     name="deductable_cheque_number"
                     value={fields.deductable_cheque_number}
                     onChange={handleChange}
@@ -215,6 +218,7 @@ const Summary = () => {
                     id="upgrades_cheque_number"
                     placeholder="123FP"
                     type="text"
+                    className="w-24"
                     name="upgrades_cheque_number"
                     value={fields.upgrades_cheque_number}
                     onChange={handleChange}
@@ -239,6 +243,7 @@ const Summary = () => {
                     id="final_payment_cheque_number"
                     placeholder="123FP"
                     type="text"
+                    className="w-24"
                     name="final_payment_cheque_number"
                     value={fields.final_payment_cheque_number}
                     onChange={handleChange}
@@ -247,19 +252,27 @@ const Summary = () => {
               </div>
             </div>
 
-            <div className="flex justify-between  w-full max-w-28 lg:flex-col  font-poppins font-normal text-sm">
+            <div className="flex justify-between items-center  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
               <div className="text-black  font-medium">Balance</div>
-              <div className="text-black">{fields.balance}</div>
+
+              <SimpleInput
+                id="balance"
+                className="w-24 ps-2"
+                placeholder="Total balance"
+                type="text"
+                name="balance"
+                value={fields.balance}
+              />
             </div>
           </div>
           <Button
             type="submit"
-            className="text-white btn-gradient px-4 py-1"
+            className="w-full max-w-20 text-white btn-gradient px-4 py-1"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
               <div className="flex justify-center items-center">
-                <Loader width={"28px"} height={"28px"} color="#fff" />
+                <Loader width={"24px"} height={"24px"} color="#fff" />
               </div>
             ) : (
               "Save"

@@ -12,7 +12,7 @@ import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints, baseURL } from "@services/config";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { RenameFiles } from "@components/JobDetails";
+import RenameFiles from "@components/JobDetails/InProgress/RenameFiles";
 
 const MediaForm = ({ className, data, showRenameBox, filesData }) => {
   const { id } = useParams();
@@ -23,7 +23,7 @@ const MediaForm = ({ className, data, showRenameBox, filesData }) => {
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
     { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
   ];
-  console.log("showRenameBox value", showRenameBox);
+
   useEffect(() => {
     if (data) {
       setNotes(data?.notes || "");
@@ -93,12 +93,17 @@ const MediaForm = ({ className, data, showRenameBox, filesData }) => {
       </TabsContentBox>
 
       {/* Conditional Rendering */}
+      <Button
+        type="submit"
+        className={`text-white btn-gradient px-4 py-1 ${
+          activeTab === 2 && "mb-4"
+        }`}
+      >
+        Submit
+      </Button>
       {activeTab === 2 &&
         showRenameBox &&
         filesData?.map((file) => <RenameFiles file={file} key={file?.id} />)}
-      <Button type="submit" className={`text-white btn-gradient px-4 py-1`}>
-        Submit
-      </Button>
     </Form>
   );
 };

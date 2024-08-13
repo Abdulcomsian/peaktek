@@ -11,7 +11,7 @@ import {
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
-import { RenameFiles } from "@components/JobDetails";
+import RenameFiles from "@components/JobDetails/Summary/RenameFiles";
 const MediaContent = ({ id, className }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
@@ -23,37 +23,43 @@ const MediaContent = ({ id, className }) => {
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
     { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
   ];
-  useEffect(() => {
-    const getMediaContent = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getJobContent}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
 
-        if (response?.status >= 200 && response?.status < 300) {
-          setShowRenameBox(true);
-          setFiles(response?.data?.job?.images);
-          setNotes(response?.data?.job?.notes);
+  const getMediaContent = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getJobContent}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
+      );
+
+      if (response?.status >= 200 && response?.status < 300) {
+        setShowRenameBox(true);
+        setFiles(response?.data?.job?.images);
+        setNotes(response?.data?.job?.notes);
       }
-    };
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    }
+  };
 
+  useEffect(() => {
     if (id) {
       getMediaContent();
     }
-  }, [id, activeTab]);
+  }, [id]);
+
+  // Function to refresh data after a file name change
+  const refreshData = () => {
+    getMediaContent();
+  };
 
   const renderActiveTab = () => {
     switch (activeTab) {
@@ -112,7 +118,7 @@ const MediaContent = ({ id, className }) => {
       setIsSubmitting(false);
     }
   };
-  console.log("files content", files);
+
   return (
     <Fragment>
       <Form onSubmit={handleSubmit} className={className}>
@@ -122,23 +128,27 @@ const MediaContent = ({ id, className }) => {
         </TabsContentBox>
         <Button
           type="submit"
-          className={`text-white btn-gradient px-4 py-1 mb-4`}
+          className={`w-full max-w-24 text-white btn-gradient px-4 py-1 mb-4`}
           disabled={isSubmitting}
         >
           {isSubmitting ? (
             <div className="flex justify-center items-center">
-              <Loader width={"28px"} height={"28px"} color="#fff" />
+              <Loader width={"24px"} height={"24px"} color="#fff" />
             </div>
           ) : (
             "Submit"
           )}
         </Button>
-        {/* Conditional Rendering */}
       </Form>
       {activeTab === 2 &&
         showRenameBox &&
         files?.map((file) => (
-          <RenameFiles file={file} key={file?.id} id={file?.id} />
+          <RenameFiles
+            file={file}
+            key={file?.id}
+            id={file?.id}
+            refreshData={refreshData}
+          />
         ))}
     </Fragment>
   );

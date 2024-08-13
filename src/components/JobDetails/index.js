@@ -10,7 +10,6 @@ import ReadyToBuild from "./ReadyToBuild";
 import Complete from "./Complete";
 import InProgress from "./InProgress";
 import Scheduling from "./Scheduling";
-import RenameFiles from "./RenameFiles";
 export {
   Summary,
   DesignMeeting,
@@ -24,5 +23,4 @@ export {
   Complete,
   InProgress,
   Scheduling,
-  RenameFiles,
 };

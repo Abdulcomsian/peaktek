@@ -4,19 +4,52 @@ import Button from "@components/JobDetails/Button";
 import { ArrowFileIcon, ImageIcon } from "@components/UI";
 import { toast } from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-
-const OverturnAttachments = ({ id, data }) => {
+import RenameFiles from "@components/Forms/Overturn/RenameFiles";
+import { useParams } from "react-router-dom";
+const OverturnAttachments = () => {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [showRenameBox, setShowRenameBox] = useState(false);
+  const [overturnData, setOverturnData] = useState(null);
   const [images, setImages] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [manufacturerDocuments, setManufacturerDocuments] = useState([]);
   const [notes, setNotes] = useState("");
-  const [loading, setLoading] = useState(false);
-  console.log("Data in overturn form", data);
   useEffect(() => {
-    if (data) {
-      setNotes(data?.notes || "");
-    }
-  }, [data]);
+    const getOverturnData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+        setLoading(true);
+        const response = await clientBaseURL.get(
+          `${clientEndPoints?.getOverturn}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response in overturn", response);
+        if (response?.status >= 200 && response?.status < 300) {
+          setShowRenameBox(true);
+          setOverturnData(response?.data?.data);
+          setNotes(response?.data?.data?.notes);
+        }
+      } catch (error) {
+        if (error?.response) {
+          console.error(
+            error?.response?.data?.error || error?.response?.data?.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    getOverturnData();
+  }, [id, showRenameBox]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +63,7 @@ const OverturnAttachments = ({ id, data }) => {
       formData.append("attachments[]", file.file);
     });
     manufacturerDocuments.forEach((file) => {
-      formData.append("manufacturer_documents[]", file.file);
+      formData.append("manufacturer_attachments[]", file.file);
     });
     formData.append("notes", notes);
 
@@ -47,11 +80,12 @@ const OverturnAttachments = ({ id, data }) => {
       );
 
       if (response.status >= 200 && response.status < 300) {
-        toast.success(response.data.message);
+        toast.success(response?.data?.message);
+        setShowRenameBox(true);
         setDocuments([]);
         setImages([]);
         setManufacturerDocuments([]);
-        setNotes("");
+        // setNotes("");
       }
     } catch (error) {
       if (error.response) {
@@ -67,49 +101,68 @@ const OverturnAttachments = ({ id, data }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <div className="flex flex-col md:flex-row">
-        <FileUploader
-          label="Images"
-          id="images"
-          icon={<ImageIcon />}
-          className="w-full mb-4 mr-4"
-          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
-          text="Drop your image here, or"
-          files={images}
-          setFiles={setImages}
-          handleDelete={(index) =>
-            setImages(images.filter((_, i) => i !== index))
-          }
-        />
-        <FileUploader
-          label="Documents"
-          id="documents"
-          icon={<ArrowFileIcon />}
-          className="w-full mb-4"
-          fileTypes={["application/pdf"]}
-          text="Drop your documents here, or"
-          files={documents}
-          setFiles={setDocuments}
-          handleDelete={(index) =>
-            setDocuments(documents.filter((_, i) => i !== index))
-          }
-        />
+        <div className="w-full mr-4">
+          <FileUploader
+            label="Images"
+            id="images"
+            icon={<ImageIcon />}
+            className="mb-4"
+            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+            text="Drop your image here, or"
+            files={images}
+            setFiles={setImages}
+            handleDelete={(index) =>
+              setImages(images.filter((_, i) => i !== index))
+            }
+          />
+          {showRenameBox &&
+            overturnData?.images?.map((file) => (
+              <RenameFiles file={file} key={file?.id} id={file?.id} />
+            ))}
+        </div>
+        <div className="w-full mr-4">
+          <FileUploader
+            label="Documents"
+            id="documents"
+            icon={<ArrowFileIcon />}
+            className="w-full mb-4"
+            fileTypes={["application/pdf"]}
+            text="Drop your documents here, or"
+            files={documents}
+            setFiles={setDocuments}
+            handleDelete={(index) =>
+              setDocuments(documents.filter((_, i) => i !== index))
+            }
+          />
+
+          {showRenameBox &&
+            overturnData?.attachments?.map((file) => (
+              <RenameFiles file={file} key={file?.id} id={file?.id} />
+            ))}
+        </div>
       </div>
       <div className="flex flex-col md:flex-row">
-        <FileUploader
-          label="Manufacturer Document"
-          id="manufacturer_document"
-          icon={<ArrowFileIcon />}
-          className="w-full mb-4 mr-4"
-          fileTypes={["application/pdf"]}
-          text="Drop your documents here, or"
-          files={manufacturerDocuments}
-          setFiles={setManufacturerDocuments}
-          handleDelete={(index) =>
-            setManufacturerDocuments(
-              manufacturerDocuments.filter((_, i) => i !== index)
-            )
-          }
-        />
+        <div className="w-full mr-4">
+          <FileUploader
+            label="Manufacturer Document"
+            id="manufacturer_document"
+            icon={<ArrowFileIcon />}
+            className="w-full mb-4 mr-4"
+            fileTypes={["application/pdf"]}
+            text="Drop your documents here, or"
+            files={manufacturerDocuments}
+            setFiles={setManufacturerDocuments}
+            handleDelete={(index) =>
+              setManufacturerDocuments(
+                manufacturerDocuments.filter((_, i) => i !== index)
+              )
+            }
+          />
+          {showRenameBox &&
+            overturnData?.manufacturer_attachments?.map((file) => (
+              <RenameFiles file={file} key={file?.id} id={file?.id} />
+            ))}
+        </div>
         <Ckeditor
           className="w-full max-w-2xl mb-4"
           label="Notes"
