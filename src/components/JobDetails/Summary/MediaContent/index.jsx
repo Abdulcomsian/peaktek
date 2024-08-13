@@ -11,7 +11,7 @@ import {
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import toast from "react-hot-toast";
-import { RenameFiles } from "@components/JobDetails";
+import RenameFiles from "@components/JobDetails/Summary/RenameFiles";
 const MediaContent = ({ id, className }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");

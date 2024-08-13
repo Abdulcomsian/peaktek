@@ -7,8 +7,11 @@ import { Spin } from "antd";
 const Overturn = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [showRenameBox, setShowRenameBox] = useState(false);
   const [overturnData, setOverturnData] = useState(null);
-
+  const showRenameHandler = () => {
+    setShowRenameBox(true);
+  };
   useEffect(() => {
     const getOverturnData = async () => {
       try {
@@ -27,6 +30,7 @@ const Overturn = () => {
           }
         );
         if (response?.status >= 200 && response?.status < 300) {
+          showRenameHandler();
           setOverturnData(response?.data?.data);
         }
       } catch (error) {
@@ -53,7 +57,12 @@ const Overturn = () => {
           Adjust Meeting
         </h2>
         <OverturnForm id={id} data={overturnData} />
-        <OverturnAttachments id={id} data={overturnData} />
+        <OverturnAttachments
+          id={id}
+          data={overturnData}
+          showRenameBox={showRenameBox}
+          renameHandler={showRenameHandler}
+        />
       </div>
     </Fragment>
   );
