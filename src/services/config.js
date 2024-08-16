@@ -1,6 +1,6 @@
 import axios from "axios";
 const stagingURL = "https://peaktek.vercel.app";
-const baseURL = "http://test7.accrualdev.com";
+const baseURL = "https://test7.accrualdev.com";
 
 const clientBaseURL = axios.create({
   baseURL,
@@ -50,6 +50,7 @@ const clientEndPoints = {
   getOverturn: "/api/get/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",
   updateOverturnFilename: "/api/change/overturn-meeting/file-name",
+  deleteOverturnFiles: "/api/delete/overturn-meeting/media",
   // Scheduling
   createMaterialOrder: "/api/material-order",
   updateMaterialOrder: "/api/update/material-order",

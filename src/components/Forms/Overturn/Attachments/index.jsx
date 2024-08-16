@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Ckeditor, FileUploader, Form } from "@components/FormControls";
 import Button from "@components/JobDetails/Button";
-import { ArrowFileIcon, ImageIcon } from "@components/UI";
+import { ArrowFileIcon, ImageIcon, Loader } from "@components/UI";
 import { toast } from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import RenameFiles from "@components/Forms/Overturn/RenameFiles";
@@ -15,41 +15,45 @@ const OverturnAttachments = () => {
   const [documents, setDocuments] = useState([]);
   const [manufacturerDocuments, setManufacturerDocuments] = useState([]);
   const [notes, setNotes] = useState("");
-  useEffect(() => {
-    const getOverturnData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-        setLoading(true);
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getOverturn}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("response in overturn", response);
-        if (response?.status >= 200 && response?.status < 300) {
-          setShowRenameBox(true);
-          setOverturnData(response?.data?.data);
-          setNotes(response?.data?.data?.notes);
-        }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      } finally {
-        setLoading(false);
+  const getOverturnData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
       }
-    };
+      setLoading(true);
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getOverturn}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("response in overturn", response);
+      if (response?.status >= 200 && response?.status < 300) {
+        setShowRenameBox(true);
+        setOverturnData(response?.data?.data);
+        setNotes(response?.data?.data?.notes);
+      }
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     getOverturnData();
-  }, [id, showRenameBox]);
+  }, []);
+  // Function to refresh data after a file name change
+  const refreshData = () => {
+    getOverturnData();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,6 +85,7 @@ const OverturnAttachments = () => {
 
       if (response.status >= 200 && response.status < 300) {
         toast.success(response?.data?.message);
+        await getOverturnData();
         setShowRenameBox(true);
         setDocuments([]);
         setImages([]);
@@ -117,7 +122,12 @@ const OverturnAttachments = () => {
           />
           {showRenameBox &&
             overturnData?.images?.map((file) => (
-              <RenameFiles file={file} key={file?.id} id={file?.id} />
+              <RenameFiles
+                file={file}
+                key={file?.id}
+                id={file?.id}
+                refreshData={refreshData}
+              />
             ))}
         </div>
         <div className="w-full mr-4">
@@ -137,7 +147,12 @@ const OverturnAttachments = () => {
 
           {showRenameBox &&
             overturnData?.attachments?.map((file) => (
-              <RenameFiles file={file} key={file?.id} id={file?.id} />
+              <RenameFiles
+                file={file}
+                key={file?.id}
+                id={file?.id}
+                refreshData={refreshData}
+              />
             ))}
         </div>
       </div>
@@ -160,7 +175,12 @@ const OverturnAttachments = () => {
           />
           {showRenameBox &&
             overturnData?.manufacturer_attachments?.map((file) => (
-              <RenameFiles file={file} key={file?.id} id={file?.id} />
+              <RenameFiles
+                file={file}
+                key={file?.id}
+                id={file?.id}
+                refreshData={refreshData}
+              />
             ))}
         </div>
         <Ckeditor
@@ -173,10 +193,16 @@ const OverturnAttachments = () => {
       </div>
       <Button
         type="submit"
-        className={`text-white btn-gradient px-4 py-1`}
+        className="w-full max-w-20 text-white btn-gradient px-4 py-1"
         disabled={loading}
       >
-        {loading ? "Saving..." : "Save"}
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <Loader width={"24px"} height={"24px"} color="#fff" />
+          </div>
+        ) : (
+          "Save"
+        )}
       </Button>
     </Form>
   );

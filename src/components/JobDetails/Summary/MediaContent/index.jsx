@@ -120,9 +120,9 @@ const MediaContent = ({ id, className }) => {
 
       await Promise.all(uploadPromises);
 
-      toast.success("Media uploaded successfully.");
       setImages([]); // Clear images
       await getMediaContent(); // Fetch latest files after successful upload
+      toast.success("Media uploaded successfully.");
       setShowRenameBox(true); // Show rename box after fetching files
     } catch (error) {
       if (error?.response) {
