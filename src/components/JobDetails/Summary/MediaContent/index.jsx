@@ -60,29 +60,6 @@ const MediaContent = ({ id, className }) => {
   const refreshData = () => {
     getMediaContent();
   };
-
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case 1:
-        return <Ckeditor value={notes} onChange={setNotes} />;
-      case 2:
-        return (
-          <FileUploader
-            icon={<ImageIcon />}
-            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
-            text="Drop your image here, or"
-            files={images}
-            setFiles={setImages}
-            handleDelete={(index) =>
-              setImages(images.filter((_, i) => i !== index))
-            }
-          />
-        );
-      default:
-        break;
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -121,8 +98,8 @@ const MediaContent = ({ id, className }) => {
       await Promise.all(uploadPromises);
 
       setImages([]); // Clear images
-      await getMediaContent(); // Fetch latest files after successful upload
       toast.success("Media uploaded successfully.");
+      await getMediaContent(); // Fetch latest files after successful upload
       setShowRenameBox(true); // Show rename box after fetching files
     } catch (error) {
       if (error?.response) {
@@ -134,7 +111,30 @@ const MediaContent = ({ id, className }) => {
       setIsSubmitting(false);
     }
   };
-  
+
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 1:
+        return <Ckeditor value={notes} onChange={setNotes} />;
+      case 2:
+        return (
+          <FileUploader
+            icon={<ImageIcon />}
+            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+            text="Drop your image here, or"
+            files={images}
+            setFiles={setImages}
+            handleDelete={(index) =>
+              setImages(images.filter((_, i) => i !== index))
+            }
+          />
+        );
+      default:
+        break;
+    }
+  };
+
+
   return (
     <Fragment>
       <Form onSubmit={handleSubmit} className={className}>
