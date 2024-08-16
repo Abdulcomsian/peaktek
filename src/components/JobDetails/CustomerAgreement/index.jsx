@@ -19,11 +19,12 @@ const CustomerAgreementForm = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const [agreementId, setAgreementId] = useState("");
+  const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
   const [isApprovalButtonDisabled, setIsApprovalButtonDisabled] =
     useState(true);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [customerData, setCustomerData] = useState(null);
-
   const getCustomerData = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -36,9 +37,10 @@ const CustomerAgreementForm = () => {
           },
         }
       );
-      console.log("Get Customer Data", response?.data?.agreement?.is_complete);
+      console.log("response in customer agreement", response);
       if (response?.status >= 200 && response?.status < 300) {
         setCustomerData(response?.data?.agreement);
+        setAgreementId(response?.data?.agreement?.id);
         setIsApprovalButtonDisabled(!response?.data?.agreement?.is_complete);
       }
     } catch (error) {
@@ -57,14 +59,12 @@ const CustomerAgreementForm = () => {
       getCustomerData();
     }
   }, [id]);
-
-  const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
-
-  const getSignatureEmail = async () => {
+  console.log("agreement id", agreementId);
+  const sendFormByEmail = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await clientBaseURL.post(
-        `${clientEndPoints?.getSignatureEmail}/${id}`,
+        `${clientEndPoints?.signByEmail}/${agreementId}`,
         { url: `${stagingURL}${location?.pathname}` },
         {
           headers: {
@@ -217,7 +217,7 @@ const CustomerAgreementForm = () => {
           </Button>
           <Button
             className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
-            onClick={getSignatureEmail}
+            onClick={sendFormByEmail}
             disabled={isApprovalButtonDisabled}
           >
             Send for Approval
@@ -291,7 +291,7 @@ const CustomerAgreementForm = () => {
           open={isSignatureModelOpen}
           onCancel={closeSignatureModel}
           onOk={closeSignatureModel}
-          id={id}
+          id={agreementId}
         />
       )}
     </Fragment>
