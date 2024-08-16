@@ -30,7 +30,7 @@ const RenameFiles = ({ file, id }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
-          `${clientEndPoints?.updateJobContentFileName}/${id}`,
+          `${clientEndPoints?.updateQcInspectionFilename}/${id}`,
           values,
           {
             headers: {

@@ -23,6 +23,7 @@ const clientEndPoints = {
   updateJobContent: "/api/update/job-content",
   updateJobContentFileName: "/api/change/job-content/file-name",
   getJobContent: "/api/get/job-content",
+  deleteMediaFiles: "/api/delete/job-content/media",
   //Customer Agreement
   createAgreement: "/api/customer-agreement",
   getCustomerAgreement: "/api/get/customer-agreement",
@@ -38,6 +39,7 @@ const clientEndPoints = {
   createTitle: "/api/store/project-design/title",
   //Inspection form
   createInspection: "/api/store/project-design/inspection",
+  updateQcInspectionFilename: "api/change/qc-inspection/file-name",
   //Introduction form
   createIntroduction: "/api/store/project-design/introduction",
   getIntroduction: "/api/get/project-design/introduction",
@@ -48,6 +50,8 @@ const clientEndPoints = {
   createOverturn: "/api/create/overturn-meeting",
   getOverturn: "/api/get/overturn-meeting",
   updateOverturn: "/api/update/overturn-meeting-media",
+  updateOverturnFilename: "/api/change/overturn-meeting/file-name",
+  deleteOverturnFiles: "/api/delete/overturn-meeting/media",
   // Scheduling
   createMaterialOrder: "/api/material-order",
   updateMaterialOrder: "/api/update/material-order",

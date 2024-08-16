@@ -15,42 +15,43 @@ import dayjs from "dayjs";
 import SignatureModal from "@components/Modals/SignatureModal";
 import { Spin } from "antd";
 const CustomerAgreementForm = () => {
-  const dispatch = useDispatch();
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const [isApprovalButtonDisabled, setIsApprovalButtonDisabled] =
-    useState(false);
+    useState(true);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [customerData, setCustomerData] = useState(null);
 
-  useEffect(() => {
-    const getCustomerData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        setLoading(true);
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getCustomerAgreement}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response?.status >= 200 && response?.status < 300) {
-          setCustomerData(response?.data?.agreement);
+  const getCustomerData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      setLoading(true);
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getCustomerAgreement}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      } finally {
-        setLoading(false);
+      );
+      console.log("Get Customer Data", response?.data?.agreement?.is_complete);
+      if (response?.status >= 200 && response?.status < 300) {
+        setCustomerData(response?.data?.agreement);
+        setIsApprovalButtonDisabled(!response?.data?.agreement?.is_complete);
       }
-    };
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     if (id) {
       dispatch(fetchSingleJob(id));
       getCustomerData();
@@ -134,7 +135,7 @@ const CustomerAgreementForm = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          // actions.resetForm();
+          getCustomerData();
         }
       } catch (error) {
         if (error?.response) {
@@ -210,6 +211,7 @@ const CustomerAgreementForm = () => {
           <Button
             className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
             onClick={showSignatureModel}
+            disabled={isApprovalButtonDisabled}
           >
             Sign Now
           </Button>
