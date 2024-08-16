@@ -3,7 +3,15 @@ import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-const AddMaterialForm = ({ values, setFieldValue, className }) => {
+const AddMaterialForm = ({
+  values,
+  setFieldValue,
+  handleChange,
+  handleBlur,
+  touched,
+  errors,
+  className,
+}) => {
   const handleAddRow = () => {
     setFieldValue("materials", [
       ...values,
@@ -41,52 +49,76 @@ const AddMaterialForm = ({ values, setFieldValue, className }) => {
           <div className="w-full sm:flex-1">
             <TextBox
               type="text"
+              name={`materials[${index}].material`}
               value={row.material || ""}
               placeholder="Enter Material"
-              onChange={(e) =>
-                handleMaterialChange(index, "material", e.target.value)
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               className="w-full"
+              error={touched?.[index]?.material && errors?.[index]?.material}
             />
+            {touched?.[index]?.material && errors?.[index]?.material && (
+              <div className="text-red-500 text-sm">
+                {errors[index].material}
+              </div>
+            )}
           </div>
           <div className="w-full sm:flex-1">
             <TextBox
               type="number"
+              name={`materials[${index}].quantity`}
               value={row.quantity || ""}
               placeholder="Enter Quantity"
-              onChange={(e) =>
-                handleMaterialChange(index, "quantity", e.target.value)
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               className="w-full"
+              error={touched?.[index]?.quantity && errors?.[index]?.quantity}
             />
+            {touched?.[index]?.quantity && errors?.[index]?.quantity && (
+              <div className="text-red-500 text-sm">
+                {errors[index].quantity}
+              </div>
+            )}
           </div>
           <div className="w-full sm:flex-1">
             <SelectBox
+              name={`materials[${index}].color`}
               value={row.color || ""}
               placeholder="Select Color"
               onChange={(value) => handleMaterialChange(index, "color", value)}
+              onBlur={handleBlur}
               className="w-full"
               options={[
+                { label: "Select Color", value: "", disabled: true },
                 { label: "Red", value: "red" },
                 { label: "Blue", value: "blue" },
                 { label: "Green", value: "green" },
-                // Add more color options as needed
               ]}
+              error={touched?.[index]?.color && errors?.[index]?.color}
             />
+            {touched?.[index]?.color && errors?.[index]?.color && (
+              <div className="text-red-500 text-sm">{errors[index].color}</div>
+            )}
           </div>
           <div className="w-full sm:flex-1">
             <TextBox
               type="text"
+              name={`materials[${index}].order_key`}
               value={row.order_key || ""}
               placeholder="Enter Order Key"
-              onChange={(e) =>
-                handleMaterialChange(index, "order_key", e.target.value)
-              }
-              className=""
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="w-full"
+              error={touched?.[index]?.order_key && errors?.[index]?.order_key}
             />
+            {touched?.[index]?.order_key && errors?.[index]?.order_key && (
+              <div className="text-red-500 text-sm">
+                {errors[index].order_key}
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-between w-full md:w-[4rem] text-center flex-shrink-0">
-            <span className="font-medium text-sm  md:hidden">Action</span>
+            <span className="font-medium text-sm md:hidden">Action</span>
             {index === 0 ? (
               <button
                 type="button"

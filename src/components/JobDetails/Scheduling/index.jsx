@@ -18,47 +18,45 @@ const Scheduling = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [materialOrderData, setMaterialOrderData] = useState(null);
-
+  const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
   // Fetch Scheduling data
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-        setLoading(true);
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getMaterialOrder}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("Response of get API in Scheduling", response);
-        if (response?.status >= 200 && response?.status < 300) {
-          setMaterialOrderData(response?.data?.material_order);
-        }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      if (!token) {
+        console.error("No token found");
+        return;
       }
-    };
-
+      setLoading(true);
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getMaterialOrder}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Response of get API in Scheduling", response);
+      if (response?.status >= 200 && response?.status < 300) {
+        setMaterialOrderData(response?.data?.material_order);
+      }
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     if (id) {
       dispatch(fetchSingleJob(id));
       fetchData();
     }
   }, [id, dispatch]);
   console.log("Material order data", materialOrderData);
-  const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
 
   // Initialize Formik
   const formik = useFormik({
@@ -81,7 +79,7 @@ const Scheduling = () => {
       materials: [{ material: "", quantity: "", color: "", order_key: "" }],
     },
     enableReinitialize: true,
-    // validationSchema: schedulingSchema,
+    validationSchema: schedulingSchema,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,
