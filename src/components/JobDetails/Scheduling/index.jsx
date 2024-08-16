@@ -29,16 +29,16 @@ const Scheduling = () => {
       }
       setLoading(true);
       const response = await clientBaseURL.get(
-        `${clientEndPoints?.getMaterialOrder}/${id}`,
+        `${clientEndPoints?.checkMaterialOrder}/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Response of get API in Scheduling", response);
+
       if (response?.status >= 200 && response?.status < 300) {
-        setMaterialOrderData(response?.data?.material_order);
+        setMaterialOrderData(response?.data?.data);
       }
     } catch (error) {
       if (error?.response) {
@@ -56,7 +56,6 @@ const Scheduling = () => {
       fetchData();
     }
   }, [id, dispatch]);
-  console.log("Material order data", materialOrderData);
 
   // Initialize Formik
   const formik = useFormik({
@@ -90,7 +89,7 @@ const Scheduling = () => {
           ? values.build_date.format("DD/MM/YYYY")
           : "",
       };
-      console.log("Formatted values", formattedValues);
+
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
@@ -102,7 +101,7 @@ const Scheduling = () => {
             },
           }
         );
-        console.log("Response in Material order", response);
+
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
         }
@@ -221,17 +220,14 @@ const Scheduling = () => {
         />
 
         <div className="flex justify-center md:justify-start">
-          <Button type="button" className="text-black mr-4 px-4 py-1">
-            Update
-          </Button>
           <Button
             disabled={formik?.isSubmitting}
             type="submit"
-            className={`text-white btn-gradient px-4 py-1`}
+            className="w-full max-w-24 text-white btn-gradient px-4 py-1"
           >
             {formik?.isSubmitting ? (
               <div className="flex justify-center items-center">
-                <Loader width={"28px"} height={"28px"} color="#fff" />
+                <Loader width={"24px"} height={"24px"} color="#fff" />
               </div>
             ) : (
               "Submit"

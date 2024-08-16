@@ -204,14 +204,7 @@ const InProgress = () => {
         In Progress
       </h1>
       <div className="bg-white p-5 rounded-2xl">
-        <MediaForm
-          id={id}
-          className="mb-4"
-          data={inProgressData}
-          filesData={files}
-          showRenameBox={showRenameBox}
-        />
-        <Form onSubmit={formik.handleSubmit}>
+        <Form onSubmit={formik.handleSubmit} className="mb-4">
           <h2 className="text-black text-xl font-medium mb-4 font-poppins">
             Quality Control Form (QC)
           </h2>
@@ -263,18 +256,25 @@ const InProgress = () => {
             <Button
               type="submit"
               disabled={formik?.isSubmitting}
-              className={`text-white btn-gradient px-4 py-1`}
+              className="w-full max-w-24 text-white btn-gradient px-4 py-1"
             >
               {formik?.isSubmitting ? (
                 <div className="flex justify-center items-center">
-                  <Loader width={"28px"} height={"28px"} color="#fff" />
+                  <Loader width={"24px"} height={"24px"} color="#fff" />
                 </div>
               ) : (
-                "Save"
+                "Submit"
               )}
             </Button>
           </div>
         </Form>
+        <MediaForm
+          id={id}
+          className="mb-4"
+          data={inProgressData}
+          filesData={files}
+          showRenameBox={showRenameBox}
+        />
       </div>
     </Fragment>
   );

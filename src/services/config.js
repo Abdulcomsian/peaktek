@@ -25,9 +25,9 @@ const clientEndPoints = {
   deleteMediaFiles: "/api/delete/job-content/media",
   //Customer Agreement
   createAgreement: "/api/customer-agreement",
-  getCustomerAgreement: "/api/get/customer-agreement",
+  getCustomerAgreement: "/api/check/customer-agreement",
   createSignature: "/api/update/customer-agreement",
-  getSignatureEmail: "/api/sign-by-email",
+  signByEmail: "/api/sign-by-email",
 
   //Create Carrierscope
   createCarrierscope: "/api/store/carrier-scope",

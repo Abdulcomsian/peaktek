@@ -4,6 +4,7 @@ import {
   FileIcon,
   GalleryIcon,
   ImageIcon,
+  Loader,
   Tabs,
   TabsContentBox,
 } from "@components/UI";
@@ -19,6 +20,7 @@ const MediaForm = ({ className, data, showRenameBox, filesData }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
   const [images, setImages] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const items = [
     { id: 1, title: "Notes", icon: <FileIcon className="mr-1" /> },
     { id: 2, title: "Photos", icon: <GalleryIcon className="mr-1" /> },
@@ -54,9 +56,9 @@ const MediaForm = ({ className, data, showRenameBox, filesData }) => {
 
   const handleSubmit = async (e) => {
     try {
-      const token = localStorage.getItem("token");
       e.preventDefault();
-
+      setIsSubmitting(true);
+      const token = localStorage.getItem("token");
       const formData = new FormData();
       formData.append("notes", notes);
       images.forEach((file) => {
@@ -82,12 +84,14 @@ const MediaForm = ({ className, data, showRenameBox, filesData }) => {
           error?.response?.data?.error || error?.response?.data?.message
         );
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <Form onSubmit={handleSubmit} className={className}>
-      <TabsContentBox contentTitle="Job Content" className="mb-4">
+      <TabsContentBox className="mb-4">
         <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
         {renderActiveTab()}
       </TabsContentBox>
@@ -95,11 +99,18 @@ const MediaForm = ({ className, data, showRenameBox, filesData }) => {
       {/* Conditional Rendering */}
       <Button
         type="submit"
+        disabled={isSubmitting}
         className={`text-white btn-gradient px-4 py-1 ${
           activeTab === 2 && "mb-4"
         }`}
       >
-        Submit
+        {isSubmitting ? (
+          <div className="flex justify-center items-center">
+            <Loader width={"24px"} height={"24px"} color="#fff" />
+          </div>
+        ) : (
+          "Save"
+        )}
       </Button>
       {activeTab === 2 &&
         showRenameBox &&

@@ -3,12 +3,9 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { Modal } from "antd";
 import { useRef } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
 import SignatureCanvas from "react-signature-canvas";
 
-export default function SignatureModal({ open, onCancel, onOk }) {
-  const { id } = useParams();
-  console.log("id in signature", id);
+export default function SignatureModal({ id, open, onCancel, onOk }) {
   const signatureRef = useRef();
 
   // Function to clear the signature canvas
