@@ -29,6 +29,7 @@ const ItemsRow = ({
           className="flex-1 lg:max-w-md mr-2 md:mr-4"
           name={`sections[${sectionIndex}].items[${index}].${field.title}`}
           register={register}
+          defaultValue={field.title === "line Total" ? 122: ""}
         />
       ))}
       {index > 0 && (

@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UploadedImageItems from "./UploadedImageItems";
+import NamedImageItems from "./NamedImageItems";
 
 export default function UploaderInputs({
   wrapperClass,
@@ -12,8 +13,14 @@ export default function UploaderInputs({
   icon,
   multiple = true,
   error,
+  defaultFiles=[]
 }) {
   const [files, setFiles] = useState([]);
+
+  // useEffect(() => {
+  //   if(defaultFiles) setFiles(multiple ? defaultFiles : [defaultFiles])
+  // }, [defaultFiles, multiple])
+
   const handleFiles = (selectedFiles) => {
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
@@ -21,7 +28,6 @@ export default function UploaderInputs({
 
     setFiles((files) => [...files, ...filteredFiles]);
   };
-
   const handleDragOver = (e) => {
     e.preventDefault();
   };
@@ -61,7 +67,7 @@ export default function UploaderInputs({
         </div>
       </label>
       {error && <p className="text-sm mt-1 text-red-500 py-1">{error}</p>}
-      <UploadedImageItems files={files} />
+      {!multiple ? <UploadedImageItems file={defaultFiles} /> : <NamedImageItems files={files} register={register} />}
 
       <input
         type="file"

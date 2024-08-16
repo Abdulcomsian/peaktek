@@ -54,6 +54,16 @@ const jobsSlice = createSlice({
           content: { name, address, created_at },
         });
     },
+    updateColumn: (state, action) =>{
+      const {updatedSourceColumn, updatedDestinationColumn} = action.payload;
+      // console.log(state.boardData);
+      state.boardData = state.boardData.map(board => {
+        if(board.name === updatedSourceColumn.name) return updatedSourceColumn;
+        if(board.name === updatedDestinationColumn.name) return updatedDestinationColumn;
+        return board;
+      })
+
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -70,6 +80,6 @@ const jobsSlice = createSlice({
   },
 });
 
-export const { addJob, boardDataLoaded } = jobsSlice.actions;
+export const { addJob, updateColumn, boardDataLoaded } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

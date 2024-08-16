@@ -8,45 +8,54 @@ import { formateErrorName, mapToArray } from "../../../utils/helper";
 import { ImageIcon } from "@components/UI";
 import { createTitle, getTitle } from "@services/apiDesignMeeting";
 import { toast } from "react-hot-toast";
+import { useAuth } from "@context/AuthContext";
 
 export default function TitleForm() {
   const { id: jobId } = useParams();
-  const [isFormSubbmiting, setIsFormSubmitting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const {logout} = useAuth()
   const {
     register,
     handleSubmit,
     control,
     reset,
+    watch,
     formState: { errors, isLoading },
   } = useForm({
     defaultValues: async () => {
       const res = await getTitle(jobId);
-      if (res.status >= 200 && res.status < 300) {
+      if (res.status >= 200 && res.status < 300 && Object.keys(res.data.data).length > 0) {
+        setIsEditing(true)
         return res.data.data;
       }
+      else return {}
     },
   });
-  // const [isLoading, setIsLoading] = useState(false);
-  const [files, setFiles] = useState([]);
 
   const onSubmit = async function (data) {
+    console.log("daatata", data)
+    
     const finalDataToUpload = {
       ...data,
-      primary_image: data.primary_image[0],
-      secondary_image: data.secondary_image[0],
+      primary_image: data.primary_image instanceof FileList ? data.primary_image[0] : null,
+      secondary_image: data.secondary_image instanceof FileList ? data.secondary_image[0] : null,
     };
 
+    console.log(finalDataToUpload)
+
     try {
-      setIsFormSubmitting(true);
       const resp = await createTitle(finalDataToUpload, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
         reset();
       }
+      if(resp.status === 401){
+        toast.error(resp.message)
+        logout()
+      }
     } catch (err) {
       console.error(err);
     } finally {
-      setIsFormSubmitting(false);
     }
   };
 
@@ -169,13 +178,14 @@ export default function TitleForm() {
           register={register}
           id="primary_image"
           icon={<ImageIcon />}
-          require={true}
+          require={!isEditing}
           fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
           multiple={false}
           error={
             errors.primary_image &&
             formateErrorName(errors?.primary_image?.message)
           }
+          defaultFiles={watch("primary_image")}
         />
         <UploaderInputs
           wrapperClass="grow w-full"
@@ -184,13 +194,14 @@ export default function TitleForm() {
           id="secondary_image"
           register={register}
           icon={<ImageIcon />}
-          require={true}
+          require={!isEditing}
           fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
           multiple={false}
           error={
             errors.secondary_image &&
             formateErrorName(errors?.secondary_image?.message)
           }
+          defaultFiles={watch("secondary_image")}
         />
       </div>
       <Button type="submit" variant="gradient" className=" mt-6">
