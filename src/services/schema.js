@@ -49,7 +49,7 @@ const readyToBuildSchema = Yup.object().shape({
   recipient: Yup.string().required("Recipient is required"),
   date: Yup.date().nullable().required("Date is required"),
   time: Yup.date().nullable().required("Time is required"),
-  text: Yup.string().required("Text is required"),
+  // text: Yup.string().required("Text is required"),
 });
 const cocSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
