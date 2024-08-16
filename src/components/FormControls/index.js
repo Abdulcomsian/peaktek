@@ -12,6 +12,7 @@ import TextBox from "./TextBox";
 import DateSelector from "./DateSelector";
 import Form from "./Form";
 import SelectBox from "./SelectBox";
+import TextareaInput from "./TextareaInput/input";
 export {
   Ckeditor,
   CustomDatePicker,
@@ -21,6 +22,7 @@ export {
   OtherInput,
   SearchInput,
   Textarea,
+  TextareaInput,
   RadioBox,
   FileInput,
   CustomTimePicker,

@@ -18,15 +18,14 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import { NewJobModal, JobDetailModal, AddBoardModal } from "@components/Modals";
-import { boardDataLoaded } from "@store/slices/JobsSlice";
+import { boardDataLoaded, updateColumn } from "@store/slices/JobsSlice";
 
 import "./kanban.css";
 import { Button } from "@components/UI";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getJobs } from "@services/apiJobs";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getJobs, updateJobStatus } from "@services/apiJobs";
 import { Spin } from "antd";
-import { useDispatch } from "react-redux";
 import { useAuth } from "@context/AuthContext";
 import toast from "react-hot-toast";
 
@@ -41,31 +40,28 @@ function KanbanBoard() {
   const [isDragging, setIsDragging] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
 
-  useEffect(
-    function () {
-      async function fetchBoardData() {
-        try {
-          setIsLoading(true);
-          const resp = await getJobs();
-          if (resp.status >= 200 && resp.status < 300) {
-            dispatch(boardDataLoaded(resp.data));
-          }
-          if (resp.status === 500) toast.error("Something went wrong.");
-          if (resp.status === 401) {
-            logout();
-          }
-        } catch (err) {
-          console.log(err);
-          toast.error(err.message);
-        } finally {
-          setIsLoading(false);
+  useEffect(() => {
+    async function fetchBoardData() {
+      try {
+        setIsLoading(true);
+        const resp = await getJobs();
+        if (resp.status >= 200 && resp.status < 300) {
+          dispatch(boardDataLoaded(resp.data));
         }
+        if (resp.status === 500) toast.error("Something went wrong.");
+        if (resp.status === 401) {
+          logout();
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message);
+      } finally {
+        setIsLoading(false);
       }
+    }
 
-      fetchBoardData();
-    },
-    [invalidatePage]
-  );
+    fetchBoardData();
+  }, [invalidatePage]);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -74,110 +70,121 @@ function KanbanBoard() {
       },
     })
   );
-  const handleDragEnd = (event) => {
+
+  // const handleDragEnd = (event) => {
+  //   const { active, over } = event;
+  //   if (!over) return;
+
+  //   const { id: activeId } = active;
+  //   const { id: overId } = over;
+  //   console.log("IDS", activeId, overId)
+
+  //   if (!activeId.startsWith("column-") && !overId.startsWith("column-")) {
+  //     // Handle task dragging only
+  //     const sourceColumn = data.find((job) => {
+  //       const task = job.tasks;
+  //       const isIn = task.some((task) => task.id === activeId);
+  //       if (isIn) return job;
+  //     });
+  //     const destinationColumn = data.find((job) => job.id === overId);
+
+  //     if (
+  //       sourceColumn &&
+  //       destinationColumn &&
+  //       sourceColumn.id !== destinationColumn.id
+  //     ) {
+  //       const dragedTask = sourceColumn.tasks.find(
+  //         (task) => task.id === activeId
+  //       );
+  //       const sourceTask = {
+  //         ...sourceColumn,
+  //         tasks: sourceColumn.tasks.filter((task) => task.id !== activeId),
+  //       };
+
+  //       setData((data) =>
+  //         data.map((job) => {
+  //           const task = job.tasks;
+  //           const isIn = task.some((task) => task.id === activeId);
+  //           if (isIn)
+  //             return {
+  //               ...job,
+  //               tasks: job.tasks.filter((task) => task.id !== activeId),
+  //             };
+  //           if (job.id === destinationColumn.id)
+  //             return { ...job, tasks: [dragedTask, ...job.tasks] };
+  //           else return job;
+  //         })
+  //       );
+  //     }
+  //   }
+  // };
+
+  const handleDragEnd = async (event) => {
     const { active, over } = event;
     if (!over) return;
-
+  
     const { id: activeId } = active;
     const { id: overId } = over;
 
-    if (`${activeId}`.startsWith("column-") && overId.startsWith("column-")) {
-      // Handle column dragging
-      // const activeIndex = data.findIndex((col) => col.id === activeId);
-      // const overIndex = data.findIndex((col) => col.id === overId);
-      // if (activeIndex !== overIndex) {
-      //   setData((data) => arrayMove(data, activeIndex, overIndex));
-      // }
-      // console.log("index", activeIndex, overIndex);
-    } else {
-      const sourceColumn = data.find((job) => {
-        const task = job.tasks;
-        const isIn = task.some((task) => task.id === activeId);
-        if (isIn) return job;
-      });
-      const destinationColumn = data.find((job) => job.id === overId);
-
+    // console.log("IDS", activeId, overId)
+  
+    // Check if we're dragging a task, not a column
+    // if (!`${activeId}`.startsWith("column-") && !`${overId}`.startsWith("column-")) {
+      // console.log("HERE", data)
+      // Find source and destination columns
+      const sourceColumn = data.find((job) => job.tasks.some((task) => task.id === activeId));
+      const destinationColumn = data.find((job) => `column-${job.id}` === overId);
+  
+      console.log("COLUMNS", sourceColumn, destinationColumn)
       if (
         sourceColumn &&
         destinationColumn &&
         sourceColumn.id !== destinationColumn.id
       ) {
-        const dragedTask = sourceColumn.tasks.find(
-          (task) => task.id === activeId
-        );
-        const sourceTask = {
+        const draggedTask = sourceColumn.tasks.find((task) => task.id === activeId);
+        console.log("DRAG TASK", draggedTask)
+  
+        // Remove task from source column
+        const updatedSourceColumn = {
           ...sourceColumn,
           tasks: sourceColumn.tasks.filter((task) => task.id !== activeId),
         };
+  
+        // Add task to destination column
+        const updatedDestinationColumn = {
+          ...destinationColumn,
+          tasks: [...destinationColumn.tasks, draggedTask],
+        };
 
-        setData((data) =>
-          data.map((job) => {
-            const task = job.tasks;
-            const isIn = task.some((task) => task.id === activeId);
-            if (isIn)
-              return {
-                ...job,
-                tasks: job.tasks.filter((task) => task.id !== activeId),
-              };
-            if (job.id === destinationColumn.id)
-              return { ...job, tasks: [dragedTask, ...job.tasks] };
-            else return job;
-          })
-        );
-        // sourceColumn.map((colum) => {
-        //   if (colum.tasks.some((task) => task.id !== activeId))
-        //     ({
-        //       ...colum,
-        //       tasks: colum.tasks.filter((task) => task.id !== activeId),
-        //     });
-        //   else return colum;
-        // });
-        // setData((data) => []);
+        console.log(data,updatedSourceColumn, updatedDestinationColumn)
+
+        dispatch(updateColumn({updatedSourceColumn, updatedDestinationColumn}))
+        try{
+          const resp = await updateJobStatus(draggedTask, updatedDestinationColumn )
+          console.log(resp)
+        }catch(error){
+          console.log(error)
+        }
       }
-      // const destinationColumn = columns.find(
-      //   (column) => column.id === overId.slice(overId.indexOf("-") + 1)
-      // );
-      // if (
-      //   sourceColumn &&
-      //   destinationColumn &&
-      //   sourceColumn.id !== destinationColumn.id
-      // ) {
-      //   setTasks((prevTasks) => {
-      //     const sourceTasks = [...prevTasks[sourceColumn.id]]; // Create a copy of source tasks
-      //     const destinationTasks = [...(prevTasks[destinationColumn.id] || [])]; // Create a copy of destination tasks, or initialize as an empty array if it doesn't exist
-
-      //     const activeTaskIndex = sourceTasks.findIndex(
-      //       (task) => task.id === activeId
-      //     );
-      //     const activeTask = sourceTasks[activeTaskIndex];
-
-      //     // Remove the task from the source column
-      //     sourceTasks.splice(activeTaskIndex, 1);
-
-      //     // Add the task to the destination column
-      //     destinationTasks.push(activeTask);
-
-      //     return {
-      //       ...prevTasks,
-      //       [sourceColumn.id]: sourceTasks,
-      //       [destinationColumn.id]: destinationTasks,
-      //     };
-      //   });
-      // }
-    }
+    // }
   };
+  
+
   const handleAddJob = () => {
     setAddNewJobModal((is) => !is);
   };
+
   const handleAddNewJob = (newJob) => {
     setTasks((tasks) => ({
       ...tasks,
       newLead: [newJob, ...tasks.newLead],
     }));
   };
+
   const handleAddNewBoard = function () {
     setAddNewBoard((is) => !is);
   };
+
   const handleAdd = function (newTitle) {
     const id = crypto.randomUUID();
     setColumns((columns) => [
@@ -215,20 +222,18 @@ function KanbanBoard() {
               strategy={rectSortingStrategy}
             >
               <div style={{ display: "flex", gap: "16px" }}>
-                {data.map((column, index) => {
-                  return (
-                    <DraggableColumn
-                      key={column.id}
-                      id={column.id}
-                      title={column.name}
-                      tasks={column.tasks}
-                      someoneIsDragging={isDragging}
-                    />
-                  );
-                })}
+                {data.map((column, index) => (
+                  <DraggableColumn
+                    key={column.id}
+                    id={`column-${column.id}`}
+                    title={column.name}
+                    tasks={column.tasks}
+                    someoneIsDragging={isDragging}
+                  />
+                ))}
                 {/* <Button className="btn-add" onClick={handleAddNewBoard}>
-                &#x2B;
-              </Button> */}
+                  &#x2B;
+                </Button> */}
               </div>
             </SortableContext>
           </DndContext>
@@ -338,6 +343,7 @@ function Task({ id, data, someoneIsDragging }) {
   const handleTaskClick = function (task) {
     navigate(`/job-details/${id}?jobStatus=${data.status.name}`);
   };
+
   return (
     <>
       <div
@@ -362,22 +368,10 @@ function Task({ id, data, someoneIsDragging }) {
             {data.name}
           </h1>
           <Button>Delete</Button>
-          <p className=" text-sm">{data.address}</p>
+          <p className="text-sm">{data.address}</p>
         </div>
         <div className="border-b border-gray-200" />
         <div className="flex justify-between items-center px-3 py-2 bg-slate-50">
-          {/* {content.status === "completed" ? (
-            <Link
-              to="/dashboard/completedTasks"
-              className="text-xs text-green-700 uppercase"
-            >
-              WON
-            </Link>
-          ) : (
-            <div className="bg-blue-100 text-sm text-blue-600 px-2 py-1 font-medium  rounded">
-              New
-            </div>
-          )} */}
           <p className="text-xs text-gray-400">
             Updated 3 min ago{" "}
             <span className="p-1 rounded bg-gray-200">TD</span>
