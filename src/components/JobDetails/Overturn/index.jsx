@@ -7,44 +7,44 @@ import { Spin } from "antd";
 const Overturn = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [showRenameBox, setShowRenameBox] = useState(false);
   const [overturnData, setOverturnData] = useState(null);
-  const showRenameHandler = () => {
-    setShowRenameBox(true);
+
+  const getOverturnData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+      setLoading(true);
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getOverturn}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response?.status >= 200 && response?.status < 300) {
+        setOverturnData(response?.data?.data);
+      }
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
-    const getOverturnData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-        setLoading(true);
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getOverturn}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response?.status >= 200 && response?.status < 300) {
-          showRenameHandler();
-          setOverturnData(response?.data?.data);
-        }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
     getOverturnData();
   }, []);
+  // Function to refresh data after form submitted.
+  const refreshData = () => {
+    getOverturnData();
+  };
 
   return (
     <Fragment>
@@ -56,13 +56,8 @@ const Overturn = () => {
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Adjust Meeting
         </h2>
-        <OverturnForm id={id} data={overturnData} />
-        <OverturnAttachments
-          id={id}
-          data={overturnData}
-          showRenameBox={showRenameBox}
-          renameHandler={showRenameHandler}
-        />
+        <OverturnForm id={id} data={overturnData} refreshData={refreshData} />
+        <OverturnAttachments />
       </div>
     </Fragment>
   );
