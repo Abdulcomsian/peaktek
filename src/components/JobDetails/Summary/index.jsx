@@ -58,41 +58,41 @@ const Summary = () => {
     }));
   };
 
-  useEffect(() => {
-    const getSummaryFields = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found");
-        return;
-      }
-      try {
-        setLoading(true);
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getJobSummary}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+  const getSummaryFields = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+    try {
+      setLoading(true);
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getJobSummary}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        if (response?.status >= 200 && response?.status < 300) {
-          // toast.success(response?.data?.message);
-          setFields((prevFields) => ({
-            ...prevFields,
-            ...response.data.job, // Set fields with data from the response
-          }));
-        }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      } finally {
-        setLoading(false);
+      if (response?.status >= 200 && response?.status < 300) {
+        // toast.success(response?.data?.message);
+        setFields((prevFields) => ({
+          ...prevFields,
+          ...response.data.job, // Set fields with data from the response
+        }));
       }
-    };
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     if (id) {
       getSummaryFields();
     }
@@ -262,6 +262,7 @@ const Summary = () => {
                 type="text"
                 name="balance"
                 value={fields.balance}
+                readOnly={true}
               />
             </div>
           </div>
