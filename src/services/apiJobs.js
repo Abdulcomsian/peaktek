@@ -1,3 +1,5 @@
+import { clientBaseURL, clientEndPoints } from "./config";
+
 export async function getJobs() {
   const token = localStorage.getItem("token");
   const myHeaders = new Headers();
@@ -69,4 +71,21 @@ export async function getJobApi(id) {
 
   const data = await resp.json();
   return data;
+}
+
+export async function updateJobStatus(job, destinationColumn) {
+  const {id} = job;
+  const {id: status_id} = destinationColumn
+  console.log("FRPM API CALL", status_id, id)
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.updateJobStatus}/${id}`,
+      {status_id},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    console.log(resp)
+  } catch (error) {
+    console.log(error);
+  }
 }

@@ -121,13 +121,16 @@ export async function getCarrierScope(id) {
 
 export async function createInspections(dataToLoad, id) {
   const token = localStorage.getItem("token");
-  const formData = new FormData();
-  formData.append("inspections", dataToLoad);
+  // const formData = new FormData();
+
+  // dataToLoad.forEach(data => formData.append("inspections", data))
+  
+  console.log("FINAL DATA TO LOAD", dataToLoad)
 
   try {
     const resp = await clientBaseURL.post(
       `${clientEndPoints.createInspection}/${id}`,
-      formData,
+      dataToLoad,
       {
         headers: {
           Authorization: `Bearer ${token}`,

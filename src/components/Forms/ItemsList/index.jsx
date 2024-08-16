@@ -42,7 +42,10 @@ const ItemsList = ({ className, sectionIndex, register }) => {
             disabled={true}
             type="number"
             className="inline-block"
-            // value={register.get}
+            register={register}
+            id={`sections[${sectionIndex}].section_total`}
+            name={`sections[${sectionIndex}].section_total`}
+            required={false}
           />
         </div>
       </div>

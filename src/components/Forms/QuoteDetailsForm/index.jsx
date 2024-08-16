@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Button, Card } from "@components";
-import { Input } from "@components/FormControls";
+import { Input, TextareaInput } from "@components/FormControls";
 import { FaTrashAlt } from "react-icons/fa";
 import { Switch } from "antd";
 import { FormHeader, ItemsList } from "@components/Forms";
@@ -40,9 +40,15 @@ export default function QuoteDetailsForm() {
   const handleProgressChange = (e) => {
     setProgress(e.target.value);
   };
-  const onSubmit = function (data) {};
+  const onSubmit = function (data) {
+    console.log(data)
+  };
+
+  const onerror = (error) =>{
+    console.error(error)
+  }
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, onerror)}>
       {sections.map((section, index) => (
         <section
           key={section.id}
@@ -57,19 +63,19 @@ export default function QuoteDetailsForm() {
                 />
               </Button>
               <Input
-                id={`sectionTitle-${section.id}`}
+                id={`sections[${index}].title`}
                 applyMarginBottom={true}
                 label="Section title"
                 placeholder=""
                 type="text"
-                name={`section_title_${index}`}
+                name={`sections[${index}].title`}
                 register={register}
                 className="focus:outline-1  md:max-w-md focus:outline-blue-600 mr-2 md:mr-4"
               />
             </div>
             <Switch className="mt-9" onClick={handleSwitchClick} />
           </div>
-          <ItemsList register={register} />
+          <ItemsList register={register} sectionIndex={index}/>
         </section>
       ))}
       <div className="py-5  border-b border-gray-150">
@@ -95,7 +101,7 @@ export default function QuoteDetailsForm() {
           label="Quote subtotal"
           applyMarginBottom={true}
           type="number"
-          name="item"
+          name="quote_sub_total"
           placeholder="$6.5"
           className="grow w-fit"
           register={register}
@@ -104,18 +110,20 @@ export default function QuoteDetailsForm() {
           label="Total"
           applyMarginBottom={true}
           type="number"
-          name="item"
+          name="quote_total"
           placeholder="$6.5"
           className="grow w-fit"
           register={register}
         />
       </div>
       <div className="py-4">
-        <Textarea
+        <TextareaInput
           label="Note"
           placeholder="Type here"
           className="max-w-lg"
           applyMarginBottom="true"
+          name="notes"
+          register={register}
         />
       </div>
       <Button variant="gradient" type="submit">

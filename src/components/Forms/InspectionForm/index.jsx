@@ -58,6 +58,7 @@ export default function InspectionForm() {
   };
 
   const onSubmit = async function (data) {
+    console.log("Submition form", data)
     let imagesArrayConst = [];
     const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
       const images = data[`attachment-${index}`];
@@ -67,21 +68,38 @@ export default function InspectionForm() {
           imagesArrayConst.push(file);
         }
       } else imagesArrayConst = [];
-
+      
       return [
         ...dataToLoad,
         { inspection: curr, attachment: imagesArrayConst },
       ];
     }, []);
-
+    
     const dataToLoad = { inspections: formatedData };
+    console.log("dataa", dataToLoad)
 
-    const resp = await createInspections(formatedData, id);
+    let form = new FormData;
+    dataToLoad.inspections.forEach( (item , index )=> {
+      form.append(`data[${index}]['inspection']` , item.inspection );
+      let attachment = item.attachment;
+      for(let i=0; i< attachment.length; i++)
+      {
+        form.append(`data[${index}]['file'][${i}]` ,  attachment[i])
+      }
+
+    })
+
+
+    const resp = await createInspections(form, id);
   };
+
+  const onerror = function(data){
+    console.log(data)
+  }
 
   return (
     <>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form action="" onSubmit={handleSubmit(onSubmit, onerror)}>
         {rows.map((row, index) => (
           <div
             className="grid grid-cols-2 md:grid-cols-[1fr_1fr] gap-4 mb-6"
