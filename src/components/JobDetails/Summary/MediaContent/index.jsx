@@ -88,26 +88,42 @@ const MediaContent = ({ id, className }) => {
     try {
       setIsSubmitting(true);
       const token = localStorage.getItem("token");
-      const formData = new FormData();
-      formData.append("notes", notes);
-      images.forEach((file) => {
-        formData.append("images[]", file.file);
-      });
 
-      const response = await clientBaseURL.post(
+      // Upload notes
+      const notesData = new FormData();
+      notesData.append("notes", notes);
+      await clientBaseURL.post(
         `${clientEndPoints?.updateJobContent}/${id}`,
-        formData,
+        notesData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      if (response?.status >= 200 && response?.status < 300) {
-        toast.success(response?.data?.message);
-        setShowRenameBox(true);
-        setImages([]);
-      }
+
+      // Upload images concurrently
+      const uploadPromises = images.map((file) => {
+        const formData = new FormData();
+        formData.append("images[]", file.file);
+
+        return clientBaseURL.post(
+          `${clientEndPoints?.updateJobContent}/${id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      });
+
+      await Promise.all(uploadPromises);
+
+      toast.success("Media uploaded successfully.");
+      setImages([]); // Clear images
+      await getMediaContent(); // Fetch latest files after successful upload
+      setShowRenameBox(true); // Show rename box after fetching files
     } catch (error) {
       if (error?.response) {
         toast.error(
@@ -118,7 +134,7 @@ const MediaContent = ({ id, className }) => {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <Fragment>
       <Form onSubmit={handleSubmit} className={className}>

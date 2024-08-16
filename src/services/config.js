@@ -1,6 +1,6 @@
 import axios from "axios";
 const stagingURL = "https://peaktek.vercel.app";
-const baseURL = "https://test7.accrualdev.com";
+const baseURL = "http://test7.accrualdev.com";
 
 const clientBaseURL = axios.create({
   baseURL,
@@ -22,6 +22,7 @@ const clientEndPoints = {
   updateJobContent: "/api/update/job-content",
   updateJobContentFileName: "/api/change/job-content/file-name",
   getJobContent: "/api/get/job-content",
+  deleteMediaFiles: "/api/delete/job-content/media",
   //Customer Agreement
   createAgreement: "/api/customer-agreement",
   getCustomerAgreement: "/api/get/customer-agreement",

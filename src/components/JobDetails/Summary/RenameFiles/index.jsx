@@ -8,8 +8,6 @@ import { renameFilesSchema } from "@services/schema";
 import { Loader } from "@components/UI";
 import { RiDeleteBin6Line } from "react-icons/ri";
 const RenameFiles = ({ file, id, refreshData }) => {
-  console.log("File in Rename File", file);
-
   const {
     values,
     errors,
@@ -65,14 +63,41 @@ const RenameFiles = ({ file, id, refreshData }) => {
       });
     }
   }, []);
-  const deleteFilehandler = () => {};
+  const deleteFilehandler = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await clientBaseURL.post(
+        `${clientEndPoints?.deleteMediaFiles}/${id}`,
+        { media_url: file?.media_url },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response?.status >= 200 && response?.status < 300) {
+        toast.success(response?.data?.message);
+        if (refreshData) {
+          await refreshData(); // Refresh the data after deletion
+        }
+      }
+    } catch (error) {
+      if (error?.response) {
+        toast.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    }
+  };
   return (
     <Form
       className="flex flex-col md:flex-row mb-4 max-w-full"
       onSubmit={handleSubmit}
     >
       <TextBox
-        placeholder={`Enter file ${file?.id} name`}
+        placeholder={`Enter file name`}
         type="text"
         id="file_name"
         name="file_name"
