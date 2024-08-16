@@ -8,7 +8,6 @@ import { renameFilesSchema } from "@services/schema";
 import { Loader } from "@components/UI";
 import { RiDeleteBin6Line } from "react-icons/ri";
 const RenameFiles = ({ file, id, refreshData }) => {
-  console.log("File in Rename", file);
   const {
     values,
     errors,
