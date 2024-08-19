@@ -57,7 +57,7 @@ const Overturn = () => {
           Adjust Meeting
         </h2>
         <OverturnForm id={id} data={overturnData} refreshData={refreshData} />
-        <OverturnAttachments />
+        <OverturnAttachments id={id} />
       </div>
     </Fragment>
   );

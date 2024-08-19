@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-import "./ckeditor-styles.css"; // Import your custom CSS here
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const Ckeditor = ({ className, value, onChange, id, label }) => {
+const Ckeditor = ({
+  className,
+  value,
+  onChange,
+  id,
+  label,
+  error,
+  touched,
+}) => {
   const [editorData, setEditorData] = useState(value || "");
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -37,13 +45,15 @@ const Ckeditor = ({ className, value, onChange, id, label }) => {
     "font",
   ];
 
-  const handleProcedureContentChange = (content) => {
+  const handleEditorChange = (content) => {
     setEditorData(content);
     onChange(content, id);
   };
 
   useEffect(() => {
-    if (value) setEditorData(value);
+    if (value !== editorData) {
+      setEditorData(value);
+    }
   }, [value]);
 
   return (
@@ -61,8 +71,11 @@ const Ckeditor = ({ className, value, onChange, id, label }) => {
         modules={modules}
         formats={formats}
         value={editorData}
-        onChange={handleProcedureContentChange}
+        onChange={handleEditorChange}
       />
+      {error && touched && (
+        <div className="text-red-500 text-sm mt-1">{error}</div>
+      )}
     </div>
   );
 };
