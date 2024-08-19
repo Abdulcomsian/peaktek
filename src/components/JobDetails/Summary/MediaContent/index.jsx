@@ -8,9 +8,9 @@ import {
   Tabs,
   TabsContentBox,
 } from "@components/UI";
+import toast from "react-hot-toast";
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-import toast from "react-hot-toast";
 import RenameFiles from "@components/JobDetails/Summary/RenameFiles";
 const MediaContent = ({ id, className }) => {
   const [activeTab, setActiveTab] = useState(1);
@@ -66,41 +66,33 @@ const MediaContent = ({ id, className }) => {
       setIsSubmitting(true);
       const token = localStorage.getItem("token");
 
-      // Upload notes
-      const notesData = new FormData();
-      notesData.append("notes", notes);
-      await clientBaseURL.post(
+      // Create FormData to append both notes and images
+      const formData = new FormData();
+      formData.append("notes", notes);
+
+      images.forEach((file) => {
+        formData.append("images[]", file.file);
+      });
+
+      // Send combined data in a single API call
+      const response = await clientBaseURL.post(
         `${clientEndPoints?.updateJobContent}/${id}`,
-        notesData,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      // Upload images concurrently
-      const uploadPromises = images.map((file) => {
-        const formData = new FormData();
-        formData.append("images[]", file.file);
-
-        return clientBaseURL.post(
-          `${clientEndPoints?.updateJobContent}/${id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      });
-
-      await Promise.all(uploadPromises);
-
-      setImages([]); // Clear images
-      toast.success("Media uploaded successfully.");
-      await getMediaContent(); // Fetch latest files after successful upload
-      setShowRenameBox(true); // Show rename box after fetching files
+      // Handle response and success
+      if (response?.status >= 200 && response?.status < 300) {
+        setImages([]); // Clear images
+        toast.success("Media uploaded successfully.");
+        await getMediaContent(); // Fetch latest files after successful upload
+        setShowRenameBox(true); // Show rename box after fetching files
+      }
     } catch (error) {
       if (error?.response) {
         toast.error(
@@ -111,7 +103,6 @@ const MediaContent = ({ id, className }) => {
       setIsSubmitting(false);
     }
   };
-
   const renderActiveTab = () => {
     switch (activeTab) {
       case 1:
@@ -133,7 +124,6 @@ const MediaContent = ({ id, className }) => {
         break;
     }
   };
-
 
   return (
     <Fragment>

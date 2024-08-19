@@ -154,11 +154,11 @@ const AdjustorMeeting = () => {
             <Button
               type="submit"
               disabled={formik?.isSubmitting}
-              className={`text-white btn-gradient px-4 py-1`}
+              className={`w-full max-w-24 text-white btn-gradient px-4 py-1`}
             >
               {formik?.isSubmitting ? (
                 <div className="flex justify-center items-center">
-                  <Loader width={"28px"} height={"28px"} color="#fff" />
+                  <Loader width={"24px"} height={"24px"} color="#fff" />
                 </div>
               ) : (
                 "Save"

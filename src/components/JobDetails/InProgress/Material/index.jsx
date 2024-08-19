@@ -71,7 +71,7 @@ const MaterialForm = ({
               onChange={(e) =>
                 handleMaterialChange(index, "damaged", e.target.checked)
               }
-              className="h-5 w-5"
+              className="h-6 w-6"
             />
           </div>
           <div className="w-full sm:flex-1">

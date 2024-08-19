@@ -14,6 +14,7 @@ import { clientBaseURL, clientEndPoints, stagingURL } from "@services/config";
 import dayjs from "dayjs";
 import SignatureModal from "@components/Modals/SignatureModal";
 import { Spin } from "antd";
+import { Loader } from "@components/UI";
 const CustomerAgreementForm = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ const CustomerAgreementForm = () => {
       getCustomerData();
     }
   }, [id]);
-  console.log("agreement id", agreementId);
+
   const sendFormByEmail = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -135,7 +136,7 @@ const CustomerAgreementForm = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          getCustomerData();
+          await getCustomerData();
         }
       } catch (error) {
         if (error?.response) {
@@ -280,9 +281,16 @@ const CustomerAgreementForm = () => {
           </div>
           <Button
             type="submit"
-            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+            disabled={formik?.isSubmitting}
+            className="w-full max-w-24 font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
           >
-            Save
+            {formik?.isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </Form>
       </div>
