@@ -1,25 +1,4 @@
 import * as Yup from "yup";
-// Allowed file types
-const SUPPORTED_FORMATS = ["image/jpeg", "image/jpg", "image/png"];
-
-// summaryMedia Schema
-const summaryMediaSchema = Yup.object().shape({
-  notes: Yup.string().required("Notes are required"),
-  // images: Yup.array()
-  //   .of(
-  //     Yup.object().shape({
-  //       file: Yup.mixed()
-  //         .required("A file is required")
-  //         .test(
-  //           "fileFormat",
-  //           "Unsupported file format. Only jpeg, jpg, and png are allowed.",
-  //           (value) => value && SUPPORTED_FORMATS.includes(value.type)
-  //         ),
-  //     })
-  //   )
-  //   .min(1, "At least one image is required")
-  //   .required("Images are required"),
-});
 
 const adjustorMeetingSchema = Yup.object().shape({
   name: Yup.string()
@@ -193,7 +172,6 @@ const renameFilesSchema = Yup.object().shape({
     .max(50, "File name cannot exceed 50 characters"),
 });
 export {
-  summaryMediaSchema,
   adjustorMeetingSchema,
   overturnMeetingSchema,
   createAgreementSchema,
