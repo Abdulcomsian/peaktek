@@ -23,7 +23,6 @@ const InProgress = () => {
   const [showRenameBox, setShowRenameBox] = useState(false);
   const [files, setFiles] = useState([]);
 
-  // Fetch QC Inspection data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,7 +65,6 @@ const InProgress = () => {
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
 
-  // Format dates
   const formattedCompanyDate = inProgressData?.company_signed_date
     ? dayjs(inProgressData.company_signed_date, "DD/MM/YYYY")
     : null;
@@ -74,7 +72,6 @@ const InProgress = () => {
     ? dayjs(inProgressData.customer_signed_date, "DD/MM/YYYY")
     : null;
 
-  // Initialize Formik
   const formik = useFormik({
     initialValues: {
       name: singleJobData?.name || "",
@@ -137,7 +134,6 @@ const InProgress = () => {
     },
   });
 
-  // Update Formik initial values when inProgressData changes
   useEffect(() => {
     if (inProgressData) {
       formik.setValues({
@@ -167,36 +163,6 @@ const InProgress = () => {
     }
   }, [inProgressData]);
 
-  const inputRefs = {
-    name: useRef(null),
-    email: useRef(null),
-    phone: useRef(null),
-    street: useRef(null),
-    city: useRef(null),
-    state: useRef(null),
-    zip_code: useRef(null),
-    insurance: useRef(null),
-    claim_number: useRef(null),
-    policy_number: useRef(null),
-    company_signature: useRef(null),
-    company_printed_name: useRef(null),
-    company_date: useRef(null),
-    customer_signature: useRef(null),
-    customer_printed_name: useRef(null),
-    customer_date: useRef(null),
-  };
-
-  useEffect(() => {
-    if (formik.isSubmitting && !formik.isValid) {
-      const firstErrorField = Object.keys(formik.errors).find(
-        (field) => formik.touched[field] && formik.errors[field]
-      );
-      if (firstErrorField && inputRefs[firstErrorField]?.current) {
-        inputRefs[firstErrorField].current.focus();
-      }
-    }
-  }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
-
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
@@ -216,8 +182,6 @@ const InProgress = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs}
-            readOnlyFields={["name", "email", "phone"]}
           />
           <MaterialForm
             values={formik.values.materials}
@@ -234,7 +198,6 @@ const InProgress = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs}
           />
           <div className="flex items-center mb-6">
             <input
@@ -249,24 +212,20 @@ const InProgress = () => {
               Complete
             </label>
           </div>
-          <div className="flex">
-            <Button type="button" className="text-black mr-4 px-4 py-1">
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={formik?.isSubmitting}
-              className="w-full max-w-24 text-white btn-gradient px-4 py-1"
-            >
-              {formik?.isSubmitting ? (
-                <div className="flex justify-center items-center">
-                  <Loader width={"24px"} height={"24px"} color="#fff" />
-                </div>
-              ) : (
-                "Submit"
-              )}
-            </Button>
-          </div>
+
+          <Button
+            type="submit"
+            disabled={formik?.isSubmitting}
+            className="w-full max-w-24 text-white btn-gradient px-4 py-1"
+          >
+            {formik?.isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "Submit"
+            )}
+          </Button>
         </Form>
         <MediaForm
           id={id}
