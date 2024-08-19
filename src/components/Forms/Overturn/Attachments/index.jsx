@@ -104,7 +104,7 @@ const OverturnAttachments = ({ id }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <div className="flex flex-col md:flex-row">
-        <div className="w-full mr-4">
+        <div className="w-full md:mr-4">
           <FileUploader
             label="Images"
             id="images"

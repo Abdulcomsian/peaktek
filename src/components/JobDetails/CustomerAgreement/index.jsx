@@ -10,14 +10,21 @@ import Button from "@components/JobDetails/Button";
 import toast from "react-hot-toast";
 import { createAgreementSchema } from "@services/schema";
 import { fetchSingleJob } from "@store/slices/JobsSlice";
-import { clientBaseURL, clientEndPoints, stagingURL } from "@services/config";
+import {
+  clientBaseURL,
+  clientEndPoints,
+  stagingURL,
+  baseURL,
+} from "@services/config";
 import dayjs from "dayjs";
 import SignatureModal from "@components/Modals/SignatureModal";
 import { Spin } from "antd";
+import { Loader } from "@components/UI";
 const CustomerAgreementForm = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [showPdfButton, setShowPdfButton] = useState(false);
   const location = useLocation();
   const [agreementId, setAgreementId] = useState("");
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
@@ -25,6 +32,8 @@ const CustomerAgreementForm = () => {
     useState(true);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [customerData, setCustomerData] = useState(null);
+  console.log("customer data", customerData);
+
   const getCustomerData = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -42,6 +51,9 @@ const CustomerAgreementForm = () => {
         setCustomerData(response?.data?.agreement);
         setAgreementId(response?.data?.agreement?.id);
         setIsApprovalButtonDisabled(!response?.data?.agreement?.is_complete);
+        if (response?.data?.agreement?.sign_pdf_url != null) {
+          setShowPdfButton(true);
+        }
       }
     } catch (error) {
       if (error?.response) {
@@ -59,7 +71,10 @@ const CustomerAgreementForm = () => {
       getCustomerData();
     }
   }, [id]);
-  console.log("agreement id", agreementId);
+  const openFileHandler = () => {
+    const fullFileUrl = `${baseURL}${customerData?.sign_pdf_url}`;
+    window.open(fullFileUrl, "_blank");
+  };
   const sendFormByEmail = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -92,6 +107,7 @@ const CustomerAgreementForm = () => {
   const closeSignatureModel = () => {
     setIsSignatureModelOpen(false);
   };
+  console.log("show pdf buttons", showPdfButton);
 
   const formik = useFormik({
     initialValues: {
@@ -135,7 +151,7 @@ const CustomerAgreementForm = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          getCustomerData();
+          await getCustomerData();
         }
       } catch (error) {
         if (error?.response) {
@@ -207,7 +223,32 @@ const CustomerAgreementForm = () => {
         <h1 className="font-poppins font-medium text-xl text-center mb-4 md:mb-0">
           Customer Agreement
         </h1>
-        <div className="flex items-center justify-center gap-6">
+        {showPdfButton ? (
+          <Button
+            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+            onClick={openFileHandler}
+          >
+            View Pdf
+          </Button>
+        ) : (
+          <div className="flex items-center justify-center gap-6">
+            <Button
+              className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+              onClick={showSignatureModel}
+              disabled={isApprovalButtonDisabled}
+            >
+              Sign Now
+            </Button>
+            <Button
+              className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+              onClick={sendFormByEmail}
+              disabled={isApprovalButtonDisabled}
+            >
+              Send for Approval
+            </Button>
+          </div>
+        )}
+        {/* <div className="flex items-center justify-center gap-6">
           <Button
             className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
             onClick={showSignatureModel}
@@ -222,7 +263,7 @@ const CustomerAgreementForm = () => {
           >
             Send for Approval
           </Button>
-        </div>
+        </div> */}
       </div>
       <div className="bg-white p-5 rounded-2xl">
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
@@ -280,9 +321,16 @@ const CustomerAgreementForm = () => {
           </div>
           <Button
             type="submit"
-            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
+            disabled={formik?.isSubmitting}
+            className="w-full max-w-24 font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
           >
-            Save
+            {formik?.isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </Form>
       </div>
