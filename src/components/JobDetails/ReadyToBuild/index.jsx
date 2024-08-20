@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { readyToBuildSchema } from "@services/schema";
 import { Spin } from "antd";
 import { Loader } from "@components/UI";
+
 const ReadyToBuild = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ const ReadyToBuild = () => {
     time: null,
     text: "",
   });
+
   useEffect(() => {
     const getReadyToBuildData = async () => {
       try {
@@ -42,7 +44,7 @@ const ReadyToBuild = () => {
             },
           }
         );
-        console.log("response on ready to build form", response);
+
         if (response?.status >= 200 && response?.status < 300) {
           const data = response?.data?.data;
           const formattedInitialDate = data?.date
@@ -70,24 +72,22 @@ const ReadyToBuild = () => {
     };
     if (id) getReadyToBuildData();
   }, [id]);
+
   const formik = useFormik({
     initialValues,
     enableReinitialize: true,
     validationSchema: readyToBuildSchema,
     onSubmit: async (values, actions) => {
-      // Format time with leading zero for single-digit hours and include AM/PM
       const formattedTime = values.time
         ? dayjs(values.time).format("hh:mm A")
         : "Invalid Time";
-      // Format date to 'DD/MM/YYYY'
       const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
-      // Prepare the data to send to the server
       const formattedValues = {
         ...values,
         time: formattedTime,
         date: formattedDate,
       };
-      console.log("Formatted values", formattedValues);
+
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
@@ -101,7 +101,6 @@ const ReadyToBuild = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          // actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -112,6 +111,7 @@ const ReadyToBuild = () => {
       }
     },
   });
+
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
@@ -160,19 +160,21 @@ const ReadyToBuild = () => {
           </InputContainer>
           <Ckeditor
             label="Notes"
-            id="notes"
+            id="text"
             className="mb-4"
             value={formik.values.text}
             onChange={(content) => formik.setFieldValue("text", content)}
+            error={formik.errors.text}
+            touched={formik.touched.text}
           />
           <Button
-            disabled={formik?.isSubmitting}
+            disabled={formik.isSubmitting}
             type="submit"
-            className="text-white btn-gradient px-4 py-1"
+            className="w-full max-w-28 text-white btn-gradient px-4 py-1"
           >
-            {formik?.isSubmitting ? (
+            {formik.isSubmitting ? (
               <div className="flex justify-center items-center">
-                <Loader width={"28px"} height={"28px"} color="#fff" />
+                <Loader width={"24px"} height={"24px"} color="#fff" />
               </div>
             ) : (
               "Build SMS"
@@ -183,4 +185,5 @@ const ReadyToBuild = () => {
     </Fragment>
   );
 };
+
 export default ReadyToBuild;

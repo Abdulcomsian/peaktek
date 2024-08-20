@@ -213,13 +213,13 @@ input::placeholder {
 }
 .ql-toolbar.ql-snow + .ql-container.ql-snow {
   border-radius: 8px !important;
-  min-height: 5rem;
+  min-height: 6rem;
   border: 1px solid #cccccc52 !important;
 }
 
-.ql-editor {
+/* .ql-editor {
   margin-bottom: 3rem;
-}
+} */
 
 .ql-editor img {
   width: 40%;

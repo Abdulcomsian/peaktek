@@ -82,32 +82,6 @@ const cocSchema = Yup.object().shape({
   ),
   company_signed_date: Yup.date().required("Company Signed Date is required"),
 });
-
-const inProgressSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  phone: Yup.number().required("Phone is required"),
-  street: Yup.string().required("Street is required"),
-  city: Yup.string().required("City is required"),
-  state: Yup.string().required("State is required"),
-  zip_code: Yup.number().required("Zip code is required"),
-  claim_number: Yup.number().required("Claim number is required"),
-  policy_number: Yup.number().required("Policy number is required"),
-  insurance: Yup.string().required("Insurance is required"),
-  company_signature: Yup.string().required("Company signature is required"),
-  company_printed_name: Yup.string().required(
-    "Company printed name is required"
-  ),
-  company_date: Yup.date().required("Company date is required"),
-
-  customer_signature: Yup.string().required("Customer signature is required"),
-  customer_printed_name: Yup.string().required(
-    "Customer printed name is required"
-  ),
-  customer_date: Yup.date().required("Customer date is required"),
-});
 const schedulingSchema = Yup.object().shape({
   street: Yup.string().required("Street is required"),
   city: Yup.string().required("City is required"),
@@ -151,6 +125,42 @@ const schedulingSchema = Yup.object().shape({
     )
     .min(1, "At least one material must be added"),
 });
+const inProgressSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  phone: Yup.string().required("Phone is required"), // Changed to string to handle phone numbers properly
+  street: Yup.string().required("Street is required"),
+  city: Yup.string().required("City is required"),
+  state: Yup.string().required("State is required"),
+  zip_code: Yup.string().required("Zip code is required"), // Changed to string to handle zip codes properly
+  claim_number: Yup.string().required("Claim number is required"),
+  policy_number: Yup.string().required("Policy number is required"),
+  insurance: Yup.string().required("Insurance is required"),
+  company_signature: Yup.string().required("Company signature is required"),
+  company_printed_name: Yup.string().required(
+    "Company printed name is required"
+  ),
+  company_date: Yup.date().required("Company date is required"),
+
+  customer_signature: Yup.string().required("Customer signature is required"),
+  customer_printed_name: Yup.string().required(
+    "Customer printed name is required"
+  ),
+  customer_date: Yup.date().required("Customer date is required"),
+
+  materials: Yup.array()
+    .of(
+      Yup.object().shape({
+        material: Yup.string().required("Material is required"),
+        damaged: Yup.boolean(),
+        notes: Yup.string().required("Notes is required"),
+      })
+    )
+    .min(1, "At least one material is required"),
+});
+
 const renameFilesSchema = Yup.object().shape({
   file_name: Yup.string()
     .required("File name is required")

@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { renameFilesSchema } from "@services/schema";
 import { Loader } from "@components/UI";
 import { RiDeleteBin6Line } from "react-icons/ri";
+
 const RenameFiles = ({ file, id, refreshData }) => {
   const {
     values,
@@ -16,11 +17,11 @@ const RenameFiles = ({ file, id, refreshData }) => {
     handleBlur,
     handleChange,
     handleSubmit,
-
     setValues,
+    setSubmitting,
   } = useFormik({
     initialValues: {
-      file_name: "", // Initialize with the file name or an empty string
+      file_name: file?.file_name || "", // Initialize with the file name or an empty string
     },
     enableReinitialize: true,
     validationSchema: renameFilesSchema,
@@ -40,7 +41,7 @@ const RenameFiles = ({ file, id, refreshData }) => {
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
           if (refreshData) {
-            refreshData(); // Trigger the data refresh in MediaContent
+            refreshData(); // Trigger the data refresh
           }
         }
       } catch (error) {
@@ -49,20 +50,25 @@ const RenameFiles = ({ file, id, refreshData }) => {
             error?.response?.data?.error || error?.response?.data?.message
           );
         }
+      } finally {
+        setSubmitting(false); // Reset submitting state
       }
     },
   });
-  const openFileHandler = () => {
-    const fullFileUrl = `${baseURL}${file?.media_url}`;
-    window.open(fullFileUrl, "_blank");
-  };
+
   useEffect(() => {
     if (file) {
       setValues({
         file_name: file?.file_name || "", // Set the file name in the form
       });
     }
-  }, []);
+  }, [file, setValues]);
+
+  const openFileHandler = () => {
+    const fullFileUrl = `${baseURL}${file?.media_url}`;
+    window.open(fullFileUrl, "_blank");
+  };
+
   const deleteFilehandler = async (e) => {
     e.preventDefault();
     try {
@@ -77,10 +83,10 @@ const RenameFiles = ({ file, id, refreshData }) => {
         }
       );
       if (response?.status >= 200 && response?.status < 300) {
-        if (refreshData) {
-          await refreshData(); // Refresh the data after deletion
-        }
         toast.success(response?.data?.message);
+        if (refreshData) {
+          refreshData(); // Refresh the data after deletion
+        }
       }
     } catch (error) {
       if (error?.response) {
@@ -90,11 +96,9 @@ const RenameFiles = ({ file, id, refreshData }) => {
       }
     }
   };
+
   return (
-    <Form
-      className="flex flex-col md:flex-row mb-4 max-w-full"
-      onSubmit={handleSubmit}
-    >
+    <div className="flex flex-col md:flex-row mb-4 max-w-full">
       <TextBox
         placeholder={`Enter file name`}
         type="text"
@@ -117,8 +121,9 @@ const RenameFiles = ({ file, id, refreshData }) => {
         </Button>
 
         <Button
-          className="w-full max-w-24 text-center text-white btn-gradient px-2 py-1  mr-4 h-11"
-          type="submit"
+          className="w-full max-w-24 text-center text-white btn-gradient px-2 py-1 mr-4 h-11"
+          type="button" // Changed to "button" to avoid submitting the parent form
+          onClick={() => handleSubmit()}
           disabled={isSubmitting}
         >
           {isSubmitting ? (
@@ -137,7 +142,7 @@ const RenameFiles = ({ file, id, refreshData }) => {
           <RiDeleteBin6Line size={20} className="text-inherit" />
         </Button>
       </div>
-    </Form>
+    </div>
   );
 };
 

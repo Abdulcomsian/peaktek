@@ -5,9 +5,7 @@ import { ArrowFileIcon, ImageIcon, Loader } from "@components/UI";
 import { toast } from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import RenameFiles from "@components/Forms/Overturn/RenameFiles";
-import { useParams } from "react-router-dom";
-const OverturnAttachments = () => {
-  const { id } = useParams();
+const OverturnAttachments = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [showRenameBox, setShowRenameBox] = useState(false);
   const [overturnData, setOverturnData] = useState(null);
@@ -23,7 +21,7 @@ const OverturnAttachments = () => {
         console.error("No token found");
         return;
       }
-      setLoading(true);
+
       const response = await clientBaseURL.get(
         `${clientEndPoints?.getOverturn}/${id}`,
         {
@@ -44,13 +42,13 @@ const OverturnAttachments = () => {
           error?.response?.data?.error || error?.response?.data?.message
         );
       }
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
-    getOverturnData();
-  }, []);
+    if (id) {
+      getOverturnData();
+    }
+  }, [id]);
   // Function to refresh data after a file name change
   const refreshData = () => {
     getOverturnData();
@@ -107,7 +105,7 @@ const OverturnAttachments = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <div className="flex flex-col md:flex-row">
-        <div className="w-full mr-4">
+        <div className="w-full md:mr-4">
           <FileUploader
             label="Images"
             id="images"
