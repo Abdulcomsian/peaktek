@@ -124,8 +124,8 @@ export async function createInspections(dataToLoad, id) {
   // const formData = new FormData();
 
   // dataToLoad.forEach(data => formData.append("inspections", data))
-  
-  console.log("FINAL DATA TO LOAD", dataToLoad)
+
+  console.log("FINAL DATA TO LOAD", dataToLoad);
 
   try {
     const resp = await clientBaseURL.post(
@@ -145,5 +145,45 @@ export async function createInspections(dataToLoad, id) {
     } else {
       console.error("Error:", error.message);
     }
+  }
+}
+
+export async function getInspection(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = clientBaseURL.get(`${clientEndPoints.getInspection}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function createQuoteDetail(data, id) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = clientBaseURL.post(
+      `${clientEndPoints.createQuoteDetail}/${id}`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function createAuthorization(dataToLoad, id) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = clientBaseURL.post(
+      `${clientEndPoints.createAuthorization}/${id}`,
+      dataToLoad,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
   }
 }

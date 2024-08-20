@@ -5,6 +5,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { ItemsList } from "@components/Forms";
 import { Input, InputContainer, Button, Card, Textarea } from "@components";
 import { useForm } from "react-hook-form";
+import { createAuthorization } from "@services/apiDesignMeeting";
+import { useParams } from "react-router-dom";
 
 export default function AuthorizationForm() {
   const {
@@ -12,16 +14,21 @@ export default function AuthorizationForm() {
     handleSubmit,
     formState: { errors },
     getValues,
+    watch,
+    setValue,
   } = useForm();
   const [sections, setSections] = useState([{ title: "", section_total: 0 }]);
+  const { id: jobId } = useParams();
 
   const handleAddSection = function () {
     const objectToAdd = Object.assign({}, sections.at(0));
     setSections((section) => [...section, objectToAdd]);
   };
 
-  const onSubmit = function (data) {
+  const onSubmit = async function (data) {
     console.log(data);
+    const resp = await createAuthorization(data, jobId);
+    console.log(resp);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -54,6 +61,8 @@ export default function AuthorizationForm() {
               register={register}
               sectionIndex={index}
               getValues={getValues}
+              watch={watch}
+              setValue={setValue} // Pass setValue to ItemsList
             />
           </>
         ))}

@@ -8,12 +8,12 @@ import { Modal } from "antd";
 import { Button } from "@components";
 import { Ckeditor } from "@components/FormControls";
 import { ImageIcon } from "@components/UI";
-import { createInspections } from "@services/apiDesignMeeting";
+import { createInspections, getInspection } from "@services/apiDesignMeeting";
 import { useParams } from "react-router-dom";
 
 export default function InspectionForm() {
   const { id } = useParams();
-  const [initialData, setInitialData] = useState("");
+  const [initialData, setInitialData] = useState([]);
   const [receivedData, setReceivedData] = useState([]);
   const [rows, setRows] = useState([{ id: 0 }]);
   const [rowToDelete, setRowToDelete] = useState(null);
@@ -22,7 +22,19 @@ export default function InspectionForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async function () {
+      const resp = await getInspection(id);
+      console.log(resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        setRows(resp.data.data);
+        setInitialData(resp.data.data.map((dataToMap) => dataToMap.inspection));
+        return resp.data.data.map((dataToMap) => {});
+      }
+    },
+  });
+
+  console.log(initialData);
 
   const addRow = () => {
     const lastRowId = rows.at(-1).id;
@@ -58,7 +70,7 @@ export default function InspectionForm() {
   };
 
   const onSubmit = async function (data) {
-    console.log("Submition form", data)
+    console.log("Submition form", data);
     let imagesArrayConst = [];
     const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
       const images = data[`attachment-${index}`];
@@ -68,34 +80,31 @@ export default function InspectionForm() {
           imagesArrayConst.push(file);
         }
       } else imagesArrayConst = [];
-      
+
       return [
         ...dataToLoad,
         { inspection: curr, attachment: imagesArrayConst },
       ];
     }, []);
-    
+
     const dataToLoad = { inspections: formatedData };
-    console.log("dataa", dataToLoad)
+    console.log("dataa", dataToLoad);
 
-    let form = new FormData;
-    dataToLoad.inspections.forEach( (item , index )=> {
-      form.append(`data[${index}]['inspection']` , item.inspection );
+    let form = new FormData();
+    dataToLoad.inspections.forEach((item, index) => {
+      form.append(`data[${index}][inspection]`, item.inspection);
       let attachment = item.attachment;
-      for(let i=0; i< attachment.length; i++)
-      {
-        form.append(`data[${index}]['file'][${i}]` ,  attachment[i])
+      for (let i = 0; i < attachment.length; i++) {
+        form.append(`data[${index}][attachment][${i}]`, attachment[i]);
       }
-
-    })
-
+    });
 
     const resp = await createInspections(form, id);
   };
 
-  const onerror = function(data){
-    console.log(data)
-  }
+  const onerror = function (data) {
+    console.log(data);
+  };
 
   return (
     <>
@@ -114,7 +123,8 @@ export default function InspectionForm() {
             <Ckeditor
               className=" md:col-start-1 col-span-2 md:col-span-1"
               onChange={(data) => handleDataChange(data, index)}
-              initialData={initialData}
+              initialData="test"
+              value={initialData.at(index)}
               id={index}
             />
             <UploaderInputs

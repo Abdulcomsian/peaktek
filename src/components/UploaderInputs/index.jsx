@@ -13,13 +13,17 @@ export default function UploaderInputs({
   icon,
   multiple = true,
   error,
-  defaultFiles=[]
+  defaultFiles = [],
+  onFileChange,
 }) {
   const [files, setFiles] = useState([]);
+  console.log("Default files", defaultFiles);
 
   // useEffect(() => {
-  //   if(defaultFiles) setFiles(multiple ? defaultFiles : [defaultFiles])
-  // }, [defaultFiles, multiple])
+  //   if(defaultFiles.length > 0) setFiles(files => [...files, defaultFiles])
+  // }, [defaultFiles.length])
+
+  console.log("FILES TO UPLOAD", files);
 
   const handleFiles = (selectedFiles) => {
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
@@ -27,6 +31,7 @@ export default function UploaderInputs({
     );
 
     setFiles((files) => [...files, ...filteredFiles]);
+    onFileChange?.(filteredFiles);
   };
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -67,7 +72,8 @@ export default function UploaderInputs({
         </div>
       </label>
       {error && <p className="text-sm mt-1 text-red-500 py-1">{error}</p>}
-      {!multiple ? <UploadedImageItems file={defaultFiles} /> : <NamedImageItems files={files} register={register} />}
+      <UploadedImageItems files={files} />
+      {/* {multiple && defaultFiles.length > 0 && <NamedImageItems files={files} register={register} />} */}
 
       <input
         type="file"

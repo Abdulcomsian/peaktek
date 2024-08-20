@@ -2,24 +2,34 @@ import { clientBaseURL, clientEndPoints } from "./config";
 
 export async function getJobs() {
   const token = localStorage.getItem("token");
-  const myHeaders = new Headers();
-  myHeaders.append("Accept", "application/json");
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", `Bearer ${token}`);
+  // const myHeaders = new Headers();
+  // myHeaders.append("Accept", "application/json");
+  // myHeaders.append("Content-Type", "application/json");
+  // myHeaders.append("Authorization", `Bearer ${token}`);
 
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
+  // const requestOptions = {
+  //   method: "GET",
+  //   headers: myHeaders,
+  //   redirect: "follow",
+  // };
 
-  const resp = await fetch(
-    "https://test7.accrualdev.com/api/get/jobs",
-    requestOptions
-  );
-  // if (!resp.ok) throw new Error("Something went wrong.");
-  const data = await resp.json();
-  return data;
+  try {
+    const resp = await clientBaseURL.get(`${clientEndPoints.getJobs}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("RESPPPP", resp);
+    return resp;
+  } catch (error) {
+    return error;
+  }
+
+  // const resp = await fetch(
+  //   "https://c30a-2407-d000-d-98ea-f0a8-bce4-6bfd-adb0.ngrok-free.app/api/get/jobs",
+  //   requestOptions
+  // );
+  // // if (!resp.ok) throw new Error("Something went wrong.");
+  // const data = await resp.json();
+  // return data;
 }
 
 export async function createJob({ address, name, email, phone }) {
@@ -74,17 +84,17 @@ export async function getJobApi(id) {
 }
 
 export async function updateJobStatus(job, destinationColumn) {
-  const {id} = job;
-  const {id: status_id} = destinationColumn
-  console.log("FRPM API CALL", status_id, id)
+  const { id } = job;
+  const { id: status_id } = destinationColumn;
+  console.log("FRPM API CALL", status_id, id);
   const token = localStorage.getItem("token");
   try {
     const resp = await clientBaseURL.post(
       `${clientEndPoints.updateJobStatus}/${id}`,
-      {status_id},
+      { status_id },
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log(resp)
+    console.log(resp);
   } catch (error) {
     console.log(error);
   }
