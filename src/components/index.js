@@ -12,13 +12,9 @@ import {
 } from "./FormControls";
 import InputContainer from "./InputContainer";
 import Logo from "./Logo";
-
 import Header from "./Header";
-
 import TableRows from "./TableRows";
 import { Button, Card } from "./UI";
-import UserList from "./User/UserList";
-import ManageUser from "./User/ManageUser";
 import UploaderInputs from "./UploaderInputs";
 import ErrorMessage from "./ErrorMessage";
 
@@ -39,8 +35,6 @@ export {
   FileUploader,
   SearchInput,
   FileInput,
-  UserList,
-  ManageUser,
   UploaderInputs,
   ErrorMessage,
 };
