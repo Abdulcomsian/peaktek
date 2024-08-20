@@ -50,11 +50,18 @@ export async function login({ email, password }) {
     redirect: "follow",
   };
 
-  const resp = await fetch(
-    "https://test7.accrualdev.com/api/login",
-    requestOptions
-  );
+  try {
+    const resp = clientBaseURL.post(`${clientEndPoints.login}`, formdata);
+    return resp;
+  } catch (error) {
+    return error;
+  }
 
-  const data = await resp.json();
-  return data;
+  // const resp = await fetch(
+  //   "https://c30a-2407-d000-d-98ea-f0a8-bce4-6bfd-adb0.ngrok-free.app/api/login",
+  //   requestOptions
+  // );
+
+  // const data = await resp.json();
+  // return data;
 }

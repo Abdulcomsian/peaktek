@@ -1,3 +1,4 @@
+import CenteredSpinner from "@components/CenteredSpinner";
 import { Ckeditor } from "@components/FormControls";
 import { Button } from "@components/UI";
 import { useAuth } from "@context/AuthContext";
@@ -63,6 +64,8 @@ export default function IntroductionForm() {
       setIsLoading(false);
     }
   };
+
+  if(isLoadingInitialData) return <CenteredSpinner />
   return (
     <>
       <Ckeditor

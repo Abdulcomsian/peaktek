@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ItemsRow } from "@components/Forms";
 import { Button } from "@components";
 import { Input } from "@components/FormControls";
 
-const ItemsList = ({ className, sectionIndex, register }) => {
+const ItemsList = ({ className, sectionIndex, register, watch, setValue }) => {
   const [items, setItems] = useState([{ item: "", quantity: 0, price: 0 }]);
-  const totalAmount = 6.5;
+
+  // Watch for changes in line_total values
+  const lineTotals = items.map((_, index) =>
+    watch(`sections[${sectionIndex}].items[${index}].line_total`, 0)
+  );
+
+  const sectionTotal = useMemo(() => {
+    return lineTotals
+      .reduce((acc, total) => acc + parseFloat(total || 0), 0)
+      .toFixed(2);
+  }, [lineTotals]);
+
+  useEffect(() => {
+    setValue(`sections[${sectionIndex}].section_total`, sectionTotal);
+  }, [sectionTotal, sectionIndex, setValue]);
 
   const handleAddRow = () => {
     setItems([...items, { item: "", quantity: 0, price: 0 }]);
@@ -19,14 +33,15 @@ const ItemsList = ({ className, sectionIndex, register }) => {
   return (
     <div className={className}>
       <div className="w-full mx-auto mb-8">
-        {items?.map((item, index) => (
+        {items.map((item, index) => (
           <ItemsRow
             key={index}
-            // item={item}
             index={index}
             handleDelete={handleDelete}
             sectionIndex={sectionIndex}
             register={register}
+            watch={watch}
+            setValue={setValue}
           />
         ))}
       </div>

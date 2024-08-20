@@ -1,6 +1,8 @@
 import axios from "axios";
 const stagingURL = "https://peaktek.vercel.app";
-const baseURL = "https://test7.accrualdev.com";
+// const baseURL = "https://test7.accrualdev.com";
+const baseURL =
+  "https://c30a-2407-d000-d-98ea-f0a8-bce4-6bfd-adb0.ngrok-free.app";
 
 const clientBaseURL = axios.create({
   baseURL,
@@ -39,10 +41,16 @@ const clientEndPoints = {
   createTitle: "/api/store/project-design/title",
   //Inspection form
   createInspection: "/api/store/project-design/inspection",
+  getInspection: "/api/get/project-design/inspection",
   updateQcInspectionFilename: "api/change/qc-inspection/file-name",
   //Introduction form
   createIntroduction: "/api/store/project-design/introduction",
   getIntroduction: "/api/get/project-design/introduction",
+
+  //Quote Detail Form
+  createQuoteDetail: "/api/store/project-design/quote",
+  // Authorization Form
+  createAuthorization: "/api/store/project-design/authorization",
   ///Adjustor Meeting
   createAdjustorMeeting: "/api/create/adjustor-meeting",
   getAdjustorMeeting: "/api/get/adjustor-meeting",
