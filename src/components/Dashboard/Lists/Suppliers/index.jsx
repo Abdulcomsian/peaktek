@@ -99,7 +99,13 @@ const Suppliers = () => {
         />
       </div>
       {showModal && (
-        <AddUser open={showModal} onOk={closeModel} onCancel={closeModel} />
+        <AddUser
+          roleId={4}
+          heading="Create New Supplier"
+          open={showModal}
+          onOk={closeModel}
+          onCancel={closeModel}
+        />
       )}
     </div>
   );

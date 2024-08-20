@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { addUserSchema } from "@services/schema";
 import { Loader } from "@components/UI";
 
-const AddUser = ({ id, heading, open, onCancel, onOk }) => {
+const AddUser = ({ roleId, heading, open, onCancel, onOk }) => {
   const {
     values,
     errors,
@@ -28,8 +28,11 @@ const AddUser = ({ id, heading, open, onCancel, onOk }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
-          `${clientEndPoints?.createOverturn}/${id}`,
-          values,
+          `${clientEndPoints?.createUsers}`,
+          {
+            ...values,
+            role_id: roleId,
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -38,6 +41,7 @@ const AddUser = ({ id, heading, open, onCancel, onOk }) => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
+          actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {

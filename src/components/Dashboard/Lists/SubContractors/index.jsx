@@ -99,7 +99,13 @@ const SubContractors = () => {
         />
       </div>
       {showModal && (
-        <AddUser open={showModal} onOk={closeModel} onCancel={closeModel} />
+        <AddUser
+          roleId={3}
+          heading="Create New Sub Contractor"
+          open={showModal}
+          onOk={closeModel}
+          onCancel={closeModel}
+        />
       )}
     </div>
   );

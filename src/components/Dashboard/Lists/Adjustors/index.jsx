@@ -99,7 +99,13 @@ const Adjustors = () => {
         />
       </div>
       {showModal && (
-        <AddUser open={showModal} onOk={closeModel} onCancel={closeModel} />
+        <AddUser
+          roleId={6}
+          heading="Create New Adjustor"
+          open={showModal}
+          onOk={closeModel}
+          onCancel={closeModel}
+        />
       )}
     </div>
   );

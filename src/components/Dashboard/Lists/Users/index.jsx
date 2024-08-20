@@ -99,7 +99,13 @@ const Users = () => {
         />
       </div>
       {showModal && (
-        <AddUser open={showModal} onOk={closeModel} onCancel={closeModel} />
+        <AddUser
+          roleId={5}
+          heading="Create New User"
+          open={showModal}
+          onOk={closeModel}
+          onCancel={closeModel}
+        />
       )}
     </div>
   );
