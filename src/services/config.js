@@ -41,10 +41,16 @@ const clientEndPoints = {
   createTitle: "/api/store/project-design/title",
   //Inspection form
   createInspection: "/api/store/project-design/inspection",
+  getInspection: "/api/get/project-design/inspection",
   updateQcInspectionFilename: "api/change/qc-inspection/file-name",
   //Introduction form
   createIntroduction: "/api/store/project-design/introduction",
   getIntroduction: "/api/get/project-design/introduction",
+
+  //Quote Detail Form
+  createQuoteDetail: "/api/store/project-design/quote",
+  // Authorization Form
+  createAuthorization: "/api/store/project-design/authorization",
   ///Adjustor Meeting
   createAdjustorMeeting: "/api/create/adjustor-meeting",
   getAdjustorMeeting: "/api/get/adjustor-meeting",

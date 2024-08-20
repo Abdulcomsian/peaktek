@@ -17,7 +17,7 @@ const tabsDesignMeeting = [
   { id: 1, title: "Carrier Scope" },
   { id: 2, title: "Title" },
   { id: 3, title: "Introduction" },
-  { id: 4, title: "Inseption" },
+  { id: 4, title: "Inspection" },
   { id: 5, title: "Quote Detail" },
   { id: 6, title: "Authorization" },
   { id: 7, title: "Payment Schedule" },

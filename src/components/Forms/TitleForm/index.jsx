@@ -33,8 +33,6 @@ export default function TitleForm() {
   });
 
   const onSubmit = async function (data) {
-    console.log("daatata", data)
-    
     const finalDataToUpload = {
       ...data,
       primary_image: data.primary_image instanceof FileList ? data.primary_image[0] : null,

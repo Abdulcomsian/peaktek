@@ -27,23 +27,18 @@ const Login = () => {
   );
 
   const onSubmit = async function (data) {
-    try {
-      setIsLoading(true);
-      const resp = await login(data);
-      if (resp.status >= 200 && resp.status < 300) {
-        localStorage.setItem("token", resp.token);
-        setIsAuthenticated(true);
-        navigate("/dashboard");
-        toast.success(resp.message);
-      } else {
-        toast.error(resp.message);
-      }
-    } catch (error) {
-      console.log("Error from catch block", error);
-      // toast.error(error);
-    } finally {
-      setIsLoading(false);
+    setIsLoading(true);
+    const resp = await login(data);
+    console.log(resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      localStorage.setItem("token", resp.data.token);
+      setIsAuthenticated(true);
+      navigate("/dashboard");
+      toast.success(resp.data.message);
+    } else {
+      toast.error(resp.message);
     }
+    setIsLoading(false);
   };
 
   return (

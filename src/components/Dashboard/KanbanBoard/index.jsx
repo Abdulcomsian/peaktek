@@ -45,13 +45,15 @@ function KanbanBoard() {
       try {
         setIsLoading(true);
         const resp = await getJobs();
-        if (resp.status >= 200 && resp.status < 300) {
-          dispatch(boardDataLoaded(resp.data));
-        }
-        if (resp.status === 500) toast.error("Something went wrong.");
-        if (resp.status === 401) {
-          logout();
-        }
+
+        console.log(resp);
+        // if (resp.status >= 200 && resp.status < 300) {
+        //   dispatch(boardDataLoaded(resp.data));
+        // }
+        // if (resp.status === 500) toast.error("Something went wrong.");
+        // if (resp.status === 401) {
+        //   logout();
+        // }
       } catch (err) {
         console.log(err);
         toast.error(err.message);
@@ -122,53 +124,59 @@ function KanbanBoard() {
   const handleDragEnd = async (event) => {
     const { active, over } = event;
     if (!over) return;
-  
+
     const { id: activeId } = active;
     const { id: overId } = over;
 
     // console.log("IDS", activeId, overId)
-  
+
     // Check if we're dragging a task, not a column
     // if (!`${activeId}`.startsWith("column-") && !`${overId}`.startsWith("column-")) {
-      // console.log("HERE", data)
-      // Find source and destination columns
-      const sourceColumn = data.find((job) => job.tasks.some((task) => task.id === activeId));
-      const destinationColumn = data.find((job) => `column-${job.id}` === overId);
-  
-      console.log("COLUMNS", sourceColumn, destinationColumn)
-      if (
-        sourceColumn &&
-        destinationColumn &&
-        sourceColumn.id !== destinationColumn.id
-      ) {
-        const draggedTask = sourceColumn.tasks.find((task) => task.id === activeId);
-        console.log("DRAG TASK", draggedTask)
-  
-        // Remove task from source column
-        const updatedSourceColumn = {
-          ...sourceColumn,
-          tasks: sourceColumn.tasks.filter((task) => task.id !== activeId),
-        };
-  
-        // Add task to destination column
-        const updatedDestinationColumn = {
-          ...destinationColumn,
-          tasks: [...destinationColumn.tasks, draggedTask],
-        };
+    // console.log("HERE", data)
+    // Find source and destination columns
+    const sourceColumn = data.find((job) =>
+      job.tasks.some((task) => task.id === activeId)
+    );
+    const destinationColumn = data.find((job) => `column-${job.id}` === overId);
 
-        console.log(data,updatedSourceColumn, updatedDestinationColumn)
+    console.log("COLUMNS", sourceColumn, destinationColumn);
+    if (
+      sourceColumn &&
+      destinationColumn &&
+      sourceColumn.id !== destinationColumn.id
+    ) {
+      const draggedTask = sourceColumn.tasks.find(
+        (task) => task.id === activeId
+      );
+      console.log("DRAG TASK", draggedTask);
 
-        dispatch(updateColumn({updatedSourceColumn, updatedDestinationColumn}))
-        try{
-          const resp = await updateJobStatus(draggedTask, updatedDestinationColumn )
-          console.log(resp)
-        }catch(error){
-          console.log(error)
-        }
+      // Remove task from source column
+      const updatedSourceColumn = {
+        ...sourceColumn,
+        tasks: sourceColumn.tasks.filter((task) => task.id !== activeId),
+      };
+
+      // Add task to destination column
+      const updatedDestinationColumn = {
+        ...destinationColumn,
+        tasks: [...destinationColumn.tasks, draggedTask],
+      };
+
+      console.log(data, updatedSourceColumn, updatedDestinationColumn);
+
+      dispatch(updateColumn({ updatedSourceColumn, updatedDestinationColumn }));
+      try {
+        const resp = await updateJobStatus(
+          draggedTask,
+          updatedDestinationColumn
+        );
+        console.log(resp);
+      } catch (error) {
+        console.log(error);
       }
+    }
     // }
   };
-  
 
   const handleAddJob = () => {
     setAddNewJobModal((is) => !is);
@@ -218,7 +226,7 @@ function KanbanBoard() {
             sensors={sensors}
           >
             <SortableContext
-              items={data.map((col) => col.id)}
+              items={data?.map((col) => col.id)}
               strategy={rectSortingStrategy}
             >
               <div style={{ display: "flex", gap: "16px" }}>
