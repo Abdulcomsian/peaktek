@@ -95,7 +95,7 @@ const Login = () => {
               to="forgotpassword"
               className="text-gray-500 font-medium text-base"
             >
-              Forget password?
+              Forgot password?
             </Link>
             {/* <Button
               className="text-blue-600 font-medium text-base"

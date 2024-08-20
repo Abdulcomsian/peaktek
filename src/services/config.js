@@ -13,7 +13,8 @@ const clientEndPoints = {
   login: "/api/login",
   updateJobSummary: "/api/update/job-summary",
   updateJobContent: "/api/update/job-content",
-
+  //create user
+  createUsers: "/api/create/user",
   //Jobs End points
   createJob: "/api/create-job",
   getJobs: "/api/get/jobs",

@@ -35,9 +35,6 @@ const Summary = () => {
     let balance =
       jobTotal - firstPayment - deductable - upgrades - finalPayment;
 
-    if (balance < 0) {
-      balance = 0;
-    }
     setFields((prevFields) => ({
       ...prevFields,
       balance: balance.toFixed(2),
