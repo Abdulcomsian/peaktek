@@ -226,3 +226,13 @@ input::placeholder {
   height: 400px;
   object-fit: contain;
 }
+/* Custom styles for the SelectBox */
+.custom-select .ant-select-selector {
+  background-color: #f9fafb !important; /* bg-gray-50 */
+  padding: 0.625rem !important; /* p-2.5 */
+  border-radius: 0.375rem !important; /* Maintain rounded corners */
+}
+
+.custom-select .ant-select-selector:hover {
+  background-color: #ffffff !important; /* white */
+}
