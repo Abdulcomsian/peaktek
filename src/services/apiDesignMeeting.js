@@ -187,3 +187,66 @@ export async function createAuthorization(dataToLoad, id) {
     return error;
   }
 }
+
+export async function createRoofComponent(pdfFiles, id) {
+  console.log(pdfFiles);
+  const token = localStorage.getItem("token");
+  const formData = new FormData();
+
+  if (pdfFiles && pdfFiles.length) {
+    Array.from(pdfFiles).forEach((file) => {
+      formData.append("pdfs", file);
+    });
+  }
+
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.createRoofComponent}/${id}`,
+      formData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+export async function createXactimatereport(pdfFiles, id) {
+  console.log(pdfFiles);
+  const token = localStorage.getItem("token");
+  const formData = new FormData();
+
+  if (pdfFiles && pdfFiles.length) {
+    Array.from(pdfFiles).forEach((file) => {
+      formData.append("pdfs", file);
+    });
+  }
+
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.createRoofComponent}/${id}`,
+      formData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function createTermCondition(imageData, id) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints?.createTermCondition}/${id}`,
+      { sign_image: imageData },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

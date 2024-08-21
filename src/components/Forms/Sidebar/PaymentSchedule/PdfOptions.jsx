@@ -3,10 +3,8 @@ import { Radio } from "antd";
 import { Controller } from "react-hook-form";
 
 const pdfOptions = [
-  { value: 1, name: "pdf", label: "My PDFs" },
-  { value: 2, name: "share_pdf", label: "Shared PDFs" },
-  { value: 3, name: "signle_use_pdf", label: "Single Use PDFs" },
-  { value: 4, name: "text_page", label: "Text Page" },
+  { value: 1, name: "Upload pdf files", label: "Upload pdf files" },
+  { value: 2, name: "text_page", label: "Text Page" },
 ];
 
 const PdfOptions = ({

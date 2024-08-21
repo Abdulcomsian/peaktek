@@ -4,6 +4,7 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
+  server: { port: 8000 },
   resolve: {
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
