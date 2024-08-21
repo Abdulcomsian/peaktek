@@ -2,34 +2,18 @@ import { clientBaseURL, clientEndPoints } from "./config";
 
 export async function getJobs() {
   const token = localStorage.getItem("token");
-  // const myHeaders = new Headers();
-  // myHeaders.append("Accept", "application/json");
-  // myHeaders.append("Content-Type", "application/json");
-  // myHeaders.append("Authorization", `Bearer ${token}`);
-
-  // const requestOptions = {
-  //   method: "GET",
-  //   headers: myHeaders,
-  //   redirect: "follow",
-  // };
 
   try {
     const resp = await clientBaseURL.get(`${clientEndPoints.getJobs}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    console.log("RESPPPP", resp);
     return resp;
   } catch (error) {
+    console.log("EROR from API call", error);
     return error;
   }
-
-  // const resp = await fetch(
-  //   "https://c30a-2407-d000-d-98ea-f0a8-bce4-6bfd-adb0.ngrok-free.app/api/get/jobs",
-  //   requestOptions
-  // );
-  // // if (!resp.ok) throw new Error("Something went wrong.");
-  // const data = await resp.json();
-  // return data;
 }
 
 export async function createJob({ address, name, email, phone }) {

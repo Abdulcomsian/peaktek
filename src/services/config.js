@@ -2,7 +2,7 @@ import axios from "axios";
 const stagingURL = "https://peaktek.vercel.app";
 const baseURL = "https://test7.accrualdev.com";
 // const baseURL =
-//   "https://87b4-2407-d000-d-98ea-50a8-882e-5618-9913.ngrok-free.app";
+//   "https://693b-2407-d000-d-98ea-50a8-882e-5618-9913.ngrok-free.app";
 
 const clientBaseURL = axios.create({
   baseURL,
@@ -56,6 +56,12 @@ const clientEndPoints = {
   createQuoteDetail: "/api/store/project-design/quote",
   // Authorization Form
   createAuthorization: "/api/store/project-design/authorization",
+  // Roof Component
+  createRoofComponent: "/api/store/xactimate-report",
+
+  // Term and Condition
+  createTermCondition: "LATER",
+
   ///Adjustor Meeting
   createAdjustorMeeting: "/api/create/adjustor-meeting",
   getAdjustorMeeting: "/api/get/adjustor-meeting",

@@ -45,15 +45,13 @@ function KanbanBoard() {
       try {
         setIsLoading(true);
         const resp = await getJobs();
-
-        console.log(resp);
-        // if (resp.status >= 200 && resp.status < 300) {
-        //   dispatch(boardDataLoaded(resp.data));
-        // }
-        // if (resp.status === 500) toast.error("Something went wrong.");
-        // if (resp.status === 401) {
-        //   logout();
-        // }
+        if (resp.status >= 200 && resp.status < 300) {
+          dispatch(boardDataLoaded(resp.data.data));
+        }
+        if (resp.status === 500) toast.error("Something went wrong.");
+        if (resp.status === 401) {
+          logout();
+        }
       } catch (err) {
         console.log(err);
         toast.error(err.message);

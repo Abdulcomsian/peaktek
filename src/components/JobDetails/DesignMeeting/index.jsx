@@ -8,10 +8,14 @@ import {
   IntroductionForm,
   PaymentScheduleForm,
   QuoteDetailsForm,
+  RoofComponent,
+  TermandConditionForm,
+  TermsAndConditions,
   Title,
   TitleForm,
 } from "@components/Forms";
 import CarrierScope from "../CarrierScope";
+import XactimateReport from "@components/Forms/XactimateReport";
 
 const tabsDesignMeeting = [
   { id: 1, title: "Carrier Scope" },
@@ -42,6 +46,12 @@ function renderSection(currTab) {
       return <AuthorizationForm />;
     case 7:
       return <PaymentScheduleForm />;
+    case 8:
+      return <RoofComponent />;
+    case 9:
+      return <XactimateReport />;
+    case 10:
+      return <TermandConditionForm />;
   }
 }
 

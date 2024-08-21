@@ -18,9 +18,9 @@ const Button = ({
       " bg-gradient-to-r from-[#2E429B] to-[#18FAF8] bg-custom-gradient text-white",
     primaryOutline:
       base + `text-gray-700 text-base  hover:bg-blue-50 border border-blue-200`,
-    danger: base + "bg-red-500 text-white hover:bg-red-400",
-    accent: base + "bg-green-500 text-white hover:bg-green-400",
-    deleteBtn: "p-2 bg-red-200 rounded-md",
+    danger: base + " bg-red-500 text-white hover:bg-red-400",
+    accent: base + " bg-green-500 text-white hover:bg-green-400",
+    deleteBtn: " p-2 bg-red-200 rounded-md",
   };
 
   if (to) {
