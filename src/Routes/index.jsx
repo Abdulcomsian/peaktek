@@ -43,9 +43,13 @@ import {
   InProgress,
   Scheduling,
 } from "@components/JobDetails";
-import { KanbanBoard } from "@components/Dashboard";
-import { UserList } from "@components";
-import { ManageUser } from "@components/index";
+import {
+  KanbanBoard,
+  Users,
+  SubContractors,
+  Suppliers,
+  Adjustors,
+} from "@components/Dashboard";
 import Dealdetail from "@components/Dealdetail";
 import ProtectedRoute from "@components/ProtectedRoute";
 import Test from "@pages/Test";
@@ -98,8 +102,11 @@ export function AppRoute() {
           <Route index element={<Navigate to="jobs" />} />
           <Route path="jobs" element={<KanbanBoard />} />
           <Route path="completedTasks" element={<CompletedJobs />} />
-          <Route path="users" element={<UserList />} />
-          <Route path="manage-user" element={<ManageUser />} />
+          <Route path="users-list" element={<Users />} />
+          <Route path="sub-contractor-list" element={<SubContractors />} />
+          <Route path="suppliers-list" element={<Suppliers />} />
+          <Route path="adjustors-list" element={<Adjustors />} />
+          {/* <Route path="manage-user" element={<ManageUser />} /> */}
           <Route path="deals/:id" element={<Dealdetail />} />
         </Route>
         <Route path="/projects" element={<Projects />}>

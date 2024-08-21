@@ -1,6 +1,6 @@
 import LinkButton from "@components/UI/LinkButton";
-import TableComponent from "../TableComponent";
-import { Button } from "..";
+import TableComponent from "../../../TableComponent";
+import { Button } from "../../..";
 import { useState } from "react";
 import { NewUserModal } from "@components/Modals";
 

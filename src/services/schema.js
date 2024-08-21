@@ -1,5 +1,13 @@
 import * as Yup from "yup";
-
+const addUserSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name cannot be more than 50 characters")
+    .required("Name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+});
 const adjustorMeetingSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
@@ -172,6 +180,7 @@ const renameFilesSchema = Yup.object().shape({
     .max(50, "File name cannot exceed 50 characters"),
 });
 export {
+  addUserSchema,
   adjustorMeetingSchema,
   overturnMeetingSchema,
   createAgreementSchema,
