@@ -1,61 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Button } from "@components/UI";
+import { Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@context/AuthContext";
 import { Navbar } from "@components/Authentication";
-import { Form, PasswordBox, TextBox } from "@components/FormControls";
+import { Input } from "@components/FormControls";
+import { useAuth } from "@context/AuthContext";
+import { useForm } from "react-hook-form";
+import { login } from "@services/apiAuth";
 import toast from "react-hot-toast";
-import Button from "@components/JobDetails/Button";
-import { clientBaseURL, clientEndPoints } from "@services/config";
-import { loginValidationSchema } from "@services/schema";
-import { useFormik } from "formik";
-import { Loader } from "@components/UI";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({});
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: loginValidationSchema,
-    onSubmit: async (values, actions) => {
-      try {
-        const response = await clientBaseURL.post(
-          `${clientEndPoints?.login}`,
-          values
-        );
+  const [isLoading, setIsLoading] = useState(false);
 
-        if (response?.status >= 200 && response?.status < 300) {
-          localStorage.setItem("token", response?.data?.token);
-          toast.success(response?.data?.message);
-          setIsAuthenticated(true);
-          navigate("/dashboard");
-          actions.resetForm();
-        }
-      } catch (error) {
-        if (error?.response) {
-          toast.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      }
-    },
-  });
   useEffect(
     function () {
       if (isAuthenticated) navigate("/dashboard");
     },
     [isAuthenticated, navigate]
   );
+
+  const onSubmit = async function (data) {
+    setIsLoading(true);
+    const resp = await login(data);
+    console.log(resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      localStorage.setItem("token", resp.data.token);
+      setIsAuthenticated(true);
+      navigate("/dashboard");
+      toast.success(resp.data.message);
+    } else {
+      toast.error(resp.message);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -77,44 +61,35 @@ const Login = () => {
             <span className="mx-4">Or, sign in with email</span>
             <div className="flex-grow border-t border-gray-300" />
           </div> */}
-          <Form action="" onSubmit={handleSubmit}>
-            <TextBox
+          <form action="" onSubmit={handleSubmit(onSubmit)}>
+            <Input
               label="Email address"
               name="email"
+              applyMarginBottom={true}
               className="mb-4"
               placeholder="example@gmail.com"
-              value={values.email}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              error={errors.email}
-              touched={touched.email}
+              register={register}
+              error={errors?.email?.message}
             />
-            <PasswordBox
+            <Input
               label="Password"
               type="password"
               name="password"
-              placeholder="Enter Password"
-              className="mb-4"
-              value={values.password}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              error={errors.password}
-              touched={touched.password}
+              applyMarginBottom={true}
+              className="mb-2"
+              placeholder="***********"
+              register={register}
+              error={errors?.password?.message}
             />
             <Button
+              variant="gradient"
               type="submit"
-              className="w-full  text-white btn-gradient px-4 py-3 mt-2"
-              disabled={isSubmitting}
+              className="w-full mt-5 py-3 "
+              disabled={isLoading}
             >
-              {isSubmitting ? (
-                <div className="flex justify-center items-center">
-                  <Loader width={"24px"} height={"24px"} color="#fff" />
-                </div>
-              ) : (
-                "Login"
-              )}
+              {isLoading ? <Spin /> : "Login"}
             </Button>
-          </Form>
+          </form>
           <div className="flex justify-end mt-4">
             <Link
               to="forgotpassword"
