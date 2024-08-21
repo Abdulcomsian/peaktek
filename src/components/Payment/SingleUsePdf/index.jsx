@@ -2,7 +2,7 @@ import { FileUploader } from "@components";
 import { UploaderInputs } from "@components/index";
 import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ImageIcon } from "@components/UI";
+import { ArrowFileIcon, Button, ImageIcon } from "@components/UI";
 
 const SingleUsePdf = () => {
   const [files, setFiles] = useState([]);
@@ -11,25 +11,27 @@ const SingleUsePdf = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm();
 
-  const onSubmit = function (data) {};
+  const onSubmit = function (data) {
+    console.log("UPLOADING FILE", data);
+  };
   return (
     <Fragment>
       <form action="" onSubmit={handleSubmit(onSubmit)}>
-        {/* <FileUploader label="Upload new PDF:" id="fileUploader" /> */}
         <UploaderInputs
-          wrapperClass="my-upload-wrapper"
-          title="Upload files"
-          name="files"
           register={register}
-          require={true}
-          fileTypes={["image/jpeg", "image/png"]}
-          icon={<ImageIcon />}
-          setFiles={setFiles}
-          files={files}
-          id="files"
+          id="pdfs"
+          name="pdfs"
+          icon={<ArrowFileIcon />}
+          fileTypes={["application/pdf"]}
+          error={errors.pdfs && formatErrorName(errors.pdfs.message)}
+          setValue={setFiles} // You may need to pass this prop if UploaderInputs does not manage its own state
         />
+        <Button type="submit" variant="gradient" className="mt-4">
+          Save
+        </Button>
       </form>
     </Fragment>
   );

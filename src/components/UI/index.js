@@ -10,6 +10,7 @@ import ArrowFileIcon from "./ArrowFile";
 import Tabs from "./Tabs";
 import TabsContentBox from "./TabsContentBox";
 import Loader from "./Loader";
+import RenameFileUI from "./RenameFileUI";
 export {
   Button,
   Card,
@@ -23,4 +24,5 @@ export {
   Tabs,
   TabsContentBox,
   Loader,
+  RenameFileUI,
 };
