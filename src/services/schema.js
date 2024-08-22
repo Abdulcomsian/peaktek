@@ -60,12 +60,12 @@ const createAgreementSchema = Yup.object({
   ),
   customer_date: Yup.date().required("Customer date is required"),
 });
-// Define the validation schema using Yup
 const readyToBuildSchema = Yup.object().shape({
   recipient: Yup.string().required("Recipient is required"),
   date: Yup.date().nullable().required("Date is required"),
   time: Yup.date().nullable().required("Time is required"),
   text: Yup.string().required("Text is required"),
+  sub_contractor_id: Yup.number().required("Sub Contractor Id is required"), // Add validation for sub_contractor_id
 });
 const cocSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),

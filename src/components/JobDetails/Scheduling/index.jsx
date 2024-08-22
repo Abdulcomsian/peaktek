@@ -30,7 +30,6 @@ const Scheduling = () => {
       label: supplier?.name,
       value: supplier?.id,
     })) || [];
-  console.log("supplier option", supplierOptions);
 
   // Fetch Scheduling data
   const fetchData = async () => {
@@ -235,20 +234,19 @@ const Scheduling = () => {
           touched={formik.touched.materials}
           errors={formik.errors.materials}
         />
-        <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-          <SelectBox
-            label="Assigned to"
-            placeholder="Select Supplier"
-            className="mb-4 md:mb-0 max-w-xl"
-            name="supplier_id"
-            options={supplierOptions}
-            value={formik.values.supplier_id}
-            onBlur={formik.handleBlur}
-            onChange={(value) => formik.setFieldValue("supplier_id", value)}
-            error={formik.errors.supplier_id}
-            touched={formik.touched.supplier_id}
-          />
-        </InputContainer>
+
+        <SelectBox
+          label="Assigned to"
+          placeholder="Select Supplier"
+          className="mb-4 md:mb-0 md:max-w-xl"
+          name="supplier_id"
+          options={supplierOptions}
+          value={formik.values.supplier_id}
+          onBlur={formik.handleBlur}
+          onChange={(value) => formik.setFieldValue("supplier_id", value)}
+          error={formik.errors.supplier_id}
+          touched={formik.touched.supplier_id}
+        />
 
         <div className="flex justify-center md:justify-start">
           {/* <Button

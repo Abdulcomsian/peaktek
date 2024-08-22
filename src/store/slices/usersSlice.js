@@ -8,19 +8,19 @@ export const STATUS = Object.freeze({
 });
 
 const initialState = {
-  supplierData: [],
+  usersData: [],
   status: STATUS.IDLE,
-  total: 0, // Add total for pagination
+  total: 0, // For pagination
 };
 
-// Create an async thunk for fetching suppliers
-export const fetchSupplierData = createAsyncThunk(
-  "suppliers/fetch",
+// Async thunk for fetching users data
+export const fetchUsersData = createAsyncThunk(
+  "users/fetch",
   async ({ page, pageSize }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await clientBaseURL.get(
-        `${clientEndPoints.getCompanySuppliers}?results=${pageSize}&page=${page}`,
+        `${clientEndPoints.getCompanyUsers}?results=${pageSize}&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ export const fetchSupplierData = createAsyncThunk(
       );
       return {
         data: response?.data?.data,
-        total: response?.data?.total, // Ensure the API returns the total number of suppliers
+        total: response?.data?.total, // Ensure the API returns the total number of users
       };
     } catch (error) {
       if (error?.response) {
@@ -39,30 +39,29 @@ export const fetchSupplierData = createAsyncThunk(
             "Something went wrong!"
         );
       }
+      throw error;
     }
   }
 );
 
-const suppliersSlice = createSlice({
-  name: "suppliers",
+const usersSlice = createSlice({
+  name: "users",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSupplierData.pending, (state) => {
+      .addCase(fetchUsersData.pending, (state) => {
         state.status = STATUS.LOADING;
       })
-      .addCase(fetchSupplierData.fulfilled, (state, action) => {
-        state.supplierData = action.payload.data;
+      .addCase(fetchUsersData.fulfilled, (state, action) => {
+        state.usersData = action.payload.data;
         state.total = action.payload.total; // Set the total count for pagination
         state.status = STATUS.IDLE;
       })
-      .addCase(fetchSupplierData.rejected, (state) => {
+      .addCase(fetchUsersData.rejected, (state) => {
         state.status = STATUS.ERROR;
       });
   },
 });
 
-export const {} = suppliersSlice.actions;
-
-export default suppliersSlice.reducer;
+export default usersSlice.reducer;

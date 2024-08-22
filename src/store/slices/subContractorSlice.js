@@ -10,25 +10,27 @@ export const STATUS = Object.freeze({
 const initialState = {
   subContractorsData: [],
   status: STATUS.IDLE,
+  total: 0, // Add total for pagination
 };
 
-// Create an async thunk for fetching singleJob
+// Create an async thunk for fetching subContractors
 export const fetchSubContractors = createAsyncThunk(
-  "subContractor/fetch",
-  async () => {
+  "subContractors/fetch",
+  async ({ page, pageSize }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await clientBaseURL.get(
-        `${clientEndPoints.getCompanySubContractors}`,
+        `${clientEndPoints.getCompanySubContractors}?results=${pageSize}&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("response in fetch sub contractors", response?.data?.data);
-
-      return response?.data?.data;
+      return {
+        data: response?.data?.data,
+        total: response?.data?.total, // Ensure the API returns the total number of subContractors
+      };
     } catch (error) {
       if (error?.response) {
         console.error(
@@ -51,7 +53,8 @@ const subContractorSlice = createSlice({
         state.status = STATUS.LOADING;
       })
       .addCase(fetchSubContractors.fulfilled, (state, action) => {
-        state.subContractorsData = action.payload;
+        state.subContractorsData = action.payload.data;
+        state.total = action.payload.total; // Set the total count for pagination
         state.status = STATUS.IDLE;
       })
       .addCase(fetchSubContractors.rejected, (state) => {

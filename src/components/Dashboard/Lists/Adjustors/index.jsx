@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import Button from "@components/JobDetails/Button";
 import AddUser from "@components/Modals/AddUsers";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAdjustorData } from "@store/slices/adjustorSlice";
 
 const columns = [
   {
@@ -13,7 +15,6 @@ const columns = [
   {
     title: "Name",
     dataIndex: "name",
-    render: (name) => `${name.first} ${name.last}`,
     width: "45%",
   },
   {
@@ -24,54 +25,38 @@ const columns = [
 ];
 
 const Adjustors = () => {
+  const dispatch = useDispatch();
+  const { adjustorData, total, status } = useSelector(
+    (state) => state?.adjustors
+  );
   const [showModal, setShowModal] = useState(false);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [tableParams, setTableParams] = useState({
-    pagination: {
-      current: 1,
-      pageSize: 5,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
   });
-
-  const fetchData = () => {
-    setLoading(true);
-    fetch(
-      `https://randomuser.me/api/?results=${tableParams.pagination.pageSize}&page=${tableParams.pagination.current}`
-    )
-      .then((res) => res.json())
-      .then(({ results }) => {
-        setData(results);
-        setLoading(false);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            total: 200, // Mock total, should ideally come from server
-          },
-        });
-      });
-  };
+  console.log("Adjustor data", adjustorData);
 
   useEffect(() => {
-    fetchData();
-  }, [tableParams.pagination.current, tableParams.pagination.pageSize]);
+    dispatch(
+      fetchAdjustorData({
+        page: pagination.current,
+        pageSize: pagination.pageSize,
+      })
+    );
+  }, [dispatch, pagination.current, pagination.pageSize]);
 
-  const handleTableChange = (pagination) => {
-    setTableParams({
-      pagination,
-    });
-
-    if (pagination.pageSize !== tableParams.pagination.pageSize) {
-      setData([]);
-    }
+  const handleTableChange = (newPagination) => {
+    setPagination(newPagination);
   };
-  const openModel = () => {
+
+  const openModal = () => {
     setShowModal(true);
   };
-  const closeModel = () => {
+
+  const closeModal = () => {
     setShowModal(false);
   };
+
   return (
     <div className="w-full max-w-7xl mx-auto py-10">
       <div className="flex justify-between mb-6">
@@ -79,8 +64,8 @@ const Adjustors = () => {
           Adjustors List
         </h1>
         <Button
-          className=" text-white btn-gradient px-4 py-2"
-          onClick={openModel}
+          className="text-white btn-gradient px-4 py-2"
+          onClick={openModal}
         >
           Add Adjustor
         </Button>
@@ -88,10 +73,13 @@ const Adjustors = () => {
       <div className="flex justify-center">
         <Table
           columns={columns}
-          rowKey={(record) => record.login.uuid}
-          dataSource={data}
-          pagination={tableParams.pagination}
-          loading={loading}
+          rowKey={(record) => record.id}
+          dataSource={adjustorData}
+          pagination={{
+            ...pagination,
+            total: total,
+          }}
+          loading={status === "loading"}
           size="large"
           className="w-full max-w-4xl"
           onChange={handleTableChange}
@@ -103,8 +91,8 @@ const Adjustors = () => {
           roleId={6}
           heading="Create New Adjustor"
           open={showModal}
-          onOk={closeModel}
-          onCancel={closeModel}
+          onOk={closeModal}
+          onCancel={closeModal}
         />
       )}
     </div>
