@@ -17,11 +17,15 @@ const SelectBox = forwardRef(
       name,
       error,
       touched,
-      defaultValue,
-      options = [], // Array of options for the select box
+      options = [],
     },
     ref
   ) => {
+    // Handle onChange to map value directly
+    const handleChange = (selectedValue) => {
+      onChange(selectedValue); // Pass only the value to the parent
+    };
+
     return (
       <div className={`w-full ${className}`}>
         {label && (
@@ -37,15 +41,14 @@ const SelectBox = forwardRef(
           size="large"
           placeholder={placeholder}
           name={name}
-          value={value}
-          onChange={onChange}
+          value={value || undefined}
+          onChange={handleChange} // Use the custom handler
           onBlur={onBlur}
-          defaultValue={defaultValue}
           disabled={disabled}
           ref={ref}
           className={`custom-select ${
             error && touched ? "border-red-600" : "border-gray-300"
-          } bg-gray-50  text-gray-900 text-sm rounded-md block w-full`}
+          } bg-gray-50 text-gray-900 text-sm rounded-md block w-full`}
           popupClassName={`${
             error && touched ? "border-red-600" : "border-gray-300"
           }`}

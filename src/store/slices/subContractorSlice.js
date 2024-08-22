@@ -1,0 +1,65 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { clientBaseURL, clientEndPoints } from "@services/config";
+
+export const STATUS = Object.freeze({
+  IDLE: "idle",
+  ERROR: "error",
+  LOADING: "loading",
+});
+
+const initialState = {
+  subContractorsData: [],
+  status: STATUS.IDLE,
+};
+
+// Create an async thunk for fetching singleJob
+export const fetchSubContractors = createAsyncThunk(
+  "subContractor/fetch",
+  async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await clientBaseURL.get(
+        `${clientEndPoints.getCompanySubContractors}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("response in fetch sub contractors", response?.data?.data);
+
+      return response?.data?.data;
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error ||
+            error?.response?.data?.message ||
+            "Something went wrong!"
+        );
+      }
+    }
+  }
+);
+
+const subContractorSlice = createSlice({
+  name: "subContractors",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSubContractors.pending, (state) => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(fetchSubContractors.fulfilled, (state, action) => {
+        state.subContractorsData = action.payload;
+        state.status = STATUS.IDLE;
+      })
+      .addCase(fetchSubContractors.rejected, (state) => {
+        state.status = STATUS.ERROR;
+      });
+  },
+});
+
+export const {} = subContractorSlice.actions;
+
+export default subContractorSlice.reducer;

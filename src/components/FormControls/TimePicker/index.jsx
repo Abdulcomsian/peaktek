@@ -13,9 +13,11 @@ const CustomTimePicker = ({
 }) => {
   return (
     <div className={`w-full ${className}`}>
-      <label className="block mb-2 text-sm font-medium text-gray-700">
-        {label}
-      </label>
+      {label && (
+        <label className="block mb-2 text-sm font-medium text-gray-700">
+          {label}
+        </label>
+      )}
       <TimePicker
         use12Hours
         format="h:mm a"
@@ -23,9 +25,7 @@ const CustomTimePicker = ({
         size="large"
         name={name}
         onChange={onChange}
-        className={`w-full bg-gray-50 p-2 focus:outline-1 ${
-          error && touched ? "border border-red-600" : "focus:outline-blue-500"
-        }`}
+        className="w-full bg-gray-50 p-2 focus:outline-blue-500"
       />
       {error && touched && <p className="text-red-600 text-sm mt-1">{error}</p>}
     </div>
