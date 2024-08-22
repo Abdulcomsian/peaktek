@@ -8,25 +8,27 @@ export const STATUS = Object.freeze({
 });
 
 const initialState = {
-  supplierData: [],
+  adjustorData: [],
   status: STATUS.IDLE,
   total: 0, // Add total for pagination
 };
 
 // Create an async thunk for fetching suppliers
-export const fetchSupplierData = createAsyncThunk(
-  "suppliers/fetch",
+export const fetchAdjustorData = createAsyncThunk(
+  "adjustors/fetch",
   async ({ page, pageSize }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await clientBaseURL.get(
-        `${clientEndPoints.getCompanySuppliers}?results=${pageSize}&page=${page}`,
+        `${clientEndPoints.getCompanyAdjustors}?results=${pageSize}&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      console.log("response in adjustor slice", response?.data?.data);
+
       return {
         data: response?.data?.data,
         total: response?.data?.total, // Ensure the API returns the total number of suppliers
@@ -43,26 +45,26 @@ export const fetchSupplierData = createAsyncThunk(
   }
 );
 
-const suppliersSlice = createSlice({
-  name: "suppliers",
+const adjustorSlice = createSlice({
+  name: "adjustors",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSupplierData.pending, (state) => {
+      .addCase(fetchAdjustorData.pending, (state) => {
         state.status = STATUS.LOADING;
       })
-      .addCase(fetchSupplierData.fulfilled, (state, action) => {
-        state.supplierData = action.payload.data;
+      .addCase(fetchAdjustorData.fulfilled, (state, action) => {
+        state.adjustorData = action.payload.data;
         state.total = action.payload.total; // Set the total count for pagination
         state.status = STATUS.IDLE;
       })
-      .addCase(fetchSupplierData.rejected, (state) => {
+      .addCase(fetchAdjustorData.rejected, (state) => {
         state.status = STATUS.ERROR;
       });
   },
 });
 
-export const {} = suppliersSlice.actions;
+export const {} = adjustorSlice.actions;
 
-export default suppliersSlice.reducer;
+export default adjustorSlice.reducer;
