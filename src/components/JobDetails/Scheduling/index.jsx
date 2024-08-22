@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import { Spin } from "antd";
 import { Loader } from "@components/UI";
-import { InputContainer } from "@components/index";
+import { InputContainer } from "@components";
 import { fetchSupplierData } from "@store/slices/suppliersSlice";
 const Scheduling = () => {
   const { id } = useParams();
@@ -23,6 +23,9 @@ const Scheduling = () => {
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
   const suppliersData = useSelector((state) => state?.suppliers?.supplierData);
   console.log("suppliers data", suppliersData);
+  useEffect(() => {
+    dispatch(fetchSupplierData());
+  }, []);
 
   // Fetch Scheduling data
   const fetchData = async () => {
@@ -59,7 +62,6 @@ const Scheduling = () => {
     if (id) {
       dispatch(fetchSingleJob(id));
       fetchData();
-      fetchSupplierData();
     }
   }, [id, dispatch]);
 
