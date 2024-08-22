@@ -18,9 +18,6 @@ export async function getJobs() {
 
 export async function createJob({ address, name, email, phone }) {
   const token = localStorage.getItem("token");
-  const myHeaders = new Headers();
-  myHeaders.append("Accept", "application/json");
-  myHeaders.append("Authorization", `Bearer ${token}`);
 
   const formdata = new FormData();
   formdata.append("address", address);
@@ -30,19 +27,16 @@ export async function createJob({ address, name, email, phone }) {
   formdata.append("email", email);
   formdata.append("phone", phone);
 
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: formdata,
-    redirect: "follow",
-  };
-
-  const resp = await fetch(
-    "https://test7.accrualdev.com/api/create-job",
-    requestOptions
-  );
-  const data = await resp.json();
-  return data;
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.createJob}`,
+      formdata,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
 }
 
 export async function getJobApi(id) {
