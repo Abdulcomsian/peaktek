@@ -140,7 +140,9 @@ const schedulingSchema = Yup.object().shape({
       })
     )
     .min(1, "At least one material must be added"),
+  supplier_id: Yup.number().required("Supplier Id is required"),
 });
+
 const inProgressSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   email: Yup.string()

@@ -58,7 +58,7 @@ const AddMaterialForm = ({
               error={touched?.[index]?.material && errors?.[index]?.material}
             />
             {touched?.[index]?.material && errors?.[index]?.material && (
-              <div className="text-red-500 text-sm">
+              <div className="text-red-500 text-sm mt-1">
                 {errors[index].material}
               </div>
             )}
@@ -75,7 +75,7 @@ const AddMaterialForm = ({
               error={touched?.[index]?.quantity && errors?.[index]?.quantity}
             />
             {touched?.[index]?.quantity && errors?.[index]?.quantity && (
-              <div className="text-red-500 text-sm">
+              <div className="text-red-500 text-sm mt-1">
                 {errors[index].quantity}
               </div>
             )}
@@ -97,7 +97,9 @@ const AddMaterialForm = ({
               error={touched?.[index]?.color && errors?.[index]?.color}
             />
             {touched?.[index]?.color && errors?.[index]?.color && (
-              <div className="text-red-500 text-sm">{errors[index].color}</div>
+              <div className="text-red-500 text-sm mt-1">
+                {errors[index].color}
+              </div>
             )}
           </div>
           <div className="w-full sm:flex-1">
@@ -112,7 +114,7 @@ const AddMaterialForm = ({
               error={touched?.[index]?.order_key && errors?.[index]?.order_key}
             />
             {touched?.[index]?.order_key && errors?.[index]?.order_key && (
-              <div className="text-red-500 text-sm">
+              <div className="text-red-500 text-sm mt-1">
                 {errors[index].order_key}
               </div>
             )}

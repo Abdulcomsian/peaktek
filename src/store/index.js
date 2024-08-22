@@ -4,6 +4,7 @@ import customerReducer from "./slices/customerSlice";
 import registerReducer from "./slices/registerSlice";
 import activeTabReducer from "./slices/activeTabSlice";
 import suppliersReducer from "./slices/suppliersSlice";
+import subContractorReducer from "./slices/subContractorSlice";
 export const store = configureStore({
   reducer: {
     jobs: JobsReducer,
@@ -11,5 +12,6 @@ export const store = configureStore({
     register: registerReducer,
     activeTab: activeTabReducer,
     suppliers: suppliersReducer,
+    subContractors: subContractorReducer,
   },
 });
