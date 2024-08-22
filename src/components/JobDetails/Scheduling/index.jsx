@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
-import { Form } from "@components/FormControls";
+import { Form, SelectBox } from "@components/FormControls";
 import { CustomerInformation, DeliveryInformation } from "@components/Forms";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,12 +13,17 @@ import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import { Spin } from "antd";
 import { Loader } from "@components/UI";
+import { InputContainer } from "@components/index";
+import { fetchSupplierData } from "@store/slices/suppliersSlice";
 const Scheduling = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [materialOrderData, setMaterialOrderData] = useState(null);
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
+  const suppliersData = useSelector((state) => state?.suppliers?.supplierData);
+  console.log("suppliers data", suppliersData);
+
   // Fetch Scheduling data
   const fetchData = async () => {
     const token = localStorage.getItem("token");
@@ -54,6 +59,7 @@ const Scheduling = () => {
     if (id) {
       dispatch(fetchSingleJob(id));
       fetchData();
+      fetchSupplierData();
     }
   }, [id, dispatch]);
 
@@ -75,6 +81,7 @@ const Scheduling = () => {
       valley_sf: "",
       hip_and_ridge_lf: "",
       drip_edge_lf: "",
+      supplier_id: "",
       materials: [{ material: "", quantity: "", color: "", order_key: "" }],
     },
     enableReinitialize: true,
@@ -131,6 +138,7 @@ const Scheduling = () => {
     valley_sf: useRef(null),
     hip_and_ridge_lf: useRef(null),
     drip_edge_lf: useRef(null),
+    supplier_id: useRef(null),
   };
 
   // Update Formik initial values when materialOrderData changes
@@ -156,6 +164,7 @@ const Scheduling = () => {
         valley_sf: materialOrderData.valley_sf || "",
         hip_and_ridge_lf: materialOrderData.hip_and_ridge_lf || "",
         drip_edge_lf: materialOrderData.drip_edge_lf || "",
+        supplier_id: materialOrderData?.supplier_id || "",
         materials: materialOrderData.materials?.map((material) => ({
           material: material.material || "",
           quantity: material.quantity || "",
@@ -218,8 +227,40 @@ const Scheduling = () => {
           touched={formik.touched.materials}
           errors={formik.errors.materials}
         />
+        <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
+          <SelectBox
+            label="Assigned to"
+            placeholder="Select Supplier"
+            className="mb-4 md:mb-0 max-w-xl"
+            name="supplier_id"
+            options={[
+              { label: "Red", value: "red" },
+              { label: "Blue", value: "blue" },
+              { label: "Green", value: "green" },
+            ]}
+            // ref={inputRefs?.company_signature}
+            // value={values?.company_signature || ""}
+            // onBlur={handleBlur}
+            // onChange={handleChange}
+            // error={errors?.company_signature}
+            // touched={touched?.company_signature}
+          />
+        </InputContainer>
 
         <div className="flex justify-center md:justify-start">
+          <Button
+            type="submit"
+            disabled={formik?.isSubmitting}
+            className="w-full max-w-36 text-white btn-gradient px-4 py-1 mr-4"
+          >
+            {formik?.isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "Save & Email"
+            )}
+          </Button>
           <Button
             disabled={formik?.isSubmitting}
             type="submit"

@@ -8,12 +8,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import dayjs from "dayjs";
 import { inProgressSchema } from "@services/schema";
-import { Form } from "@components/FormControls";
+import { Form, SelectBox, TextBox } from "@components/FormControls";
 import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { Spin } from "antd";
 import MediaForm from "./Media";
 import { Loader } from "@components/UI";
+import { InputContainer } from "@components";
 
 const InProgress = () => {
   const { id } = useParams();
@@ -199,6 +200,7 @@ const InProgress = () => {
             values={formik.values}
             setFieldValue={formik.setFieldValue}
           />
+
           <div className="flex items-center mb-6">
             <input
               id="complete"

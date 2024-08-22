@@ -8,18 +8,18 @@ export const STATUS = Object.freeze({
 });
 
 const initialState = {
-  overturnData: {},
+  supplierData: [],
   status: STATUS.IDLE,
 };
 
 // Create an async thunk for fetching singleJob
-export const fetchOverturnData = createAsyncThunk(
-  "overturn/fetch",
-  async (id) => {
+export const fetchSupplierData = createAsyncThunk(
+  "suppliers/fetch",
+  async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await clientBaseURL.get(
-        `${clientEndPoints.getOverturn}/${id}`,
+        `${clientEndPoints.getCompanySuppliers}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,25 +40,25 @@ export const fetchOverturnData = createAsyncThunk(
   }
 );
 
-const overturnSlice = createSlice({
-  name: "overturn",
+const suppliersSlice = createSlice({
+  name: "suppliers",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOverturnData.pending, (state) => {
+      .addCase(fetchSupplierData.pending, (state) => {
         state.status = STATUS.LOADING;
       })
-      .addCase(fetchOverturnData.fulfilled, (state, action) => {
-        state.overturnData = action.payload;
+      .addCase(fetchSupplierData.fulfilled, (state, action) => {
+        state.supplierData = action.payload;
         state.status = STATUS.IDLE;
       })
-      .addCase(fetchOverturnData.rejected, (state) => {
+      .addCase(fetchSupplierData.rejected, (state) => {
         state.status = STATUS.ERROR;
       });
   },
 });
 
-export const {} = overturnSlice.actions;
+export const {} = suppliersSlice.actions;
 
-export default overturnSlice.reducer;
+export default suppliersSlice.reducer;

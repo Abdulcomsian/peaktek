@@ -4,6 +4,7 @@ import {
   CustomTimePicker,
   DateSelector,
   Form,
+  SelectBox,
   TextBox,
 } from "@components/FormControls";
 import { useFormik } from "formik";
@@ -25,6 +26,7 @@ const ReadyToBuild = () => {
     date: null,
     time: null,
     text: "",
+    sub_contractor_id: "",
   });
 
   useEffect(() => {
@@ -147,7 +149,7 @@ const ReadyToBuild = () => {
             />
             <CustomTimePicker
               label="Select a Time"
-              className="mb-4 md:mb-0"
+              className="md:mr-4 mb-4 md:mb-0"
               value={formik.values.time}
               name="time"
               onBlur={formik.handleBlur}
@@ -156,6 +158,23 @@ const ReadyToBuild = () => {
               }
               error={formik.errors.time}
               touched={formik.touched.time}
+            />
+            <SelectBox
+              label="Sub Contractor"
+              placeholder="Select Sub Contractor"
+              className="mb-4 md:mb-0 max-w-xl"
+              name="supplier_id"
+              options={[
+                { label: "Red", value: "red" },
+                { label: "Blue", value: "blue" },
+                { label: "Green", value: "green" },
+              ]}
+              // ref={inputRefs?.company_signature}
+              // value={values?.company_signature || ""}
+              // onBlur={handleBlur}
+              // onChange={handleChange}
+              // error={errors?.company_signature}
+              // touched={touched?.company_signature}
             />
           </InputContainer>
           <Ckeditor
