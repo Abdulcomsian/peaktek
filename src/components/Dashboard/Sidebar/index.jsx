@@ -17,22 +17,22 @@ const sidebarLinks = [
   },
   {
     id: 2,
-    linkSrc: "users-list",
+    linkSrc: "/dashboard/users-list",
     linkText: listupIcon,
   },
   {
     id: 3,
-    linkSrc: "sub-contractor-list",
+    linkSrc: "/dashboard/sub-contractor-list",
     linkText: clipboardCheck,
   },
   {
     id: 4,
-    linkSrc: "suppliers-list",
+    linkSrc: "/dashboard/suppliers-list",
     linkText: settingsMinimalistic,
   },
   {
     id: 5,
-    linkSrc: "adjustors-list",
+    linkSrc: "/dashboard/adjustors-list",
     linkText: FileText,
   },
 ];

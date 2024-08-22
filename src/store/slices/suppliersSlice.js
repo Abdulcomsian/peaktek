@@ -26,6 +26,8 @@ export const fetchSupplierData = createAsyncThunk(
           },
         }
       );
+      console.log("response in fetch suppliers", response?.data?.data);
+
       return response?.data?.data;
     } catch (error) {
       if (error?.response) {
@@ -35,7 +37,6 @@ export const fetchSupplierData = createAsyncThunk(
             "Something went wrong!"
         );
       }
-      throw error;
     }
   }
 );
