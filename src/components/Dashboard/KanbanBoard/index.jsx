@@ -35,10 +35,12 @@ function KanbanBoard() {
   const [invalidatePage, setInvalidatePage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  console.log(data);
 
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchBoardData() {
@@ -48,12 +50,13 @@ function KanbanBoard() {
         if (resp.status >= 200 && resp.status < 300) {
           dispatch(boardDataLoaded(resp.data.data));
         }
-        if (resp.status === 500) toast.error("Something went wrong.");
-        if (resp.status === 401) {
+        if (resp.response?.status === 500) toast.error("Something went wrong.");
+        if (resp.response?.status === 401) {
           logout();
+          navigate("/");
         }
       } catch (err) {
-        console.log(err);
+        console.log("Erorrrr", err);
         toast.error(err.message);
       } finally {
         setIsLoading(false);
