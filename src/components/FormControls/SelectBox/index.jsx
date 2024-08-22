@@ -43,9 +43,9 @@ const SelectBox = forwardRef(
           defaultValue={defaultValue}
           disabled={disabled}
           ref={ref}
-          className={`${
+          className={`custom-select ${
             error && touched ? "border-red-600" : "border-gray-300"
-          } bg-gray-50 text-gray-900 text-sm rounded-md block w-full`}
+          } bg-gray-50  text-gray-900 text-sm rounded-md block w-full`}
           popupClassName={`${
             error && touched ? "border-red-600" : "border-gray-300"
           }`}

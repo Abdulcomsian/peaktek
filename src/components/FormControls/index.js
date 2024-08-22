@@ -13,6 +13,7 @@ import DateSelector from "./DateSelector";
 import Form from "./Form";
 import SelectBox from "./SelectBox";
 import TextareaInput from "./TextareaInput/input";
+import PasswordBox from "./PasswordBox/input";
 export {
   Ckeditor,
   CustomDatePicker,
@@ -26,6 +27,7 @@ export {
   RadioBox,
   FileInput,
   CustomTimePicker,
+  PasswordBox,
   DateSelector,
   SelectBox,
   Form,

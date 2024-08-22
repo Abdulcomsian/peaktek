@@ -9,10 +9,15 @@ import { addJob } from "@store/slices/JobsSlice";
 import { Button } from "@components/UI";
 
 const modalInputsData = [
-  { name: "address", label: "Job Address", placeholder: "Enter new job" },
-  { name: "name", label: "Name", placeholder: "Enter customer name" },
-  { name: "email", label: "Email", placeholder: "Email address" },
-  { name: "phone", label: "Phone", placeholder: "Phone number" },
+  {
+    id: "1",
+    name: "address",
+    label: "Job Address",
+    placeholder: "Enter new job",
+  },
+  { id: "2", name: "name", label: "Name", placeholder: "Enter customer name" },
+  { id: "3", name: "email", label: "Email", placeholder: "Email address" },
+  { id: "4", name: "phone", label: "Phone", placeholder: "Phone number" },
 ];
 
 function NewJobModal({ open, onCancel, onOk, onAddJob }) {
@@ -53,8 +58,9 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
     <Modal open={open} onCancel={onCancel} onOk={onOk} footer={null}>
       <h1 className="text-center text-xl font-semibold my-4">New Job</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {modalInputsData.map((data) => (
+        {modalInputsData?.map((data) => (
           <Input
+            key={data?.id}
             applyMarginBottom={true}
             name={data.name}
             label={data.label}

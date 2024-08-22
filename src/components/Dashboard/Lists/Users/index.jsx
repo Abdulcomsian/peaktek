@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import Button from "@components/JobDetails/Button";
 import AddUser from "@components/Modals/AddUsers";
+import { clientBaseURL, clientEndPoints } from "@services/config";
 
 const columns = [
   {
@@ -13,7 +14,6 @@ const columns = [
   {
     title: "Name",
     dataIndex: "name",
-    render: (name) => `${name.first} ${name.last}`,
     width: "45%",
   },
   {
@@ -27,51 +27,65 @@ const Users = () => {
   const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [tableParams, setTableParams] = useState({
-    pagination: {
-      current: 1,
-      pageSize: 5,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 3,
   });
 
-  const fetchData = () => {
-    setLoading(true);
-    fetch(
-      `https://randomuser.me/api/?results=${tableParams.pagination.pageSize}&page=${tableParams.pagination.current}`
-    )
-      .then((res) => res.json())
-      .then(({ results }) => {
-        setData(results);
-        setLoading(false);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            total: 200, // Mock total, should ideally come from server
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+      setLoading(true);
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getCompanyUsers}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        });
-      });
+        }
+      );
+      console.log("response in user list", response);
+      if (response?.status >= 200 && response?.status < 300) {
+        const users = response.data.data;
+        setData(users);
+      }
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchData();
-  }, [tableParams.pagination.current, tableParams.pagination.pageSize]);
+  }, []);
 
   const handleTableChange = (pagination) => {
-    setTableParams({
-      pagination,
-    });
-
-    if (pagination.pageSize !== tableParams.pagination.pageSize) {
-      setData([]);
-    }
+    setPagination(pagination);
   };
+
   const openModel = () => {
     setShowModal(true);
   };
+
   const closeModel = () => {
     setShowModal(false);
   };
+
+  // Calculate the data to be displayed based on current pagination
+  const paginatedData = data?.slice(
+    (pagination.current - 1) * pagination.pageSize,
+    pagination.current * pagination.pageSize
+  );
+
   return (
     <div className="w-full max-w-7xl mx-auto py-10">
       <div className="flex justify-between mb-6">
@@ -88,9 +102,12 @@ const Users = () => {
       <div className="flex justify-center">
         <Table
           columns={columns}
-          rowKey={(record) => record.login.uuid}
-          dataSource={data}
-          pagination={tableParams.pagination}
+          rowKey={(record) => record.id}
+          dataSource={paginatedData}
+          pagination={{
+            ...pagination,
+            total: data?.length,
+          }}
           loading={loading}
           size="large"
           className="w-full max-w-4xl"
