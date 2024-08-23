@@ -1,8 +1,7 @@
 import axios from "axios";
 const stagingURL = "https://peaktek.vercel.app";
-const baseURL = "https://test7.accrualdev.com";
-// const baseURL =
-//   "https://693b-2407-d000-d-98ea-50a8-882e-5618-9913.ngrok-free.app";
+// const baseURL = "https://test7.accrualdev.com";
+const baseURL = "https://accrualhub.com";
 
 const clientBaseURL = axios.create({
   baseURL,
@@ -54,8 +53,14 @@ const clientEndPoints = {
 
   //Quote Detail Form
   createQuoteDetail: "/api/store/project-design/quote",
+  getQuoteDetail: "/api/get/project-design/quote",
+  deleteQuoteSection: "/api/delete/section",
+  deleteQuoteItem: "/api/delete/item",
   // Authorization Form
   createAuthorization: "/api/store/project-design/authorization",
+  getAuthorization: "/api/get/project-design/authorization",
+  deleteAuthorizationSection: "/api/delete/authorization-section",
+  deleteAuthorizationItem: "/api/delete/authorization-item",
   // Roof Component
   createRoofComponent: "/api/store/xactimate-report",
 

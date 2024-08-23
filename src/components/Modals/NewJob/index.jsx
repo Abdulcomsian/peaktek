@@ -39,10 +39,9 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
     try {
       setIsCreating(true);
       const resp = await createJob(data);
-      console.log("RESP", resp);
       if (resp.status >= 200 && resp.status < 300) {
-        toast.success(resp.data.message);
         dispatch(addJob(resp.data.job));
+        toast.success(resp.data.message);
         onAddJob();
         onOk();
       }

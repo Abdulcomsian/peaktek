@@ -1,46 +1,140 @@
-import { Input } from "@components/FormControls";
-import { Button } from "@components/UI";
-import { baseURL } from "@services/config";
-import { useState } from "react";
+import { Button, Loader } from "@components/UI";
+import { baseURL, clientBaseURL } from "@services/config";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-export default function RenameFileUI({ files, id }) {
-  console.log(files);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const handleSubmit = function (e) {
-    console.log("clicked");
+export default function RenameFileUI({
+  files,
+  id,
+  apiDeleteFileEndpoint,
+  apiUpdateFileEndPoint,
+}) {
+  const [inputValues, setInputValues] = useState(
+    files.reduce(
+      (acc, file) => ({
+        ...acc,
+        [file.id]: file.file_name || "", // Initialize with existing file names or empty
+      }),
+      {}
+    )
+  );
+  const [filesToUpdate, setFilesToUpdate] = useState([]);
+
+  // New state to track loading for each file
+  const [loadingStates, setLoadingStates] = useState(
+    files.reduce(
+      (acc, file) => ({
+        ...acc,
+        [file.id]: { isSubmitting: false, isDeleting: false },
+      }),
+      {}
+    )
+  );
+
+  useEffect(
+    function () {
+      if (files.length > 0) setFilesToUpdate([...files]);
+    },
+    [files]
+  );
+
+  const handleInputChange = (id, value) => {
+    setInputValues((prevValues) => ({
+      ...prevValues,
+      [id]: value,
+    }));
   };
 
-  const deleteFilehandler = function () {
-    console.log("DELETE BUTTON CLICKED");
+  const handleSubmit = async (e, id) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    setLoadingStates((prevStates) => ({
+      ...prevStates,
+      [id]: { ...prevStates[id], isSubmitting: true },
+    }));
+    const token = localStorage.getItem("token");
+
+    try {
+      const resp = await clientBaseURL.post(
+        `${apiUpdateFileEndPoint}/${id}`,
+        {
+          file_name: inputValues[id],
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingStates((prevStates) => ({
+        ...prevStates,
+        [id]: { ...prevStates[id], isSubmitting: false },
+      }));
+    }
+  };
+
+  const deleteFileHandler = async (id, image_url) => {
+    setLoadingStates((prevStates) => ({
+      ...prevStates,
+      [id]: { ...prevStates[id], isDeleting: true },
+    }));
+    const token = localStorage.getItem("token");
+    try {
+      const resp = await clientBaseURL.post(
+        `${apiDeleteFileEndpoint}/${id}`,
+        { image_url },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (resp.status >= 200 && resp.status < 300) {
+        console.log(resp);
+        const dataToDelete = resp.data.data;
+        toast.success(resp.data.message);
+        setFilesToUpdate((files) =>
+          files.filter((file) => file.id !== dataToDelete.id)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingStates((prevStates) => ({
+        ...prevStates,
+        [id]: { ...prevStates[id], isDeleting: false },
+      }));
+    }
   };
 
   const openFileHandler = (id) => {
-    console.log(id, files.filter((file) => file.id === id)[0]);
     const fullFileUrl = `${baseURL}${
-      files.filter((file) => file.id === id)[0].image_url
+      filesToUpdate.find((file) => file.id === id).image_url
     }`;
     window.open(fullFileUrl, "_blank");
   };
+
   return (
-    <form className="flex flex-col md:gap-2 mb-4 max-w-full">
-      {files.map((imageRow) => (
-        <div className="flex gap-2">
-          <Input placeholder="e.g Image name" />
+    <form className="flex flex-col md:gap-2 mb-4 max-w-full mt-3">
+      {filesToUpdate.map((file) => (
+        <div key={file.id} className="flex gap-2">
+          <input
+            className="bg-gray-50 hover:bg-white outline-none border border-gray-300 hover:border-blue-500 text-gray-900 text-sm rounded-md block w-full p-2.5 focus:outline-none focus:border-blue-500"
+            placeholder="e.g Image name"
+            value={inputValues[file.id] || ""}
+            onChange={(e) => handleInputChange(file.id, e.target.value)}
+          />
           <div className="w-full flex justify-center md:justify-start md:gap-2">
-            <Button
-              variant="accent"
-              onClick={() => openFileHandler(imageRow.id)}
-            >
+            <Button variant="accent" onClick={() => openFileHandler(file.id)}>
               View File
             </Button>
-
             <Button
               variant="gradient"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
+              onClick={(e) => handleSubmit(e, file.id)}
+              disabled={loadingStates[file.id]?.isSubmitting}
             >
-              {isSubmitting ? (
+              {loadingStates[file.id]?.isSubmitting ? (
                 <div className="flex justify-center items-center">
                   <Loader width={"24px"} height={"24px"} color="#fff" />
                 </div>
@@ -48,8 +142,16 @@ export default function RenameFileUI({ files, id }) {
                 "Save"
               )}
             </Button>
-            <Button variant="deleteBtn" onClick={deleteFilehandler}>
-              <RiDeleteBin6Line size={20} className="text-inherit" />
+            <Button
+              variant="deleteBtn"
+              onClick={() => deleteFileHandler(file.id, file.image_url)}
+              disabled={loadingStates[file.id]?.isDeleting}
+            >
+              {loadingStates[file.id]?.isDeleting ? (
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              ) : (
+                <RiDeleteBin6Line size={20} className="text-inherit" />
+              )}
             </Button>
           </div>
         </div>

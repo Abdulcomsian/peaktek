@@ -10,6 +10,7 @@ import { Ckeditor } from "@components/FormControls";
 import { ImageIcon } from "@components/UI";
 import { createInspections, getInspection } from "@services/apiDesignMeeting";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function InspectionForm() {
   const { id } = useParams();
@@ -100,6 +101,9 @@ export default function InspectionForm() {
     });
 
     const resp = await createInspections(form, id);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.data.message);
+    }
   };
 
   const onerror = function (data) {

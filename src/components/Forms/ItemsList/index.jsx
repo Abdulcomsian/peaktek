@@ -3,7 +3,17 @@ import { ItemsRow } from "@components/Forms";
 import { Button } from "@components";
 import { Input } from "@components/FormControls";
 
-const ItemsList = ({ className, sectionIndex, register, watch, setValue }) => {
+const ItemsList = ({
+  className,
+  section,
+  sectionIndex,
+  register,
+  watch,
+  setValue,
+  defaultItem,
+  onDeleteItem,
+}) => {
+  console.log("DEFAULT ITEM", defaultItem);
   const [items, setItems] = useState([{ item: "", quantity: 0, price: 0 }]);
 
   // Watch for changes in line_total values
@@ -16,6 +26,11 @@ const ItemsList = ({ className, sectionIndex, register, watch, setValue }) => {
       .reduce((acc, total) => acc + parseFloat(total || 0), 0)
       .toFixed(2);
   }, [lineTotals]);
+
+  useEffect(() => {
+    if (defaultItem?.length > 0) setItems(defaultItem);
+    console.log("ITEM TO ITERATE", items);
+  }, [defaultItem]);
 
   useEffect(() => {
     setValue(`sections[${sectionIndex}].section_total`, sectionTotal);
@@ -42,6 +57,9 @@ const ItemsList = ({ className, sectionIndex, register, watch, setValue }) => {
             register={register}
             watch={watch}
             setValue={setValue}
+            item={item}
+            section={section}
+            onDeleteItem={onDeleteItem}
           />
         ))}
       </div>
