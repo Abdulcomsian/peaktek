@@ -238,7 +238,7 @@ const Scheduling = () => {
         <SelectBox
           label="Assigned to"
           placeholder="Select Supplier"
-          className="mb-4 md:mb-0 md:max-w-xl"
+          className="mb-4 md:max-w-xl"
           name="supplier_id"
           options={supplierOptions}
           value={formik.values.supplier_id}
