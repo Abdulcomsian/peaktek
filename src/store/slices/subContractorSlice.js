@@ -8,19 +8,19 @@ export const STATUS = Object.freeze({
 });
 
 const initialState = {
-  supplierData: [],
+  subContractorsData: [],
   status: STATUS.IDLE,
   total: 0, // Add total for pagination
 };
 
-// Create an async thunk for fetching suppliers
-export const fetchSupplierData = createAsyncThunk(
-  "suppliers/fetch",
+// Create an async thunk for fetching subContractors
+export const fetchSubContractors = createAsyncThunk(
+  "subContractors/fetch",
   async ({ page, pageSize }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await clientBaseURL.get(
-        `${clientEndPoints.getCompanySuppliers}?results=${pageSize}&page=${page}`,
+        `${clientEndPoints.getCompanySubContractors}?results=${pageSize}&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ export const fetchSupplierData = createAsyncThunk(
       );
       return {
         data: response?.data?.data,
-        total: response?.data?.total, // Ensure the API returns the total number of suppliers
+        total: response?.data?.total, // Ensure the API returns the total number of subContractors
       };
     } catch (error) {
       if (error?.response) {
@@ -43,26 +43,26 @@ export const fetchSupplierData = createAsyncThunk(
   }
 );
 
-const suppliersSlice = createSlice({
-  name: "suppliers",
+const subContractorSlice = createSlice({
+  name: "subContractors",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSupplierData.pending, (state) => {
+      .addCase(fetchSubContractors.pending, (state) => {
         state.status = STATUS.LOADING;
       })
-      .addCase(fetchSupplierData.fulfilled, (state, action) => {
-        state.supplierData = action.payload.data;
+      .addCase(fetchSubContractors.fulfilled, (state, action) => {
+        state.subContractorsData = action.payload.data;
         state.total = action.payload.total; // Set the total count for pagination
         state.status = STATUS.IDLE;
       })
-      .addCase(fetchSupplierData.rejected, (state) => {
+      .addCase(fetchSubContractors.rejected, (state) => {
         state.status = STATUS.ERROR;
       });
   },
 });
 
-export const {} = suppliersSlice.actions;
+export const {} = subContractorSlice.actions;
 
-export default suppliersSlice.reducer;
+export default subContractorSlice.reducer;

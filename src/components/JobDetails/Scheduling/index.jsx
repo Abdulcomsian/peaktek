@@ -22,10 +22,14 @@ const Scheduling = () => {
   const [materialOrderData, setMaterialOrderData] = useState(null);
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
   const suppliersData = useSelector((state) => state?.suppliers?.supplierData);
-  console.log("suppliers data", suppliersData);
   useEffect(() => {
     dispatch(fetchSupplierData());
   }, []);
+  const supplierOptions =
+    suppliersData?.map((supplier) => ({
+      label: supplier?.name,
+      value: supplier?.id,
+    })) || [];
 
   // Fetch Scheduling data
   const fetchData = async () => {
@@ -87,7 +91,7 @@ const Scheduling = () => {
       materials: [{ material: "", quantity: "", color: "", order_key: "" }],
     },
     enableReinitialize: true,
-    validationSchema: schedulingSchema,
+    // validationSchema: schedulingSchema,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,
@@ -97,6 +101,7 @@ const Scheduling = () => {
         build_date: values.build_date
           ? values.build_date.format("DD/MM/YYYY")
           : "",
+        supplier_id: values.supplier_id,
       };
 
       try {
@@ -166,7 +171,7 @@ const Scheduling = () => {
         valley_sf: materialOrderData.valley_sf || "",
         hip_and_ridge_lf: materialOrderData.hip_and_ridge_lf || "",
         drip_edge_lf: materialOrderData.drip_edge_lf || "",
-        supplier_id: materialOrderData?.supplier_id || "",
+        supplier_id: materialOrderData.supplier_id || "",
         materials: materialOrderData.materials?.map((material) => ({
           material: material.material || "",
           quantity: material.quantity || "",
@@ -229,28 +234,22 @@ const Scheduling = () => {
           touched={formik.touched.materials}
           errors={formik.errors.materials}
         />
-        <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-          <SelectBox
-            label="Assigned to"
-            placeholder="Select Supplier"
-            className="mb-4 md:mb-0 max-w-xl"
-            name="supplier_id"
-            options={[
-              { label: "Red", value: "red" },
-              { label: "Blue", value: "blue" },
-              { label: "Green", value: "green" },
-            ]}
-            // ref={inputRefs?.company_signature}
-            // value={values?.company_signature || ""}
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // error={errors?.company_signature}
-            // touched={touched?.company_signature}
-          />
-        </InputContainer>
+
+        <SelectBox
+          label="Assigned to"
+          placeholder="Select Supplier"
+          className="mb-4 md:mb-0 md:max-w-xl"
+          name="supplier_id"
+          options={supplierOptions}
+          value={formik.values.supplier_id}
+          onBlur={formik.handleBlur}
+          onChange={(value) => formik.setFieldValue("supplier_id", value)}
+          error={formik.errors.supplier_id}
+          touched={formik.touched.supplier_id}
+        />
 
         <div className="flex justify-center md:justify-start">
-          <Button
+          {/* <Button
             type="submit"
             disabled={formik?.isSubmitting}
             className="w-full max-w-36 text-white btn-gradient px-4 py-1 mr-4"
@@ -262,7 +261,7 @@ const Scheduling = () => {
             ) : (
               "Save & Email"
             )}
-          </Button>
+          </Button> */}
           <Button
             disabled={formik?.isSubmitting}
             type="submit"

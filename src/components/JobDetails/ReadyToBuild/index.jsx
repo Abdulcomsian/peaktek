@@ -17,10 +17,17 @@ import { useParams } from "react-router-dom";
 import { readyToBuildSchema } from "@services/schema";
 import { Spin } from "antd";
 import { Loader } from "@components/UI";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSubContractors } from "@store/slices/subContractorSlice";
 
 const ReadyToBuild = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const subContractorsData = useSelector(
+    (state) => state?.subContractors?.subContractorsData
+  );
+
   const [initialValues, setInitialValues] = useState({
     recipient: "",
     date: null,
@@ -28,50 +35,60 @@ const ReadyToBuild = () => {
     text: "",
     sub_contractor_id: "",
   });
+  const subContractorsOptions =
+    subContractorsData?.map((subContractor) => ({
+      label: subContractor?.name,
+      value: subContractor?.id,
+    })) || [];
 
   useEffect(() => {
-    const getReadyToBuildData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-        setLoading(true);
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getReadyToBuild}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+    dispatch(fetchSubContractors());
+  }, []);
 
-        if (response?.status >= 200 && response?.status < 300) {
-          const data = response?.data?.data;
-          const formattedInitialDate = data?.date
-            ? dayjs(data?.date, "DD/MM/YYYY")
-            : null;
-          const formattedInitialTime = data?.time
-            ? dayjs(data?.time, "hh:mm A")
-            : null;
-          setInitialValues({
-            recipient: data?.recipient || "",
-            date: formattedInitialDate,
-            time: formattedInitialTime,
-            text: data?.text || "",
-          });
-        }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      } finally {
-        setLoading(false);
+  const getReadyToBuildData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
       }
-    };
+      setLoading(true);
+      const response = await clientBaseURL.get(
+        `${clientEndPoints?.getReadyToBuild}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response?.status >= 200 && response?.status < 300) {
+        const data = response?.data?.data;
+        const formattedInitialDate = data?.date
+          ? dayjs(data?.date, "DD/MM/YYYY")
+          : null;
+        const formattedInitialTime = data?.time
+          ? dayjs(data?.time, "hh:mm A")
+          : null;
+        setInitialValues({
+          recipient: data?.recipient || "",
+          date: formattedInitialDate,
+          time: formattedInitialTime,
+          text: data?.text || "",
+          sub_contractor_id: data?.sub_contractor_id || "",
+        });
+      }
+    } catch (error) {
+      if (error?.response) {
+        console.error(
+          error?.response?.data?.error || error?.response?.data?.message
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     if (id) getReadyToBuildData();
   }, [id]);
 
@@ -163,18 +180,15 @@ const ReadyToBuild = () => {
               label="Sub Contractor"
               placeholder="Select Sub Contractor"
               className="mb-4 md:mb-0 max-w-xl"
-              name="supplier_id"
-              options={[
-                { label: "Red", value: "red" },
-                { label: "Blue", value: "blue" },
-                { label: "Green", value: "green" },
-              ]}
-              // ref={inputRefs?.company_signature}
-              // value={values?.company_signature || ""}
-              // onBlur={handleBlur}
-              // onChange={handleChange}
-              // error={errors?.company_signature}
-              // touched={touched?.company_signature}
+              name="sub_contractor_id"
+              options={subContractorsOptions}
+              value={formik.values.sub_contractor_id}
+              onBlur={formik.handleBlur}
+              onChange={(value) =>
+                formik.setFieldValue("sub_contractor_id", value)
+              }
+              error={formik.errors.sub_contractor_id}
+              touched={formik.touched.sub_contractor_id}
             />
           </InputContainer>
           <Ckeditor
