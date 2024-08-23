@@ -7,12 +7,19 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { Form } from "@components/FormControls";
+import SelectBox from "./SelectBox";
 import MediaContent from "./MediaContent";
 import { Loader } from "@components/UI";
+import { useDispatch } from "react-redux";
+import { fetchUsersData } from "@store/slices/usersSlice";
+import { useSelector } from "react-redux";
 const Summary = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const usersData = useSelector((state) => state?.users?.usersData);
+
   const [fields, setFields] = useState({
     job_total: "",
     first_payment: "",
@@ -24,6 +31,7 @@ const Summary = () => {
     final_payment: "",
     final_payment_cheque_number: "",
     balance: "",
+    user_ids: [], // To store selected user IDs
   });
 
   useEffect(() => {
@@ -55,6 +63,13 @@ const Summary = () => {
     }));
   };
 
+  const handleSelectChange = (selectedValues) => {
+    setFields((prevFields) => ({
+      ...prevFields,
+      user_ids: selectedValues, // Update the selected user IDs
+    }));
+  };
+
   const getSummaryFields = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -73,7 +88,6 @@ const Summary = () => {
       );
 
       if (response?.status >= 200 && response?.status < 300) {
-        // toast.success(response?.data?.message);
         setFields((prevFields) => ({
           ...prevFields,
           ...response.data.job, // Set fields with data from the response
@@ -89,11 +103,13 @@ const Summary = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (id) {
       getSummaryFields();
     }
-  }, [id]);
+    dispatch(fetchUsersData());
+  }, []);
 
   const handleSubmit = async (e) => {
     try {
@@ -127,157 +143,177 @@ const Summary = () => {
     }
   };
 
+  const userOptions = usersData.map((user) => ({
+    value: user.id,
+    label: user.name,
+  }));
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
       {/**First part start*/}
-      <div className="bg-white rounded-2xl p-5 w-full max-w-5xl mb-6">
-        <Form onSubmit={handleSubmit}>
-          <div className="flex flex-col lg:flex-row justify-between mb-4">
-            <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
-              <div className="text-black text-opacity-30 ">Job Total</div>
-              <SimpleInput
-                id="job_total"
-                className="w-24 ps-2"
-                placeholder="10000"
-                type="number"
-                name="job_total"
-                max={8}
-                required={true}
-                value={fields.job_total}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex gap-6 justify-between flex-wrap mb-4 lg:mb-0">
-              <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
-                <div className="text-black text-opacity-30  mb-4 ">
-                  First Payment
+      <Form onSubmit={handleSubmit}>
+        <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
+          <div className="bg-white w-full max-w-5xl lg:mr-4 rounded-2xl p-5 mb-4 lg:mb-0">
+            <div className="flex flex-col lg:flex-row justify-between mb-4">
+              <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
+                <div className="text-black text-opacity-30 ">Job Total</div>
+                <SimpleInput
+                  id="job_total"
+                  className="w-20 ps-2"
+                  placeholder="10000"
+                  type="number"
+                  name="job_total"
+                  max={8}
+                  required={true}
+                  value={fields.job_total}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex gap-4 px-0 lg:px-4 justify-between flex-wrap mb-4 lg:mb-0">
+                <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
+                  <div className="text-black text-opacity-30  mb-4 ">
+                    First Payment
+                  </div>
+                  <div className="flex">
+                    <SimpleInput
+                      id="first_payment"
+                      className="w-16 ps-1 mr-1"
+                      placeholder="2560"
+                      type="number"
+                      name="first_payment"
+                      value={fields.first_payment}
+                      onChange={handleChange}
+                    />
+                    <MoneyInput
+                      id="first_payment_cheque_number"
+                      placeholder="123FP"
+                      type="text"
+                      className="w-24"
+                      name="first_payment_cheque_number"
+                      value={fields.first_payment_cheque_number}
+                      onChange={handleChange}
+                    />
+                  </div>
                 </div>
-                <div className="flex">
-                  <SimpleInput
-                    id="first_payment"
-                    className="w-16 ps-1 mr-1"
-                    placeholder="2560"
-                    type="number"
-                    name="first_payment"
-                    value={fields.first_payment}
-                    onChange={handleChange}
-                  />
-                  <MoneyInput
-                    id="first_payment_cheque_number"
-                    placeholder="123FP"
-                    type="text"
-                    className="w-24"
-                    name="first_payment_cheque_number"
-                    value={fields.first_payment_cheque_number}
-                    onChange={handleChange}
-                  />
+                <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
+                  <div className="text-black text-opacity-30 mb-4">
+                    Deductable
+                  </div>
+                  <div className="flex">
+                    <SimpleInput
+                      id="deductable"
+                      className="w-16 ps-1 mr-1"
+                      placeholder="2560"
+                      type="number"
+                      name="deductable"
+                      value={fields.deductable}
+                      onChange={handleChange}
+                    />
+                    <MoneyInput
+                      id="deductable_cheque_number"
+                      placeholder="123FP"
+                      type="text"
+                      className="w-24"
+                      name="deductable_cheque_number"
+                      value={fields.deductable_cheque_number}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
+                  <div className="text-black text-opacity-30 mb-4 ">
+                    Upgrades
+                  </div>
+                  <div className="flex">
+                    <SimpleInput
+                      id="upgrades"
+                      className="w-16 ps-1 mr-1"
+                      placeholder="2560"
+                      type="number"
+                      name="upgrades"
+                      value={fields.upgrades}
+                      onChange={handleChange}
+                    />
+                    <MoneyInput
+                      id="upgrades_cheque_number"
+                      placeholder="123FP"
+                      type="text"
+                      className="w-24"
+                      name="upgrades_cheque_number"
+                      value={fields.upgrades_cheque_number}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
+                  <div className="text-black text-opacity-30 mb-4">
+                    Final Payment
+                  </div>
+                  <div className="flex">
+                    <SimpleInput
+                      id="final_payment"
+                      className="w-16 ps-1 mr-1"
+                      placeholder="2560"
+                      type="number"
+                      name="final_payment"
+                      value={fields.final_payment}
+                      onChange={handleChange}
+                    />
+                    <MoneyInput
+                      id="final_payment_cheque_number"
+                      placeholder="123FP"
+                      type="text"
+                      className="w-24"
+                      name="final_payment_cheque_number"
+                      value={fields.final_payment_cheque_number}
+                      onChange={handleChange}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
-                <div className="text-black text-opacity-30 mb-4">
-                  Deductable
-                </div>
-                <div className="flex">
-                  <SimpleInput
-                    id="deductable"
-                    className="w-16 ps-1 mr-1"
-                    placeholder="2560"
-                    type="number"
-                    name="deductable"
-                    value={fields.deductable}
-                    onChange={handleChange}
-                  />
-                  <MoneyInput
-                    id="deductable_cheque_number"
-                    placeholder="123FP"
-                    type="text"
-                    className="w-24"
-                    name="deductable_cheque_number"
-                    value={fields.deductable_cheque_number}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
-                <div className="text-black text-opacity-30 mb-4 ">Upgrades</div>
-                <div className="flex">
-                  <SimpleInput
-                    id="upgrades"
-                    className="w-16 ps-1 mr-1"
-                    placeholder="2560"
-                    type="number"
-                    name="upgrades"
-                    value={fields.upgrades}
-                    onChange={handleChange}
-                  />
-                  <MoneyInput
-                    id="upgrades_cheque_number"
-                    placeholder="123FP"
-                    type="text"
-                    className="w-24"
-                    name="upgrades_cheque_number"
-                    value={fields.upgrades_cheque_number}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
-                <div className="text-black text-opacity-30 mb-4">
-                  Final Payment
-                </div>
-                <div className="flex">
-                  <SimpleInput
-                    id="final_payment"
-                    className="w-16 ps-1 mr-1"
-                    placeholder="2560"
-                    type="number"
-                    name="final_payment"
-                    value={fields.final_payment}
-                    onChange={handleChange}
-                  />
-                  <MoneyInput
-                    id="final_payment_cheque_number"
-                    placeholder="123FP"
-                    type="text"
-                    className="w-24"
-                    name="final_payment_cheque_number"
-                    value={fields.final_payment_cheque_number}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
+              <div className="flex justify-between items-center  lg:flex-col  font-poppins font-normal text-sm ">
+                <div className="text-black  font-medium">Balance</div>
 
-            <div className="flex justify-between items-center  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
-              <div className="text-black  font-medium">Balance</div>
-
-              <SimpleInput
-                id="balance"
-                className="w-24 ps-2"
-                placeholder="Total balance"
-                type="text"
-                name="balance"
-                value={fields.balance}
-                readOnly={true}
-              />
+                <SimpleInput
+                  id="balance"
+                  className="w-20 ps-2"
+                  placeholder="Total balance"
+                  type="text"
+                  name="balance"
+                  value={fields.balance}
+                  readOnly={true}
+                />
+              </div>
             </div>
           </div>
-          <Button
-            type="submit"
-            className="w-full max-w-20 text-white btn-gradient px-4 py-1"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <div className="flex justify-center items-center">
-                <Loader width={"24px"} height={"24px"} color="#fff" />
-              </div>
-            ) : (
-              "Save"
-            )}
-          </Button>
-        </Form>
-      </div>
+          {/**Add a multi-level antd select box here */}
+          <div className="bg-white w-full lg:max-w-xs  rounded-2xl p-5 ">
+            <SelectBox
+              label="Sales Representative"
+              placeholder="Select Sales Representative"
+              className="mb-4 md:mb-0 "
+              name="user_ids"
+              size="small"
+              options={userOptions}
+              value={fields.user_ids}
+              onChange={handleSelectChange}
+            />
+          </div>
+        </div>
+        <Button
+          type="submit"
+          className="w-full max-w-24 text-center text-white btn-gradient mb-4 px-4 py-1"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <div className="flex justify-center items-center">
+              <Loader width={"24px"} height={"24px"} color="#fff" />
+            </div>
+          ) : (
+            "Submit"
+          )}
+        </Button>
+      </Form>
       <div className="bg-white rounded-2xl p-5 w-full max-w-7xl mb-6">
         <MediaContent id={id} />
       </div>

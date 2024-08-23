@@ -5,42 +5,19 @@ import AddUser from "@components/Modals/AddUsers";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsersData, STATUS } from "@store/slices/usersSlice";
 
-const columns = [
-  {
-    title: "Sr No",
-    dataIndex: "srNo",
-    render: (text, record, index) => index + 1,
-    width: "10%",
-  },
-  {
-    title: "Name",
-    dataIndex: "name",
-    width: "45%",
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    width: "45%",
-  },
-];
-
 const Users = () => {
   const dispatch = useDispatch();
-  const { usersData, total, status } = useSelector((state) => state.users);
+  const { usersData, status } = useSelector((state) => state.users);
   const [showModal, setShowModal] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 3,
+    pageSize: 5,
   });
 
   useEffect(() => {
-    dispatch(
-      fetchUsersData({
-        page: pagination.current,
-        pageSize: pagination.pageSize,
-      })
-    );
-  }, [dispatch, pagination.current, pagination.pageSize]);
+    // Fetch all users data without pagination params
+    dispatch(fetchUsersData({}));
+  }, [dispatch]);
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
@@ -53,6 +30,41 @@ const Users = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+
+  // Function to refetch users data
+  const handleUserAdded = () => {
+    dispatch(fetchUsersData({}));
+    closeModal(); // Close the modal after fetching new data
+  };
+
+  // Define columns inside the component so that `pagination` can be accessed
+  const columns = [
+    {
+      title: "Sr No",
+      dataIndex: "srNo",
+      render: (text, record, index) =>
+        index +
+        1 +
+        (parseInt(pagination.current) - 1) * parseInt(pagination.pageSize),
+      width: "10%",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      width: "45%",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      width: "45%",
+    },
+  ];
+
+  // Paginate data based on current page and page size
+  const paginatedData = usersData.slice(
+    (pagination.current - 1) * pagination.pageSize,
+    pagination.current * pagination.pageSize
+  );
 
   return (
     <div className="w-full max-w-7xl mx-auto py-10">
@@ -71,10 +83,10 @@ const Users = () => {
         <Table
           columns={columns}
           rowKey={(record) => record.id}
-          dataSource={usersData}
+          dataSource={paginatedData}
           pagination={{
             ...pagination,
-            total: total,
+            total: usersData.length, // Total number of items for pagination
           }}
           loading={status === STATUS.LOADING}
           size="large"
@@ -88,7 +100,7 @@ const Users = () => {
           roleId={5}
           heading="Create New User"
           open={showModal}
-          onOk={closeModal}
+          onOk={handleUserAdded} // Pass the handleUserAdded function to refetch and close modal
           onCancel={closeModal}
         />
       )}

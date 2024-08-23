@@ -1,6 +1,6 @@
 import axios from "axios";
 const stagingURL = "https://peaktek.vercel.app";
-const baseURL = "https://test7.accrualdev.com";
+const baseURL = "https://accrualhub.com";
 // const baseURL =
 //   "https://693b-2407-d000-d-98ea-50a8-882e-5618-9913.ngrok-free.app";
 
