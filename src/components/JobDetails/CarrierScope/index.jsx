@@ -4,6 +4,7 @@ import { FileUploader, Form } from "@components/FormControls";
 import { Button } from "@components/UI";
 import { Input } from "@components/FormControls";
 import toast from "react-hot-toast";
+import { Loader } from "@components/UI";
 import {
   createCarrierScope,
   getCarrierScope,
@@ -21,12 +22,11 @@ export default function CarrierScope() {
     async function fetchCarrierScope() {
       const resp = await getCarrierScope(id);
       if (resp.status >= 200 && resp.status < 300) {
-        console.log(resp);
         setDefaultImages(resp.data.data);
       }
     }
     if (id) fetchCarrierScope();
-  }, [id]);
+  }, [id, images]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,39 +50,38 @@ export default function CarrierScope() {
     }
   };
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  // const handleSubmit = function (e) {
-  //   console.log("clicked");
-  // };
-
-  const deleteFilehandler = function () {
-    console.log("DELETE BUTTON CLICKED");
-  };
-
-  const openFileHandler = () => {
-    const fullFileUrl = `${baseURL}${file?.media_url}`;
-    window.open(fullFileUrl, "_blank");
-  };
-
   return (
-    <Form onSubmit={handleSubmit}>
-      <FileUploader
-        label="Images"
-        id="images"
-        icon={<ImageIcon />}
-        className="w-full mb-4 mr-4"
-        fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
-        text="Drop your image here, or"
-        files={images}
-        setFiles={setImages}
-        handleDelete={(index) =>
-          setImages(images.filter((_, i) => i !== index))
-        }
-      />
-      {defaultImages && <RenameFileUI files={defaultImages} />}
-      <Button type="submit" variant="gradient" disabled={loading}>
-        {loading ? "Saving..." : "Save"}
-      </Button>
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <FileUploader
+          label="Images"
+          id="images"
+          icon={<ImageIcon />}
+          className="w-full mb-4 mr-4"
+          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+          text="Drop your image here, or"
+          files={images}
+          setFiles={setImages}
+          handleDelete={(index) =>
+            setImages(images.filter((_, i) => i !== index))
+          }
+        />
+        <Button type="submit" variant="gradient" disabled={loading}>
+          {loading ? (
+            <Loader width={"24px"} height={"24px"} color="#fff" />
+          ) : (
+            "Save"
+          )}
+        </Button>
+      </Form>
+
+      {defaultImages && (
+        <RenameFileUI
+          files={defaultImages}
+          apiDeleteFileEndpoint="/api/delete/carrier-scope/media"
+          apiUpdateFileEndPoint="/api/change/carrier-scope/file-name"
+        />
+      )}
+    </>
   );
 }

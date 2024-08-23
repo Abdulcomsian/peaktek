@@ -174,12 +174,106 @@ export async function createQuoteDetail(data, id) {
   }
 }
 
+export async function getQuoteDetail(id) {
+  const token = localStorage.getItem("token");
+
+  try {
+    const resp = clientBaseURL.get(`${clientEndPoints.getQuoteDetail}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteQuoteSection(jobId, sectionId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.deleteQuoteSection}/${jobId}`,
+      {
+        section_id: sectionId,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteQuoteItem(jobId, section_id, item_id) {
+  console.log(jobId, section_id, item_id);
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.deleteQuoteItem}/${jobId}`,
+      {
+        section_id,
+        item_id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function createAuthorization(dataToLoad, id) {
   const token = localStorage.getItem("token");
   try {
     const resp = clientBaseURL.post(
       `${clientEndPoints.createAuthorization}/${id}`,
       dataToLoad,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteAuthorizationSection(jobId, sectionId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.deleteAuthorizationSection}/${jobId}`,
+      {
+        section_id: sectionId,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteAuthorizationItem(jobId, section_id, item_id) {
+  console.log(jobId, section_id, item_id);
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.deleteAuthorizationItem}/${jobId}`,
+      {
+        section_id,
+        item_id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getAuthorization(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = clientBaseURL.get(
+      `${clientEndPoints.getAuthorization}/${id}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return resp;

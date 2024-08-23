@@ -5,7 +5,7 @@ import { Input, InputContainer, CustomDatePicker } from "@components";
 import { Button, UploaderInputs } from "@components/index";
 import { Spin } from "antd";
 import { formateErrorName, mapToArray } from "../../../utils/helper";
-import { ImageIcon } from "@components/UI";
+import { ImageIcon, RenameFileUI } from "@components/UI";
 import { createTitle, getTitle } from "@services/apiDesignMeeting";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@context/AuthContext";
@@ -13,7 +13,7 @@ import { useAuth } from "@context/AuthContext";
 export default function TitleForm() {
   const { id: jobId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
-  const {logout} = useAuth()
+  const { logout } = useAuth();
   const {
     register,
     handleSubmit,
@@ -24,22 +24,33 @@ export default function TitleForm() {
   } = useForm({
     defaultValues: async () => {
       const res = await getTitle(jobId);
-      if (res.status >= 200 && res.status < 300 && Object.keys(res.data.data).length > 0) {
-        setIsEditing(true)
+      if (
+        res.status >= 200 &&
+        res.status < 300 &&
+        Object.keys(res.data.data).length > 0
+      ) {
+        console.log(res);
+        setIsEditing(true);
         return res.data.data;
-      }
-      else return {}
+      } else return {};
     },
   });
+
+  const defaultPrimaryImage = watch("primary_images");
+  const defaultSecondaryImage = watch("secondary_images");
 
   const onSubmit = async function (data) {
     const finalDataToUpload = {
       ...data,
-      primary_image: data.primary_image instanceof FileList ? data.primary_image[0] : null,
-      secondary_image: data.secondary_image instanceof FileList ? data.secondary_image[0] : null,
+      primary_image:
+        data.primary_image instanceof FileList ? data.primary_image[0] : null,
+      secondary_image:
+        data.secondary_image instanceof FileList
+          ? data.secondary_image[0]
+          : null,
     };
 
-    console.log(finalDataToUpload)
+    console.log(finalDataToUpload);
 
     try {
       const resp = await createTitle(finalDataToUpload, jobId);
@@ -47,9 +58,9 @@ export default function TitleForm() {
         toast.success(resp.data.message);
         reset();
       }
-      if(resp.status === 401){
-        toast.error(resp.message)
-        logout()
+      if (resp.status === 401) {
+        toast.error(resp.message);
+        logout();
       }
     } catch (err) {
       console.error(err);
@@ -169,38 +180,56 @@ export default function TitleForm() {
         error={errors.date && formateErrorName(errors?.date?.message)}
       />
       <div className="flex flex-col md:flex-row gap-4 ">
-        <UploaderInputs
-          wrapperClass="grow w-full"
-          text="Primary Image:"
-          name="primary_image"
-          register={register}
-          id="primary_image"
-          icon={<ImageIcon />}
-          require={!isEditing}
-          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
-          multiple={false}
-          error={
-            errors.primary_image &&
-            formateErrorName(errors?.primary_image?.message)
-          }
-          defaultFiles={watch("primary_image")}
-        />
-        <UploaderInputs
-          wrapperClass="grow w-full"
-          text="Secondary Logo:"
-          name="secondary_image"
-          id="secondary_image"
-          register={register}
-          icon={<ImageIcon />}
-          require={!isEditing}
-          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
-          multiple={false}
-          error={
-            errors.secondary_image &&
-            formateErrorName(errors?.secondary_image?.message)
-          }
-          defaultFiles={watch("secondary_image")}
-        />
+        <div className="grow">
+          <UploaderInputs
+            wrapperClass="grow w-full"
+            text="Primary Image:"
+            name="primary_image"
+            register={register}
+            id="primary_image"
+            icon={<ImageIcon />}
+            require={!isEditing}
+            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+            multiple={false}
+            error={
+              errors.primary_image &&
+              formateErrorName(errors?.primary_image?.message)
+            }
+            defaultFiles={watch("primary_image")}
+          />
+          {defaultPrimaryImage && (
+            <RenameFileUI
+              files={defaultPrimaryImage}
+              apiDeleteFileEndpoint="/api/delete/project-design-title/media"
+              apiUpdateFileEndPoint="/api/change/project-design-title/file-name"
+            />
+          )}
+        </div>
+        <div className="grow">
+          <UploaderInputs
+            wrapperClass="grow w-full"
+            text="Secondary Logo:"
+            name="secondary_image"
+            id="secondary_image"
+            register={register}
+            icon={<ImageIcon />}
+            require={!isEditing}
+            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+            multiple={false}
+            error={
+              errors.secondary_image &&
+              formateErrorName(errors?.secondary_image?.message)
+            }
+            defaultFiles={watch("secondary_image")}
+          />
+          {defaultSecondaryImage && (
+            <RenameFileUI
+              files={defaultSecondaryImage}
+              apiDeleteFileEndpoint="/api/delete/project-design-title/media"
+              apiUpdateFileEndPoint="/api/change/project-design-title/file-name"
+            />
+          )}
+        </div>
       </div>
       <Button type="submit" variant="gradient" className=" mt-6">
         {isLoading ? <Spin /> : "Submit"}

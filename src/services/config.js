@@ -54,8 +54,14 @@ const clientEndPoints = {
 
   //Quote Detail Form
   createQuoteDetail: "/api/store/project-design/quote",
+  getQuoteDetail: "/api/get/project-design/quote",
+  deleteQuoteSection: "/api/delete/section",
+  deleteQuoteItem: "/api/delete/item",
   // Authorization Form
   createAuthorization: "/api/store/project-design/authorization",
+  getAuthorization: "/api/get/project-design/authorization",
+  deleteAuthorizationSection: "/api/delete/authorization-section",
+  deleteAuthorizationItem: "/api/delete/authorization-item",
   // Roof Component
   createRoofComponent: "/api/store/xactimate-report",
 
