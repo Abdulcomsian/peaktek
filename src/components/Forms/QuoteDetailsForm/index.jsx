@@ -6,9 +6,16 @@ import { FaTrashAlt } from "react-icons/fa";
 import { Switch } from "antd";
 import { ItemsList } from "@components/Forms";
 import { useForm } from "react-hook-form";
-import { createQuoteDetail } from "@services/apiDesignMeeting";
+import {
+  createQuoteDetail,
+  deleteQuoteItem,
+  deleteQuoteSection,
+  getQuoteDetail,
+} from "@services/apiDesignMeeting";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { clientBaseURL } from "@services/config";
+import { number } from "yup";
 
 export default function QuoteDetailsForm() {
   const { id: jobId } = useParams();
@@ -20,7 +27,17 @@ export default function QuoteDetailsForm() {
     formState: { errors },
     watch,
     setValue,
-  } = useForm();
+  } = useForm({
+    defaultValues: async function () {
+      const resp = await getQuoteDetail(jobId);
+      console.log(resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        console.log("fasq123", resp.data.data.sections);
+        setSections((sections) => [...resp.data.data.sections]);
+        return resp.data.data;
+      }
+    },
+  });
 
   // Watch section totals and profit margin
   const sectionTotals = sections.map((_, index) =>
@@ -28,7 +45,6 @@ export default function QuoteDetailsForm() {
   );
   const profitMargin = watch("profit_margin", 0);
 
-  // Calculate quote_sub_total and quote_total
   useEffect(() => {
     // Calculate quote_sub_total
     const subtotal = sectionTotals
@@ -47,35 +63,58 @@ export default function QuoteDetailsForm() {
     // This effect runs when sectionTotals or profitMargin change
   }, [sectionTotals.join(","), profitMargin, setValue]);
 
-  const handleSwitchClick = (e) => {
-    e.stopPropagation();
+  const handleSwitchChange = async (checked, quote_id, section_id) => {
+    const token = localStorage.getItem("token");
+    const formdata = new FormData();
+    formdata.append("quote_id", quote_id);
+    formdata.append("section_id", section_id);
+    formdata.append("status", Number(checked));
+    try {
+      const resp = await clientBaseURL.post(
+        `/api/section/update-status/${jobId}`,
+        formdata,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log(resp);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleAddSection = () => {
     setSections([...sections, { id: uuidv4(), title: "" }]);
   };
 
-  const handleDeleteSection = (id) => {
-    setSections(sections.filter((section) => section.id !== id));
+  const handleDeleteSection = async (id) => {
+    async function deleteRemoteSection() {
+      const resp = await deleteQuoteSection(jobId, id);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+        setSections(sections.filter((section) => section.id !== id));
+      }
+    }
+
+    if (typeof id === "number") deleteRemoteSection();
+    if (typeof id !== "number")
+      setSections(sections.filter((section) => section.id !== id));
   };
 
-  const handleTitleChange = (id, value) => {
-    setSections(
-      sections.map((section) =>
-        section.id === id ? { ...section, title: value } : section
-      )
-    );
-  };
-
-  const handleProgressChange = (e) => {
-    setProgress(e.target.value);
+  const handleDeleteItem = async (section_id, item_id) => {
+    console.log(sections);
+    const resp = await deleteQuoteItem(jobId, section_id, item_id);
+    // console.log(resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.data.message);
+      setSections(resp.data.data.sections);
+    }
   };
 
   const onSubmit = async function (data) {
-    console.log(data);
+    console.log(data, "FINAL DATA TO LOAD");
     try {
       const resp = await createQuoteDetail(data, jobId);
-      console.log(resp);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
@@ -97,11 +136,11 @@ export default function QuoteDetailsForm() {
         >
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-end gap-5 pt-4 w-full mr-2 md:mr-4">
-              <Button variant="deleteBtn">
-                <FaTrashAlt
-                  className="text-red-600 cursor-pointer"
-                  onClick={() => handleDeleteSection(section.id)}
-                />
+              <Button
+                variant="deleteBtn"
+                onClick={() => handleDeleteSection(section.id)}
+              >
+                <FaTrashAlt className="text-red-600 cursor-pointer" />
               </Button>
               <Input
                 id={`sections[${index}].title`}
@@ -114,13 +153,22 @@ export default function QuoteDetailsForm() {
                 className="focus:outline-1 md:max-w-md focus:outline-blue-600 mr-2 md:mr-4"
               />
             </div>
-            <Switch className="mt-9" onClick={handleSwitchClick} />
+            <Switch
+              className="mt-9"
+              defaultChecked={section.status === "1"}
+              onChange={(checked) =>
+                handleSwitchChange(checked, section.quote_id, section.id)
+              }
+            />
           </div>
           <ItemsList
             register={register}
             sectionIndex={index}
             watch={watch}
             setValue={setValue} // Pass setValue to ItemsList
+            defaultItem={section.items}
+            onDeleteItem={handleDeleteItem}
+            section={section}
           />
         </section>
       ))}

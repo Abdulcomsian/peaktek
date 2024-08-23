@@ -1,14 +1,22 @@
 import { useState } from "react";
-
-import { FaRegEdit } from "react-icons/fa";
+import { v4 as uuidv4 } from "uuid";
+import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 
 import { ItemsList } from "@components/Forms";
-import { Input, InputContainer, Button, Card, Textarea } from "@components";
+import { InputContainer, Button, Card, Textarea } from "@components";
 import { useForm } from "react-hook-form";
-import { createAuthorization } from "@services/apiDesignMeeting";
+import {
+  createAuthorization,
+  deleteAuthorizationItem,
+  deleteAuthorizationSection,
+  getAuthorization,
+} from "@services/apiDesignMeeting";
 import { useParams } from "react-router-dom";
+import { Input, TextareaInput } from "@components/FormControls";
+import toast from "react-hot-toast";
 
 export default function AuthorizationForm() {
+  const { id: jobId } = useParams();
   const {
     register,
     handleSubmit,
@@ -16,53 +24,122 @@ export default function AuthorizationForm() {
     getValues,
     watch,
     setValue,
-  } = useForm();
+  } = useForm({
+    defaultValues: async function () {
+      try {
+        const resp = await getAuthorization(jobId);
+        console.log(resp);
+        if (resp.status >= 200 && resp.status < 300) {
+          setSections(resp.data.data.sections);
+          return resp.data.data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
   const [sections, setSections] = useState([{ title: "", section_total: 0 }]);
-  const { id: jobId } = useParams();
 
-  const handleAddSection = function () {
-    const objectToAdd = Object.assign({}, sections.at(0));
-    setSections((section) => [...section, objectToAdd]);
+  const handleAddSection = () => {
+    setSections([...sections, { id: uuidv4(), title: "" }]);
+  };
+
+  const handleDeleteItem = (section_id, item_id) => {
+    console.log(sections, item_id);
+    async function deleteItemRemote() {
+      const resp = await deleteAuthorizationItem(jobId, section_id, item_id);
+      console.log("authorization", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+        setSections(resp.data.data.sections);
+      }
+    }
+
+    if (typeof item_id === "number") deleteItemRemote();
+    // if(typeof item_id !== "number") setSections(sections.filter((section) => section.id !== id));
+  };
+
+  const handleDeleteSection = async (section_id) => {
+    async function deleteRemoteSection() {
+      const resp = await deleteAuthorizationSection(jobId, section_id);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+        setSections(sections.filter((section) => section.id !== section_id));
+      }
+    }
+
+    if (typeof section_id === "number") deleteRemoteSection();
+    if (typeof section_id !== "number")
+      setSections(sections.filter((section) => section.id !== section_id));
   };
 
   const onSubmit = async function (data) {
     console.log(data);
     const resp = await createAuthorization(data, jobId);
-    console.log(resp);
+    try {
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+      }
+      console.log(resp);
+    } catch (error) {
+      console.log("fkajhslfda123", error);
+    }
   };
+
+  console.log("SECCC", sections);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2 className="font-semibold text-black text-base mb-2">Disclaimer</h2>
       <p className="text-gray-400 text-sm mb-4">
         For example, the terms of an estimate, or a direction to the insurer.
       </p>
-      <p className="text-sm mb-4">
-        I hereby irrevocably direct my Insurer to include the name ____________
-        (Roofing Co.) as the payee on any check or draft issued in payment of
-        said insurance claim with regard to the building or contents repair and
-        to send that check directly to the contractor. I am responsible for
-        payment of the deductible in the amount of $_____, and any depreciation
-        (if applicable).
-      </p>
+      <div>
+        <p className="text-sm mb-4 inline-block">
+          I hereby irrevocably direct my Insurer to include the name
+        </p>
+        <Input
+          className="inline-block !w-fit mx-1"
+          register={register}
+          name="disclaimer"
+        />
+        <p className="inline">
+          (Roofing Co.) as the payee on any check or draft issued in payment of
+          said insurance claim with regard to the building or contents repair
+          and to send that check directly to the contractor. I am responsible
+          for payment of the deductible in the amount of $
+        </p>
+        {/* <Input className="inline-block !w-fit mx-1" register={register} name=""/> */}
+        <p className="inline">, and any depreciation (if applicable).</p>
+      </div>
 
       <div className="border-b-1">
         {sections.map((section, index) => (
           <>
-            <Input
-              register={register}
-              name={`sections[${index}].title`}
-              applyMarginBottom={true}
-              label="Section title"
-              placeholder=""
-              type="text"
-              className="focus:outline-1 focus:outline-blue-600 "
-            />
+            <div className="flex gap-3 items-center">
+              <Button
+                variant="deleteBtn"
+                onClick={() => handleDeleteSection(section.id)}
+              >
+                <FaTrashAlt className="text-red-600 cursor-pointer" />
+              </Button>
+              <Input
+                register={register}
+                name={`sections[${index}].title`}
+                applyMarginBottom={true}
+                label="Section title"
+                placeholder=""
+                type="text"
+                className="focus:outline-1 focus:outline-blue-600 "
+              />
+            </div>
             <ItemsList
               register={register}
               sectionIndex={index}
-              getValues={getValues}
               watch={watch}
               setValue={setValue} // Pass setValue to ItemsList
+              defaultItem={section.items}
+              onDeleteItem={handleDeleteItem}
+              section={section}
             />
           </>
         ))}
@@ -98,8 +175,8 @@ export default function AuthorizationForm() {
               type="text"
               className="focus:outline-1 focus:outline-blue-600"
               register={register}
-              name={`selection${i + 1}`}
-              id={`selection${i + 1}`}
+              name={`section${i + 1}`}
+              id={`section${i + 1}`}
               required={false}
             />
           </InputContainer>
@@ -142,12 +219,12 @@ export default function AuthorizationForm() {
         />
       </InputContainer>
       {/* <Button variant="gradient">Add signer</Button> */}
-      <Textarea
-        id="footer"
+      <TextareaInput
+        id="footer_notes"
         label="Footer notes"
         className="mb-4 mt-4"
-        name="footer_notes"
         register={register}
+        name="footer_notes"
       />
       <Button variant="gradient" type="submit">
         Save as Template

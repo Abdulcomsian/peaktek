@@ -2,29 +2,35 @@ import React, { useEffect } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { Input } from "@components";
 import { Button } from "@components/UI";
+import { v4 as uuidv4 } from "uuid";
 
 const itemFields = [
-  { title: "item", type: "text", placeholder: "Item Name" },
-  { title: "quantity", type: "number", placeholder: "2" },
-  { title: "price", type: "number", placeholder: "5" },
-  { title: "line_total", type: "number", placeholder: "10" },
+  { id: uuidv4(), title: "item", type: "text", placeholder: "Item Name" },
+  { id: uuidv4(), title: "quantity", type: "number", placeholder: "2" },
+  { id: uuidv4(), title: "price", type: "number", placeholder: "5" },
+  { id: uuidv4(), title: "line_total", type: "number", placeholder: "10" },
 ];
 
 const ItemsRow = ({
   index,
   handleDelete,
+  section,
   sectionIndex,
   className,
   register,
   watch,
   setValue,
+  onDeleteItem,
+  item,
 }) => {
+  console.log("Item", item);
   const quantity = watch(
     `sections[${sectionIndex}].items[${index}].quantity`,
     0
   );
   const price = watch(`sections[${sectionIndex}].items[${index}].price`, 0);
 
+  console.log(watch(`sections[${sectionIndex}].items[${index}]`));
   const lineTotal = (quantity * price).toFixed(2);
 
   useEffect(() => {
@@ -50,7 +56,12 @@ const ItemsRow = ({
       <Button variant="deleteBtn" className="self-end">
         <FaTrashAlt
           className="text-red-500 cursor-pointer mx-1"
-          onClick={() => handleDelete(index)}
+          onClick={() =>
+            onDeleteItem(
+              section.id || sectionIndex,
+              item.id || itemFields[sectionIndex].id
+            )
+          }
         />
       </Button>
     </div>
