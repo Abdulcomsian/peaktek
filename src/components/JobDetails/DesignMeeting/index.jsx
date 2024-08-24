@@ -57,6 +57,7 @@ function renderSection(currTab) {
 
 const DesignMeeting = () => {
   const [currTab, setCurrTab] = useState(1);
+  console.log("CurrTab", currTab);
   return (
     <TabsContentBox contentTitle="Design Meeting">
       <div className="hidden md:block p-4">

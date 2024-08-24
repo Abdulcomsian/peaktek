@@ -7,6 +7,8 @@ import suppliersReducer from "./slices/suppliersSlice";
 import subContractorReducer from "./slices/subContractorSlice";
 import usersReducer from "./slices/usersSlice";
 import adjustorReducer from "./slices/adjustorSlice";
+import rooferComponentReducer from "./slices/rooferComponentsSlice";
+import paymentScheduleReducer from "./slices/paymentScheduleSlice";
 export const store = configureStore({
   reducer: {
     jobs: JobsReducer,
@@ -17,5 +19,7 @@ export const store = configureStore({
     subContractors: subContractorReducer,
     users: usersReducer,
     adjustors: adjustorReducer,
+    paymentSchedule: paymentScheduleReducer,
+    roofer: rooferComponentReducer,
   },
 });

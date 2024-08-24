@@ -1,6 +1,6 @@
 import { Switch } from "antd";
 
-export default function Header({ onClick, wrapperClass }) {
+export default function Header({ onClick, wrapperClass, defaultChecked }) {
   return (
     <div className={`flex justify-between ${wrapperClass}`}>
       <div>
@@ -11,7 +11,11 @@ export default function Header({ onClick, wrapperClass }) {
           They will be asked during the signing process
         </p>
       </div>
-      <Switch className="ml-4" onClick={onClick} />
+      <Switch
+        className="ml-4"
+        onClick={onClick}
+        defaultChecked={defaultChecked}
+      />
     </div>
   );
 }
