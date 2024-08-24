@@ -62,8 +62,18 @@ const clientEndPoints = {
   getAuthorization: "/api/get/project-design/authorization",
   deleteAuthorizationSection: "/api/delete/authorization-section",
   deleteAuthorizationItem: "/api/delete/authorization-item",
+
+  // Payment Form
+  createPaymentSchedule: "/api/store/payment-schedule",
+  getPaymentSchedule: "/api/get/payment-schedule",
+
   // Roof Component
   createRoofComponent: "/api/store/xactimate-report",
+  getRoofComponent: "/api/get/roof-component",
+
+  // Xactimate Report form,
+  createXactimatereport: "/api/store/xactimate-report",
+  getXactimatereport: "/api/get/xactimate-report",
 
   // Term and Condition
   createTermCondition: "LATER",

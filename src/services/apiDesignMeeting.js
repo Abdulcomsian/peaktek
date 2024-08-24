@@ -282,20 +282,41 @@ export async function getAuthorization(id) {
   }
 }
 
-export async function createRoofComponent(pdfFiles, id) {
-  console.log(pdfFiles);
+export async function createPaymentSchedule(formData, jobId) {
   const token = localStorage.getItem("token");
-  const formData = new FormData();
-
-  if (pdfFiles && pdfFiles.length) {
-    Array.from(pdfFiles).forEach((file) => {
-      formData.append("pdfs", file);
-    });
-  }
-
   try {
     const resp = await clientBaseURL.post(
-      `${clientEndPoints.createRoofComponent}/${id}`,
+      `${clientEndPoints.createPaymentSchedule}/${jobId}`,
+      formData,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+export async function getPaymentSchedule(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.getPaymentSchedule}/${jobId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function createRoofComponent(formData, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.createRoofComponent}/${jobId}`,
       formData,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -304,22 +325,41 @@ export async function createRoofComponent(pdfFiles, id) {
     return error;
   }
 }
-export async function createXactimatereport(pdfFiles, id) {
-  console.log(pdfFiles);
+export async function getRooferComponent(jobId) {
   const token = localStorage.getItem("token");
-  const formData = new FormData();
-
-  if (pdfFiles && pdfFiles.length) {
-    Array.from(pdfFiles).forEach((file) => {
-      formData.append("pdfs", file);
-    });
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.getRoofComponent}/${jobId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (error) {
+    return error;
   }
-
+}
+export async function createXactimatereport(formData, id) {
   try {
     const resp = await clientBaseURL.post(
-      `${clientEndPoints.createRoofComponent}/${id}`,
+      `${clientEndPoints.createXactimatereport}/${id}`,
       formData,
       { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getXactimatereport(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.getXactimatereport}/${jobId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     return resp;
   } catch (error) {
