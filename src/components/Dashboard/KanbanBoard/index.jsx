@@ -35,7 +35,6 @@ function KanbanBoard() {
   const [invalidatePage, setInvalidatePage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  console.log(data);
 
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -56,7 +55,6 @@ function KanbanBoard() {
           navigate("/");
         }
       } catch (err) {
-        console.log("Erorrrr", err);
         toast.error(err.message);
       } finally {
         setIsLoading(false);
@@ -81,14 +79,11 @@ function KanbanBoard() {
     const { id: activeId } = active;
     const { id: overId } = over;
 
-    // console.log("IDS", activeId, overId)
-
     const sourceColumn = data.find((job) =>
       job.tasks.some((task) => task.id === activeId)
     );
     const destinationColumn = data.find((job) => `column-${job.id}` === overId);
 
-    console.log("COLUMNS", sourceColumn, destinationColumn);
     if (
       sourceColumn &&
       destinationColumn &&
@@ -97,7 +92,6 @@ function KanbanBoard() {
       const draggedTask = sourceColumn.tasks.find(
         (task) => task.id === activeId
       );
-      console.log("DRAG TASK", draggedTask);
 
       const updatedSourceColumn = {
         ...sourceColumn,
@@ -109,18 +103,13 @@ function KanbanBoard() {
         tasks: [...destinationColumn.tasks, draggedTask],
       };
 
-      console.log(data, updatedSourceColumn, updatedDestinationColumn);
-
       dispatch(updateColumn({ updatedSourceColumn, updatedDestinationColumn }));
       try {
         const resp = await updateJobStatus(
           draggedTask,
           updatedDestinationColumn
         );
-        console.log(resp);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     // }
   };
@@ -308,11 +297,9 @@ function Task({ id, data, someoneIsDragging }) {
         style={style}
         onClick={() => {
           if (someoneIsDragging) {
-            console.log("a card somewhere is being dragged still");
             return;
           }
           if (isDragging) {
-            console.log("this card is being dragged still");
             return;
           }
           handleTaskClick();

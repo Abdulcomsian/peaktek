@@ -6,7 +6,6 @@ const SearchInput = ({ className, size }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
-    console.log("Search Term:", searchTerm);
     // Add your search logic here
   };
 

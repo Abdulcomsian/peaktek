@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ItemsRow } from "@components/Forms";
 import { Button } from "@components";
 import { Input } from "@components/FormControls";
+import { v4 as uuidv4 } from "uuid";
 
 const ItemsList = ({
   className,
@@ -11,15 +12,20 @@ const ItemsList = ({
   watch,
   setValue,
   defaultItem,
-  onDeleteItem,
+  onDeleteRemoteItem,
 }) => {
-  console.log("DEFAULT ITEM", defaultItem);
-  const [items, setItems] = useState([{ item: "", quantity: 0, price: 0 }]);
+  const [items, setItems] = useState([
+    { id: uuidv4(), item: "", quantity: 0, price: 0 },
+  ]);
 
   // Watch for changes in line_total values
   const lineTotals = items.map((_, index) =>
     watch(`sections[${sectionIndex}].items[${index}].line_total`, 0)
   );
+
+  useEffect(() => {
+    console.log(items);
+  });
 
   const sectionTotal = useMemo(() => {
     return lineTotals
@@ -29,7 +35,6 @@ const ItemsList = ({
 
   useEffect(() => {
     if (defaultItem?.length > 0) setItems(defaultItem);
-    console.log("ITEM TO ITERATE", items);
   }, [defaultItem]);
 
   useEffect(() => {
@@ -37,12 +42,27 @@ const ItemsList = ({
   }, [sectionTotal, sectionIndex, setValue]);
 
   const handleAddRow = () => {
-    setItems([...items, { item: "", quantity: 0, price: 0 }]);
+    setItems((items) => [
+      ...items,
+      { id: uuidv4(), item: "", quantity: 0, price: 0 },
+    ]);
   };
 
-  const handleDelete = (index) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
+  const handleDeletItem = function (section_id, item_id) {
+    console.log(section_id, item_id);
+    console.log(
+      "here",
+      items.filter((item) => item.id !== item_id)
+    );
+    if (typeof item_id === "number") onDeleteRemoteItem?.(section_id, item_id);
+    if (typeof item_id !== "number") {
+      setItems((items) =>
+        items.filter((item) => {
+          console.log(item.id, item_id);
+          return item.id !== item_id;
+        })
+      );
+    }
   };
 
   return (
@@ -50,16 +70,16 @@ const ItemsList = ({
       <div className="w-full mx-auto mb-8">
         {items.map((item, index) => (
           <ItemsRow
-            key={index}
+            key={item.id}
             index={index}
-            handleDelete={handleDelete}
+            // handleDelete={handleDelete}
             sectionIndex={sectionIndex}
             register={register}
             watch={watch}
             setValue={setValue}
             item={item}
             section={section}
-            onDeleteItem={onDeleteItem}
+            onDeleteItem={handleDeletItem}
           />
         ))}
       </div>

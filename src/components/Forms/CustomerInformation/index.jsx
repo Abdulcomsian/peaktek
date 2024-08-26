@@ -7,7 +7,6 @@ const CustomerInformationForm = ({
   defaultValue,
   disabled,
 }) => {
-  console.log("Default values fom customer inf", defaultValue);
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">

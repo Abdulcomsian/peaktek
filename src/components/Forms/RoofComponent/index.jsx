@@ -21,7 +21,6 @@ export default function RoofComponent() {
     defaultValues: async function () {
       const resp = await getRooferComponent(jobId);
       if (resp.status >= 200 && resp.status < 300) {
-        console.log(resp);
       } else {
         return { selectedOption: 1, content: "", acknowledge: false };
       }
@@ -33,7 +32,6 @@ export default function RoofComponent() {
   const { formError } = useSelector((store) => store.roofer);
 
   const onsubmit = (data) => {
-    console.log(data);
     dispatch(createrooferComponent({ ...data }, jobId));
   };
 

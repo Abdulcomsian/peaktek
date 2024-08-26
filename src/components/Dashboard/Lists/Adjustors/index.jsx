@@ -34,7 +34,6 @@ const Adjustors = () => {
     current: 1,
     pageSize: 5,
   });
-  console.log("Adjustor data", adjustorData);
 
   useEffect(() => {
     dispatch(

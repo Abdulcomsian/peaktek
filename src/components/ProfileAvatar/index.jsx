@@ -20,8 +20,7 @@ export default function ProfileAvatar() {
   ];
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-base font-normal">User name</span>
+    <div className="flex items-center grow gap-4">
       <span className="inline-block w-10 h-10 rounded-full border border-gray-300"></span>
       <Dropdown
         menu={{

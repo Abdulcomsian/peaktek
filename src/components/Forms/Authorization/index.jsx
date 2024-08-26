@@ -17,6 +17,9 @@ import toast from "react-hot-toast";
 
 export default function AuthorizationForm() {
   const { id: jobId } = useParams();
+  const [sections, setSections] = useState([
+    { id: uuidv4(), title: "", section_total: 0 },
+  ]);
   const {
     register,
     handleSubmit,
@@ -28,27 +31,21 @@ export default function AuthorizationForm() {
     defaultValues: async function () {
       try {
         const resp = await getAuthorization(jobId);
-        console.log(resp);
         if (resp.status >= 200 && resp.status < 300) {
           setSections(resp.data.data.sections);
           return resp.data.data;
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
   });
-  const [sections, setSections] = useState([{ title: "", section_total: 0 }]);
 
   const handleAddSection = () => {
     setSections([...sections, { id: uuidv4(), title: "" }]);
   };
 
   const handleDeleteItem = (section_id, item_id) => {
-    console.log(sections, item_id);
     async function deleteItemRemote() {
       const resp = await deleteAuthorizationItem(jobId, section_id, item_id);
-      console.log("authorization", resp);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
         setSections(resp.data.data.sections);
@@ -56,7 +53,8 @@ export default function AuthorizationForm() {
     }
 
     if (typeof item_id === "number") deleteItemRemote();
-    // if(typeof item_id !== "number") setSections(sections.filter((section) => section.id !== id));
+    if (typeof item_id !== "number")
+      setSections(sections.filter((section) => section.id !== id));
   };
 
   const handleDeleteSection = async (section_id) => {
@@ -64,29 +62,26 @@ export default function AuthorizationForm() {
       const resp = await deleteAuthorizationSection(jobId, section_id);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
-        setSections(sections.filter((section) => section.id !== section_id));
+        setSections(resp.data.data.sections);
       }
     }
 
     if (typeof section_id === "number") deleteRemoteSection();
-    if (typeof section_id !== "number")
-      setSections(sections.filter((section) => section.id !== section_id));
+    if (typeof section_id !== "number") {
+      setSections((sections) =>
+        sections.filter((section) => section.id !== section_id)
+      );
+    }
   };
 
   const onSubmit = async function (data) {
-    console.log(data);
     const resp = await createAuthorization(data, jobId);
     try {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
-      console.log(resp);
-    } catch (error) {
-      console.log("fkajhslfda123", error);
-    }
+    } catch (error) {}
   };
-
-  console.log("SECCC", sections);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2 className="font-semibold text-black text-base mb-2">Disclaimer</h2>
@@ -115,7 +110,7 @@ export default function AuthorizationForm() {
       <div className="border-b-1">
         {sections.map((section, index) => (
           <>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center" key={section.id}>
               <Button
                 variant="deleteBtn"
                 onClick={() => handleDeleteSection(section.id)}
@@ -160,7 +155,7 @@ export default function AuthorizationForm() {
           <span className="block w-full font-semibold">Selection</span>
         </div>
         {Array.from({ length: 3 }, (_, i) => (
-          <InputContainer className="flex justify-between mb-4">
+          <InputContainer className="flex justify-between mb-4" key={i}>
             <Input
               placeholder="Ex. Shingle, color etc"
               type="text"

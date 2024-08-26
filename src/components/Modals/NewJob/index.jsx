@@ -44,7 +44,6 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
       }
       if (resp.response.status === 422) toast.error(resp.response.data.message);
     } catch (error) {
-      console.log("RESP", error);
     } finally {
       setIsCreating(false);
     }

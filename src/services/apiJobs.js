@@ -11,7 +11,6 @@ export async function getJobs() {
     });
     return resp;
   } catch (error) {
-    console.log("EROR from API call", error);
     return error;
   }
 }
@@ -64,7 +63,6 @@ export async function getJobApi(id) {
 export async function updateJobStatus(job, destinationColumn) {
   const { id } = job;
   const { id: status_id } = destinationColumn;
-  console.log("FRPM API CALL", status_id, id);
   const token = localStorage.getItem("token");
   try {
     const resp = await clientBaseURL.post(
@@ -72,8 +70,5 @@ export async function updateJobStatus(job, destinationColumn) {
       { status_id },
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log(resp);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

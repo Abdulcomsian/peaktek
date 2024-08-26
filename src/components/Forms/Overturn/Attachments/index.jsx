@@ -30,7 +30,6 @@ const OverturnAttachments = ({ id }) => {
           },
         }
       );
-      console.log("response in overturn", response);
       if (response?.status >= 200 && response?.status < 300) {
         setShowRenameBox(true);
         setOverturnData(response?.data?.data);
