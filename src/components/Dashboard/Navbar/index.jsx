@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 import "./nav.css";
 import ProfileAvatar from "@components/ProfileAvatar";
 
 export default function NavBar({ onCloseSidebar }) {
+  const userData = useSelector((state) => state?.login?.user);
+  console.log("user data", userData);
+
   return (
     <nav className="dashboard-nav">
       <div className="welcome-box items-center w-full pr-3">
@@ -22,12 +24,8 @@ export default function NavBar({ onCloseSidebar }) {
             />
           </svg>
         </button>
-        <div className="mr-auto">
-          <ul className="list nav-list justify-between">
-            <li>
-              <Link>Deals</Link>
-            </li>
-          </ul>
+        <div className="mr-auto font-semibold text-lg">
+          {userData?.name} Deals
         </div>
         <ProfileAvatar />
       </div>

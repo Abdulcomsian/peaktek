@@ -8,8 +8,11 @@ import { useAuth } from "@context/AuthContext";
 import { useForm } from "react-hook-form";
 import { login } from "@services/apiAuth";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { saveUser } from "@store/slices/loginSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -33,6 +36,7 @@ const Login = () => {
       console.log("Login resp", resp);
       if (resp.status >= 200 && resp.status < 300) {
         localStorage.setItem("token", resp.data.token);
+        dispatch(saveUser(resp?.data?.user));
         setIsAuthenticated(true);
         navigate("/dashboard");
         toast.success(resp.data.message);

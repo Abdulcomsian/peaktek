@@ -42,6 +42,7 @@ import {
   Complete,
   InProgress,
   Scheduling,
+  EstimatePrepared,
 } from "@components/JobDetails";
 import {
   KanbanBoard,
@@ -135,6 +136,7 @@ export function AppRoute() {
               path="customer-agreement"
               element={<CustomerAgreementForm />}
             />
+            <Route path="estimate-prepared" element={<EstimatePrepared />} />
             <Route path="adjustor-meeting" element={<AdjustorMeeting />} />
             <Route path="overturn" element={<Overturn />} />
             <Route path="approved" element={<DesignMeeting />} />

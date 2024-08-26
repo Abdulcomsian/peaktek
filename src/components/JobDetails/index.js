@@ -10,10 +10,12 @@ import ReadyToBuild from "./ReadyToBuild";
 import Complete from "./Complete";
 import InProgress from "./InProgress";
 import Scheduling from "./Scheduling";
+import EstimatePrepared from "./EstimatePrepared";
 export {
   Summary,
   DesignMeeting,
   CustomerAgreementForm,
+  EstimatePrepared,
   AdjustorMeeting,
   Header,
   MainTabs,
