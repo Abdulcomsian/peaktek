@@ -30,6 +30,8 @@ const Suppliers = () => {
   const { supplierData, total, status } = useSelector(
     (state) => state?.suppliers
   );
+  console.log("Supplier data", supplierData);
+
   const [showModal, setShowModal] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -83,7 +85,7 @@ const Suppliers = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto py-10">
+    <div className="w-full max-w-7xl mx-auto py-10 px-4">
       <div className="flex justify-between mb-6">
         <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
           Suppliers List

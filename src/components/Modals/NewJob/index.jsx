@@ -28,17 +28,14 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
-  const [job, setJob] = useState("");
-  const [isCreating, setIsCreating] = useState(false);
 
-  const handleChange = function (e) {
-    setJob(e.target.value);
-  };
+  const [isCreating, setIsCreating] = useState(false);
 
   const onSubmit = async (data) => {
     try {
       setIsCreating(true);
       const resp = await createJob(data);
+
       if (resp.status >= 200 && resp.status < 300) {
         dispatch(addJob(resp.data.job));
         toast.success(resp.data.message);

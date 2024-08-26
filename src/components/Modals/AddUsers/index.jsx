@@ -43,6 +43,7 @@ const AddUser = ({ roleId, heading, open, onCancel, onOk }) => {
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
           actions.resetForm();
+
           onOk();
         }
       } catch (error) {

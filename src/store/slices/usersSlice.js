@@ -14,35 +14,32 @@ const initialState = {
 };
 
 // Async thunk for fetching users data
-export const fetchUsersData = createAsyncThunk(
-  "users/fetch",
-  async ({ page, pageSize }) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await clientBaseURL.get(
-        `${clientEndPoints.getCompanyUsers}?results=${pageSize}&page=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return {
-        data: response?.data?.data,
-        total: response?.data?.total, // Ensure the API returns the total number of users
-      };
-    } catch (error) {
-      if (error?.response) {
-        console.error(
-          error?.response?.data?.error ||
-            error?.response?.data?.message ||
-            "Something went wrong!"
-        );
+export const fetchUsersData = createAsyncThunk("users/fetch", async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await clientBaseURL.get(
+      `${clientEndPoints.getCompanyUsers}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-      throw error;
+    );
+    return {
+      data: response?.data?.data,
+      total: response?.data?.total, // Ensure the API returns the total number of users
+    };
+  } catch (error) {
+    if (error?.response) {
+      console.error(
+        error?.response?.data?.error ||
+          error?.response?.data?.message ||
+          "Something went wrong!"
+      );
     }
+    throw error;
   }
-);
+});
 
 const usersSlice = createSlice({
   name: "users",
