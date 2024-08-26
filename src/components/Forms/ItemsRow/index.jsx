@@ -23,14 +23,12 @@ const ItemsRow = ({
   onDeleteItem,
   item,
 }) => {
-  console.log("Item", item);
   const quantity = watch(
     `sections[${sectionIndex}].items[${index}].quantity`,
     0
   );
   const price = watch(`sections[${sectionIndex}].items[${index}].price`, 0);
 
-  console.log(watch(`sections[${sectionIndex}].items[${index}]`));
   const lineTotal = (quantity * price).toFixed(2);
 
   useEffect(() => {
@@ -41,7 +39,7 @@ const ItemsRow = ({
     <div className={`flex items-center py-4 ${className}`}>
       {itemFields.map((field, i) => (
         <Input
-          key={i}
+          key={field.id}
           label={index === 0 ? field.title : null}
           applyMarginBottom={index === 0}
           type={field.type}

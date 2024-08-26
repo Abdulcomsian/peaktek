@@ -2,8 +2,13 @@ import { Link } from "react-router-dom";
 
 import "./nav.css";
 import ProfileAvatar from "@components/ProfileAvatar";
+import { useSelector } from "react-redux";
+import { Input } from "@components/FormControls";
+import { useAuth } from "@context/AuthContext";
 
 export default function NavBar({ onCloseSidebar }) {
+  const { user } = useAuth();
+  console.log("USER", user);
   return (
     <nav className="dashboard-nav">
       <div className="welcome-box items-center w-full pr-3">
@@ -25,10 +30,11 @@ export default function NavBar({ onCloseSidebar }) {
         <div className="mr-auto">
           <ul className="list nav-list justify-between">
             <li>
-              <Link>Deals</Link>
+              <span>{user?.name}`s deals</span>
             </li>
           </ul>
         </div>
+        <Input type="search" inputClass="!p-1" />
         <ProfileAvatar />
       </div>
     </nav>

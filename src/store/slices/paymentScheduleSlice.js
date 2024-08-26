@@ -11,7 +11,6 @@ const initialState = {
 export default function paymentScheduleReducer(state = initialState, action) {
   switch (action.type) {
     case "paymentSchedule/createPaymentSchedule":
-      console.log(action.payload);
       return { ...state };
 
     case "paymentSchedule/formError":
@@ -29,7 +28,7 @@ export const createPaymentSchedule = function (data, jobId) {
   }
   const formData = new FormData();
   formData.append("acknowledge", selectedOption);
-  formData.append("contet", content);
+  formData.append("content", content);
 
   fileImages.forEach((file) => {
     formData.append("pdfs[]", file);
@@ -45,8 +44,6 @@ export const createPaymentSchedule = function (data, jobId) {
           payload: data,
         });
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };

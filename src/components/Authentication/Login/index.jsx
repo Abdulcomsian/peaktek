@@ -8,6 +8,8 @@ import { useAuth } from "@context/AuthContext";
 import { useForm } from "react-hook-form";
 import { login } from "@services/apiAuth";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { updateUser } from "@store/slices/userSlice";
 
 const Login = () => {
   const {
@@ -16,8 +18,9 @@ const Login = () => {
     formState: { errors },
   } = useForm({});
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const { isAuthenticated, setIsAuthenticated, setUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(
     function () {
@@ -30,16 +33,17 @@ const Login = () => {
     setIsLoading(true);
     try {
       const resp = await login(data);
-      console.log("Login resp", resp);
+      console.log(resp);
       if (resp.status >= 200 && resp.status < 300) {
         localStorage.setItem("token", resp.data.token);
+        localStorage.setItem("user", JSON.stringify(resp.data.user));
+        setUser(resp.data.user);
         setIsAuthenticated(true);
+        dispatch(updateUser(resp?.data?.user));
         navigate("/dashboard");
         toast.success(resp.data.message);
-        setIsLoading(false);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);

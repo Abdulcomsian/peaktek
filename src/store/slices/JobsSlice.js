@@ -54,16 +54,15 @@ const jobsSlice = createSlice({
           content: { name, address, created_at },
         });
     },
-    updateColumn: (state, action) =>{
-      const {updatedSourceColumn, updatedDestinationColumn} = action.payload;
-      // console.log(state.boardData);
-      state.boardData = state.boardData.map(board => {
-        if(board.name === updatedSourceColumn.name) return updatedSourceColumn;
-        if(board.name === updatedDestinationColumn.name) return updatedDestinationColumn;
+    updateColumn: (state, action) => {
+      const { updatedSourceColumn, updatedDestinationColumn } = action.payload;
+      state.boardData = state.boardData.map((board) => {
+        if (board.name === updatedSourceColumn.name) return updatedSourceColumn;
+        if (board.name === updatedDestinationColumn.name)
+          return updatedDestinationColumn;
         return board;
-      })
-
-    }
+      });
+    },
   },
   extraReducers: (builder) => {
     builder

@@ -34,7 +34,6 @@ export default function IntroductionForm() {
           setInitialData(resp.data.data.introduction);
         }
       } catch (error) {
-        console.log(error);
       } finally {
         setIsLoadingInitialData(false);
       }
@@ -59,13 +58,12 @@ export default function IntroductionForm() {
       }
       if (resp.status === 500) toast.error("Something went wrong.");
     } catch (err) {
-      console.log("RESP ERROR", err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  if(isLoadingInitialData) return <CenteredSpinner />
+  if (isLoadingInitialData) return <CenteredSpinner />;
   return (
     <>
       <Ckeditor

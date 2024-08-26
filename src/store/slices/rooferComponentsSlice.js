@@ -10,7 +10,6 @@ const initialState = {
 export default function rooferComponentReducer(state = initialState, action) {
   switch (action.type) {
     case "rooferComponent/createrooferComponent":
-      console.log(action.payload);
       return { ...state };
 
     case "rooferComponent/getrooferComponent":
@@ -50,7 +49,6 @@ export const createrooferComponent = function (data, jobId) {
   return async function (dispatch, getState) {
     try {
       const resp = await createRoofComponentApi(formData, jobId);
-      console.log("Action creator response", resp);
       if (resp.status >= 200 && resp.status < 300) {
         const { data } = resp.data;
         dispatch({
@@ -63,8 +61,6 @@ export const createrooferComponent = function (data, jobId) {
           payload: "Something went wrong",
         });
       }
-    } catch (error) {
-      console.log("ERROR", error);
-    }
+    } catch (error) {}
   };
 };

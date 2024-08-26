@@ -2,8 +2,6 @@ import { ArrowFileIcon, ImageIcon } from "@components/UI";
 import { FaTrashAlt } from "react-icons/fa";
 
 export default function UploadedImageItems({ files = [] }) {
-  console.log("......File", files, typeof files);
-
   return (
     <>
       {[...files].map((file, index) => (

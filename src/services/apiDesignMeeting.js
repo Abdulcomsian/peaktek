@@ -124,9 +124,6 @@ export async function createInspections(dataToLoad, id) {
   // const formData = new FormData();
 
   // dataToLoad.forEach(data => formData.append("inspections", data))
-
-  console.log("FINAL DATA TO LOAD", dataToLoad);
-
   try {
     const resp = await clientBaseURL.post(
       `${clientEndPoints.createInspection}/${id}`,
@@ -204,7 +201,6 @@ export async function deleteQuoteSection(jobId, sectionId) {
 }
 
 export async function deleteQuoteItem(jobId, section_id, item_id) {
-  console.log(jobId, section_id, item_id);
   const token = localStorage.getItem("token");
   try {
     const resp = await clientBaseURL.post(
@@ -252,7 +248,6 @@ export async function deleteAuthorizationSection(jobId, sectionId) {
 }
 
 export async function deleteAuthorizationItem(jobId, section_id, item_id) {
-  console.log(jobId, section_id, item_id);
   const token = localStorage.getItem("token");
   try {
     const resp = await clientBaseURL.post(

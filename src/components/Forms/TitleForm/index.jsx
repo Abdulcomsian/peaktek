@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { Input, InputContainer, CustomDatePicker } from "@components";
 import { Button, UploaderInputs } from "@components/index";
-import { Spin } from "antd";
 import { formateErrorName, mapToArray } from "../../../utils/helper";
 import { ImageIcon, RenameFileUI } from "@components/UI";
 import { createTitle, getTitle } from "@services/apiDesignMeeting";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@context/AuthContext";
+import { Loader } from "@components/UI";
 
 export default function TitleForm() {
   const { id: jobId } = useParams();
@@ -20,7 +20,7 @@ export default function TitleForm() {
     control,
     reset,
     watch,
-    formState: { errors, isLoading },
+    formState: { errors, isLoading, isSubmitting },
   } = useForm({
     defaultValues: async () => {
       const res = await getTitle(jobId);
@@ -29,7 +29,6 @@ export default function TitleForm() {
         res.status < 300 &&
         Object.keys(res.data.data).length > 0
       ) {
-        console.log(res);
         setIsEditing(true);
         return res.data.data;
       } else return {};
@@ -50,9 +49,8 @@ export default function TitleForm() {
           : null,
     };
 
-    console.log(finalDataToUpload);
-
     try {
+      // isSubmitting(true);
       const resp = await createTitle(finalDataToUpload, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
@@ -65,6 +63,7 @@ export default function TitleForm() {
     } catch (err) {
       console.error(err);
     } finally {
+      // isSubmitting(false);
     }
   };
 
@@ -232,7 +231,11 @@ export default function TitleForm() {
         </div>
       </div>
       <Button type="submit" variant="gradient" className=" mt-6">
-        {isLoading ? <Spin /> : "Submit"}
+        {/* {isSubmitting ? (
+          <Loader width={"24px"} height={"24px"} color="#fff" />
+        ) : ( */}
+        "Submit"
+        {/* )} */}
       </Button>
     </form>
   );

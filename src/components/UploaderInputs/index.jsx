@@ -17,19 +17,10 @@ export default function UploaderInputs({
   onFileChange,
 }) {
   const [files, setFiles] = useState([]);
-  // console.log("Default files", defaultFiles);
-
-  // useEffect(() => {
-  //   if(defaultFiles.length > 0) setFiles(files => [...files, defaultFiles])
-  // }, [defaultFiles.length])
-
-  // console.log("FILES TO UPLOAD", files);
-
   const handleFiles = (selectedFiles) => {
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
     );
-    console.log("Filtered file", filteredFiles);
 
     setFiles((files) => [...files, ...filteredFiles]);
     onFileChange?.(filteredFiles);

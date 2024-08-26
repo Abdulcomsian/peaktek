@@ -12,6 +12,7 @@ const Input = ({
   disabled,
   required = true,
   error = "",
+  inputClass,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -33,7 +34,7 @@ const Input = ({
         id={id}
         placeholder={placeholder}
         name={name}
-        className={`bg-gray-50 hover:bg-white outline-none border border-gray-300 hover:border-blue-500 text-gray-900 text-sm rounded-md block w-full p-2.5 focus:outline-none focus:border-blue-500`}
+        className={`bg-gray-50 hover:bg-white outline-none border border-gray-300 hover:border-blue-500 text-gray-900 text-sm rounded-md block w-full p-2.5 focus:outline-none focus:border-blue-500 ${inputClass}`}
         {...register?.(
           name,
           { required: required ? `${name} must be required` : false },

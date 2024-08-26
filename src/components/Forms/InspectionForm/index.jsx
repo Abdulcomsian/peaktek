@@ -26,7 +26,6 @@ export default function InspectionForm() {
   } = useForm({
     defaultValues: async function () {
       const resp = await getInspection(id);
-      console.log(resp);
       if (resp.status >= 200 && resp.status < 300) {
         setRows(resp.data.data);
         setInitialData(resp.data.data.map((dataToMap) => dataToMap.inspection));
@@ -34,8 +33,6 @@ export default function InspectionForm() {
       }
     },
   });
-
-  console.log(initialData);
 
   const addRow = () => {
     const lastRowId = rows.at(-1).id;
@@ -71,7 +68,6 @@ export default function InspectionForm() {
   };
 
   const onSubmit = async function (data) {
-    console.log("Submition form", data);
     let imagesArrayConst = [];
     const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
       const images = data[`attachment-${index}`];
@@ -89,7 +85,6 @@ export default function InspectionForm() {
     }, []);
 
     const dataToLoad = { inspections: formatedData };
-    console.log("dataa", dataToLoad);
 
     let form = new FormData();
     dataToLoad.inspections.forEach((item, index) => {
@@ -104,10 +99,6 @@ export default function InspectionForm() {
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
     }
-  };
-
-  const onerror = function (data) {
-    console.log(data);
   };
 
   return (

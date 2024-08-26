@@ -55,7 +55,6 @@ const CustomerAgreement = () => {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
     } finally {
     }
   };
@@ -64,7 +63,6 @@ const CustomerAgreement = () => {
     try {
       const resp = await createSignature({ id, image });
     } catch (err) {
-      console.log(err);
     } finally {
     }
   };
@@ -102,9 +100,7 @@ const CustomerAgreement = () => {
 
   if (!id) return <p>Not validate identity for creating Agreement</p>;
 
-  const onerror = function (errror) {
-    console.log(errror);
-  };
+  const onerror = function (errror) {};
 
   return (
     <Container className="my-6 bg-white mx-10 p-6 shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px] max-w-screen-xl relative">

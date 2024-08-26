@@ -32,7 +32,6 @@ const CustomerAgreementForm = () => {
     useState(true);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [customerData, setCustomerData] = useState(null);
-  console.log("customer data", customerData);
 
   const getCustomerData = async () => {
     try {
@@ -46,7 +45,6 @@ const CustomerAgreementForm = () => {
           },
         }
       );
-      console.log("response in customer agreement", response);
       if (response?.status >= 200 && response?.status < 300) {
         setCustomerData(response?.data?.agreement);
         setAgreementId(response?.data?.agreement?.id);
@@ -107,7 +105,6 @@ const CustomerAgreementForm = () => {
   const closeSignatureModel = () => {
     setIsSignatureModelOpen(false);
   };
-  console.log("show pdf buttons", showPdfButton);
 
   const formik = useFormik({
     initialValues: {
