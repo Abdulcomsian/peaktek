@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-
-export default function index() {
+import { v4 as uuidv4 } from "uuid";
+export default function Index() {
   const [state, setState] = useState([
     {
-      id: 67,
+      id: uuidv4(),
       name: "input",
       order_key: 23,
     },
     {
-      id: 45,
+      id: uuidv4(),
       name: "input",
       order_key: 23,
     },
     {
-      id: 89,
+      id: uuidv4(),
       name: "input",
       order_key: 23,
     },
@@ -21,29 +21,45 @@ export default function index() {
 
   const handleChange = function (e) {
     let key = e.target.dataset.key;
-    let arrayIs = state;
     let name = e.target.name;
-    arrayIs[key][name] = e.target.value;
-    setState(arrayIs);
+    let value = e.target.value;
+
+    // Create a new state array
+    let updatedState = [...state];
+
+    // Update the specific item in the new array
+    updatedState[key] = {
+      ...updatedState[key],
+      [name]: value,
+    };
+
+    // Set the new state
+    setState(updatedState);
   };
+
+  const handleAddInput = function () {
+    setState((items) => [...items, { id: uuidv4() }]);
+  };
+
+  const handleDelete = function (id) {
+    setState((items) => items.filter((item) => item.id !== id));
+  };
+
   return (
     <>
       {state.map((data, index) => (
-        <div>
+        <div key={data.id}>
           <input
-            name={name}
+            name="name" // Ensure the correct name attribute
+            value={data.name} // Bind input value to the state
             style={{ border: "1px solid red" }}
             onChange={handleChange}
             data-key={index}
           />
-          <input
-            name={name}
-            style={{ border: "1px solid red" }}
-            onChange={handleChange}
-            data-key={index}
-          />
+          <button onClick={() => handleDelete(data.id)}>Delete</button>
         </div>
       ))}
+      <button onClick={handleAddInput}>Add input</button>
     </>
   );
 }

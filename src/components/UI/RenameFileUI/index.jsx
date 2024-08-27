@@ -46,20 +46,23 @@ export default function RenameFileUI({
     }));
   };
 
-  const handleSubmit = async (e, id) => {
+  const handleSubmit = async (e, id, fileType) => {
     e.preventDefault(); // Prevent the default form submission behavior
+
     setLoadingStates((prevStates) => ({
       ...prevStates,
       [id]: { ...prevStates[id], isSubmitting: true },
     }));
     const token = localStorage.getItem("token");
 
+    const body = { file_name: inputValues[id] };
+    if (fileType === "primary_image_file_name" || "secondary_image_file_name")
+      body["type"] = fileType;
+
     try {
       const resp = await clientBaseURL.post(
         `${apiUpdateFileEndPoint}/${id}`,
-        {
-          file_name: inputValues[id],
-        },
+        body,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -68,7 +71,6 @@ export default function RenameFileUI({
         toast.success(resp.data.message);
       }
     } catch (error) {
-      console.log(error);
     } finally {
       setLoadingStates((prevStates) => ({
         ...prevStates,
@@ -77,21 +79,25 @@ export default function RenameFileUI({
     }
   };
 
-  const deleteFileHandler = async (id, image_url) => {
+  const deleteFileHandler = async (id, image_url, fileType) => {
     setLoadingStates((prevStates) => ({
       ...prevStates,
       [id]: { ...prevStates[id], isDeleting: true },
     }));
     const token = localStorage.getItem("token");
+
+    const body = { image_url };
+    if (fileType === "primary_image_file_name" || "secondary_image_file_name")
+      body["type"] = fileType;
+
     try {
       const resp = await clientBaseURL.post(
         `${apiDeleteFileEndpoint}/${id}`,
-        { image_url },
+        body,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (resp.status >= 200 && resp.status < 300) {
-        console.log(resp);
         const dataToDelete = resp.data.data;
         toast.success(resp.data.message);
         setFilesToUpdate((files) =>
@@ -99,7 +105,6 @@ export default function RenameFileUI({
         );
       }
     } catch (error) {
-      console.log(error);
     } finally {
       setLoadingStates((prevStates) => ({
         ...prevStates,
@@ -123,6 +128,7 @@ export default function RenameFileUI({
             className="bg-gray-50 hover:bg-white outline-none border border-gray-300 hover:border-blue-500 text-gray-900 text-sm rounded-md block w-full p-2.5 focus:outline-none focus:border-blue-500"
             placeholder="e.g Image name"
             value={inputValues[file.id] || ""}
+            defaultValue={file.file_name}
             onChange={(e) => handleInputChange(file.id, e.target.value)}
           />
           <div className="w-full flex justify-center md:justify-start md:gap-2">
@@ -131,7 +137,7 @@ export default function RenameFileUI({
             </Button>
             <Button
               variant="gradient"
-              onClick={(e) => handleSubmit(e, file.id)}
+              onClick={(e) => handleSubmit(e, file.id, file.type)}
               disabled={loadingStates[file.id]?.isSubmitting}
             >
               {loadingStates[file.id]?.isSubmitting ? (
@@ -144,7 +150,9 @@ export default function RenameFileUI({
             </Button>
             <Button
               variant="deleteBtn"
-              onClick={() => deleteFileHandler(file.id, file.image_url)}
+              onClick={() =>
+                deleteFileHandler(file.id, file.image_url, file.type)
+              }
               disabled={loadingStates[file.id]?.isDeleting}
             >
               {loadingStates[file.id]?.isDeleting ? (

@@ -69,9 +69,7 @@ export default function TermandConditionForm() {
 
   const saveSignature = async () => {
     const imageData = signatureRef.current.toDataURL(); // You can send this data to your backend or use it as needed
-    console.log(imageData);
     const resp = await createTermCondition(imageData, jobId);
-    console.log(resp);
   };
 
   return (

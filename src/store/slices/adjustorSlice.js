@@ -27,7 +27,6 @@ export const fetchAdjustorData = createAsyncThunk(
           },
         }
       );
-      console.log("response in adjustor slice", response?.data?.data);
 
       return {
         data: response?.data?.data,

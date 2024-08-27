@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux";
 import "./nav.css";
 import ProfileAvatar from "@components/ProfileAvatar";
+import { useSelector } from "react-redux";
+import { Input } from "@components/FormControls";
+import { useAuth } from "@context/AuthContext";
 
 export default function NavBar({ onCloseSidebar }) {
   const userData = useSelector((state) => state?.login?.user);
@@ -27,6 +30,7 @@ export default function NavBar({ onCloseSidebar }) {
         <div className="mr-auto font-semibold text-lg">
           {userData?.name} Deals
         </div>
+        <Input type="search" inputClass="!p-1" />
         <ProfileAvatar />
       </div>
     </nav>

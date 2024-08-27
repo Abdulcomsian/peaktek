@@ -30,10 +30,9 @@ export default function QuoteDetailsForm() {
   } = useForm({
     defaultValues: async function () {
       const resp = await getQuoteDetail(jobId);
-      console.log(resp);
       if (resp.status >= 200 && resp.status < 300) {
-        console.log("fasq123", resp.data.data.sections);
-        setSections((sections) => [...resp.data.data.sections]);
+        if (resp.data.data.sections.length > 0)
+          setSections([...resp.data.data.sections]);
         return resp.data.data;
       }
     },
@@ -77,14 +76,11 @@ export default function QuoteDetailsForm() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(resp);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleAddSection = () => {
-    setSections([...sections, { id: uuidv4(), title: "" }]);
+    setSections((sections) => [...sections, { id: uuidv4(), title: "" }]);
   };
 
   const handleDeleteSection = async (id) => {
@@ -98,29 +94,28 @@ export default function QuoteDetailsForm() {
 
     if (typeof id === "number") deleteRemoteSection();
     if (typeof id !== "number")
-      setSections(sections.filter((section) => section.id !== id));
+      setSections((sections) =>
+        sections.filter((section) => section.id !== id)
+      );
   };
 
-  const handleDeleteItem = async (section_id, item_id) => {
-    console.log(sections);
+  const handleDeleteRemoteItem = async (section_id, item_id) => {
+    console.log(section_id, item_id);
     const resp = await deleteQuoteItem(jobId, section_id, item_id);
-    // console.log(resp);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
+      console.log(resp.data.data);
       setSections(resp.data.data.sections);
     }
   };
 
   const onSubmit = async function (data) {
-    console.log(data, "FINAL DATA TO LOAD");
     try {
       const resp = await createQuoteDetail(data, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const onerror = (error) => {
@@ -167,7 +162,7 @@ export default function QuoteDetailsForm() {
             watch={watch}
             setValue={setValue} // Pass setValue to ItemsList
             defaultItem={section.items}
-            onDeleteItem={handleDeleteItem}
+            onDeleteRemoteItem={handleDeleteRemoteItem}
             section={section}
           />
         </section>
