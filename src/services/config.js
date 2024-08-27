@@ -39,6 +39,8 @@ const clientEndPoints = {
   //Estimate prepared
   createEstimatePrepared: "/api/store/estimate-prepared",
   getEstimatePrepared: "/api/get/estimate-prepared",
+  changeEstimatePreparedFilename: "/api/change/estimate-prepared/file-name",
+  deleteEstimatePreparedMedia: "/api/delete/estimate-prepared/media",
   //Create Carrierscope
   createCarrierscope: "/api/store/carrier-scope",
   getCarrierscope: "/api/get/carrier-scope",

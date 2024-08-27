@@ -60,6 +60,7 @@ const MediaContent = ({ id, className }) => {
   const refreshData = () => {
     getMediaContent();
   };
+  ///////////
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

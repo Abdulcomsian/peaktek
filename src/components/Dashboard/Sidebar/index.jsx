@@ -13,13 +13,12 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const userData = useSelector((state) => state?.login?.user);
-  console.log("user data in sidebar", userData);
 
   // Sidebar links
   const sidebarLinks = [
     {
       id: 1,
-      linkSrc: "/dashboard",
+      linkSrc: "/dashboard/jobs",
       linkText: GPS,
     },
     {
@@ -48,7 +47,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const filteredLinks =
     userData?.role === "Manager" || userData?.role === "Company"
       ? sidebarLinks
-      : sidebarLinks.filter((link) => link.id === 1); // Only show the first link for other roles
+      : sidebarLinks?.filter((link) => link.id === 1); // Only show the first link for other roles
 
   const handleLogout = async function () {
     await logout();
