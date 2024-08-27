@@ -91,7 +91,7 @@ const Scheduling = () => {
       materials: [{ material: "", quantity: "", color: "", order_key: "" }],
     },
     enableReinitialize: true,
-    // validationSchema: schedulingSchema,
+    validationSchema: schedulingSchema,
     onSubmit: async (values, actions) => {
       const formattedValues = {
         ...values,
@@ -181,14 +181,24 @@ const Scheduling = () => {
       });
     }
   }, [materialOrderData]);
-
   useEffect(() => {
     if (formik.isSubmitting && !formik.isValid) {
       const firstErrorField = Object.keys(formik.errors).find(
         (field) => formik.touched[field] && formik.errors[field]
       );
       if (firstErrorField && inputRefs[firstErrorField]?.current) {
-        inputRefs[firstErrorField].current.focus();
+        const fieldElement = inputRefs[firstErrorField].current;
+        fieldElement.focus();
+        fieldElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+        // Set the cursor inside the input field
+        if (fieldElement.setSelectionRange) {
+          // For text inputs
+          const length = fieldElement.value.length;
+          fieldElement.setSelectionRange(length, length);
+        }
       }
     }
   }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
@@ -249,19 +259,6 @@ const Scheduling = () => {
         />
 
         <div className="flex justify-center md:justify-start">
-          {/* <Button
-            type="submit"
-            disabled={formik?.isSubmitting}
-            className="w-full max-w-36 text-white btn-gradient px-4 py-1 mr-4"
-          >
-            {formik?.isSubmitting ? (
-              <div className="flex justify-center items-center">
-                <Loader width={"24px"} height={"24px"} color="#fff" />
-              </div>
-            ) : (
-              "Save & Email"
-            )}
-          </Button> */}
           <Button
             disabled={formik?.isSubmitting}
             type="submit"
