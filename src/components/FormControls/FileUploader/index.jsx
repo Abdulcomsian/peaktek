@@ -16,11 +16,11 @@ const FileUploader = ({
   const fileInputRef = useRef(null);
 
   const handleFiles = (selectedFiles) => {
-    const filteredFiles = Array.from(selectedFiles).filter((file) =>
-      fileTypes.includes(file.type)
+    const filteredFiles = Array?.from(selectedFiles)?.filter((file) =>
+      fileTypes?.includes(file.type)
     );
 
-    const newFiles = filteredFiles.map((file) => ({
+    const newFiles = filteredFiles?.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
     }));
@@ -56,7 +56,7 @@ const FileUploader = ({
         {label}
       </label>
       <div
-        className="w-full flex items-center justify-center border-2 border-dotted border-blue-500 rounded-lg py-10 px-4 bg-white cursor-pointer"
+        className="w-full flex items-center justify-center border-2 border-dashed border-blue-500 rounded-lg py-10 px-4 bg-white cursor-pointer"
         onClick={handleClick}
         onDragOver={handleDragOver}
         onDrop={handleDrop}

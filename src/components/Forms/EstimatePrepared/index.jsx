@@ -11,6 +11,8 @@ const EstimatePreparedForm = ({
   errors,
   values,
   setFieldValue,
+  images,
+  setImages,
 }) => {
   return (
     <div className={className}>
@@ -27,25 +29,25 @@ const EstimatePreparedForm = ({
           error={errors.prepared_by}
           touched={touched.prepared_by}
         />
-        <div className="w-full flex flex-col items-center justify-center">
+        <div className="w-full flex flex-col items-start md:items-center justify-center mb-4 md:mb-0">
           <label
             htmlFor="complete_box"
-            className="w-full flex justify-center text-sm font-medium text-gray-900 mb-2"
+            className="w-full flex justify-start md:justify-center text-sm font-medium text-gray-900 mb-2"
           >
             Completed
           </label>
           <input
             type="checkbox"
-            className="h-10 w-10"
+            className="h-9 w-9 border border-gray-300 bg-gray-50"
             id="complete_box"
             name="complete_box"
             checked={values.complete_box}
-            onChange={handleChange}
+            onChange={() => setFieldValue("complete_box", !values.complete_box)}
           />
         </div>
         <DateSelector
           label="Select a Date"
-          className=""
+          className="mb-4 md:mb-0"
           name="date"
           value={values.date}
           onBlur={handleBlur}
@@ -59,6 +61,11 @@ const EstimatePreparedForm = ({
         icon={<ImageIcon />}
         fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
         text="Drop your image here, or"
+        files={images}
+        setFiles={setImages}
+        handleDelete={(index) =>
+          setImages(images.filter((_, i) => i !== index))
+        }
       />
     </div>
   );

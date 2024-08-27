@@ -9,6 +9,7 @@ import {
   Complete,
   InProgress,
   Scheduling,
+  EstimatePrepared,
 } from "@components/JobDetails";
 
 const MobileContent = ({ path, key }) => {
@@ -18,6 +19,8 @@ const MobileContent = ({ path, key }) => {
         return <Summary key={key} />;
       case "customer-agreement":
         return <CustomerAgreementForm />;
+      case "estimate-prepared":
+        return <EstimatePrepared />;
       case "adjustor-meeting":
         return <AdjustorMeeting />;
       case "overturn":
