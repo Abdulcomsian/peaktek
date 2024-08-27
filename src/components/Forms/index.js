@@ -34,7 +34,7 @@ import {
   FormHeader,
   QuoteDetails,
 } from "./Sidebar";
-
+import EstimatePreparedForm from "./EstimatePrepared";
 import ItemsRow from "./ItemsRow";
 import ItemsList from "./ItemsList";
 export {
@@ -74,4 +74,5 @@ export {
   OverturnAttachments,
   RoofComponent,
   TermandConditionForm,
+  EstimatePreparedForm,
 };

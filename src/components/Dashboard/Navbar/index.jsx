@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 import "./nav.css";
 import ProfileAvatar from "@components/ProfileAvatar";
 import { useSelector } from "react-redux";
@@ -7,8 +5,8 @@ import { Input } from "@components/FormControls";
 import { useAuth } from "@context/AuthContext";
 
 export default function NavBar({ onCloseSidebar }) {
-  const { user } = useAuth();
-  console.log("USER", user);
+  const userData = useSelector((state) => state?.login?.user);
+
   return (
     <nav className="dashboard-nav">
       <div className="welcome-box items-center w-full pr-3">
@@ -27,12 +25,8 @@ export default function NavBar({ onCloseSidebar }) {
             />
           </svg>
         </button>
-        <div className="mr-auto">
-          <ul className="list nav-list justify-between">
-            <li>
-              <span>{user?.name}`s deals</span>
-            </li>
-          </ul>
+        <div className="mr-auto font-semibold text-lg">
+          {userData?.name} Deals
         </div>
         <Input type="search" inputClass="!p-1" />
         <ProfileAvatar />
