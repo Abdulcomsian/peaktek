@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import "./nav.css";
 import ProfileAvatar from "@components/ProfileAvatar";
 import { useSelector } from "react-redux";
@@ -7,7 +6,6 @@ import { useAuth } from "@context/AuthContext";
 
 export default function NavBar({ onCloseSidebar }) {
   const userData = useSelector((state) => state?.login?.user);
-  console.log("user data", userData);
 
   return (
     <nav className="dashboard-nav">
