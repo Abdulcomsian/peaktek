@@ -72,7 +72,7 @@ const clientEndPoints = {
   getPaymentSchedule: "/api/get/payment-schedule",
 
   // Roof Component
-  createRoofComponent: "/api/store/xactimate-report",
+  createRoofComponent: "/api/store/roof-component",
   getRoofComponent: "/api/get/roof-component",
 
   // Xactimate Report form,
@@ -80,7 +80,8 @@ const clientEndPoints = {
   getXactimatereport: "/api/get/xactimate-report",
 
   // Term and Condition
-  createTermCondition: "LATER",
+  createTermCondition: "/api/store/term-and-condition",
+  getTermCondition: "/api/get/term-and-condition",
 
   ///Adjustor Meeting
   createAdjustorMeeting: "/api/create/adjustor-meeting",

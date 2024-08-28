@@ -23,10 +23,6 @@ const ItemsList = ({
     watch(`sections[${sectionIndex}].items[${index}].line_total`, 0)
   );
 
-  useEffect(() => {
-    console.log(items);
-  });
-
   const sectionTotal = useMemo(() => {
     return lineTotals
       .reduce((acc, total) => acc + parseFloat(total || 0), 0)
@@ -64,6 +60,10 @@ const ItemsList = ({
       );
     }
   };
+
+  useEffect(function () {
+    console.log("ITEMS", items);
+  });
 
   return (
     <div className={className}>

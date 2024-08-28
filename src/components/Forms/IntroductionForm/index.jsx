@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { Loader } from "@components/UI";
 
 export default function IntroductionForm() {
   const { id: jobId } = useParams();
@@ -54,7 +55,7 @@ export default function IntroductionForm() {
       }
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
-        setInitialData(null);
+        // setInitialData(null);
       }
       if (resp.status === 500) toast.error("Something went wrong.");
     } catch (err) {
@@ -74,7 +75,11 @@ export default function IntroductionForm() {
         value={initialData}
       />
       <Button variant="gradient" onClick={handleClick}>
-        {isLoading ? "Saving..." : "Save"}
+        {isLoading ? (
+          <Loader width={"24px"} height={"24px"} color="#fff" />
+        ) : (
+          "Save"
+        )}
       </Button>
     </>
   );

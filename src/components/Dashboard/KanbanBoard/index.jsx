@@ -151,7 +151,7 @@ function KanbanBoard() {
         variant="gradient"
       >
         <FaPlus className="text-white mr-1" />
-        New job
+        New Job
       </Button>
       <div className="max-w-full overflow-y-auto">
         <div className="kanban-container">

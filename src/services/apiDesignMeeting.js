@@ -379,3 +379,19 @@ export async function createTermCondition(imageData, id) {
     return error;
   }
 }
+export async function getTermCondition(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.get(
+      `${clientEndPoints?.getTermCondition}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
