@@ -7,8 +7,12 @@ import { Modal } from "antd";
 
 import { Button } from "@components";
 import { Ckeditor } from "@components/FormControls";
-import { ImageIcon } from "@components/UI";
-import { createInspections, getInspection } from "@services/apiDesignMeeting";
+import { ImageIcon, Loader, RenameFileUI } from "@components/UI";
+import {
+  createInspections,
+  deleteInspection,
+  getInspection,
+} from "@services/apiDesignMeeting";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -19,6 +23,7 @@ export default function InspectionForm() {
   const [rows, setRows] = useState([{ id: 0 }]);
   const [rowToDelete, setRowToDelete] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -50,24 +55,34 @@ export default function InspectionForm() {
     });
   };
 
-  const handleDelete = () => {
-    setRows((rows) => rows.filter((row) => row.id !== rowToDelete));
+  const handleDelete = async () => {
+    setIsModalVisible(false);
+    console.log(rowToDelete);
+    if (rowToDelete.company_job_id) {
+      const resp = await deleteInspection(rowToDelete.id, id);
+      console.log(resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        setRows((rows) => rows.filter((row) => row.id !== resp.data.id));
+      }
+      return;
+    }
+    setRows((rows) => rows.filter((row) => row.id !== rowToDelete.id));
     setReceivedData((prevData) =>
       prevData.filter((_, index) => index !== rowToDelete)
     );
-    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  const confirmDelete = (id) => {
-    setRowToDelete(id);
+  const confirmDelete = (row) => {
+    setRowToDelete(row);
     setIsModalVisible(true);
   };
 
   const onSubmit = async function (data) {
+    console.log(data);
     let imagesArrayConst = [];
     const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
       const images = data[`attachment-${index}`];
@@ -85,21 +100,35 @@ export default function InspectionForm() {
     }, []);
 
     const dataToLoad = { inspections: formatedData };
+    console.log("data to load", dataToLoad);
 
     let form = new FormData();
     dataToLoad.inspections.forEach((item, index) => {
-      form.append(`data[${index}][inspection]`, item.inspection);
+      form.append(
+        `inspectionData[${index}][inspection]`,
+        item.inspection || ""
+      );
       let attachment = item.attachment;
       for (let i = 0; i < attachment.length; i++) {
-        form.append(`data[${index}][attachment][${i}]`, attachment[i]);
+        form.append(
+          `inspectionData[${index}][attachment][${i}]`,
+          attachment[i]
+        );
       }
     });
 
-    const resp = await createInspections(form, id);
-    if (resp.status >= 200 && resp.status < 300) {
-      toast.success(resp.data.message);
+    setIsLoading(true);
+    try {
+      const resp = await createInspections(form, id);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
     }
   };
+  console.log("ROWS", rows);
 
   return (
     <>
@@ -113,7 +142,7 @@ export default function InspectionForm() {
             <RiDeleteBin5Line
               size="24px"
               className="justify-self-end h-full mt-2 text-red-500 cursor-pointer"
-              onClick={() => confirmDelete(row.id)}
+              onClick={() => confirmDelete(row)}
             />
             <Ckeditor
               className=" md:col-start-1 col-span-2 md:col-span-1"
@@ -122,19 +151,37 @@ export default function InspectionForm() {
               value={initialData.at(index)}
               id={index}
             />
-            <UploaderInputs
-              wrapperClass="col-span-2 md:col-span-1"
-              name={`attachment-${index}`}
-              register={register}
-              id={`attachment-${index}`}
-              icon={<ImageIcon />}
-              require={false}
-              fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
-            />
+            <div>
+              <UploaderInputs
+                wrapperClass="col-span-2 md:col-span-1"
+                name={`attachment-${index}`}
+                register={register}
+                id={`attachment-${index}`}
+                icon={<ImageIcon />}
+                require={false}
+                fileTypes={[
+                  "image/png",
+                  "image/jpeg",
+                  "image/jpg",
+                  "image/gif",
+                ]}
+              />
+              {row?.attachment && (
+                <RenameFileUI
+                  files={row.attachment}
+                  apiUpdateFileEndPoint="/api/change/project-design-inspection/file-name"
+                  apiDeleteFileEndpoint="/api/delete/project-design-inspection/media"
+                />
+              )}
+            </div>
           </div>
         ))}
         <Button variant="gradient" type="submit">
-          Save
+          {isLoading ? (
+            <Loader width={"24px"} height={"24px"} color="#fff" />
+          ) : (
+            "Save"
+          )}
         </Button>
       </form>
       <Button
