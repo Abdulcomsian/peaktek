@@ -291,24 +291,24 @@ const CustomerAgreementForm = () => {
           />
           <TextSection2 />
           <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-            <div className="flex items-center md:mb-0 w-full md:max-w-[22rem] mb-4">
+            <div className="flex items-center md:mb-0 w-full md:max-w-md mb-4">
               <span className="mr-2">I</span>
               <TextBox
                 className={`w-full md:mr-2`}
-                placeholder="Enter Name"
+                placeholder="Customer Name"
                 ref={inputRefs["name"]}
                 name="name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
             </div>
-            <span className="w-full md:mb-0 mb-4">
+            <span className="w-full inline-block md:mb-0 mb-4">
               the undersigned, hereby cancel this transaction as of{" "}
               <span className="font-bold">Date:</span>
             </span>
             <DateSelector
-              className={`w-full md:max-w-[22rem] md:ml-1`}
-              placeholder="Enter Date"
+              className={`w-full md:max-w-[27rem] md:ml-1`}
+              placeholder="Signature Date"
               ref={inputRefs["date"]}
               name="date"
               onChange={(date) => formik.setFieldValue("date", date)}

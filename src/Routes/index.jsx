@@ -107,7 +107,7 @@ export function AppRoute() {
           <Route path="sub-contractor-list" element={<SubContractors />} />
           <Route path="suppliers-list" element={<Suppliers />} />
           <Route path="adjustors-list" element={<Adjustors />} />
-          {/* <Route path="manage-user" element={<ManageUser />} /> */}
+
           <Route path="deals/:id" element={<Dealdetail />} />
         </Route>
         <Route path="/projects" element={<Projects />}>

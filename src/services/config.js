@@ -99,6 +99,7 @@ const clientEndPoints = {
   getMaterialOrder: "/api/get/material-order",
   checkMaterialOrder: "/api/check/material-order",
   materialOrderEmail: "/api/material-order/email",
+  emailToSupplier: "/api/send/email",
   //Ready to build
   createReadyToBuild: "/api/store/ready-to-build",
   getReadyToBuild: "/api/get/ready-to-build",

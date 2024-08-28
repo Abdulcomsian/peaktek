@@ -118,6 +118,26 @@ const Scheduling = () => {
 
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
+          try {
+            const res = await clientBaseURL.get(
+              `${clientEndPoints?.emailToSupplier}/${id}`,
+
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            if (res?.status >= 200 && res?.status < 300) {
+              toast.success(res?.data?.message);
+            }
+          } catch (error) {
+            if (error?.response) {
+              toast.error(
+                error?.response?.data?.error || error?.response?.data?.message
+              );
+            }
+          }
         }
       } catch (error) {
         if (error?.response) {
@@ -181,6 +201,7 @@ const Scheduling = () => {
       });
     }
   }, [materialOrderData]);
+
   useEffect(() => {
     if (formik.isSubmitting && !formik.isValid) {
       const firstErrorField = Object.keys(formik.errors).find(

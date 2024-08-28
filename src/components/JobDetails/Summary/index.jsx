@@ -169,7 +169,7 @@ const Summary = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="flex gap-4 px-0 lg:px-4 justify-between flex-wrap mb-4 lg:mb-0">
+              <div className="flex md:gap-4 px-0 lg:px-4 justify-between flex-wrap mb-4 lg:mb-0">
                 <div className="flex flex-col font-poppins font-normal text-sm box-border mb-4 md:mb-0">
                   <div className="text-black text-opacity-30  mb-4 ">
                     First Payment
