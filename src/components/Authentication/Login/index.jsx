@@ -3,7 +3,7 @@ import { Button } from "@components/UI";
 import { Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@components/Authentication";
-import { Input } from "@components/FormControls";
+import { Input, PasswordBox } from "@components/FormControls";
 import { useAuth } from "@context/AuthContext";
 import { useForm } from "react-hook-form";
 import { login } from "@services/apiAuth";
@@ -13,6 +13,7 @@ import { updateUser } from "@store/slices/userSlice";
 
 const Login = () => {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -68,16 +69,24 @@ const Login = () => {
               register={register}
               error={errors?.email?.message}
             />
-            <Input
+            <PasswordBox
+              control={control}
+              label="Password"
+              name="password"
+              className="mb-2"
+              placeholder="***********"
+              error={errors?.password?.message}
+            />
+
+            {/* <Input
               label="Password"
               type="password"
               name="password"
               applyMarginBottom={true}
               className="mb-2"
-              placeholder="***********"
               register={register}
               error={errors?.password?.message}
-            />
+            /> */}
             <Button
               variant="gradient"
               type="submit"
