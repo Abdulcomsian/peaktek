@@ -13,13 +13,12 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const userData = useSelector((state) => state?.login?.user);
-  console.log("user data in sidebar", userData?.role?.name);
 
   // Sidebar links
   const sidebarLinks = [
     {
       id: 1,
-      linkSrc: "/dashboard/jobs",
+      linkSrc: "/dashboard",
       linkText: GPS,
     },
     {

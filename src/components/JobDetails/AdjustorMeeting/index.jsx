@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useFormik } from "formik";
 import { adjustorMeetingSchema } from "@services/schema";
 import dayjs from "dayjs";
@@ -127,6 +127,39 @@ const AdjustorMeeting = () => {
     }
   }, [adjustorMeetingData]);
 
+  const inputRefs = {
+    name: useRef(null),
+    phone: useRef(null),
+    email: useRef(null),
+    time: useRef(null),
+    date: useRef(null),
+  };
+  useEffect(() => {
+    if (formik.isSubmitting && !formik.isValid) {
+      const firstErrorField = Object.keys(formik.errors).find(
+        (field) => formik.errors[field]
+      );
+      if (firstErrorField && inputRefs[firstErrorField]?.current) {
+        const fieldElement = inputRefs[firstErrorField].current;
+        fieldElement.focus();
+        fieldElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+        // Set the cursor inside the input field if it supports setSelectionRange
+        if (
+          fieldElement.setSelectionRange &&
+          ["text", "search", "url", "tel", "password"].includes(
+            fieldElement.type
+          )
+        ) {
+          const length = fieldElement.value.length;
+          fieldElement.setSelectionRange(length, length);
+        }
+      }
+    }
+  }, [formik.isSubmitting, formik.isValid, formik.errors]);
+
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} delay={0} />}
@@ -146,6 +179,7 @@ const AdjustorMeeting = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
+            inputRefs={inputRefs}
           />
           <div className="flex">
             <Button className="text-black mr-4 border border-gray-300 px-4 py-1">
