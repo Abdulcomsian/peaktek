@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { Input, InputContainer, CustomDatePicker } from "@components";
 import { Button, UploaderInputs } from "@components/index";
-import { formateErrorName, mapToArray } from "../../../utils/helper";
+import { formateErrorName } from "../../../utils/helper";
 import { ImageIcon, RenameFileUI } from "@components/UI";
 import { createTitle, getTitle } from "@services/apiDesignMeeting";
 import { toast } from "react-hot-toast";
@@ -13,25 +13,36 @@ import { Loader } from "@components/UI";
 export default function TitleForm() {
   const { id: jobId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Manage loading state
   const { logout } = useAuth();
+
   const {
     register,
     handleSubmit,
     control,
     reset,
     watch,
-    formState: { errors, isLoading, isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: async () => {
-      const res = await getTitle(jobId);
-      if (
-        res.status >= 200 &&
-        res.status < 300 &&
-        Object.keys(res.data.data).length > 0
-      ) {
-        setIsEditing(true);
-        return res.data.data;
-      } else return {};
+      try {
+        const res = await getTitle(jobId);
+        if (
+          res.status >= 200 &&
+          res.status < 300 &&
+          Object.keys(res.data.data).length > 0
+        ) {
+          setIsEditing(true);
+          return res.data.data;
+        } else {
+          return {}; // Return empty object if no data
+        }
+      } catch (error) {
+        console.error(error);
+        return {}; // Return empty object on error
+      } finally {
+        setIsLoading(false); // Set loading to false after data fetch
+      }
     },
   });
 
@@ -50,7 +61,6 @@ export default function TitleForm() {
     };
 
     try {
-      // isSubmitting(true);
       const resp = await createTitle(finalDataToUpload, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
@@ -62,16 +72,18 @@ export default function TitleForm() {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      // isSubmitting(false);
     }
   };
+
+  if (isLoading) {
+    return <Loader width={"24px"} height={"24px"} color="#000" />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="my-6" key="123">
       <InputContainer className="flex flex-col md:flex-row justify-between">
         <Input
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
           label="First Name:"
           placeholder="John"
           type="text"
@@ -84,7 +96,7 @@ export default function TitleForm() {
           }
         />
         <Input
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
           label="Last Name:"
           placeholder="Doe"
           type="text"
@@ -98,7 +110,7 @@ export default function TitleForm() {
         />
       </InputContainer>
       <Input
-        disabled={isLoading}
+        disabled={isLoading || isSubmitting}
         label="Company Name:"
         placeholder="eg.Microsoft"
         type="text"
@@ -111,7 +123,7 @@ export default function TitleForm() {
         }
       />
       <Input
-        disabled={isLoading}
+        disabled={isLoading || isSubmitting}
         label="Address:"
         placeholder="350 5th Ave"
         type="text"
@@ -123,7 +135,7 @@ export default function TitleForm() {
       />
       <InputContainer className="flex flex-col lg:flex-row justify-between">
         <Input
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
           label="City:"
           placeholder="New York"
           type="text"
@@ -134,7 +146,7 @@ export default function TitleForm() {
           error={errors.city && formateErrorName(errors?.city?.message)}
         />
         <Input
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
           label="State/Province:"
           placeholder="NY"
           type="text"
@@ -145,7 +157,7 @@ export default function TitleForm() {
           error={errors.state && formateErrorName(errors?.state?.message)}
         />
         <Input
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
           label="Zip Code/Postal Code:"
           placeholder="10118"
           type="number"
@@ -159,7 +171,7 @@ export default function TitleForm() {
         />
       </InputContainer>
       <Input
-        disabled={isLoading}
+        disabled={isLoading || isSubmitting}
         label="Report Type:"
         placeholder="Enter report type"
         type="text"
@@ -231,11 +243,11 @@ export default function TitleForm() {
         </div>
       </div>
       <Button type="submit" variant="gradient" className=" mt-6">
-        {/* {isSubmitting ? (
+        {isSubmitting ? (
           <Loader width={"24px"} height={"24px"} color="#fff" />
-        ) : ( */}
-        "Submit"
-        {/* )} */}
+        ) : (
+          "Submit"
+        )}
       </Button>
     </form>
   );

@@ -16,8 +16,10 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { clientBaseURL } from "@services/config";
 import { number } from "yup";
+import { Loader } from "@components/UI";
 
 export default function QuoteDetailsForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const { id: jobId } = useParams();
   const [sections, setSections] = useState([{ id: uuidv4(), title: "" }]);
   const [progress, setProgress] = useState(30);
@@ -26,6 +28,7 @@ export default function QuoteDetailsForm() {
     handleSubmit,
     formState: { errors },
     watch,
+    getValues,
     setValue,
   } = useForm({
     defaultValues: async function () {
@@ -111,11 +114,15 @@ export default function QuoteDetailsForm() {
 
   const onSubmit = async function (data) {
     try {
+      setIsLoading(true);
       const resp = await createQuoteDetail(data, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onerror = (error) => {
@@ -218,7 +225,11 @@ export default function QuoteDetailsForm() {
         />
       </div>
       <Button variant="gradient" type="submit">
-        Save Quote
+        {isLoading ? (
+          <Loader width={"24px"} height={"24px"} color="#fff" />
+        ) : (
+          "Save Quote"
+        )}
       </Button>
     </form>
   );

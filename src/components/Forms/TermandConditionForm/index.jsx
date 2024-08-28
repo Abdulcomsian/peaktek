@@ -1,6 +1,12 @@
-import { Button } from "@components/UI";
-import { createTermCondition } from "@services/apiDesignMeeting";
-import { useRef } from "react";
+import CenteredSpinner from "@components/CenteredSpinner";
+import { Button, Loader } from "@components/UI";
+import {
+  createTermCondition,
+  getTermCondition,
+} from "@services/apiDesignMeeting";
+import { baseURL, clientBaseURL, clientEndPoints } from "@services/config";
+import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import SignatureCanvas from "react-signature-canvas";
 
@@ -62,6 +68,25 @@ const termsData = [
 export default function TermandConditionForm() {
   const { id: jobId } = useParams();
   const signatureRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSigned, setIsSigned] = useState(false);
+  const [image_url, setImage_url] = useState("");
+  const [isInitalLoading, setIsInitialLoading] = useState(false);
+
+  useEffect(() => {
+    async function getTermsSignature() {
+      setIsInitialLoading(true);
+      const resp = await getTermCondition(jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+        setIsSigned(true);
+        setImage_url(resp.data.data.sign_image);
+      }
+      setIsInitialLoading(false);
+      console.log("RESP", resp);
+    }
+
+    getTermsSignature();
+  }, []);
 
   const clearSignature = () => {
     signatureRef.current.clear();
@@ -69,8 +94,25 @@ export default function TermandConditionForm() {
 
   const saveSignature = async () => {
     const imageData = signatureRef.current.toDataURL(); // You can send this data to your backend or use it as needed
-    const resp = await createTermCondition(imageData, jobId);
+    setIsLoading(true);
+    try {
+      const resp = await createTermCondition(imageData, jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+        signatureRef.current.clear();
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const handleFileView = function () {
+    const fullFileUrl = `${baseURL}/${image_url}`;
+    window.open(fullFileUrl, "_blank");
+  };
+
+  if (isInitalLoading) return <CenteredSpinner />;
 
   return (
     <>
@@ -87,24 +129,42 @@ export default function TermandConditionForm() {
           </p>
         </div>
         <div className="flex flex-col gap-2">
-          <SignatureCanvas
-            id="signature"
-            ref={signatureRef}
-            penColor="black"
-            canvasProps={{
-              width: "460px",
-              height: 100,
-              className: "border rounded-lg bg-[#fff] py-4",
-            }}
-          />
-          <div className="self-end flex gap-2">
-            <Button onClick={saveSignature} variant="gradient">
-              Save Sign.
-            </Button>
-            <Button onClick={clearSignature} variant="deleteBtn">
-              Clear
-            </Button>
-          </div>
+          {!isSigned ? (
+            <>
+              <SignatureCanvas
+                id="signature"
+                ref={signatureRef}
+                penColor="black"
+                canvasProps={{
+                  width: "460px",
+                  height: 100,
+                  className: "border rounded-lg bg-[#fff] py-4",
+                }}
+              />
+
+              <div className="self-end flex gap-2">
+                <Button onClick={saveSignature} variant="gradient">
+                  {isLoading ? (
+                    <Loader width={"24px"} height={"24px"} color="#fff" />
+                  ) : (
+                    "Save signature"
+                  )}
+                </Button>
+                <Button onClick={clearSignature} variant="deleteBtn">
+                  Clear
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Button variant="gradient" onClick={handleFileView}>
+                View Signature
+              </Button>
+              <p className="text-xs">
+                Terms and conditions are already signed.
+              </p>
+            </>
+          )}
         </div>
       </div>
       {termsData.map((item, index) => (

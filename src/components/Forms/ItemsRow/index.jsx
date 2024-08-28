@@ -35,6 +35,10 @@ const ItemsRow = ({
     setValue(`sections[${sectionIndex}].items[${index}].line_total`, lineTotal);
   }, [quantity, price, lineTotal, sectionIndex, index, setValue]);
 
+  useEffect(() => {
+    console.log("FIELDS", itemFields);
+  });
+
   return (
     <div className={`flex items-center py-4 ${className}`}>
       {itemFields.map((field, i) => (

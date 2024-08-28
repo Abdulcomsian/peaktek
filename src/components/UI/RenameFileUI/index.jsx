@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 export default function RenameFileUI({
-  files,
+  files = [],
   id,
   apiDeleteFileEndpoint,
   apiUpdateFileEndPoint,
@@ -14,12 +14,13 @@ export default function RenameFileUI({
     files.reduce(
       (acc, file) => ({
         ...acc,
-        [file.id]: file.file_name || "", // Initialize with existing file names or empty
+        [file.id]: file?.file_name || "", // Initialize with existing file names or empty
       }),
       {}
     )
   );
   const [filesToUpdate, setFilesToUpdate] = useState([]);
+  console.log(filesToUpdate);
 
   // New state to track loading for each file
   const [loadingStates, setLoadingStates] = useState(
@@ -80,6 +81,7 @@ export default function RenameFileUI({
   };
 
   const deleteFileHandler = async (id, image_url, fileType) => {
+    console.log("FILE DELETE HANLDER", image_url);
     setLoadingStates((prevStates) => ({
       ...prevStates,
       [id]: { ...prevStates[id], isDeleting: true },
@@ -115,7 +117,8 @@ export default function RenameFileUI({
 
   const openFileHandler = (id) => {
     const fullFileUrl = `${baseURL}${
-      filesToUpdate.find((file) => file.id === id).image_url
+      filesToUpdate.find((file) => file.id === id).image_url ||
+      filesToUpdate.find((file) => file.id === id).pdf_url
     }`;
     window.open(fullFileUrl, "_blank");
   };
@@ -151,7 +154,11 @@ export default function RenameFileUI({
             <Button
               variant="deleteBtn"
               onClick={() =>
-                deleteFileHandler(file.id, file.image_url, file.type)
+                deleteFileHandler(
+                  file.id,
+                  file.image_url || file.pdf_url,
+                  file.type
+                )
               }
               disabled={loadingStates[file.id]?.isDeleting}
             >

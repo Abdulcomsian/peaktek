@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "./nav.css";
 import ProfileAvatar from "@components/ProfileAvatar";
 import { useSelector } from "react-redux";
@@ -5,11 +7,11 @@ import { Input } from "@components/FormControls";
 import { useAuth } from "@context/AuthContext";
 
 export default function NavBar({ onCloseSidebar }) {
-  const userData = useSelector((state) => state?.login?.user);
-
+  const { user } = useAuth();
+  console.log("USER", user);
   return (
     <nav className="dashboard-nav">
-      <div className="welcome-box items-center w-full pr-3">
+      <div className="welcome-box items-center justify-between !w-full pr-3">
         <button className="btn btn-icon-close" onClick={onCloseSidebar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -25,10 +27,19 @@ export default function NavBar({ onCloseSidebar }) {
             />
           </svg>
         </button>
-        <div className="mr-auto font-semibold text-lg">
-          {userData?.name} Deals
+        <div className="mr-auto">
+          <ul className="list nav-list justify-between">
+            <li>
+              <span className="font-bold text-lg">{user?.name}`s deals</span>
+            </li>
+          </ul>
         </div>
-        <Input type="search" inputClass="!p-1" />
+        <Input
+          type="search"
+          placeholder="Search here..."
+          inputClass="!p-1"
+          className="!w-fit"
+        />
         <ProfileAvatar />
       </div>
     </nav>
