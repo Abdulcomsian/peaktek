@@ -20,7 +20,7 @@ export default function RenameFileUI({
     )
   );
   const [filesToUpdate, setFilesToUpdate] = useState([]);
-  console.log(filesToUpdate);
+  console.log("FILES TO UPDATE", filesToUpdate);
 
   // New state to track loading for each file
   const [loadingStates, setLoadingStates] = useState(
@@ -118,7 +118,8 @@ export default function RenameFileUI({
   const openFileHandler = (id) => {
     const fullFileUrl = `${baseURL}${
       filesToUpdate.find((file) => file.id === id).image_url ||
-      filesToUpdate.find((file) => file.id === id).pdf_url
+      filesToUpdate.find((file) => file.id === id).pdf_url ||
+      filesToUpdate.find((file) => file.id === id).url
     }`;
     window.open(fullFileUrl, "_blank");
   };

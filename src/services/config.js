@@ -52,6 +52,7 @@ const clientEndPoints = {
   createInspection: "/api/store/project-design/inspection",
   getInspection: "/api/get/project-design/inspection",
   updateQcInspectionFilename: "api/change/qc-inspection/file-name",
+  deleteInspection: "/api/delete/project-design/inspection",
   //Introduction form
   createIntroduction: "/api/store/project-design/introduction",
   getIntroduction: "/api/get/project-design/introduction",

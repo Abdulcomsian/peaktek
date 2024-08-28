@@ -14,6 +14,7 @@ export default function TitleForm() {
   const { id: jobId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Manage loading state
+  const [pageInvalidate, setPageInvalidate] = useState(false);
   const { logout } = useAuth();
 
   const {
@@ -65,6 +66,7 @@ export default function TitleForm() {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
         reset();
+        setPageInvalidate((is) => !is);
       }
       if (resp.status === 401) {
         toast.error(resp.message);
@@ -80,7 +82,7 @@ export default function TitleForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="my-6" key="123">
+    <form onSubmit={handleSubmit(onSubmit)} className="my-6">
       <InputContainer className="flex flex-col md:flex-row justify-between">
         <Input
           disabled={isLoading || isSubmitting}

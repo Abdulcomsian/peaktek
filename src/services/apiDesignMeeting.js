@@ -24,6 +24,18 @@ export async function createCarrierScope(images, id) {
   }
 }
 
+export async function getCarrierScope(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = clientBaseURL.get(`${clientEndPoints.getCarrierscope}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return resp;
+  } catch (err) {
+    return err;
+  }
+}
+
 export async function createTitle(dataToLoad, id) {
   const token = localStorage.getItem("token");
   const {
@@ -107,18 +119,6 @@ export async function getIntroduction(id) {
   }
 }
 
-export async function getCarrierScope(id) {
-  const token = localStorage.getItem("token");
-  try {
-    const resp = clientBaseURL.get(`${clientEndPoints.getCarrierscope}/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return resp;
-  } catch (err) {
-    return err;
-  }
-}
-
 export async function createInspections(dataToLoad, id) {
   const token = localStorage.getItem("token");
   // const formData = new FormData();
@@ -151,6 +151,23 @@ export async function getInspection(id) {
     const resp = clientBaseURL.get(`${clientEndPoints.getInspection}/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteInspection(inspection_id, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.deleteInspection}/${jobId}`,
+      {
+        inspection_id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
     return resp;
   } catch (error) {
     return error;
@@ -335,6 +352,7 @@ export async function getRooferComponent(jobId) {
   }
 }
 export async function createXactimatereport(formData, id) {
+  const token = localStorage.getItem("token");
   try {
     const resp = await clientBaseURL.post(
       `${clientEndPoints.createXactimatereport}/${id}`,
