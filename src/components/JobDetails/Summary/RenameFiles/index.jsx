@@ -70,7 +70,7 @@ const RenameFiles = ({ file, id, refreshData }) => {
 
       const response = await clientBaseURL.post(
         `${clientEndPoints?.deleteMediaFiles}/${id}`,
-        { media_url: file?.media_url },
+        { image_url: file?.media_url },
         {
           headers: {
             Authorization: `Bearer ${token}`,
