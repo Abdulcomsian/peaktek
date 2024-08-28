@@ -14,9 +14,11 @@ import {
 import { useParams } from "react-router-dom";
 import { Input, TextareaInput } from "@components/FormControls";
 import toast from "react-hot-toast";
+import { Loader } from "@components/UI";
 
 export default function AuthorizationForm() {
   const { id: jobId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [sections, setSections] = useState([
     { id: uuidv4(), title: "", section_total: 0 },
   ]);
@@ -75,12 +77,16 @@ export default function AuthorizationForm() {
   };
 
   const onSubmit = async function (data) {
-    const resp = await createAuthorization(data, jobId);
+    setIsLoading(true);
     try {
+      const resp = await createAuthorization(data, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -221,8 +227,12 @@ export default function AuthorizationForm() {
         register={register}
         name="footer_notes"
       />
-      <Button variant="gradient" type="submit">
-        Save as Template
+      <Button variant="gradient" className="mt-4" type="submit">
+        {isLoading ? (
+          <Loader width={"24px"} height={"24px"} color="#fff" />
+        ) : (
+          "Save as Template"
+        )}
       </Button>
     </form>
   );

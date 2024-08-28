@@ -1,5 +1,3 @@
-import React from "react";
-import { Button } from "@components/UI";
 import { Input } from "antd";
 import { Controller } from "react-hook-form";
 
@@ -21,9 +19,6 @@ const TextPage = ({ control, name, errors }) => {
         )}
       />
       {errors?.[name] && <span>{errors[name]?.message}</span>}
-      <Button type="submit" variant="gradient" className="mt-4">
-        Save
-      </Button>
     </>
   );
 };

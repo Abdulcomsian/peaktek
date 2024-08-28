@@ -6,21 +6,32 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  createXactimatereport,
+  getRooferComponent,
   getXactimatereport,
 } from "@services/apiDesignMeeting";
+import { createXactimatereport as createXactimatereportApi } from "@services/apiDesignMeeting";
+import { RenameFileUI, Button } from "@components/UI";
+import { UploaderInputs } from "@components/index";
+import { ArrowFileIcon } from "@components/UI";
+import toast from "react-hot-toast";
 
 export default function RoofComponent() {
+  const [defaultImages, setDefaultImages] = useState([]);
   const { id: jobId } = useParams();
   const {
     control,
     register,
     handleSubmit,
+    watch,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: async function () {
       const resp = await getXactimatereport(jobId);
       if (resp.status >= 200 && resp.status < 300) {
+        if (resp.data.data.pdfs.length > 0)
+          setDefaultImages(resp.data.data.pdfs);
+        return { ...resp.data.data, selectedOption: 1 };
       } else {
         return { selectedOption: 1, content: "", acknowledge: false };
       }
@@ -28,11 +39,38 @@ export default function RoofComponent() {
   });
 
   const [selectedOption, setSelectedOption] = useState(1);
-  const dispatch = useDispatch();
-  const { formError } = useSelector((store) => store.roofer);
 
-  const onsubmit = (data) => {
-    // dispatch(createXactimatereport({ ...data }, jobId));
+  const onsubmit = async (data) => {
+    const { selectedOption, acknowledge, content, pdfs } = data;
+
+    const formData = new FormData();
+    formData.append("acknowledge", Number(acknowledge));
+    formData.append(
+      "title",
+      selectedOption === 1 ? "Single Use PDFs" : "Text Page"
+    );
+    formData.append("content", content || "");
+
+    // Ensure that pdfs are included in the payload, even if empty
+    if (selectedOption === 1) {
+      if (Object.keys(pdfs).length > 0) {
+        for (let file of Object.values(pdfs)) {
+          formData.append("pdfs[]", file);
+        }
+      } else {
+      }
+    } else {
+      formData.append("pdfs[]", ""); // Append an empty string or null to indicate no PDFs
+    }
+
+    try {
+      const resp = await createXactimatereportApi(formData, jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -57,11 +95,27 @@ export default function RoofComponent() {
           className="py-6 border-b border-gray-200"
         />
         {selectedOption === 1 ? (
-          <SingleUsePdf register={register} errors={errors} />
+          <UploaderInputs
+            register={register}
+            id="pdfs"
+            name="pdfs"
+            icon={<ArrowFileIcon />}
+            fileTypes={["application/pdf"]}
+          />
         ) : (
           <TextPage control={control} name="content" errors={errors} />
         )}
+        <Button type="submit" variant="gradient" className="mt-4">
+          Save
+        </Button>
       </form>
+      {selectedOption === 1 && defaultImages?.length > 0 ? (
+        <RenameFileUI
+          files={defaultImages}
+          apiUpdateFileEndPoint="/api/change/xactimate-report/file-name"
+          apiDeleteFileEndpoint="/api/delete/xactimate-report/media"
+        />
+      ) : null}
     </>
   );
 }
