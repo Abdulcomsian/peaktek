@@ -156,9 +156,14 @@ export default function TermandConditionForm() {
               </div>
             </>
           ) : (
-            <Button variant="gradient" onClick={handleFileView}>
-              View Signature
-            </Button>
+            <>
+              <Button variant="gradient" onClick={handleFileView}>
+                View Signature
+              </Button>
+              <p className="text-xs">
+                Terms and conditions are already signed.
+              </p>
+            </>
           )}
         </div>
       </div>

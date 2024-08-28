@@ -48,6 +48,11 @@ export default function UploaderInputs({
     return name;
   };
 
+  const handleDeletFileItem = function (id) {
+    console.log("HERE", files, id);
+    setFiles((files) => files.filter((_, i) => i !== id));
+  };
+
   return (
     <div className={wrapperClass}>
       <label
@@ -64,7 +69,10 @@ export default function UploaderInputs({
         </div>
       </label>
       {error && <p className="text-sm mt-1 text-red-500 py-1">{error}</p>}
-      <UploadedImageItems files={files} />
+      <UploadedImageItems
+        files={files}
+        onDeleteFileItem={handleDeletFileItem}
+      />
       {/* {multiple && defaultFiles.length > 0 && <NamedImageItems files={files} register={register} />} */}
 
       <input

@@ -1,7 +1,7 @@
 import { ArrowFileIcon, ImageIcon } from "@components/UI";
 import { FaTrashAlt } from "react-icons/fa";
 
-export default function UploadedImageItems({ files = [] }) {
+export default function UploadedImageItems({ files = [], onDeleteFileItem }) {
   return (
     <>
       {[...files].map((file, index) => (
@@ -19,7 +19,7 @@ export default function UploadedImageItems({ files = [] }) {
           <p className="text-sm">{file?.name}</p>
           <button
             type="button"
-            // onClick={() => handleDelete(index)}
+            onClick={() => onDeleteFileItem(index)}
             className="text-red-600"
           >
             <FaTrashAlt />
