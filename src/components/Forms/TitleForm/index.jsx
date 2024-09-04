@@ -9,6 +9,7 @@ import { createTitle, getTitle } from "@services/apiDesignMeeting";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@context/AuthContext";
 import { Loader } from "@components/UI";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function TitleForm() {
   const { id: jobId } = useParams();
@@ -78,7 +79,18 @@ export default function TitleForm() {
   };
 
   if (isLoading) {
-    return <Loader width={"24px"} height={"24px"} color="#000" />;
+    return (
+      <ThreeDots
+        visible={true}
+        height="80"
+        width="80"
+        color="#18faf8"
+        radius="9"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass="flex item-center justify-center"
+      />
+    );
   }
 
   return (

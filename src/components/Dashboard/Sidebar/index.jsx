@@ -6,13 +6,12 @@ import listupIcon from "@assets/images/listUp.svg";
 import clipboardCheck from "@assets/images/clipboardCheck.svg";
 import settingsMinimalistic from "@assets/images/settingsMinimalistic.svg";
 import FileText from "@assets/images/FileText.svg";
+import JobIcon from "@assets/images/jobs.svg";
 import GPS from "@assets/images/GPS.svg";
-import { useSelector } from "react-redux";
 
 export default function Sidebar({ isShow, onCloseSidebar }) {
-  const { logout } = useAuth();
+  const { logout, user: userData } = useAuth();
   const navigate = useNavigate();
-  const userData = useSelector((state) => state?.login?.user);
 
   // Sidebar links
   const sidebarLinks = [
@@ -23,21 +22,26 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     },
     {
       id: 2,
+      linkSrc: "/dashboard/all-jobs",
+      linkText: JobIcon,
+    },
+    {
+      id: 3,
       linkSrc: "/dashboard/users-list",
       linkText: listupIcon,
     },
     {
-      id: 3,
+      id: 4,
       linkSrc: "/dashboard/sub-contractor-list",
       linkText: clipboardCheck,
     },
     {
-      id: 4,
+      id: 5,
       linkSrc: "/dashboard/suppliers-list",
       linkText: settingsMinimalistic,
     },
     {
-      id: 5,
+      id: 6,
       linkSrc: "/dashboard/adjustors-list",
       linkText: FileText,
     },
@@ -47,7 +51,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const filteredLinks =
     userData?.role?.name === "Manager" || userData?.role?.name === "Company"
       ? sidebarLinks
-      : sidebarLinks?.filter((link) => link.id === 1); // Only show the first link for other roles
+      : sidebarLinks?.filter((link) => link.id <= 2); // Only show the first link for other roles
 
   const handleLogout = async function () {
     await logout();

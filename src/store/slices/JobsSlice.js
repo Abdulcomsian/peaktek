@@ -10,6 +10,7 @@ export const STATUS = Object.freeze({
 const initialState = {
   boardData: [],
   singleJobData: {},
+  seletedStatus: null,
   status: STATUS.IDLE,
 };
 
@@ -45,6 +46,9 @@ const jobsSlice = createSlice({
     boardDataLoaded: (state, action) => {
       state.boardData = action.payload;
     },
+    seletectedStatus: (state, action) => {
+      state.seletedStatus = action.payload;
+    },
     addJob: (state, action) => {
       const { id, name, address, created_at } = action.payload;
       state.boardData
@@ -79,6 +83,7 @@ const jobsSlice = createSlice({
   },
 });
 
-export const { addJob, updateColumn, boardDataLoaded } = jobsSlice.actions;
+export const { addJob, updateColumn, boardDataLoaded, seletectedStatus } =
+  jobsSlice.actions;
 
 export default jobsSlice.reducer;

@@ -72,3 +72,16 @@ export async function updateJobStatus(job, destinationColumn) {
     );
   } catch (error) {}
 }
+
+export async function getJobswithCount() {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.getJobswithCount}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
