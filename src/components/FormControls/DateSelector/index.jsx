@@ -16,7 +16,7 @@ const DateSelector = forwardRef(
           size="large"
           onChange={onChange}
           name={name}
-          format="DD/MM/YYYY"
+          format="MM/DD/YYYY"
           className="w-full bg-gray-50 p-2 focus:outline-blue-500"
           ref={ref}
         />

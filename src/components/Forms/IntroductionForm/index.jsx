@@ -6,12 +6,12 @@ import {
   createIntroduction,
   getIntroduction as getIntroductionApi,
 } from "@services/apiDesignMeeting";
-import { clientBaseURL, clientEndPoints } from "@services/config";
 import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader } from "@components/UI";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function IntroductionForm() {
   const { id: jobId } = useParams();
@@ -64,7 +64,19 @@ export default function IntroductionForm() {
     }
   };
 
-  if (isLoadingInitialData) return <CenteredSpinner />;
+  if (isLoadingInitialData)
+    return (
+      <ThreeDots
+        visible={true}
+        height="80"
+        width="80"
+        color="#18faf8"
+        radius="9"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass="flex item-center justify-center"
+      />
+    );
   return (
     <>
       <Ckeditor

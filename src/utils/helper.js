@@ -12,3 +12,10 @@ export function mapToArray(Obj) {
   const hasLength = Object.values.length > 0;
   return hasLength ? Object.values(Obj) : [];
 }
+
+export function createSlug(string) {
+  return string
+    .split(" ")
+    .map((word) => word.replace(word[0], word[0].toLowerCase()))
+    .join("-");
+}

@@ -56,6 +56,7 @@ import ProtectedRoute from "@components/ProtectedRoute";
 import Test from "@pages/Test";
 import { JobDetail } from "@pages/index";
 import { Inspection } from "@components/Forms/Sidebar";
+import { AllJobs, JobListing, Welcome } from "@components/index";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -100,7 +101,10 @@ export function AppRoute() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="jobs" />} />
+          <Route index element={<Navigate to="welcome" />} />
+          <Route path=":jobId" element={<JobListing />} />
+          <Route path="welcome" element={<Welcome />} />
+          <Route path="all-jobs" element={<AllJobs />} />
           <Route path="jobs" element={<KanbanBoard />} />
           <Route path="completedTasks" element={<CompletedJobs />} />
           <Route path="users-list" element={<Users />} />

@@ -8,7 +8,7 @@ import { useAuth } from "@context/AuthContext";
 
 export default function NavBar({ onCloseSidebar }) {
   const { user } = useAuth();
-  console.log("USER", user);
+  // console.log("USER", user);
   return (
     <nav className="dashboard-nav">
       <div className="welcome-box items-center justify-between !w-full pr-3">

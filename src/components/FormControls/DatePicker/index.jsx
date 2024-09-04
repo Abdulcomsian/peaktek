@@ -20,18 +20,18 @@ const CustomDatePicker = ({
       <Controller
         control={control}
         name={name}
-        defaultValue={defaultValue ? dayjs(defaultValue, "DD/MM/YYYY") : null}
+        defaultValue={defaultValue ? dayjs(defaultValue, "MM/DD/YYYY") : null}
         render={({ field }) => (
           <DatePicker
             {...field}
-            format="DD/MM/YYYY"
+            format="MM/DD/YYYY"
             placeholder="Select date"
             className="w-full bg-gray-50 p-2 focus:outline-1 focus:outline-blue-500"
             size="large"
             onChange={(date) => {
-              field.onChange(date ? date.format("DD/MM/YYYY") : null); // Update form value in DD/MM/YYYY format
+              field.onChange(date ? date.format("MM/DD/YYYY") : null); // Update form value in DD/MM/YYYY format
             }}
-            value={field.value ? dayjs(field.value, "DD/MM/YYYY") : null}
+            value={field.value ? dayjs(field.value, "MM/DD/YYYY") : null}
             disabled={disabled}
           />
         )}
