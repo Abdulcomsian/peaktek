@@ -5,6 +5,7 @@ const { Option } = Select;
 
 const SelectBox = ({
   className,
+  selectClassName,
   disabled,
   label,
   placeholder,
@@ -15,6 +16,7 @@ const SelectBox = ({
   name,
   size,
   options = [],
+  vertical = false,
 }) => {
   // Handle onChange to map value directly
   const handleChange = (selectedValues) => {
@@ -22,11 +24,15 @@ const SelectBox = ({
   };
 
   return (
-    <div className={`w-full ${className}`}>
+    <div
+      className={`w-full flex items-center  ${
+        vertical ? "flex-col !items-start" : ""
+      } ${className}`}
+    >
       {label && (
         <label
           htmlFor={id}
-          className="block text-sm font-medium text-gray-900 text-opacity-30 mb-4"
+          className={`text-sm font-medium text-gray-900 text-opacity-30 `}
         >
           {label}
         </label>
@@ -42,7 +48,7 @@ const SelectBox = ({
         onChange={handleChange}
         onBlur={onBlur}
         disabled={disabled}
-        className="summary-select border-gray-300 bg-gray-50 text-gray-900 text-sm rounded-md block w-full"
+        className={`summary-select bg-slate-100 hover:bg-bluish border border-bluish hover:border hover:border-indigo-600 text-indigo-600 hover:placeholder:text-indigo-600 text-sm rounded focus:outline-none ${selectClassName}`}
         popupClassName="border-gray-300"
         maxTagCount="responsive" // Ensure selected tags are displayed in a row
       >

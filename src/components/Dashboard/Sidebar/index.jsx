@@ -8,6 +8,10 @@ import settingsMinimalistic from "@assets/images/settingsMinimalistic.svg";
 import FileText from "@assets/images/FileText.svg";
 import JobIcon from "@assets/images/jobs.svg";
 import GPS from "@assets/images/GPS.svg";
+import { IoMdSettings } from "react-icons/io";
+import { RiHomeLine } from "react-icons/ri";
+import { IoBagOutline } from "react-icons/io5";
+import { MdOutlineLogout } from "react-icons/md";
 
 export default function Sidebar({ isShow, onCloseSidebar }) {
   const { logout, user: userData } = useAuth();
@@ -18,17 +22,20 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     {
       id: 1,
       linkSrc: "/dashboard",
-      linkText: GPS,
+      linkText: <RiHomeLine />,
+      text: "Dashboard",
     },
     {
       id: 2,
       linkSrc: "/dashboard/all-jobs",
-      linkText: JobIcon,
+      linkText: <IoBagOutline />,
+      text: "Jobs",
     },
     {
       id: 3,
       linkSrc: "/dashboard/users-list",
       linkText: listupIcon,
+      text: "Reports",
     },
     {
       id: 4,
@@ -45,13 +52,24 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       linkSrc: "/dashboard/adjustors-list",
       linkText: FileText,
     },
+    {
+      id: 7,
+      linkSrc: "/dashboard",
+      linkText: <IoMdSettings />,
+      text: "Settings",
+    },
+    {
+      id: 8,
+      linkSrc: "/dashboard",
+      linkText: FileText,
+    },
   ];
 
   // Filter the links based on the user role
   const filteredLinks =
     userData?.role?.name === "Manager" || userData?.role?.name === "Company"
       ? sidebarLinks
-      : sidebarLinks?.filter((link) => link.id <= 2); // Only show the first link for other roles
+      : sidebarLinks?.filter((link) => link.id <= 2 || link.id === 7); // Only show the first link for other roles
 
   const handleLogout = async function () {
     await logout();
@@ -66,25 +84,31 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       <Button className="btn-mob-nav-close" onClick={onCloseSidebar}>
         &times;
       </Button>
-      <div className="sidebar-logo mb-8">
-        <Logo className="w-12 h-10" varient="white-main" />
+      <div className="mt-5 mb-8">
+        <Logo className="w-ful h-10" varient="white-main" />
       </div>
-      <ul className="flex flex-col gap-4 justify-center items-center px-3">
+      <ul className="flex flex-col gap-4 px-3 mb-2 h-full">
         {filteredLinks?.map((link) => (
-          <li className="mainNavLinks" key={link?.id}>
+          <li
+            className={`mainNavLinks ${link.id === 7 ? "mt-auto" : ""}`}
+            key={link?.id}
+          >
             <NavLink
               to={link?.linkSrc}
-              className="p-2 inline-flex items-center justify-center border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md"
+              className="p-2 inline-flex items-center gap-2 border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md w-full"
             >
-              <img src={link.linkText} alt="" />
+              {link.linkText}
+              <p>{link.text}</p>
             </NavLink>
           </li>
         ))}
+        <li>
+          <div className="p-2 inline-flex items-center gap-2 border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md w-full">
+            <MdOutlineLogout onClick={handleLogout} />
+            <p>Logout</p>
+          </div>
+        </li>
       </ul>
-      <RiLogoutCircleLine
-        className="mt-auto text-white m-3 mb-8 cursor-pointer"
-        onClick={handleLogout}
-      />
     </div>
   );
 }

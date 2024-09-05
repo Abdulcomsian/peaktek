@@ -19,3 +19,7 @@ export function createSlug(string) {
     .map((word) => word.replace(word[0], word[0].toLowerCase()))
     .join("-");
 }
+
+export function formateDate(date) {
+  return new Intl.DateTimeFormat("en-US").format(date);
+}

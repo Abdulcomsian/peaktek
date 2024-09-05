@@ -4,6 +4,7 @@ import { Outlet, useLocation, useParams } from "react-router-dom";
 import { MainTabs, Header } from "@components/JobDetails";
 import { useDispatch } from "react-redux";
 import { fetchSingleJob } from "@store/slices/JobsSlice";
+
 export default function JobDetail() {
   const dispatch = useDispatch();
   const { id } = useParams();
