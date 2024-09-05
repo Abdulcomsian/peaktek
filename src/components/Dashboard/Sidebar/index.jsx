@@ -73,7 +73,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
 
   const handleLogout = async function () {
     await logout();
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -103,8 +103,11 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
           </li>
         ))}
         <li>
-          <div className="p-2 inline-flex items-center gap-2 border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md w-full">
-            <MdOutlineLogout onClick={handleLogout} />
+          <div
+            className="p-2 inline-flex items-center gap-2 border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md w-full cursor-pointer"
+            onClick={handleLogout}
+          >
+            <MdOutlineLogout />
             <p>Logout</p>
           </div>
         </li>

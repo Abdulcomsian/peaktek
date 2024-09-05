@@ -41,7 +41,7 @@ const Login = () => {
         setUser(resp.data.user);
         setIsAuthenticated(true);
         dispatch(updateUser(resp?.data?.user));
-        navigate("/dashboard");
+        navigate("/welcome");
         toast.success(resp.data.message);
       }
     } catch (error) {
