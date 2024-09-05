@@ -94,7 +94,6 @@ export function AppRoute() {
           <Route path="*" element={<p>Page Not Found</p>} />
         </Route>
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
@@ -104,9 +103,9 @@ export function AppRoute() {
           <Route index element={<Navigate to="welcome" />} />
           {/* <Route path=":jobId" element={<JobListing />} /> */}
           <Route path="welcome" element={<Welcome />} />
-          <Route path="all-jobs" element={<AllJobs />} />
-          <Route path=":jobId" element={<JobListing />} />
-          <Route path="jobs" element={<KanbanBoard />} />
+          <Route path="jobs" element={<AllJobs />} />
+          <Route path="jobs/:jobId" element={<JobListing />} />
+          {/* <Route path="jobs" element={<KanbanBoard />} /> */}
           <Route path="completedTasks" element={<CompletedJobs />} />
           <Route path="users-list" element={<Users />} />
           <Route path="sub-contractor-list" element={<SubContractors />} />

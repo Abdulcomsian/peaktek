@@ -95,7 +95,7 @@ function JobsSection({ header, jobs }) {
   const handleClick = function (job) {
     console.log("CLICKED", job);
     disaptch(seletectedStatus(job));
-    navigate(`/dashboard/${job.id}`);
+    navigate(`/jobs/${job.id}`);
   };
   return (
     <>
