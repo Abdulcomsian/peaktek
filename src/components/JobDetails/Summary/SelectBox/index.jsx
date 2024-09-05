@@ -6,6 +6,7 @@ const { Option } = Select;
 const SelectBox = ({
   className,
   selectClassName,
+  labelClass,
   disabled,
   label,
   placeholder,
@@ -25,15 +26,12 @@ const SelectBox = ({
 
   return (
     <div
-      className={`w-full flex items-center  ${
+      className={`w-full flex items-center gap-2 ${
         vertical ? "flex-col !items-start" : ""
       } ${className}`}
     >
       {label && (
-        <label
-          htmlFor={id}
-          className={`text-sm font-medium text-gray-900 text-opacity-30 `}
-        >
+        <label htmlFor={id} className={`${labelClass}`}>
           {label}
         </label>
       )}
@@ -48,7 +46,7 @@ const SelectBox = ({
         onChange={handleChange}
         onBlur={onBlur}
         disabled={disabled}
-        className={`summary-select bg-slate-100 hover:bg-bluish border border-bluish hover:border hover:border-indigo-600 text-indigo-600 hover:placeholder:text-indigo-600 text-sm rounded focus:outline-none ${selectClassName}`}
+        className={`bg-slate-100 hover:bg-bluish border border-bluish hover:border hover:border-indigo-600 text-indigo-600 hover:placeholder:text-indigo-600 text-sm rounded focus:outline-none ${selectClassName}`}
         popupClassName="border-gray-300"
         maxTagCount="responsive" // Ensure selected tags are displayed in a row
       >
