@@ -185,6 +185,7 @@ const Summary = () => {
           <SelectBox
             vertical={true}
             label="Sales Representative"
+            labelClass="font-medium"
             placeholder="Select Sales Representative"
             className="mb-4 md:mb-0 "
             selectClassName="px-4 py-3 rounded-2xl w-full"
@@ -211,16 +212,16 @@ const Summary = () => {
           <DropDown
             vertical={true}
             labelClass="font-medium"
-            className="font-normal px-4 py-3 rounded-2xl grow"
+            className="font-normal px-4 py-3 rounded-2xl w-full"
             label="Load Source:"
             defaultText="Select source name here"
             items={[
               {
-                label: <a href="https://www.antgroup.com">1st menu item</a>,
+                label: "1st menu item",
                 key: "0",
               },
               {
-                label: <a href="https://www.aliyun.com">2nd menu item</a>,
+                label: "2nd menu item",
                 key: "1",
               },
               {
@@ -234,8 +235,8 @@ const Summary = () => {
           />
         </div>
         <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
-          <div className="bg-white w-full max-w-5xl lg:mr-4 rounded-2xl p-5 mb-4 lg:mb-0">
-            <div className="flex flex-col lg:flex-row justify-between mb-4">
+          <div className="bg-white w-full rounded-2xl p-5 mb-4 lg:mb-0">
+            <div className="flex flex-col lg:flex-row justify-start mb-4">
               <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
                 <div className="text-black text-opacity-30 ">Job Total</div>
                 <SimpleInput

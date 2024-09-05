@@ -17,12 +17,12 @@ export default function DropDown({
       } ${labelClass}`}
     >
       {label ? (
-        <label className="" htmlFor={id}>
+        <label className={labelClass} htmlFor={id}>
           {label}
         </label>
       ) : null}
       <Dropdown
-        className={`flex ${className}`}
+        className={`flex bg-slate-100 hover:bg-bluish border border-bluish hover:border hover:border-indigo-600 hover:placeholder:text-indigo-600 text-sm rounded focus:outline-none ${className}`}
         menu={{
           items,
         }}
