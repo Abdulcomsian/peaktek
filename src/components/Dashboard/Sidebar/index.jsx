@@ -21,13 +21,13 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const sidebarLinks = [
     {
       id: 1,
-      linkSrc: "/dashboard",
+      linkSrc: "/welcome",
       linkText: <RiHomeLine />,
       text: "Dashboard",
     },
     {
       id: 2,
-      linkSrc: "/dashboard/all-jobs",
+      linkSrc: "/jobs",
       linkText: <IoBagOutline />,
       text: "Jobs",
     },
