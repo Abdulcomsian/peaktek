@@ -102,9 +102,10 @@ export function AppRoute() {
           }
         >
           <Route index element={<Navigate to="welcome" />} />
-          <Route path=":jobId" element={<JobListing />} />
+          {/* <Route path=":jobId" element={<JobListing />} /> */}
           <Route path="welcome" element={<Welcome />} />
           <Route path="all-jobs" element={<AllJobs />} />
+          <Route path=":jobId" element={<JobListing />} />
           <Route path="jobs" element={<KanbanBoard />} />
           <Route path="completedTasks" element={<CompletedJobs />} />
           <Route path="users-list" element={<Users />} />

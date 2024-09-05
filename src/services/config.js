@@ -25,6 +25,7 @@ const clientEndPoints = {
   getSingleJob: "/api/get-single/job",
   updateJobStatus: "/api/update/job-status",
   getJobswithCount: "/api/get/task-with-jobs-count",
+  getAllStatusJobs: "api/get/jobs-by-task",
   //Job Summary End-Points
   updateJobSummary: "/api/update/job-summary",
   getJobSummary: "/api/get/job-summary",

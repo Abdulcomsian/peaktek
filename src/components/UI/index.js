@@ -12,6 +12,7 @@ import TabsContentBox from "./TabsContentBox";
 import Loader from "./Loader";
 import RenameFileUI from "./RenameFileUI";
 import NumJob from "./NumJob";
+import DropDown from "./DropDown";
 export {
   Button,
   Card,
@@ -27,4 +28,5 @@ export {
   Loader,
   RenameFileUI,
   NumJob,
+  DropDown,
 };

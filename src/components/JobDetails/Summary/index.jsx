@@ -9,7 +9,7 @@ import { Spin } from "antd";
 import { Form } from "@components/FormControls";
 import SelectBox from "./SelectBox";
 import MediaContent from "./MediaContent";
-import { Loader } from "@components/UI";
+import { DropDown, Loader } from "@components/UI";
 import { useDispatch } from "react-redux";
 import { fetchUsersData } from "@store/slices/usersSlice";
 import { useSelector } from "react-redux";
@@ -152,6 +152,87 @@ const Summary = () => {
       {loading && <Spin fullscreen={true} />}
       {/**First part start*/}
       <Form onSubmit={handleSubmit}>
+        <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
+          <div className="bg-white p-2 rounded-2xl col-span-full">
+            <SimpleInput
+              id="job_total"
+              placeholder="Address"
+              className="px-4 py-3 rounded-2xl"
+              labelClass="font-medium"
+              type="number"
+              name="job_total"
+              max={8}
+              required={true}
+              value={fields.job_total}
+              onChange={handleChange}
+            />
+          </div>
+          <SimpleInput
+            vertical={true}
+            label="Invoice Number:"
+            id="job_total"
+            className="px-4 py-3 rounded-2xl w-full"
+            labelClass="font-medium"
+            placeholder="00-000-0000-00000"
+            type="number"
+            name="job_total"
+            max={8}
+            required={true}
+            value={fields.job_total}
+            onChange={handleChange}
+          />
+
+          <SelectBox
+            vertical={true}
+            label="Sales Representative"
+            placeholder="Select Sales Representative"
+            className="mb-4 md:mb-0 "
+            selectClassName="px-4 py-3 rounded-2xl w-full"
+            name="user_ids"
+            size="small"
+            options={userOptions}
+            value={fields.user_ids}
+            onChange={handleSelectChange}
+          />
+          <SimpleInput
+            vertical={true}
+            label="Market:"
+            id="job_total"
+            className="px-4 py-3 rounded-2xl w-full"
+            labelClass="font-medium"
+            placeholder="10000"
+            type="number"
+            name="job_total"
+            max={8}
+            required={true}
+            value={fields.job_total}
+            onChange={handleChange}
+          />
+          <DropDown
+            vertical={true}
+            labelClass="font-medium"
+            className="font-normal px-4 py-3 rounded-2xl grow"
+            label="Load Source:"
+            defaultText="Select source name here"
+            items={[
+              {
+                label: <a href="https://www.antgroup.com">1st menu item</a>,
+                key: "0",
+              },
+              {
+                label: <a href="https://www.aliyun.com">2nd menu item</a>,
+                key: "1",
+              },
+              {
+                type: "divider",
+              },
+              {
+                label: "3rd menu item",
+                key: "3",
+              },
+            ]}
+          />
+        </div>
         <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
           <div className="bg-white w-full max-w-5xl lg:mr-4 rounded-2xl p-5 mb-4 lg:mb-0">
             <div className="flex flex-col lg:flex-row justify-between mb-4">
@@ -285,19 +366,6 @@ const Summary = () => {
                 />
               </div>
             </div>
-          </div>
-          {/**Add a multi-level antd select box here */}
-          <div className="bg-white w-full lg:max-w-xs  rounded-2xl p-5 ">
-            <SelectBox
-              label="Sales Representative"
-              placeholder="Select Sales Representative"
-              className="mb-4 md:mb-0 "
-              name="user_ids"
-              size="small"
-              options={userOptions}
-              value={fields.user_ids}
-              onChange={handleSelectChange}
-            />
           </div>
         </div>
         <Button

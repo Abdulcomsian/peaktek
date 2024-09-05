@@ -1,5 +1,8 @@
-import { NumJob } from "@components/UI";
-import { Link, useNavigate } from "react-router-dom";
+import { FaPlus } from "react-icons/fa6";
+
+import { Button, NumJob } from "@components/UI";
+import { NewJobModal } from "@components/Modals";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getJobswithCount } from "@services/apiJobs";
 import { ThreeDots } from "react-loader-spinner";
@@ -8,10 +11,13 @@ import { seletectedStatus } from "@store/slices/JobsSlice";
 import { useAuth } from "@context/AuthContext";
 
 export default function AllJobs() {
-  const [jobs, setJobs] = useState([]);
+  const [showAddNewJobModal, setAddNewJobModal] = useState(false);
+  const [invalidatePage, setInvalidatePage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
+  const [jobs, setJobs] = useState([]);
   const preliminaryPhases = jobs.filter((job) => job.id <= 8);
   const inBuildProcessJobs = jobs.filter((job) => job.id >= 9 && job.id <= 11);
   const finalStage = jobs.filter((job) => job.id >= 12 && job.id <= 14);
@@ -28,6 +34,7 @@ export default function AllJobs() {
         }
         if (resp.status === 401) {
           logout();
+          navigate("/");
         }
       } catch (error) {
         console.log(error);
@@ -37,7 +44,7 @@ export default function AllJobs() {
     }
 
     getJobsWithCounts();
-  }, []);
+  }, [invalidatePage]);
 
   if (isLoading)
     return (
@@ -54,12 +61,30 @@ export default function AllJobs() {
     );
 
   return (
-    <div className="px-5 py-4 max-w-screen-lg">
-      <JobsSection header="Preliminary Phase" jobs={preliminaryPhases} />
-      <JobsSection header="In Build Progress" jobs={inBuildProcessJobs} />
-      <JobsSection header="Final Stage" jobs={finalStage} />
-      <JobsSection header="Completed Projects" jobs={completedProjects} />
-    </div>
+    <>
+      <div className="px-5 py-4 max-w-screen-lg">
+        <Button
+          onClick={() => setAddNewJobModal(true)}
+          className="float-end"
+          variant="gradient"
+        >
+          <FaPlus className="text-white mr-1" />
+          New Job
+        </Button>
+        <JobsSection header="Preliminary Phase" jobs={preliminaryPhases} />
+        <JobsSection header="In Build Progress" jobs={inBuildProcessJobs} />
+        <JobsSection header="Final Stage" jobs={finalStage} />
+        <JobsSection header="Completed Projects" jobs={completedProjects} />
+      </div>
+      {showAddNewJobModal && (
+        <NewJobModal
+          open={showAddNewJobModal}
+          onOk={() => setAddNewJobModal(false)}
+          onCancel={() => setAddNewJobModal(false)}
+          onAddJob={() => setInvalidatePage((is) => !is)}
+        />
+      )}
+    </>
   );
 }
 
@@ -74,7 +99,7 @@ function JobsSection({ header, jobs }) {
   };
   return (
     <>
-      <h2 className="mt-6 text-medium text-[#26bbd8]">{header}</h2>
+      <h2 className="mt-6 mb-2 text-medium text-[#26bbd8]">{header}</h2>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
         {jobs.map((job) => (
           <NumJob

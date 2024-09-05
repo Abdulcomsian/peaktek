@@ -85,3 +85,20 @@ export async function getJobswithCount() {
     return error;
   }
 }
+
+export async function getAllStatusJobs(statusId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.getAllStatusJobs}/${statusId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (resp.status >= 200 && resp.status < 300) {
+      return resp.data.data;
+    }
+  } catch (error) {
+    return error;
+  }
+}
