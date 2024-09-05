@@ -30,7 +30,7 @@ export default function NavBar({ onCloseSidebar }) {
         <div className="mr-auto">
           <ul className="list nav-list justify-between">
             <li>
-              <span className="font-bold text-lg">{user?.name}`s deals</span>
+              <span className="font-bold text-lg">Welcome, {user?.name}</span>
             </li>
           </ul>
         </div>

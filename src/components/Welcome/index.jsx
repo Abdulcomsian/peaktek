@@ -18,7 +18,7 @@ export default function Welcome() {
         This Week...
       </h2>
       <div className="text-stone-900 bg-stone-200 grow py-5 text-center rounded-3xl space-y-2">
-        <p className="text-xl font-medium">New Loads</p>
+        <p className="text-xl font-medium">New Leads</p>
         <p className="text-3xl font-bold">1</p>
       </div>
       <div className="text-stone-900 bg-stone-200 grow py-5 text-center rounded-3xl space-y-2">
@@ -34,7 +34,7 @@ export default function Welcome() {
         This Month...
       </h2>
       <div className="text-stone-900 bg-stone-200 grow py-5 text-center rounded-3xl space-y-2">
-        <p className="text-xl font-medium">New Loads</p>
+        <p className="text-xl font-medium">New Leads</p>
         <p className="text-3xl font-bold">1</p>
       </div>
       <div className="text-stone-900 bg-stone-200 grow py-5 text-center rounded-3xl space-y-2">
