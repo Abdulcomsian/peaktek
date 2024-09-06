@@ -37,9 +37,9 @@ const Summary = () => {
     market: "",
     lead_source: "",
     insurance: "",
-    insurance_rep: "",
-    policy: "",
-    insurance_email: "",
+    insurance_representative: "",
+    policy_number: "",
+    email: "",
     user_ids: [], // To store selected user IDs
   });
 
@@ -212,7 +212,9 @@ const Summary = () => {
               },
             ]}
             value={fields.market}
-            onChange={handleChange}
+            onChange={(value) =>
+              setFields((fields) => ({ ...fields, market: value }))
+            }
           />
           <DropDown
             vertical={true}
@@ -255,7 +257,9 @@ const Summary = () => {
               },
             ]}
             value={fields.lead_source}
-            onChange={handleChange}
+            onChange={(value) =>
+              setFields((fields) => ({ ...fields, lead_source: value }))
+            }
           />
         </div>
         <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
@@ -408,25 +412,25 @@ const Summary = () => {
           <TextBox
             label="Policy#:"
             type="number"
-            name="policy"
+            name="policy_number"
             className="rounded-2xl"
-            value={fields.policy}
+            value={fields.policy_number}
             onChange={handleChange}
           />
           <TextBox
             label="Email:"
             type="email"
-            name="insurance_email"
+            name="email"
             className="rounded-2xl"
-            value={fields.insurance_email}
+            value={fields.email}
             onChange={handleChange}
           />
           <TextBox
             label="Insurance Representative:"
             type="text"
-            name="insurance_rep"
+            name="insurance_representative"
             className="rounded-2xl"
-            value={fields.insurance_rep}
+            value={fields.insurance_representative}
             onChange={handleChange}
           />
           {/* <SelectBox
