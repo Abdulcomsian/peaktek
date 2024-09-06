@@ -8,6 +8,7 @@ export default function DropDown({
   className,
   labelClass,
   defaultValue = options[0]?.value,
+  onChange,
 }) {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -29,7 +30,7 @@ export default function DropDown({
         style={{
           width: `100%`,
         }}
-        onChange={handleChange}
+        onChange={onChange}
         options={options}
       />
     </div>
