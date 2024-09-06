@@ -13,6 +13,9 @@ const clientEndPoints = {
   login: "/api/login",
   updateJobSummary: "/api/update/job-summary",
   updateJobContent: "/api/update/job-content",
+  // Dashboard
+  getDashboardStats: "/api/dashboard-stats",
+
   //create user
   createUsers: "/api/create/user",
   getCompanyUsers: "/api/get/company-users",
@@ -26,6 +29,7 @@ const clientEndPoints = {
   updateJobStatus: "/api/update/job-status",
   getJobswithCount: "/api/get/task-with-jobs-count",
   getAllStatusJobs: "api/get/jobs-by-task",
+  getWeeklyOrMonlyJobs: "/api/dashboard-stats/detail",
   //Job Summary End-Points
   updateJobSummary: "/api/update/job-summary",
   getJobSummary: "/api/get/job-summary",

@@ -21,7 +21,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const sidebarLinks = [
     {
       id: 1,
-      linkSrc: "/welcome",
+      linkSrc: "/dashboard",
       linkText: <RiHomeLine />,
       text: "Dashboard",
     },
@@ -54,13 +54,13 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     },
     {
       id: 7,
-      linkSrc: "/dashboard",
+      linkSrc: "/",
       linkText: <IoMdSettings />,
       text: "Settings",
     },
     {
       id: 8,
-      linkSrc: "/dashboard",
+      linkSrc: "/",
       linkText: FileText,
     },
   ];
@@ -73,7 +73,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
 
   const handleLogout = async function () {
     await logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
