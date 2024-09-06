@@ -1,6 +1,5 @@
 import { getAllStatusJobs } from "@services/apiJobs";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
 import { Link, useParams } from "react-router-dom";
 
@@ -8,6 +7,8 @@ export default function JobListing() {
   const [statusJobs, setStatusJobs] = useState([]);
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const { jobId } = useParams();
+
+  console.log("Status jobs", statusJobs);
 
   useEffect(() => {
     async function fetchAllStatusJobs() {
@@ -38,7 +39,7 @@ export default function JobListing() {
       <h1 className="font-extrabold text-xl translate-x-2 text-[#2a95c5] mb-5">
         {statusJobs.name}
       </h1>
-      {statusJobs.length === 0 && (
+      {statusJobs?.jobs?.length === 0 && (
         <p className="text-center text-sm text-stone-500">
           👋 There are no jobs yet created for {statusJobs.name}
         </p>

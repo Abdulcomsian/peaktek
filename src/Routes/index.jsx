@@ -56,12 +56,12 @@ import ProtectedRoute from "@components/ProtectedRoute";
 import Test from "@pages/Test";
 import { JobDetail } from "@pages/index";
 import { Inspection } from "@components/Forms/Sidebar";
-import { AllJobs, JobListing, Welcome } from "@components/index";
+import { AllJobs, JobListing, UserJobs, Welcome } from "@components/index";
 export function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
@@ -94,24 +94,24 @@ export function AppRoute() {
           <Route path="*" element={<p>Page Not Found</p>} />
         </Route>
         <Route
+          path="dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="welcome" />} />
+          {/* <Route index element={<Navigate to="welcome" />} /> */}
+
           {/* <Route path=":jobId" element={<JobListing />} /> */}
-          <Route path="welcome" element={<Welcome />} />
-          <Route path="jobs" element={<AllJobs />} />
-          <Route path="jobs/:jobId" element={<JobListing />} />
+          <Route index element={<Welcome />} />
+
           {/* <Route path="jobs" element={<KanbanBoard />} /> */}
           <Route path="completedTasks" element={<CompletedJobs />} />
           <Route path="users-list" element={<Users />} />
           <Route path="sub-contractor-list" element={<SubContractors />} />
           <Route path="suppliers-list" element={<Suppliers />} />
           <Route path="adjustors-list" element={<Adjustors />} />
-
           <Route path="deals/:id" element={<Dealdetail />} />
         </Route>
         <Route path="/projects" element={<Projects />}>
@@ -124,6 +124,28 @@ export function AppRoute() {
           <Route path="roof-components" element={<RoofComponentsGeneric />} />
           <Route path="insurance-report" element={<InsuranceReport />} />
           <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+        </Route>
+        <Route
+          path="/jobs"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AllJobs />} />
+          <Route path=":jobId" element={<JobListing />} />
+        </Route>
+
+        <Route
+          path="/user-jobs"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<UserJobs />} />
         </Route>
         <Route element={<Dashboard />}>
           <Route

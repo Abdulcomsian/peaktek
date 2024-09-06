@@ -102,3 +102,18 @@ export async function getAllStatusJobs(statusId) {
     return error;
   }
 }
+
+export async function getUserJobs(data) {
+  const token = localStorage.getItem("token");
+
+  try {
+    const resp = clientBaseURL.post(
+      `${clientEndPoints.getWeeklyOrMonlyJobs}`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}

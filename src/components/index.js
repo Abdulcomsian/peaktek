@@ -20,6 +20,7 @@ import ErrorMessage from "./ErrorMessage";
 import Welcome from "./Welcome";
 import AllJobs from "./AllJobs";
 import JobListing from "./JobListing";
+import UserJobs from "./UserJobs";
 
 export {
   Button,
@@ -43,4 +44,5 @@ export {
   Welcome,
   AllJobs,
   JobListing,
+  UserJobs,
 };
