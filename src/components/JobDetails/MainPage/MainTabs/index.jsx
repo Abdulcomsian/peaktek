@@ -28,25 +28,25 @@ export default function MainTabs({ className }) {
   const buttonsData = [
     { id: 1, text: "Summary", path: "summary" },
     { id: 2, text: "Customer Agreement", path: "customer-agreement" },
-    { id: 3, text: "Estimate Prepared", path: "estimate-prepared" },
     { id: 4, text: "Adjustor Meeting", path: "adjustor-meeting" },
+    { id: 8, text: "Ready To Build", path: "ready-to-build" },
+    { id: 3, text: "Estimate Prepared", path: "estimate-prepared" },
     { id: 5, text: "Overturn", path: "overturn" },
     { id: 6, text: "Approved", path: "approved" },
     { id: 7, text: "Scheduling", path: "scheduling" },
-    { id: 8, text: "Ready To Build", path: "ready-to-build" },
     { id: 9, text: "In Progress", path: "in-progress" },
     { id: 10, text: "Complete", path: "complete" },
   ];
 
   return (
     <nav
-      className={`flex flex-col align-baseline md:flex-row gap-6 ${className}`}
+      className={`flex flex-col align-baseline md:flex-row gap-5 py-2 overflow-x-auto ${className}`}
       aria-label="Tabs"
     >
       {buttonsData.map((btn) => (
         <React.Fragment key={btn.id}>
           <button
-            className={`flex justify-between items-center focus:outline-none ${
+            className={`flex justify-between items-center focus:outline-none min-w-fit font-bold uppercase ${
               activeTab === btn.path ? "text-black" : "text-gray-500"
             }`}
             onClick={() => handleNavigation(btn.path)}

@@ -15,6 +15,7 @@ import { Spin } from "antd";
 import { Loader } from "@components/UI";
 import { InputContainer } from "@components";
 import { fetchSupplierData } from "@store/slices/suppliersSlice";
+
 const Scheduling = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
