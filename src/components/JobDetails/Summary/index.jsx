@@ -369,6 +369,91 @@ const Summary = () => {
             </div>
           </div>
         </div>
+        <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
+          <h2 className="col-span-full uppercase text-base font-bold text-stone-500">
+            insurance information
+          </h2>
+          <div className="bg-white p-2 rounded-2xl col-span-full">
+            <SimpleInput
+              id="job_total"
+              placeholder="Address"
+              className="px-4 py-3 rounded-2xl"
+              labelClass="font-medium"
+              type="number"
+              name="job_total"
+              max={8}
+              required={true}
+              value={fields.job_total}
+              onChange={handleChange}
+            />
+          </div>
+          <SimpleInput
+            vertical={true}
+            label="Invoice Number:"
+            id="job_total"
+            className="px-4 py-3 rounded-2xl w-full"
+            labelClass="font-medium"
+            placeholder="00-000-0000-00000"
+            type="number"
+            name="job_total"
+            max={8}
+            required={true}
+            value={fields.job_total}
+            onChange={handleChange}
+          />
+
+          <SelectBox
+            vertical={true}
+            label="Sales Representative"
+            labelClass="font-medium"
+            placeholder="Select Sales Representative"
+            className="mb-4 md:mb-0 "
+            selectClassName="px-4 py-3 rounded-2xl w-full"
+            name="user_ids"
+            size="small"
+            options={userOptions}
+            value={fields.user_ids}
+            onChange={handleSelectChange}
+          />
+          <SimpleInput
+            vertical={true}
+            label="Market:"
+            id="job_total"
+            className="px-4 py-3 rounded-2xl w-full"
+            labelClass="font-medium"
+            placeholder="10000"
+            type="number"
+            name="job_total"
+            max={8}
+            required={true}
+            value={fields.job_total}
+            onChange={handleChange}
+          />
+          <DropDown
+            vertical={true}
+            labelClass="font-medium"
+            className="font-normal px-4 py-3 rounded-2xl w-full"
+            label="Load Source:"
+            defaultText="Select source name here"
+            items={[
+              {
+                label: "1st menu item",
+                key: "0",
+              },
+              {
+                label: "2nd menu item",
+                key: "1",
+              },
+              {
+                type: "divider",
+              },
+              {
+                label: "3rd menu item",
+                key: "3",
+              },
+            ]}
+          />
+        </div>
         <Button
           type="submit"
           className="w-full max-w-24 text-center text-white btn-gradient mb-4 px-4 py-1"

@@ -19,6 +19,7 @@ import { Spin } from "antd";
 import { Loader } from "@components/UI";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSubContractors } from "@store/slices/subContractorSlice";
+import { Scheduling } from "@components/JobDetails";
 
 const ReadyToBuild = () => {
   const dispatch = useDispatch();
@@ -134,6 +135,7 @@ const ReadyToBuild = () => {
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
+      <Scheduling />
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Ready to Build
       </h1>
