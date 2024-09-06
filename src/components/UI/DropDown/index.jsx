@@ -1,15 +1,17 @@
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
+import { Select } from "antd";
 
 export default function DropDown({
-  items,
+  options = [],
   label,
-  id,
+  id = "",
   vertical,
   className,
   labelClass,
-  defaultText = "Click me",
+  defaultValue = options[0]?.value,
 }) {
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
   return (
     <div
       className={`flex items-center gap-2 ${
@@ -21,18 +23,15 @@ export default function DropDown({
           {label}
         </label>
       ) : null}
-      <Dropdown
-        className={`flex bg-slate-100 hover:bg-bluish border border-bluish hover:border hover:border-indigo-600 hover:placeholder:text-indigo-600 text-sm rounded focus:outline-none ${className}`}
-        menu={{
-          items,
+      <Select
+        id={id}
+        defaultValue={defaultValue}
+        style={{
+          width: `100%`,
         }}
-        trigger={["click"]}
-      >
-        <a onClick={(e) => e.preventDefault()}>
-          {defaultText}
-          <DownOutlined className="ml-auto" />
-        </a>
-      </Dropdown>
+        onChange={handleChange}
+        options={options}
+      />
     </div>
   );
 }
