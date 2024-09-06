@@ -254,3 +254,15 @@ input::placeholder {
 .summary-select .ant-select-selector:hover {
   background-color: #ffffff !important; /* white */
 }
+
+.custom-select .ant-select-selector {
+  padding: 8px;
+}
+
+.custom-select .ant-select-selection-item {
+  padding: 0; /* Remove padding if needed to avoid extra spacing */
+}
+
+.ant-select-selector{
+  padding: 20px !important;
+}

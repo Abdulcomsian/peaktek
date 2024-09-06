@@ -13,6 +13,7 @@ import { DropDown, Loader } from "@components/UI";
 import { useDispatch } from "react-redux";
 import { fetchUsersData } from "@store/slices/usersSlice";
 import { useSelector } from "react-redux";
+import { TextBox } from "@components/FormControls";
 const Summary = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -31,6 +32,14 @@ const Summary = () => {
     final_payment: "",
     final_payment_cheque_number: "",
     balance: "",
+    address: "",
+    invoice_number: "",
+    market: "",
+    lead_source: "",
+    insurance: "",
+    insurance_rep: "",
+    policy: "",
+    insurance_email: "",
     user_ids: [], // To store selected user IDs
   });
 
@@ -153,85 +162,100 @@ const Summary = () => {
       {/**First part start*/}
       <Form onSubmit={handleSubmit}>
         <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
-          <div className="bg-white p-2 rounded-2xl col-span-full">
-            <SimpleInput
-              id="job_total"
-              placeholder="Address"
-              className="px-4 py-3 rounded-2xl"
-              labelClass="font-medium"
-              type="number"
-              name="job_total"
-              max={8}
-              required={true}
-              value={fields.job_total}
+          <div className="bg-white rounded-2xl col-span-full">
+            <TextBox
+              label="Address"
+              placeholder="Enter Sales rep name"
+              type="text"
+              name="address"
+              className="rounded-2xl"
+              value={fields.address}
               onChange={handleChange}
             />
           </div>
-          <SimpleInput
-            vertical={true}
+          <TextBox
             label="Invoice Number:"
-            id="job_total"
-            className="px-4 py-3 rounded-2xl w-full"
-            labelClass="font-medium"
             placeholder="00-000-0000-00000"
-            type="number"
-            name="job_total"
-            max={8}
-            required={true}
-            value={fields.job_total}
+            type="text"
+            name="invoice_number"
+            className="rounded-2xl"
+            value={fields.invoice_number}
             onChange={handleChange}
           />
-
           <SelectBox
             vertical={true}
             label="Sales Representative"
             labelClass="font-medium"
             placeholder="Select Sales Representative"
             className="mb-4 md:mb-0 "
-            selectClassName="px-4 py-3 rounded-2xl w-full"
+            selectClassName="w-full"
             name="user_ids"
             size="small"
             options={userOptions}
             value={fields.user_ids}
             onChange={handleSelectChange}
           />
-          <SimpleInput
+          <DropDown
             vertical={true}
-            label="Market:"
-            id="job_total"
-            className="px-4 py-3 rounded-2xl w-full"
             labelClass="font-medium"
-            placeholder="10000"
-            type="number"
-            name="job_total"
-            max={8}
-            required={true}
-            value={fields.job_total}
+            className="font-normal px-4 py-3 rounded-2xl w-full"
+            label="Market"
+            defaultValue="Nashville"
+            options={[
+              {
+                label: "Nashville",
+                value: "Nashville",
+              },
+              {
+                label: "Chattanooga",
+                value: "Chattanooga",
+              },
+            ]}
+            value={fields.market}
             onChange={handleChange}
           />
           <DropDown
             vertical={true}
             labelClass="font-medium"
             className="font-normal px-4 py-3 rounded-2xl w-full"
-            label="Load Source:"
-            defaultText="Select source name here"
-            items={[
+            label="Lead Source:"
+            defaultValue="Door Knocking"
+            options={[
               {
-                label: "1st menu item",
-                key: "0",
+                label: "Door Knocking",
+                value: "Door Knocking",
               },
               {
-                label: "2nd menu item",
-                key: "1",
+                label: "Customer Referral",
+                value: "Customer Referral",
               },
               {
-                type: "divider",
+                label: "Call In",
+                value: "Call In",
               },
               {
-                label: "3rd menu item",
-                key: "3",
+                label: "Facebook",
+                value: "Facebook",
+              },
+              {
+                label: "Family Member",
+                value: "Family Member",
+              },
+              {
+                label: "Home Advisor",
+                value: "Home Advisor",
+              },
+              {
+                label: "Website",
+                value: "Website",
+              },
+              {
+                label: "Social Encounter",
+                value: "Social Encounter",
               },
             ]}
+            value={fields.lead_source}
+            onChange={handleChange}
           />
         </div>
         <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
@@ -370,89 +394,116 @@ const Summary = () => {
           </div>
         </div>
         <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
-          <h2 className="col-span-full uppercase text-base font-bold text-stone-500">
-            insurance information
+          <h2 className="col-span-full text-stone-500 font-semibold uppercase">
+            Insurance information
           </h2>
-          <div className="bg-white p-2 rounded-2xl col-span-full">
-            <SimpleInput
-              id="job_total"
-              placeholder="Address"
-              className="px-4 py-3 rounded-2xl"
-              labelClass="font-medium"
-              type="number"
-              name="job_total"
-              max={8}
-              required={true}
-              value={fields.job_total}
-              onChange={handleChange}
-            />
-          </div>
-          <SimpleInput
-            vertical={true}
-            label="Invoice Number:"
-            id="job_total"
-            className="px-4 py-3 rounded-2xl w-full"
-            labelClass="font-medium"
-            placeholder="00-000-0000-00000"
-            type="number"
-            name="job_total"
-            max={8}
-            required={true}
-            value={fields.job_total}
+          <TextBox
+            label="Insurance:"
+            type="text"
+            name="insurance"
+            className="rounded-2xl"
+            value={fields.insurance}
             onChange={handleChange}
           />
-
-          <SelectBox
+          <TextBox
+            label="Policy#:"
+            type="number"
+            name="policy"
+            className="rounded-2xl"
+            value={fields.policy}
+            onChange={handleChange}
+          />
+          <TextBox
+            label="Email:"
+            type="email"
+            name="insurance_email"
+            className="rounded-2xl"
+            value={fields.insurance_email}
+            onChange={handleChange}
+          />
+          <TextBox
+            label="Insurance Representative:"
+            type="text"
+            name="insurance_rep"
+            className="rounded-2xl"
+            value={fields.insurance_rep}
+            onChange={handleChange}
+          />
+          {/* <SelectBox
             vertical={true}
             label="Sales Representative"
             labelClass="font-medium"
             placeholder="Select Sales Representative"
             className="mb-4 md:mb-0 "
-            selectClassName="px-4 py-3 rounded-2xl w-full"
+            selectClassName="w-full"
             name="user_ids"
             size="small"
             options={userOptions}
             value={fields.user_ids}
             onChange={handleSelectChange}
-          />
-          <SimpleInput
+          /> */}
+          {/* <DropDown
             vertical={true}
-            label="Market:"
-            id="job_total"
-            className="px-4 py-3 rounded-2xl w-full"
             labelClass="font-medium"
-            placeholder="10000"
-            type="number"
-            name="job_total"
-            max={8}
-            required={true}
-            value={fields.job_total}
+            className="font-normal px-4 py-3 rounded-2xl w-full"
+            label="Market"
+            defaultValue="Door Knocking"
+            options={[
+              {
+                label: "Nashville",
+                value: "Nashville",
+              },
+              {
+                label: "Chattanooga",
+                value: "Chattanooga",
+              },
+            ]}
+            value={fields.market}
             onChange={handleChange}
           />
           <DropDown
             vertical={true}
             labelClass="font-medium"
             className="font-normal px-4 py-3 rounded-2xl w-full"
-            label="Load Source:"
-            defaultText="Select source name here"
-            items={[
+            label="Lead Source:"
+            defaultValue="Door Knocking"
+            options={[
               {
-                label: "1st menu item",
-                key: "0",
+                label: "Door Knocking",
+                value: "Door Knocking",
               },
               {
-                label: "2nd menu item",
-                key: "1",
+                label: "Customer Referral",
+                value: "Customer Referral",
               },
               {
-                type: "divider",
+                label: "Call In",
+                value: "Call In",
               },
               {
-                label: "3rd menu item",
-                key: "3",
+                label: "Facebook",
+                value: "Facebook",
+              },
+              {
+                label: "Family Member",
+                value: "Family Member",
+              },
+              {
+                label: "Home Advisor",
+                value: "Home Advisor",
+              },
+              {
+                label: "Website",
+                value: "Website",
+              },
+              {
+                label: "Social Encounter",
+                value: "Social Encounter",
               },
             ]}
-          />
+            value={fields.lead_source}
+            onChange={handleChange}
+          /> */}
         </div>
         <Button
           type="submit"

@@ -9,12 +9,23 @@ import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
-import { Loader } from "@components/UI";
+import { CheckBox, Loader, RadioButton } from "@components/UI";
 
 const AdjustorMeeting = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [adjustorMeetingData, setAdjustorMeetingData] = useState(null);
+  const [isSent, setIsSent] = useState(false);
+  const [status, setStatus] = useState("Approved");
+
+  // useEffect(() => {
+  //   const setSentStatus = async () => {
+  //     const token = localStorage.getItem("token");
+  //     try{
+  //       const resp = await clientBaseURL.post(`${}`)
+  //     }
+  //   };
+  // }, [isSent]);
 
   useEffect(() => {
     const getAdjustorMeetingData = async () => {
@@ -163,13 +174,43 @@ const AdjustorMeeting = () => {
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} delay={0} />}
-      <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
+      {/* <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Adjustor Meeting
-      </h1>
+      </h1> */}
       <div className="bg-white p-5 rounded-2xl">
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Adjust Meeting
         </h2>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-2  mb-4 md:mb-0">
+            <label
+              htmlFor="complete_box"
+              className="text-base font-medium text-gray-900"
+            >
+              Sent
+            </label>
+            <input
+              type="checkbox"
+              className="h-6 w-6 border border-gray-300 bg-gray-50"
+              id="complete_box"
+              name="complete_box"
+              // checked={values.complete_box}
+              // onChange={() =>
+              //   setFieldValue("complete_box", !values.complete_box)
+              // }
+            />
+          </div>
+          <div>
+            <RadioButton
+              items={[
+                { label: "OVERTURN", value: "Approved" },
+                { label: "APPRAISAL", value: "Appraisal" },
+                { label: "APPROVED", value: "Overturn" },
+              ]}
+              value="Approved"
+            />
+          </div>
+        </div>
         <Form onSubmit={formik.handleSubmit}>
           <AdjustorForm
             className="mb-8"

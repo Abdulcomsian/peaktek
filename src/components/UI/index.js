@@ -13,6 +13,8 @@ import Loader from "./Loader";
 import RenameFileUI from "./RenameFileUI";
 import NumJob from "./NumJob";
 import DropDown from "./DropDown";
+import CheckBox from "./CheckBox";
+import RadioButton from "./RadioButton";
 export {
   Button,
   Card,
@@ -29,4 +31,6 @@ export {
   RenameFileUI,
   NumJob,
   DropDown,
+  CheckBox,
+  RadioButton,
 };
