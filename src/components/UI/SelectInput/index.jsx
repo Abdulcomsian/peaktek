@@ -29,7 +29,6 @@ export default function SelectInput({
             id={id}
             {...field}
             mode={mode}
-            allowClear
             style={{
               width: "100%",
             }}

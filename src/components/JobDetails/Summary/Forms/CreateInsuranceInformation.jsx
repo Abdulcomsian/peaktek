@@ -38,7 +38,7 @@ export default function CreateInsuranceInformation() {
   };
   return (
     <form action="" onSubmit={handleSubmit(onsubmit)}>
-      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
+      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl mb-4">
         <h2 className="col-span-full text-stone-500 font-semibold uppercase">
           Insurance information
         </h2>

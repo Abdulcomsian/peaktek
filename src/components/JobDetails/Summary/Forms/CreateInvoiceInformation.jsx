@@ -106,7 +106,7 @@ export default function CreateInvoiceInformation() {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit, onerror)}>
-      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
+      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl mb-4">
         <div className="bg-white rounded-2xl col-span-full">
           <label htmlFor="" className="font-medium text-sm inline-block">
             Address
