@@ -14,12 +14,14 @@ import { useDispatch } from "react-redux";
 import { fetchUsersData } from "@store/slices/usersSlice";
 import { useSelector } from "react-redux";
 import { TextBox } from "@components/FormControls";
+import { CreateInsuranceInformation, CreateInvoiceInformation } from "./Forms";
 const Summary = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const usersData = useSelector((state) => state?.users?.usersData);
+  const [address, setAddress] = useState("");
 
   const [fields, setFields] = useState({
     job_total: "",
@@ -101,6 +103,7 @@ const Summary = () => {
           ...prevFields,
           ...response.data.job, // Set fields with data from the response
         }));
+        setAddress(response.data.address);
       }
     } catch (error) {
       if (error?.response) {
@@ -159,109 +162,8 @@ const Summary = () => {
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
-      {/**First part start*/}
+      <CreateInvoiceInformation />
       <Form onSubmit={handleSubmit}>
-        <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
-          <div className="bg-white rounded-2xl col-span-full">
-            <TextBox
-              label="Address"
-              placeholder="Enter Sales rep name"
-              type="text"
-              name="address"
-              className="rounded-2xl"
-              value={fields.address}
-              onChange={handleChange}
-            />
-          </div>
-          <TextBox
-            label="Invoice Number:"
-            placeholder="00-000-0000-00000"
-            type="text"
-            name="invoice_number"
-            className="rounded-2xl"
-            value={fields.invoice_number}
-            onChange={handleChange}
-          />
-          <SelectBox
-            vertical={true}
-            label="Sales Representative"
-            labelClass="font-medium"
-            placeholder="Select Sales Representative"
-            className="mb-4 md:mb-0 "
-            selectClassName="w-full"
-            name="user_ids"
-            size="small"
-            options={userOptions}
-            value={fields.user_ids}
-            onChange={handleSelectChange}
-          />
-          <DropDown
-            vertical={true}
-            labelClass="font-medium"
-            className="font-normal px-4 py-3 rounded-2xl w-full"
-            label="Market"
-            defaultValue="Nashville"
-            options={[
-              {
-                label: "Nashville",
-                value: "Nashville",
-              },
-              {
-                label: "Chattanooga",
-                value: "Chattanooga",
-              },
-            ]}
-            value={fields.market}
-            onChange={(value) =>
-              setFields((fields) => ({ ...fields, market: value }))
-            }
-          />
-          <DropDown
-            vertical={true}
-            labelClass="font-medium"
-            className="font-normal px-4 py-3 rounded-2xl w-full"
-            label="Lead Source:"
-            defaultValue="Door Knocking"
-            options={[
-              {
-                label: "Door Knocking",
-                value: "Door Knocking",
-              },
-              {
-                label: "Customer Referral",
-                value: "Customer Referral",
-              },
-              {
-                label: "Call In",
-                value: "Call In",
-              },
-              {
-                label: "Facebook",
-                value: "Facebook",
-              },
-              {
-                label: "Family Member",
-                value: "Family Member",
-              },
-              {
-                label: "Home Advisor",
-                value: "Home Advisor",
-              },
-              {
-                label: "Website",
-                value: "Website",
-              },
-              {
-                label: "Social Encounter",
-                value: "Social Encounter",
-              },
-            ]}
-            value={fields.lead_source}
-            onChange={(value) =>
-              setFields((fields) => ({ ...fields, lead_source: value }))
-            }
-          />
-        </div>
         <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
           <div className="bg-white w-full rounded-2xl p-5 mb-4 lg:mb-0">
             <div className="flex flex-col lg:flex-row justify-start mb-4">
@@ -397,118 +299,7 @@ const Summary = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-2 gap-3 max-w-screen-xl mb-4">
-          <h2 className="col-span-full text-stone-500 font-semibold uppercase">
-            Insurance information
-          </h2>
-          <TextBox
-            label="Insurance:"
-            type="text"
-            name="insurance"
-            className="rounded-2xl"
-            value={fields.insurance}
-            onChange={handleChange}
-          />
-          <TextBox
-            label="Policy#:"
-            type="number"
-            name="policy_number"
-            className="rounded-2xl"
-            value={fields.policy_number}
-            onChange={handleChange}
-          />
-          <TextBox
-            label="Email:"
-            type="email"
-            name="email"
-            className="rounded-2xl"
-            value={fields.email}
-            onChange={handleChange}
-          />
-          <TextBox
-            label="Insurance Representative:"
-            type="text"
-            name="insurance_representative"
-            className="rounded-2xl"
-            value={fields.insurance_representative}
-            onChange={handleChange}
-          />
-          {/* <SelectBox
-            vertical={true}
-            label="Sales Representative"
-            labelClass="font-medium"
-            placeholder="Select Sales Representative"
-            className="mb-4 md:mb-0 "
-            selectClassName="w-full"
-            name="user_ids"
-            size="small"
-            options={userOptions}
-            value={fields.user_ids}
-            onChange={handleSelectChange}
-          /> */}
-          {/* <DropDown
-            vertical={true}
-            labelClass="font-medium"
-            className="font-normal px-4 py-3 rounded-2xl w-full"
-            label="Market"
-            defaultValue="Door Knocking"
-            options={[
-              {
-                label: "Nashville",
-                value: "Nashville",
-              },
-              {
-                label: "Chattanooga",
-                value: "Chattanooga",
-              },
-            ]}
-            value={fields.market}
-            onChange={handleChange}
-          />
-          <DropDown
-            vertical={true}
-            labelClass="font-medium"
-            className="font-normal px-4 py-3 rounded-2xl w-full"
-            label="Lead Source:"
-            defaultValue="Door Knocking"
-            options={[
-              {
-                label: "Door Knocking",
-                value: "Door Knocking",
-              },
-              {
-                label: "Customer Referral",
-                value: "Customer Referral",
-              },
-              {
-                label: "Call In",
-                value: "Call In",
-              },
-              {
-                label: "Facebook",
-                value: "Facebook",
-              },
-              {
-                label: "Family Member",
-                value: "Family Member",
-              },
-              {
-                label: "Home Advisor",
-                value: "Home Advisor",
-              },
-              {
-                label: "Website",
-                value: "Website",
-              },
-              {
-                label: "Social Encounter",
-                value: "Social Encounter",
-              },
-            ]}
-            value={fields.lead_source}
-            onChange={handleChange}
-          /> */}
-        </div>
+
         <Button
           type="submit"
           className="w-full max-w-24 text-center text-white btn-gradient mb-4 px-4 py-1"
@@ -523,6 +314,7 @@ const Summary = () => {
           )}
         </Button>
       </Form>
+      <CreateInsuranceInformation />
       <div className="bg-white rounded-2xl p-5 w-full max-w-7xl mb-6">
         <MediaContent id={id} />
       </div>

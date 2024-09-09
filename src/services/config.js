@@ -37,6 +37,11 @@ const clientEndPoints = {
   updateJobContentFileName: "/api/change/job-content/file-name",
   getJobContent: "/api/get/job-content",
   deleteMediaFiles: "/api/delete/job-content/media",
+  createSummaryInitailInformation:
+    "/api/update/job-summary/initial-information",
+  getSummaryInitialInformation: "/api/get/job-summary/initial-information",
+  createSummaryInsurance: "/api/update/job-summary/insurance-information",
+  getSummaryInsurance: "/api/get/job-summary/insurance-information",
   //Customer Agreement
   createAgreement: "/api/customer-agreement",
   getCustomerAgreement: "/api/check/customer-agreement",
