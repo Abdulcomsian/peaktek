@@ -117,3 +117,64 @@ export async function getUserJobs(data) {
     return error;
   }
 }
+
+export async function createSummaryInitialInformation(dataToLoad, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = clientBaseURL.post(
+      `${clientEndPoints.createSummaryInitailInformation}/${jobId}`,
+      dataToLoad,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+export async function getSummaryInitialInformation(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.getSummaryInitialInformation}/${jobId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function createSummaryInsurance(dataToLoad, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.createSummaryInsurance}/${jobId}`,
+      dataToLoad,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getSummaryInsurance(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.getSummaryInsurance}/${jobId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return resp;
+  } catch (error) {
+    return error;
+  }
+}

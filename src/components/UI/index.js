@@ -15,6 +15,8 @@ import NumJob from "./NumJob";
 import DropDown from "./DropDown";
 import CheckBox from "./CheckBox";
 import RadioButton from "./RadioButton";
+import SelectInput from "./SelectInput";
+
 export {
   Button,
   Card,
@@ -33,4 +35,5 @@ export {
   DropDown,
   CheckBox,
   RadioButton,
+  SelectInput,
 };

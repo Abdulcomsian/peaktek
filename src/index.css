@@ -264,5 +264,7 @@ input::placeholder {
 }
 
 .ant-select-selector{
-  padding: 20px !important;
+  height: 40px !important;
+  padding-block: 4px !important;
+  padding-inline: 6px;
 }

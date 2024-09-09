@@ -1,26 +1,19 @@
-import React from "react";
-import { Select } from "antd";
+import { Select, Space } from "antd";
 import { Controller } from "react-hook-form";
 
-export default function DropDown({
+export default function SelectInput({
   control,
   name,
-  label,
-  id = "",
-  vertical,
-  className,
-  labelClass,
-  defaultValue,
+  mode = "multiple",
   rules,
-  options = [],
   placeholder,
+  options,
+  label,
+  labelClass,
+  id,
 }) {
   return (
-    <div
-      className={`flex items-center ${
-        vertical ? "flex-col !items-start" : ""
-      } ${className}`}
-    >
+    <div>
       {label ? (
         <label className={labelClass} htmlFor={id}>
           {label}
@@ -29,14 +22,16 @@ export default function DropDown({
       <Controller
         name={name}
         control={control}
-        defaultValue={defaultValue}
         rules={rules}
         render={({ field }) => (
           <Select
-            {...field}
+            className="tex-sm"
             id={id}
+            {...field}
+            mode={mode}
+            allowClear
             style={{
-              width: `100%`,
+              width: "100%",
             }}
             placeholder={placeholder}
             options={options}
