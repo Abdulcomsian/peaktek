@@ -12,7 +12,6 @@ const SignatureForm = ({
   setFieldValue,
   inputRefs,
 }) => {
-  console.log(values, setFieldValue);
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">

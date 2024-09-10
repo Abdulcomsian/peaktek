@@ -7,9 +7,10 @@ import { Form } from "@components/FormControls";
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { CheckBox, Loader, RadioButton } from "@components/UI";
+import { useAuth } from "@context/AuthContext";
 
 const AdjustorMeeting = () => {
   const { id } = useParams();
@@ -17,6 +18,8 @@ const AdjustorMeeting = () => {
   const [adjustorMeetingData, setAdjustorMeetingData] = useState(null);
   const [isSent, setIsSent] = useState(false);
   const [status, setStatus] = useState("Approved");
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   const setSentStatus = async () => {
@@ -44,11 +47,16 @@ const AdjustorMeeting = () => {
             },
           }
         );
+        console.log("ADJUSTOR MEETING REP", response);
 
         if (response?.status >= 200 && response?.status < 300) {
           setAdjustorMeetingData(response?.data?.data);
         }
       } catch (error) {
+        if (error.response.status === 401) {
+          logout();
+          navigate("/");
+        }
         if (error?.response) {
           console.error(
             error?.response?.data?.error || error?.response?.data?.message
@@ -70,6 +78,7 @@ const AdjustorMeeting = () => {
       email: "",
       time: null,
       date: null,
+      complete_box: false,
     },
     enableReinitialize: true,
     validationSchema: adjustorMeetingSchema,
@@ -80,7 +89,7 @@ const AdjustorMeeting = () => {
         ? dayjs(values.time).format("hh:mm A")
         : "Invalid Time";
 
-      const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
+      const formattedDate = dayjs(values.date).format("MM/DD/YYYY");
 
       const formattedValues = {
         ...values,
@@ -121,7 +130,7 @@ const AdjustorMeeting = () => {
   useEffect(() => {
     if (adjustorMeetingData) {
       const formattedInitialDate = adjustorMeetingData?.date
-        ? dayjs(adjustorMeetingData?.date, "DD/MM/YYYY")
+        ? dayjs(adjustorMeetingData?.date, "MM/DD/YYYY")
         : null;
 
       const formattedInitialTime = adjustorMeetingData?.time
@@ -132,6 +141,7 @@ const AdjustorMeeting = () => {
         name: adjustorMeetingData.name || "",
         phone: adjustorMeetingData.phone || "",
         email: adjustorMeetingData.email || "",
+        complete_box: adjustorMeetingData.complete_box || false,
         time: formattedInitialTime,
         date: formattedInitialDate,
       });
@@ -144,6 +154,7 @@ const AdjustorMeeting = () => {
     email: useRef(null),
     time: useRef(null),
     date: useRef(null),
+    complete_box: useRef(null),
   };
   useEffect(() => {
     if (formik.isSubmitting && !formik.isValid) {
@@ -171,6 +182,8 @@ const AdjustorMeeting = () => {
     }
   }, [formik.isSubmitting, formik.isValid, formik.errors]);
 
+  console.log("FORMIK VALUEs", formik.values);
+
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} delay={0} />}
@@ -194,10 +207,13 @@ const AdjustorMeeting = () => {
               className="h-6 w-6 border border-gray-300 bg-gray-50"
               id="complete_box"
               name="complete_box"
-              // checked={values.complete_box}
-              // onChange={() =>
-              //   setFieldValue("complete_box", !values.complete_box)
-              // }
+              checked={formik.values.complete_box}
+              onChange={() =>
+                formik.setFieldValue(
+                  "complete_box",
+                  !formik.values.complete_box
+                )
+              }
             />
           </div>
           <div>

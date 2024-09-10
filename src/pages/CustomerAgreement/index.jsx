@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "@components";
 import { CustomerInformationForm, SignaturesForm } from "@components/Forms";
 import { Spin } from "antd";
-import { Button } from "@components/UI";
+import { Button, CheckBox } from "@components/UI";
 import ShowSignatureModalBtn from "@components/Signature/ShowSignatureModalBtn";
 import { useForm } from "react-hook-form";
 import {
@@ -133,6 +133,7 @@ const CustomerAgreement = () => {
         <h1 className="text-black text-xl font-semibold mb-4 mt-8">
           Customer Information
         </h1>
+
         <CustomerInformationForm
           className="mb-9"
           register={register}
