@@ -1,4 +1,4 @@
-import { Select, Space } from "antd";
+import { Select } from "antd";
 import { Controller } from "react-hook-form";
 
 export default function SelectInput({
@@ -11,29 +11,28 @@ export default function SelectInput({
   label,
   labelClass,
   id,
+  defaultValue = [], // Default to an empty array if not provided
 }) {
   return (
     <div>
-      {label ? (
+      {label && (
         <label className={labelClass} htmlFor={id}>
           {label}
         </label>
-      ) : null}
+      )}
       <Controller
         name={name}
         control={control}
         rules={rules}
         render={({ field }) => (
           <Select
-            className="tex-sm"
-            id={id}
+            className="text-sm"
             {...field}
-            mode={mode}
-            style={{
-              width: "100%",
-            }}
+            mode="multiple"
+            style={{ width: "100%" }}
             placeholder={placeholder}
             options={options}
+            defaultValue={defaultValue}
           />
         )}
       />

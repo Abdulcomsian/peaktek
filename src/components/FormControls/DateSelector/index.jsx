@@ -12,7 +12,7 @@ const DateSelector = forwardRef(
           </label>
         )}
         <DatePicker
-          value={value ? dayjs(value, "DD/MM/YYYY") : null}
+          value={value ? dayjs(value, "MM/DD/YYYY") : null}
           size="large"
           onChange={onChange}
           name={name}

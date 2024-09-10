@@ -13,49 +13,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Loader } from "@components/UI";
 
 const marketOptions = [
-  {
-    label: "Nashville",
-    value: "Nashville",
-  },
-  {
-    label: "Chattanooga",
-    value: "Chattanooga",
-  },
+  { label: "Nashville", value: "Nashville" },
+  { label: "Chattanooga", value: "Chattanooga" },
 ];
 
 const leadSources = [
-  {
-    label: "Door Knocking",
-    value: "Door Knocking",
-  },
-  {
-    label: "Customer Referral",
-    value: "Customer Referral",
-  },
-  {
-    label: "Call In",
-    value: "Call In",
-  },
-  {
-    label: "Facebook",
-    value: "Facebook",
-  },
-  {
-    label: "Family Member",
-    value: "Family Member",
-  },
-  {
-    label: "Home Advisor",
-    value: "Home Advisor",
-  },
-  {
-    label: "Website",
-    value: "Website",
-  },
-  {
-    label: "Social Encounter",
-    value: "Social Encounter",
-  },
+  { label: "Door Knocking", value: "Door Knocking" },
+  { label: "Customer Referral", value: "Customer Referral" },
+  { label: "Call In", value: "Call In" },
+  { label: "Facebook", value: "Facebook" },
+  { label: "Family Member", value: "Family Member" },
+  { label: "Home Advisor", value: "Home Advisor" },
+  { label: "Website", value: "Website" },
+  { label: "Social Encounter", value: "Social Encounter" },
 ];
 
 export default function CreateInvoiceInformation() {
@@ -65,22 +35,23 @@ export default function CreateInvoiceInformation() {
   const navigate = useNavigate();
   const usersData = useSelector((state) => state?.users?.usersData);
   const userOptions = usersData.map((user) => ({
-    value: user.id,
+    value: `${user.id}`,
     label: user.name,
   }));
+
   const {
+    watch,
     register,
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isLoading },
     reset,
   } = useForm({
     defaultValues: async () => {
       const resp = await getSummaryInitialInformation(jobId);
-      console.log(resp);
       if (resp.status >= 200 && resp.status < 300) {
         setAddress(resp.data.job.address);
-        return resp.data.job;
+        return resp.data.job; // Ensure job object matches form fields
       }
       if (resp.status === 401) {
         logout();
@@ -91,9 +62,9 @@ export default function CreateInvoiceInformation() {
 
   const onSubmit = async (data) => {
     const resp = await createSummaryInitialInformation(data, jobId);
+    console.log(resp);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
-      reset();
     }
     if (resp.status === 401) {
       logout();
@@ -101,24 +72,16 @@ export default function CreateInvoiceInformation() {
     }
   };
 
-  const onerror = function (error) {
-    console.log(error);
-  };
   return (
-    <form onSubmit={handleSubmit(onSubmit, onerror)}>
-      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl mb-4">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2  gap-3 max-w-screen-xl mb-4">
         <div className="bg-white rounded-2xl col-span-full">
-          <label htmlFor="" className="font-medium text-sm inline-block">
-            Address
-          </label>
+          <label className="font-medium text-sm inline-block">Address</label>
           <input
-            label="Address"
-            placeholder="Address"
             type="text"
             name="address"
             className="w-full py-2 px-3 text-sm rounded-md border border-stone-300"
             disabled={true}
-            required={false}
             value={address}
           />
         </div>
@@ -136,10 +99,10 @@ export default function CreateInvoiceInformation() {
           label="Sales Representative"
           control={control}
           placeholder="Select options"
-          name="user_ids[]"
+          name="user_ids"
           options={userOptions}
           labelClass="font-medium text-sm"
-          rules={{ required: "This field is required" }} // Optional validation rules
+          rules={{ required: "This field is required" }}
         />
         <DropDown
           vertical={true}
@@ -150,7 +113,7 @@ export default function CreateInvoiceInformation() {
           id="market"
           options={marketOptions}
           placeholder="Select an option"
-          rules={{ required: "This field is required" }} // Optional validation rules
+          rules={{ required: "This field is required" }}
         />
         <DropDown
           vertical={true}
@@ -161,7 +124,7 @@ export default function CreateInvoiceInformation() {
           id="lead_source"
           options={leadSources}
           placeholder="Select an option"
-          rules={{ required: "This field is required" }} // Optional validation rules
+          rules={{ required: "This field is required" }}
         />
         <Button
           type="submit"

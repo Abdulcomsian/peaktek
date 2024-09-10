@@ -49,9 +49,9 @@ export default function Welcome() {
     );
 
   return (
-    <div className="px-5 py-4 max-w-screen-lg grid grid-cols-3 gap-x-6">
+    <div className="px-5 py-4 max-w-screen-lg grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <div className="text-blue-100 bg-[#26bbd8] grow py-5 text-center rounded-3xl space-y-2">
-        <p className="text-xl font-semibold">Customers</p>
+        <p className="text-lg sm:text-xl font-semibold">Customers</p>
         <p className="text-3xl font-bold">{customers}</p>
       </div>
       {/* <div className="text-blue-100 bg-[#28acd1] grow py-5 text-center rounded-3xl space-y-2">
@@ -59,7 +59,7 @@ export default function Welcome() {
         <p className="text-3xl font-bold">$8,690.90</p>
       </div> */}
       <div className="text-blue-100 bg-[#5261a3] grow py-5 text-center rounded-3xl space-y-2">
-        <p className="text-xl font-semibold">Deals Won & Closed</p>
+        <p className="text-lg sm:text-xl font-semibold">Deals Won & Closed</p>
         <p className="text-3xl font-bold">${deals_won_closed}</p>
       </div>
 
@@ -68,7 +68,7 @@ export default function Welcome() {
       </h2>
       <Link to={`/user-jobs?type=weekly&status=new_leads`}>
         <div className="text-stone-900 bg-stone-200 grow py-5 text-center rounded-3xl space-y-2">
-          <p className="text-xl font-medium">New Leads</p>
+          <p className="text-lg sm:text-xl font-medium">New Leads</p>
           <p className="text-3xl font-bold">
             {dataDashboard?.["weekly"]?.new_leads}
           </p>
@@ -77,7 +77,7 @@ export default function Welcome() {
 
       <Link to={`/user-jobs?type=weekly&status=won_closed`}>
         <div className="text-stone-900 bg-stone-200 grow py-5 text-center rounded-3xl space-y-2">
-          <p className="text-xl font-medium">Won & Closed</p>
+          <p className="text-lg sm:text-xl font-medium">Won & Closed</p>
           <p className="text-3xl font-bold">
             {dataDashboard?.["weekly"]?.won_closed}
           </p>
@@ -86,7 +86,7 @@ export default function Welcome() {
 
       <Link to={`/user-jobs?type=weekly&status=won_closed_values`}>
         <div className="text-stone-900 bg-stone-200 grow py-5 text-center rounded-3xl space-y-2">
-          <p className="text-xl font-medium">Won & Closed value</p>
+          <p className="text-lg sm:text-xl font-medium">Won & Closed value</p>
           <p className="text-3xl font-bold">
             {dataDashboard?.["weekly"]?.won_closed_values}
           </p>
