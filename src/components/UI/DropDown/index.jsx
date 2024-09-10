@@ -10,7 +10,6 @@ export default function DropDown({
   vertical,
   className,
   labelClass,
-  defaultValue,
   rules,
   options = [],
   placeholder,
@@ -29,7 +28,6 @@ export default function DropDown({
       <Controller
         name={name}
         control={control}
-        defaultValue={defaultValue}
         rules={rules}
         render={({ field }) => (
           <Select

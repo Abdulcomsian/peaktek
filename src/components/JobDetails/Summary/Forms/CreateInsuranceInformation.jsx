@@ -9,11 +9,12 @@ import { useParams } from "react-router-dom";
 export default function CreateInsuranceInformation() {
   const usersData = useSelector((state) => state?.users?.usersData);
   const userOptions = usersData.map((user) => ({
-    value: user.id,
+    value: `${user.id}`,
     label: user.name,
   }));
   const { id: jobId } = useParams();
   const {
+    watch,
     control,
     register,
     handleSubmit,
@@ -21,10 +22,10 @@ export default function CreateInsuranceInformation() {
   } = useForm({
     defaultValues: async () => {
       const resp = await getSummaryInsurance(jobId);
+      console.log("DEfault insurance values", resp.data.job);
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data.job;
       }
-      console.log(resp);
     },
   });
 
@@ -34,8 +35,8 @@ export default function CreateInsuranceInformation() {
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
     }
-    console.log(resp);
   };
+
   return (
     <form action="" onSubmit={handleSubmit(onsubmit)}>
       <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl mb-4">

@@ -32,6 +32,7 @@ const CustomerAgreementForm = () => {
     useState(true);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [customerData, setCustomerData] = useState(null);
+  console.log("ALL CUSTOMER DATA", customerData);
 
   const getCustomerData = async () => {
     try {
@@ -121,6 +122,8 @@ const CustomerAgreementForm = () => {
       customer_signature: "",
       customer_printed_name: "",
       customer_date: "",
+      customer_name: "",
+      date: "",
     },
     // validationSchema: createAgreementSchema,
     enableReinitialize: true,
@@ -128,13 +131,15 @@ const CustomerAgreementForm = () => {
       const formattedValues = {
         ...values,
         company_date: values.company_date
-          ? dayjs(values.company_date).format("DD/MM/YYYY")
+          ? dayjs(values.company_date).format("MM/DD/YYYY")
           : "",
         customer_date: values.customer_date
-          ? dayjs(values.customer_date).format("DD/MM/YYYY")
+          ? dayjs(values.customer_date).format("MM/DD/YYYY")
           : "",
+        date: values.date ? dayjs(values.date).format("MM/DD/YYYY") : "",
       };
 
+      console.log("ON SUBMIT VALUEs", values, formattedValues);
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
@@ -163,10 +168,13 @@ const CustomerAgreementForm = () => {
   useEffect(() => {
     if (customerData) {
       const formattedCompanyDate = customerData.company_date
-        ? dayjs(customerData.company_date, "DD/MM/YYYY")
+        ? dayjs(customerData.company_date, "MM/DD/YYYY")
         : null;
       const formattedCustomerDate = customerData.customer_date
-        ? dayjs(customerData.customer_date, "DD/MM/YYYY")
+        ? dayjs(customerData.customer_date, "MM/DD/YYYY")
+        : null;
+      const formattedDate = customerData.date
+        ? dayjs(customerData.date, "MM/DD/YYYY")
         : null;
       formik.setValues({
         street: customerData.street || "",
@@ -182,6 +190,8 @@ const CustomerAgreementForm = () => {
         customer_signature: customerData.customer_signature || "",
         customer_printed_name: customerData.customer_printed_name || "",
         customer_date: formattedCustomerDate,
+        customer_name: customerData.customer_name || "",
+        date: formattedDate,
       });
     }
   }, [customerData]);
@@ -194,12 +204,14 @@ const CustomerAgreementForm = () => {
     insurance: useRef(null),
     claim_number: useRef(null),
     policy_number: useRef(null),
+    date: useRef(null),
     company_signature: useRef(null),
     company_printed_name: useRef(null),
     company_date: useRef(null),
     customer_signature: useRef(null),
     customer_printed_name: useRef(null),
     customer_date: useRef(null),
+    customer_name: useRef(null),
   };
 
   useEffect(() => {
@@ -296,8 +308,9 @@ const CustomerAgreementForm = () => {
               <TextBox
                 className={`w-full md:mr-2`}
                 placeholder="Customer Name"
-                ref={inputRefs["name"]}
-                name="name"
+                ref={inputRefs.customer_name}
+                value={formik.values.customer_name}
+                name="customer_name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
@@ -309,11 +322,11 @@ const CustomerAgreementForm = () => {
             <DateSelector
               className={`w-full md:max-w-[27rem] md:ml-1`}
               placeholder="Signature Date"
-              ref={inputRefs["date"]}
+              ref={inputRefs?.date}
               name="date"
               onChange={(date) => formik.setFieldValue("date", date)}
               onBlur={formik.handleBlur}
-              value={formik.values.date}
+              value={formik?.values?.date || ""}
             />
           </div>
           <Button

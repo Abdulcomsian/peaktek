@@ -67,6 +67,7 @@ const EstimatePrepared = () => {
     enableReinitialize: true,
     validationSchema: estimatePreparedSchema,
     onSubmit: async (values, actions) => {
+      console.log(values);
       const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
 
       const formData = new FormData();
