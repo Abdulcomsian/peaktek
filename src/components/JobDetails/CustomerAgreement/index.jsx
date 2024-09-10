@@ -32,7 +32,6 @@ const CustomerAgreementForm = () => {
     useState(true);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [customerData, setCustomerData] = useState(null);
-  console.log("ALL CUSTOMER DATA", customerData);
 
   const getCustomerData = async () => {
     try {
@@ -124,6 +123,7 @@ const CustomerAgreementForm = () => {
       customer_date: "",
       customer_name: "",
       date: "",
+      status: false,
     },
     // validationSchema: createAgreementSchema,
     enableReinitialize: true,
@@ -191,6 +191,7 @@ const CustomerAgreementForm = () => {
         customer_printed_name: customerData.customer_printed_name || "",
         customer_date: formattedCustomerDate,
         customer_name: customerData.customer_name || "",
+        status: customerData.status || false,
         date: formattedDate,
       });
     }
@@ -212,6 +213,7 @@ const CustomerAgreementForm = () => {
     customer_printed_name: useRef(null),
     customer_date: useRef(null),
     customer_name: useRef(null),
+    status: useRef(null),
   };
 
   useEffect(() => {
@@ -225,13 +227,32 @@ const CustomerAgreementForm = () => {
     }
   }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
 
+  if (customerData?.status)
+    return (
+      <p className="text-center text-stone-600 ">
+        Customer agreement is already created
+      </p>
+    );
+
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
       <div className="flex flex-col md:flex-row justify-between mb-4">
-        <h1 className="font-poppins font-medium text-xl text-center mb-4 md:mb-0">
-          Customer Agreement
-        </h1>
+        <div className="flex items-center gap-2">
+          <label htmlFor="status" className="uppercase">
+            Status
+          </label>
+          <input
+            type="checkbox"
+            className="h-6 w-6 border border-gray-300 bg-gray-50"
+            id="status"
+            name="status"
+            checked={formik.values.status}
+            onChange={() =>
+              formik.setFieldValue("status", !formik.values.status)
+            }
+          />
+        </div>
         {showPdfButton ? (
           <Button
             className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
