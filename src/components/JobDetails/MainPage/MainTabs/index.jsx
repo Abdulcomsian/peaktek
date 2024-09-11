@@ -28,9 +28,9 @@ export default function MainTabs({ className }) {
   const buttonsData = [
     { id: 1, text: "Summary", path: "summary" },
     { id: 2, text: "Customer Agreement", path: "customer-agreement" },
-    { id: 3, text: "Estimate Prepared", path: "estimate-prepared" },
+    // { id: 3, text: "Estimate Prepared", path: "estimate-prepared" },
     { id: 4, text: "Adjustor Meeting", path: "adjustor-meeting" },
-    { id: 5, text: "Overturn", path: "overturn" },
+    // { id: 5, text: "Overturn", path: "overturn" },
     { id: 8, text: "Ready To Build", path: "ready-to-build" },
     { id: 6, text: "Approved", path: "approved" },
     // { id: 7, text: "Scheduling", path: "scheduling" },

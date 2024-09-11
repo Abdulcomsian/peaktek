@@ -1,3 +1,6 @@
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
 import { configureStore } from "@reduxjs/toolkit";
 import JobsReducer from "./slices/JobsSlice";
 import customerReducer from "./slices/customerSlice";
@@ -11,9 +14,17 @@ import rooferComponentReducer from "./slices/rooferComponentsSlice";
 import paymentScheduleReducer from "./slices/paymentScheduleSlice";
 import loginReducer from "./slices/loginSlice";
 import userReducer from "./slices/userSlice";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, JobsReducer);
+
 export const store = configureStore({
   reducer: {
-    jobs: JobsReducer,
+    jobs: persistedReducer,
     customer: customerReducer,
     login: loginReducer,
     register: registerReducer,

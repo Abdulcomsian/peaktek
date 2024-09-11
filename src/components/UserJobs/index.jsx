@@ -2,6 +2,7 @@ import { getUserJobs } from "@services/apiJobs";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import LinkButton from "@components/UI/LinkButton";
 
 export default function UserJobs() {
   const [userJobs, setUserJobs] = useState([]);
@@ -43,8 +44,11 @@ export default function UserJobs() {
 
   if (userJobs.length === 0)
     return (
-      <p className="text-stone-500 text-lg text-center mt-5">
-        Jobs are not yet created for this status
+      <p className="text-stone-500 text-sm text-center mt-8">
+        👋 Jobs are not yet created for this status,{" "}
+        <LinkButton className="!text-sm" to="/jobs">
+          Create new Job?
+        </LinkButton>
       </p>
     );
 

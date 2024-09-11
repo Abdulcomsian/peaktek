@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addJob } from "@store/slices/JobsSlice";
 import { Button } from "@components/UI";
+import { useAuth } from "@context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const modalInputsData = [
   {
@@ -30,6 +32,8 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
   const dispatch = useDispatch();
 
   const [isCreating, setIsCreating] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
@@ -40,6 +44,10 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
         toast.success(resp.data.message);
         onAddJob();
         onOk();
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
       }
       if (resp.response.status === 422) toast.error(resp.response.data.message);
     } catch (error) {
