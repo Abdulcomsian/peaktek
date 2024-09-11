@@ -9,6 +9,7 @@ import { Loader } from "@components/UI";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const RenameFiles = ({ file, id, refreshData }) => {
+  console.log(file);
   const {
     values,
     errors,
