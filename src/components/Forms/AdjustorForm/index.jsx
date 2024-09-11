@@ -16,11 +16,12 @@ const AdjustorForm = ({
   setFieldValue,
   inputRefs,
 }) => {
+  console.log("values", values);
   return (
     <div className={className}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <TextBox
-          label="Name:"
+          label="Adjustor"
           placeholder="John Doe"
           type="text"
           name="name"
@@ -46,7 +47,7 @@ const AdjustorForm = ({
           touched={touched?.phone}
         />
         <TextBox
-          label="Email:"
+          label="Adjustor Email:"
           placeholder="john@gmail.com"
           type="email"
           name="email"
@@ -72,7 +73,7 @@ const AdjustorForm = ({
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <DateSelector
-          label="Select a Date"
+          label="Date sent"
           className="w-full lg:max-w-[18.5rem]"
           name="date"
           ref={inputRefs?.date}

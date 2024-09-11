@@ -13,6 +13,7 @@ const SimpleInput = ({
   label = "",
   vertical = false,
   labelClass = "",
+  min,
 }) => {
   return (
     <div
@@ -26,6 +27,7 @@ const SimpleInput = ({
         </label>
       ) : null}
       <input
+        min={type === "number" ? min : undefined}
         type={type}
         id={id}
         readOnly={readOnly}
