@@ -29,7 +29,7 @@ const AdjustorMeeting = () => {
   const [documents, setDocuments] = useState([]);
   const [notes, setNotes] = useState("");
   const [isSent, setIsSent] = useState(false);
-  const [status, setStatus] = useState("overturn");
+  const [status, setStatus] = useState("Overturn");
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -64,6 +64,8 @@ const AdjustorMeeting = () => {
       if (response?.status >= 200 && response?.status < 300) {
         setAdjustorMeetingData(response?.data?.data);
         setNotes(response.data.data.notes);
+        setStatus(response.data.data.status);
+        setShowRenameBox(true);
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -120,6 +122,7 @@ const AdjustorMeeting = () => {
       formData.append("time", formattedTime);
       formData.append("date", formattedDate);
       formData.append("notes", notes);
+      formData.append("status", status);
 
       // const formattedValues = {
       //   ...values,
@@ -178,13 +181,13 @@ const AdjustorMeeting = () => {
     }
   }, [adjustorMeetingData]);
 
-  useEffect(() => {
-    const updateStatus = async () => {
-      const data = await updateAdjustorMeetingStatus(status, id);
-      console.log(data);
-    };
-    updateStatus();
-  }, [status]);
+  // useEffect(() => {
+  //   const updateStatus = async () => {
+  //     const data = await updateAdjustorMeetingStatus(status, id);
+  //     console.log(data);
+  //   };
+  //   updateStatus();
+  // }, [status]);
 
   const inputRefs = {
     name: useRef(null),
@@ -260,9 +263,9 @@ const AdjustorMeeting = () => {
             <div>
               <RadioButton
                 items={[
-                  { label: "OVERTURN", value: "overturn" },
-                  { label: "APPRAISAL", value: "appraisal" },
-                  { label: "APPROVED", value: "approved" },
+                  { label: "OVERTURN", value: "Overturn" },
+                  { label: "APPRAISAL", value: "Appraisal" },
+                  { label: "APPROVED", value: "Approved" },
                 ]}
                 value={status}
                 onChange={(e) => {
@@ -314,7 +317,7 @@ const AdjustorMeeting = () => {
                 }
               />
               {showRenameBox &&
-                overturnData?.images?.map((file) => (
+                adjustorMeetingData?.images?.map((file) => (
                   <RenameFiles
                     file={file}
                     key={file?.id}
@@ -339,7 +342,7 @@ const AdjustorMeeting = () => {
               />
 
               {showRenameBox &&
-                overturnData?.attachments?.map((file) => (
+                adjustorMeetingData?.attachments?.map((file) => (
                   <RenameFiles
                     file={file}
                     key={file?.id}
