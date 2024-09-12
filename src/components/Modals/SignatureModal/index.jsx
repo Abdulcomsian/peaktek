@@ -5,7 +5,13 @@ import { useRef } from "react";
 import toast from "react-hot-toast";
 import SignatureCanvas from "react-signature-canvas";
 
-export default function SignatureModal({ id, open, onCancel, onOk }) {
+export default function SignatureModal({
+  id,
+  open,
+  onCancel,
+  onOk,
+  setIsDone,
+}) {
   const signatureRef = useRef();
 
   // Function to clear the signature canvas
@@ -31,6 +37,7 @@ export default function SignatureModal({ id, open, onCancel, onOk }) {
 
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
+        setIsDone(true);
         onOk();
       }
     } catch (error) {

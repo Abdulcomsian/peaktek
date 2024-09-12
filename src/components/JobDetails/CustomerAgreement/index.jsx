@@ -33,6 +33,7 @@ const CustomerAgreementForm = () => {
     useState(true);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const [customerData, setCustomerData] = useState(null);
+  const [isDone, setIsDone] = useState(false);
 
   const getCustomerData = async () => {
     try {
@@ -86,9 +87,11 @@ const CustomerAgreementForm = () => {
           },
         }
       );
+
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        setIsApprovalButtonDisabled(true);
+        setIsApprovalButtonDisabled(false);
+        setIsDone(true);
       }
     } catch (error) {
       if (error?.response) {
@@ -231,13 +234,25 @@ const CustomerAgreementForm = () => {
     }
   }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
 
-  if (customerData?.status)
+  console.log(
+    "STATE",
+    customerData?.status,
+    customerData?.is_complete,
+    !customerData?.sign_image_url,
+    !customerData?.sign_pdf_url
+  );
+
+  if (
+    customerData?.status &&
+    customerData?.sign_image_url &&
+    customerData?.sign_pdf_url
+  )
     return (
       <p className="text-center text-sm text-stone-600 ">
         👋 Customer agreement is already created, Please{" "}
         <LinkButton onClick={openFileHandler} className="text-sm">
           Click here
-        </LinkButton>{" "}
+        </LinkButton>
         to view agreement
       </p>
     );
@@ -252,6 +267,12 @@ const CustomerAgreementForm = () => {
           </label>
           <input
             type="checkbox"
+            disabled={
+              customerData?.is_complete &&
+              !isDone &&
+              !customerData?.sign_image_url &&
+              !customerData?.sign_pdf_url
+            }
             className="h-6 w-6 border border-gray-300 bg-gray-50"
             id="status"
             name="status"
@@ -383,6 +404,7 @@ const CustomerAgreementForm = () => {
           onCancel={closeSignatureModel}
           onOk={closeSignatureModel}
           id={agreementId}
+          setIsDone={setIsDone}
         />
       )}
     </Fragment>

@@ -10,6 +10,7 @@ export default function RenameFileUI({
   apiDeleteFileEndpoint,
   apiUpdateFileEndPoint,
 }) {
+  console.log("FILE", files);
   const [inputValues, setInputValues] = useState(
     files.reduce(
       (acc, file) => ({
@@ -20,9 +21,6 @@ export default function RenameFileUI({
     )
   );
   const [filesToUpdate, setFilesToUpdate] = useState([]);
-  console.log("FILES TO UPDATE", filesToUpdate);
-
-  // New state to track loading for each file
   const [loadingStates, setLoadingStates] = useState(
     files.reduce(
       (acc, file) => ({
@@ -119,10 +117,12 @@ export default function RenameFileUI({
     const fullFileUrl = `${baseURL}${
       filesToUpdate.find((file) => file.id === id).image_url ||
       filesToUpdate.find((file) => file.id === id).pdf_url ||
-      filesToUpdate.find((file) => file.id === id).url
+      filesToUpdate.find((file) => file.id === id).url ||
+      filesToUpdate.find((file) => file.id === id).media_url
     }`;
     window.open(fullFileUrl, "_blank");
   };
+  console.log(filesToUpdate);
 
   return (
     <form className="flex flex-col md:gap-2 mb-4 max-w-full mt-3">
@@ -157,7 +157,7 @@ export default function RenameFileUI({
               onClick={() =>
                 deleteFileHandler(
                   file.id,
-                  file.image_url || file.pdf_url,
+                  file.image_url || file.pdf_url || file.media_url,
                   file.type
                 )
               }
