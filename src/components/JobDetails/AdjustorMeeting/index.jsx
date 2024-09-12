@@ -15,9 +15,9 @@ import {
   ImageIcon,
   Loader,
   RadioButton,
+  RenameFileUI,
 } from "@components/UI";
 import { useAuth } from "@context/AuthContext";
-import RenameFiles from "@components/Forms/Overturn/RenameFiles";
 import { updateAdjustorMeetingStatus } from "@services/apiAdjustorMeeting";
 
 const AdjustorMeeting = () => {
@@ -32,8 +32,6 @@ const AdjustorMeeting = () => {
   const [status, setStatus] = useState("Overturn");
   const { logout } = useAuth();
   const navigate = useNavigate();
-
-  console.log(notes);
 
   // useEffect(() => {
   //   const setSentStatus = async () => {
@@ -59,7 +57,6 @@ const AdjustorMeeting = () => {
           },
         }
       );
-      console.log("ADJUSTOR MEETING REP", response);
 
       if (response?.status >= 200 && response?.status < 300) {
         setAdjustorMeetingData(response?.data?.data);
@@ -100,7 +97,7 @@ const AdjustorMeeting = () => {
     enableReinitialize: true,
     validationSchema: adjustorMeetingSchema,
     onSubmit: async (values, actions) => {
-      console.log(values);
+      console.log("ADJUSTOR MEETING VALUES", values, values.complete_box);
       const formData = new FormData();
       images.forEach((file) => {
         formData.append("images[]", file.file);
@@ -123,6 +120,7 @@ const AdjustorMeeting = () => {
       formData.append("date", formattedDate);
       formData.append("notes", notes);
       formData.append("status", status);
+      formData.append("completed", values.complete_box);
 
       // const formattedValues = {
       //   ...values,
@@ -150,10 +148,12 @@ const AdjustorMeeting = () => {
           toast.success(response?.data?.message);
           // actions.resetForm();
         }
+        console.log(response);
       } catch (error) {
         if (error?.response) {
           toast.error(
-            error?.response?.data?.error || error?.response?.data?.message
+            // error?.response?.data?.error || error?.response?.data?.message
+            "Something went wrong."
           );
         }
       }
@@ -247,6 +247,7 @@ const AdjustorMeeting = () => {
                 BUILD CONFIRMED
               </label>
               <input
+                ref={inputRefs?.complete_box}
                 type="checkbox"
                 className="h-6 w-6 border border-gray-300 bg-gray-50"
                 id="complete_box"
@@ -269,7 +270,6 @@ const AdjustorMeeting = () => {
                 ]}
                 value={status}
                 onChange={(e) => {
-                  console.log("radio checked", e.target.value);
                   setStatus(e.target.value);
                 }}
               />
@@ -318,11 +318,10 @@ const AdjustorMeeting = () => {
               />
               {showRenameBox &&
                 adjustorMeetingData?.images?.map((file) => (
-                  <RenameFiles
-                    file={file}
-                    key={file?.id}
-                    id={file?.id}
-                    refreshData={refreshData}
+                  <RenameFileUI
+                    files={adjustorMeetingData.images}
+                    apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
+                    apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
                   />
                 ))}
             </div>
@@ -343,11 +342,10 @@ const AdjustorMeeting = () => {
 
               {showRenameBox &&
                 adjustorMeetingData?.attachments?.map((file) => (
-                  <RenameFiles
-                    file={file}
-                    key={file?.id}
-                    id={file?.id}
-                    refreshData={refreshData}
+                  <RenameFileUI
+                    files={adjustorMeetingData.attachments}
+                    apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
+                    apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
                   />
                 ))}
             </div>
