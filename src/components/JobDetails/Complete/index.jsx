@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import { Form } from "@components/FormControls";
+import { Form, Input } from "@components/FormControls";
 import { CustomerInformation, ProjectSummaryForm } from "@components/Forms";
 import SignatureForm from "./SignatureForm";
 import { fetchSingleJob } from "@store/slices/JobsSlice";
@@ -17,8 +17,63 @@ import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
 import { Loader } from "@components/UI";
+import { useForm } from "react-hook-form";
+import TabsContentBox from "@components/UI/TabsContentBox";
+import { Tabs } from "@components/UI";
+import {
+  AuthorizationForm,
+  InspectionForm,
+  IntroductionForm,
+  PaymentScheduleForm,
+  QuoteDetailsForm,
+  RoofComponent,
+  TermandConditionForm,
+  TermsAndConditions,
+  Title,
+  TitleForm,
+} from "@components/Forms";
+import CarrierScope from "../CarrierScope";
+
+const tabsDesignMeeting = [
+  { id: 1, title: "Carrier Scope" },
+  { id: 2, title: "Title" },
+  { id: 3, title: "Introduction" },
+  { id: 4, title: "Inspection" },
+  { id: 5, title: "Quote Detail" },
+  { id: 6, title: "Authorization" },
+  { id: 7, title: "Payment Schedule" },
+  { id: 8, title: "Roof Component" },
+  { id: 9, title: "Xactimate Report" },
+  { id: 10, title: "Terms and Condition" },
+];
+
+function renderSection(currTab) {
+  switch (currTab) {
+    case 1:
+      return <CarrierScope />;
+    case 2:
+      return <TitleForm />;
+    case 3:
+      return <IntroductionForm />;
+    case 4:
+      return <InspectionForm />;
+    case 5:
+      return <QuoteDetailsForm />;
+    case 6:
+      return <AuthorizationForm />;
+    case 7:
+      return <PaymentScheduleForm />;
+    case 8:
+      return <RoofComponent />;
+    case 9:
+      return <XactimateReport />;
+    case 10:
+      return <TermandConditionForm />;
+  }
+}
 
 const Complete = () => {
+  const [currTab, setCurrTab] = useState(1);
   const dispatch = useDispatch();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -180,6 +235,7 @@ const Complete = () => {
     company_representative: useRef(null),
     company_printed_name: useRef(null),
     company_signed_date: useRef(null),
+    insurance_email: useRef(null),
   };
 
   // Focus on the first error input on form submission
@@ -194,6 +250,12 @@ const Complete = () => {
     }
   }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
@@ -204,6 +266,43 @@ const Complete = () => {
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Customer Information
         </h2>
+        <form className="grid grid-cols-1 sm:grid-cols-2  gap-4 mb-2">
+          <Input register={register} name="name" label="Homeowner Name" />
+          <Input
+            register={register}
+            name="homeowner_email"
+            type="email"
+            label="Homeowner Email"
+          />
+          <Input
+            register={register}
+            name="address"
+            label="Address"
+            className="col-span-full"
+          />
+          <Input register={register} name="insurance" label="Insurance" />
+          <Input register={register} name="policy" label="Policy #" />
+          <Input register={register} name="email" type="email" label="Email" />
+          <Input register={register} name="claim_number" label="Claim #" />
+        </form>
+        <TabsContentBox contentTitle="Design Meeting">
+          <div className="hidden md:block p-4">
+            <Tabs
+              items={tabsDesignMeeting}
+              activeTab={currTab}
+              onClick={setCurrTab}
+            />
+            {renderSection(currTab)}
+          </div>
+          <div className="md:hidden">
+            <Tabs
+              items={tabsDesignMeeting}
+              collapsable={true}
+              onClick={setCurrTab}
+              activeTab={currTab}
+            />
+          </div>
+        </TabsContentBox>
         <Form onSubmit={formik.handleSubmit}>
           <CustomerInformation
             customer={singleJobData}
