@@ -17,7 +17,7 @@ const CustomerInformation = ({
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <TextBox
-          label="Name:"
+          label="Homeowner Name:"
           placeholder="John Doe"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
@@ -31,7 +31,7 @@ const CustomerInformation = ({
           readOnly={readOnlyFields.includes("name")}
         />
         <TextBox
-          label="Email:"
+          label="Homeowner Email:"
           placeholder="john@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
@@ -124,6 +124,19 @@ const CustomerInformation = ({
           onChange={handleChange}
           error={errors?.insurance}
           touched={touched?.insurance}
+        />
+        <TextBox
+          label="Insurance Email:"
+          placeholder="example@gmail.com"
+          type="email"
+          className="md:mr-4 mb-4 md:mb-0"
+          name="insurance_email"
+          ref={inputRefs?.insurance_email}
+          value={values?.insurance_email || ""} // Default to empty string if undefined
+          onBlur={handleBlur}
+          onChange={handleChange}
+          error={errors?.insurance_email}
+          touched={touched?.insurance_email}
         />
         <TextBox
           label="Claim Number:"
