@@ -92,12 +92,12 @@ const AdjustorMeeting = () => {
       email: "",
       time: null,
       date: null,
-      complete_box: false,
+      completed: false,
     },
     enableReinitialize: true,
     validationSchema: adjustorMeetingSchema,
     onSubmit: async (values, actions) => {
-      console.log("ADJUSTOR MEETING VALUES", values, values.complete_box);
+      console.log("ADJUSTOR MEETING VALUES", values, values.completed);
       const formData = new FormData();
       images.forEach((file) => {
         formData.append("images[]", file.file);
@@ -120,7 +120,7 @@ const AdjustorMeeting = () => {
       formData.append("date", formattedDate);
       formData.append("notes", notes);
       formData.append("status", status);
-      formData.append("completed", Number(values.complete_box));
+      formData.append("completed", Number(values.completed));
 
       // const formattedValues = {
       //   ...values,
@@ -174,7 +174,7 @@ const AdjustorMeeting = () => {
         name: adjustorMeetingData.name || "",
         phone: adjustorMeetingData.phone || "",
         email: adjustorMeetingData.email || "",
-        complete_box: adjustorMeetingData.complete_box || false,
+        completed: adjustorMeetingData.completed || false,
         time: formattedInitialTime,
         date: formattedInitialDate,
       });
@@ -195,7 +195,7 @@ const AdjustorMeeting = () => {
     email: useRef(null),
     time: useRef(null),
     date: useRef(null),
-    complete_box: useRef(null),
+    completed: useRef(null),
   };
   useEffect(() => {
     if (formik.isSubmitting && !formik.isValid) {
@@ -227,6 +227,7 @@ const AdjustorMeeting = () => {
     getAdjustorMeetingData();
   };
 
+  console.log(formik.values);
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} delay={0} />}
@@ -241,23 +242,20 @@ const AdjustorMeeting = () => {
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2  mb-4 md:mb-0">
               <label
-                htmlFor="complete_box"
+                htmlFor="completed"
                 className="text-base font-medium text-gray-900"
               >
                 BUILD CONFIRMED
               </label>
               <input
-                ref={inputRefs?.complete_box}
+                ref={inputRefs?.completed}
                 type="checkbox"
                 className="h-6 w-6 border border-gray-300 bg-gray-50"
-                id="complete_box"
-                name="complete_box"
-                checked={formik.values.complete_box}
+                id="completed"
+                name="completed"
+                checked={formik.values.completed}
                 onChange={() =>
-                  formik.setFieldValue(
-                    "complete_box",
-                    !formik.values.complete_box
-                  )
+                  formik.setFieldValue("completed", !formik.values.completed)
                 }
               />
             </div>
