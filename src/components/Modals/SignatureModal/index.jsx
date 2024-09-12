@@ -83,6 +83,12 @@ export default function SignatureModal({
           onClick={clearSignature}
           className="text-black mr-2 border border-gray-300 px-4 py-1"
         >
+          Clear
+        </Button>
+        <Button
+          onClick={saveSignature}
+          className="text-white btn-gradient px-4 py-1"
+        >
           {isLoading ? (
             <div className="flex justify-center items-center">
               <Loader width={"24px"} height={"24px"} color="#fff" />
@@ -90,12 +96,6 @@ export default function SignatureModal({
           ) : (
             "Submit"
           )}
-        </Button>
-        <Button
-          onClick={saveSignature}
-          className="text-white btn-gradient px-4 py-1"
-        >
-          Save
         </Button>
       </div>
     </Modal>
