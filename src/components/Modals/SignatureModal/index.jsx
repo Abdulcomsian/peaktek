@@ -1,9 +1,10 @@
 import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { Modal } from "antd";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import SignatureCanvas from "react-signature-canvas";
+import { Loader } from "@components/UI";
 
 export default function SignatureModal({
   id,
@@ -11,8 +12,10 @@ export default function SignatureModal({
   onCancel,
   onOk,
   setIsDone,
+  setShowPdfButton,
 }) {
   const signatureRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
 
   // Function to clear the signature canvas
   const clearSignature = () => {
@@ -24,7 +27,7 @@ export default function SignatureModal({
     const imageData = signatureRef.current.toDataURL(); // You can send this data to your backend or use it as needed
     try {
       const token = localStorage.getItem("token");
-
+      setIsLoading(true);
       const response = await clientBaseURL.post(
         `${clientEndPoints?.createSignature}/${id}`,
         { sign_image: imageData },
@@ -37,8 +40,9 @@ export default function SignatureModal({
 
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        setIsDone(true);
+        setIsDone(false);
         onOk();
+        setShowPdfButton(true);
       }
     } catch (error) {
       if (error?.response) {
@@ -46,6 +50,8 @@ export default function SignatureModal({
           error?.response?.data?.error || error?.response?.data?.message
         );
       }
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -77,7 +83,13 @@ export default function SignatureModal({
           onClick={clearSignature}
           className="text-black mr-2 border border-gray-300 px-4 py-1"
         >
-          Clear
+          {isLoading ? (
+            <div className="flex justify-center items-center">
+              <Loader width={"24px"} height={"24px"} color="#fff" />
+            </div>
+          ) : (
+            "Submit"
+          )}
         </Button>
         <Button
           onClick={saveSignature}
