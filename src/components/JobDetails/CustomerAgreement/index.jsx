@@ -236,8 +236,8 @@ const CustomerAgreementForm = () => {
 
   console.log(
     "STATE",
-    customerData?.status,
-    customerData?.is_complete,
+    !customerData?.is_complete,
+    isApprovalButtonDisabled,
     !customerData?.sign_image_url,
     !customerData?.sign_pdf_url
   );
@@ -268,10 +268,10 @@ const CustomerAgreementForm = () => {
           <input
             type="checkbox"
             disabled={
-              customerData?.is_complete &&
-              !isDone &&
-              !customerData?.sign_image_url &&
-              !customerData?.sign_pdf_url
+              !customerData?.is_complete ||
+              !customerData?.sign_image_url ||
+              !customerData?.sign_pdf_url ||
+              isDone
             }
             className="h-6 w-6 border border-gray-300 bg-gray-50"
             id="status"

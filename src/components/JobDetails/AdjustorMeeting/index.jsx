@@ -120,7 +120,7 @@ const AdjustorMeeting = () => {
       formData.append("date", formattedDate);
       formData.append("notes", notes);
       formData.append("status", status);
-      formData.append("completed", values.complete_box);
+      formData.append("completed", Number(values.complete_box));
 
       // const formattedValues = {
       //   ...values,
