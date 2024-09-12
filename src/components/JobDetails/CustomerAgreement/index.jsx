@@ -70,7 +70,7 @@ const CustomerAgreementForm = () => {
       dispatch(fetchSingleJob(id));
       getCustomerData();
     }
-  }, [id]);
+  }, [id, showPdfButton]);
   const openFileHandler = () => {
     const fullFileUrl = `${baseURL}${customerData?.sign_pdf_url}`;
     window.open(fullFileUrl, "_blank");
@@ -307,22 +307,6 @@ const CustomerAgreementForm = () => {
             </Button>
           </div>
         )}
-        {/* <div className="flex items-center justify-center gap-6">
-          <Button
-            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
-            onClick={showSignatureModel}
-            disabled={isApprovalButtonDisabled}
-          >
-            Sign Now
-          </Button>
-          <Button
-            className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
-            onClick={sendFormByEmail}
-            disabled={isApprovalButtonDisabled}
-          >
-            Send for Approval
-          </Button>
-        </div> */}
       </div>
       <div className="bg-white p-5 rounded-2xl">
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
@@ -405,6 +389,7 @@ const CustomerAgreementForm = () => {
           onOk={closeSignatureModel}
           id={agreementId}
           setIsDone={setIsDone}
+          setShowPdfButton={setShowPdfButton}
         />
       )}
     </Fragment>
