@@ -1,89 +1,34 @@
-import React, { Fragment, useState, useEffect, useRef } from "react";
-import { Form, Input } from "@components/FormControls";
+import React, { useState, useEffect, useRef } from "react";
+import { Form } from "@components/FormControls";
 import { CustomerInformation, ProjectSummaryForm } from "@components/Forms";
-import SignatureForm from "./SignatureForm";
-import { fetchSingleJob } from "@store/slices/JobsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import COC from "./COC";
-import Depreciation from "./Depreciation";
-import OverheadProfit from "./OverheadProfit";
-import Conclusion from "./Conclusion";
+import SignatureForm from "../SignatureForm";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import COC from "../COC";
+import Depreciation from "../Depreciation";
+import OverheadProfit from "../OverheadProfit";
+import Conclusion from "../Conclusion";
 import Button from "@components/JobDetails/Button";
 import { useFormik } from "formik";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { cocSchema } from "@services/schema";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
-import { Spin } from "antd";
 import { Loader } from "@components/UI";
 import { useForm } from "react-hook-form";
-import TabsContentBox from "@components/UI/TabsContentBox";
-import { Tabs } from "@components/UI";
-import {
-  AuthorizationForm,
-  InspectionForm,
-  IntroductionForm,
-  PaymentScheduleForm,
-  QuoteDetailsForm,
-  RoofComponent,
-  TermandConditionForm,
-  TermsAndConditions,
-  Title,
-  TitleForm,
-} from "@components/Forms";
-import CarrierScope from "../CarrierScope";
-import COCForm from "./COCForm";
+import { getCOC } from "@services/apiCOC";
+import { useAuth } from "@context/AuthContext";
 
-const tabsDesignMeeting = [
-  { id: 1, title: "COC FORM" },
-  { id: 2, title: "COC INSURANCE EMAIL" },
-];
-
-const Complete = () => {
-  const [currTab, setCurrTab] = useState(1);
-  const dispatch = useDispatch();
+export default function COCForm() {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [cocData, setCocData] = useState(null); // Initialize as null
-
-  useEffect(() => {
-    const getCOCData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-        setLoading(true);
-        const response = await clientBaseURL.get(
-          `${clientEndPoints?.getCoc}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response?.status >= 200 && response?.status < 300) {
-          setCocData(response?.data?.data);
-        }
-      } catch (error) {
-        if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (id) getCOCData();
-    dispatch(fetchSingleJob(id));
-  }, [id, dispatch]);
+  const [cocData, setCocData] = useState(null);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
+  console.log("SINGLE JOB DATA", singleJobData);
 
-  // Initialize Formik
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -111,6 +56,7 @@ const Complete = () => {
     enableReinitialize: true,
     validationSchema: cocSchema,
     onSubmit: async (values, actions) => {
+      console.log("COC VALUES", values);
       const formattedValues = {
         ...values,
         company_signed_date: values.company_signed_date
@@ -130,7 +76,6 @@ const Complete = () => {
         );
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
-          // actions.resetForm();
         }
       } catch (error) {
         if (error?.response) {
@@ -142,7 +87,6 @@ const Complete = () => {
     },
   });
 
-  // Update Formik initial values when cocData or singleJobData changes
   useEffect(() => {
     if (cocData) {
       formik.setValues({
@@ -222,59 +166,78 @@ const Complete = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async () => {
+      const resp = await getCOC(id);
+      console.log("useform default resp", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp;
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
+      }
+    },
+  });
+
+  const onSubmit = function (data) {
+    console.log(data);
+  };
 
   return (
-    <Fragment>
-      {loading && <Spin fullscreen={true} />}
-      <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
-        COC
-      </h1>
-      <div className="bg-white p-5 rounded-2xl">
-        <h2 className="text-black text-xl font-medium mb-4 font-poppins">
-          Customer Information
-        </h2>
-        <form className="grid grid-cols-1 sm:grid-cols-2  gap-4 mb-2">
-          <Input register={register} name="name" label="Homeowner Name" />
-          <Input
-            register={register}
-            name="homeowner_email"
-            type="email"
-            label="Homeowner Email"
-          />
-          <Input
-            register={register}
-            name="address"
-            label="Address"
-            className="col-span-full"
-          />
-          <Input register={register} name="insurance" label="Insurance" />
-          <Input register={register} name="policy" label="Policy #" />
-          <Input register={register} name="email" type="email" label="Email" />
-          <Input register={register} name="claim_number" label="Claim #" />
-        </form>
-        <TabsContentBox contentTitle="Design Meeting">
-          <div className="hidden md:block p-4">
-            <Tabs
-              items={tabsDesignMeeting}
-              activeTab={currTab}
-              onClick={setCurrTab}
-            />
-            {currTab === 1 && <COCForm />}
-            {currTab === 2 && <p>COC isurance email</p>}
-          </div>
-          <div className="md:hidden">
-            <Tabs
-              items={tabsDesignMeeting}
-              collapsable={true}
-              onClick={setCurrTab}
-              activeTab={currTab}
-            />
-          </div>
-        </TabsContentBox>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <CustomerInformation register={register} />
+      <COC register={register} />
+      <Depreciation register={register} />
+      <OverheadProfit />
+      <ProjectSummaryForm
+        className=""
+        handleChange={formik.handleChange}
+        handleBlur={formik.handleBlur}
+        touched={formik.touched}
+        errors={formik.errors}
+        values={formik.values}
+        inputRefs={inputRefs}
+      />
+      <Conclusion />
+      <SignatureForm
+        handleChange={formik.handleChange}
+        handleBlur={formik.handleBlur}
+        touched={formik.touched}
+        errors={formik.errors}
+        values={formik.values}
+        setFieldValue={formik.setFieldValue}
+        inputRefs={inputRefs}
+      />
+      <div className="flex items-center mb-6">
+        <input
+          id="complete"
+          type="checkbox"
+          className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+        />
+        <label
+          htmlFor="complete"
+          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          Complete
+        </label>
       </div>
-    </Fragment>
+      <div className="flex">
+        <Button className="text-black mr-4 px-4 py-1">Cancel</Button>
+        <Button
+          type="submit"
+          disabled={formik?.isSubmitting}
+          className={`text-white btn-gradient px-4 py-1`}
+        >
+          {formik?.isSubmitting ? (
+            <div className="flex justify-center items-center">
+              <Loader width={"28px"} height={"28px"} color="#fff" />
+            </div>
+          ) : (
+            "Save"
+          )}
+        </Button>
+      </div>
+    </form>
   );
-};
-
-export default Complete;
+}

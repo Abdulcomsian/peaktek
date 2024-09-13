@@ -1,168 +1,97 @@
 import React from "react";
 import { InputContainer } from "@components";
-import { TextBox } from "@components/FormControls";
+import { Input, TextBox } from "@components/FormControls";
 
-const CustomerInformation = ({
-  customer,
-  className,
-  handleChange,
-  handleBlur,
-  touched,
-  errors,
-  values,
-  inputRefs,
-  readOnlyFields = [],
-}) => {
+const CustomerInformation = ({ register, className }) => {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <TextBox
+        <Input
           label="Homeowner Name:"
           placeholder="John Doe"
-          type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="name"
-          id="name"
-          value={customer?.name || values?.name}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.name}
-          touched={touched?.name}
-          readOnly={readOnlyFields.includes("name")}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Homeowner Email:"
           placeholder="john@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
           name="email"
-          value={customer?.email || values?.email} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.email}
-          touched={touched?.email}
-          readOnly={readOnlyFields.includes("email")}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Phone:"
           placeholder="923081177825"
           type="number"
           className="mb-4 md:mb-0"
           name="phone"
-          value={customer?.phone || values?.phone} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.phone}
-          touched={touched?.phone}
-          readOnly={readOnlyFields.includes("phone")}
+          register={register}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <TextBox
+        <Input
           label="Street:"
           placeholder="west Bridge"
-          type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="street"
-          ref={inputRefs?.street}
-          value={values?.street || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.street}
-          touched={touched?.street}
+          register={register}
         />
-        <TextBox
+        <Input
           label="City:"
           placeholder="New York"
-          type="text"
           className="md:mr-4 md:max-w-xs mb-4 md:mb-0"
           name="city"
-          ref={inputRefs?.city}
-          value={values?.city || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.city}
-          touched={touched?.city}
+          register={register}
         />
-        <TextBox
+        <Input
           label="State:"
           placeholder="NY"
-          type="text"
           className="md:mr-4 md:max-w-40 mb-4 md:mb-0"
           name="state"
-          ref={inputRefs?.state}
-          value={values?.state || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.state}
-          touched={touched?.state}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Zip:"
           placeholder="45678"
           type="number"
           className="md:max-w-40 mb-4 md:mb-0"
           name="zip_code"
-          ref={inputRefs?.zip_code}
-          value={values?.zip_code || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.zip_code}
-          touched={touched?.zip_code}
+          register={register}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <TextBox
+        <Input
           label="Insurance:"
           placeholder="eg. Health Insurance"
-          type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance"
-          ref={inputRefs?.insurance}
-          value={values?.insurance || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.insurance}
-          touched={touched?.insurance}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Insurance Email:"
           placeholder="example@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance_email"
-          ref={inputRefs?.insurance_email}
-          value={values?.insurance_email || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.insurance_email}
-          touched={touched?.insurance_email}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Claim Number:"
           placeholder="23232323"
           type="number"
           className="md:mr-4 mb-4 md:mb-0"
           name="claim_number"
-          ref={inputRefs?.claim_number}
-          value={values?.claim_number || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.claim_number}
-          touched={touched?.claim_number}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Policy Number:"
           placeholder="7632456"
           type="number"
           className="mb-4 md:mb-0"
           name="policy_number"
-          ref={inputRefs?.policy_number}
-          value={values?.policy_number || ""} // Default to empty string if undefined
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.policy_number}
-          touched={touched?.policy_number}
+          register={register}
         />
       </InputContainer>
     </div>
