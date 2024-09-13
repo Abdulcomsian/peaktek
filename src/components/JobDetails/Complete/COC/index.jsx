@@ -1,14 +1,7 @@
+import { Input } from "@components/FormControls";
 import React from "react";
 
-const COC = ({
-  name,
-  value,
-  handleChange,
-  handleBlur,
-  errors,
-  touched,
-  inputRefs,
-}) => {
+const COC = ({ register, error }) => {
   return (
     <div className="mb-4">
       <h2 className="text-black text-xl font-medium mb-2">
@@ -17,18 +10,11 @@ const COC = ({
       <p className="font-poppins text-sm leading-7">
         This certificate of completion is hereby awarded to
         <span className="inline-flex items-center mx-2">
-          <input
-            className={`px-2 py-1 bg-gray-100 outline-none text-gray-900 text-sm rounded-md inline-block w-full max-w-xs ${
-              errors[name] && touched[name]
-                ? "border-red-600 border"
-                : "border-gray-300"
-            }`}
-            name={name}
-            value={value}
-            onChange={handleChange}
-            onBlur={handleBlur}
+          <Input
+            className={`px-2 py-1 bg-gray-100 outline-none text-gray-900 text-sm rounded-md inline-block w-full max-w-xs`}
+            name="awarded_to"
+            register={register}
             placeholder="Enter award to value"
-            ref={inputRefs}
           />
         </span>
         for the successful completion of the loss stated above. This project was
@@ -40,9 +26,7 @@ const COC = ({
         team of qualified professionals ensured that all work was done to the
         highest standards and met all relevant codes and regulations.
       </p>
-      {errors[name] && touched[name] && (
-        <p className="text-red-600 text-sm mt-1">{errors[name]}</p>
-      )}
+      {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
     </div>
   );
 };

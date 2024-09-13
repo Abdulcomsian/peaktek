@@ -3,7 +3,7 @@ import { Form } from "@components/FormControls";
 import { CustomerInformation, ProjectSummaryForm } from "@components/Forms";
 import SignatureForm from "../SignatureForm";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import COC from "../COC";
 import Depreciation from "../Depreciation";
 import OverheadProfit from "../OverheadProfit";
@@ -15,13 +15,19 @@ import { cocSchema } from "@services/schema";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Loader } from "@components/UI";
+import { useForm } from "react-hook-form";
+import { getCOC } from "@services/apiCOC";
+import { useAuth } from "@context/AuthContext";
 
 export default function COCForm() {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [cocData, setCocData] = useState(null);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
+  console.log("SINGLE JOB DATA", singleJobData);
 
   const formik = useFormik({
     initialValues: {
@@ -156,37 +162,33 @@ export default function COCForm() {
     }
   }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: async () => {
+      const resp = await getCOC(id);
+      console.log("useform default resp", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp;
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
+      }
+    },
+  });
+
+  const onSubmit = function (data) {
+    console.log(data);
+  };
+
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <CustomerInformation
-        customer={singleJobData}
-        handleChange={formik.handleChange}
-        handleBlur={formik.handleBlur}
-        touched={formik.touched}
-        errors={formik.errors}
-        values={formik.values}
-        setFieldValue={formik.setFieldValue}
-        inputRefs={inputRefs} // Pass refs to the component
-        readOnlyFields={["name", "email", "phone"]} // Pass readonly fields
-      />
-      <COC
-        name="awarded_to"
-        value={formik.values.awarded_to}
-        handleChange={formik.handleChange}
-        handleBlur={formik.handleBlur}
-        errors={formik.errors}
-        touched={formik.touched}
-        inputRefs={inputRefs.awarded_to}
-      />
-      <Depreciation
-        name="released_to"
-        value={formik.values.released_to}
-        handleChange={formik.handleChange}
-        handleBlur={formik.handleBlur}
-        errors={formik.errors}
-        touched={formik.touched}
-        inputRefs={inputRefs.released_to}
-      />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <CustomerInformation register={register} />
+      <COC register={register} />
+      <Depreciation register={register} />
       <OverheadProfit />
       <ProjectSummaryForm
         className=""
@@ -236,6 +238,6 @@ export default function COCForm() {
           )}
         </Button>
       </div>
-    </Form>
+    </form>
   );
 }
