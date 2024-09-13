@@ -23,6 +23,7 @@ import PaymentScheduleForm from "./PaymentScheduleForm";
 import DeliveryInformation from "./DeliveryInfo";
 import RoofComponent from "./RoofComponent";
 import TermandConditionForm from "./TermandConditionForm";
+import COCInsuranceForm from "./COCInsuranceForm";
 import {
   Title,
   Introduction,
@@ -75,4 +76,5 @@ export {
   RoofComponent,
   TermandConditionForm,
   EstimatePreparedForm,
+  COCInsuranceForm,
 };

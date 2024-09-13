@@ -7,7 +7,7 @@ export async function getCOC(jobId) {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (resp.status >= 200 && resp.status < 300) {
-      return resp.data.data;
+      return resp.data;
     }
   } catch (error) {
     return error;
