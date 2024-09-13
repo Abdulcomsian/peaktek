@@ -12,6 +12,7 @@ import InProgress from "./InProgress";
 import Scheduling from "./Scheduling";
 import EstimatePrepared from "./EstimatePrepared";
 import COC from "./COC";
+import BuildScheduled from "./builldScheduled";
 export {
   Summary,
   DesignMeeting,
@@ -27,4 +28,5 @@ export {
   InProgress,
   Scheduling,
   COC,
+  BuildScheduled,
 };
