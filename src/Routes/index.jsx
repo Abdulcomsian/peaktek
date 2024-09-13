@@ -31,6 +31,7 @@ import {
   InsuranceReport,
   TermsAndConditions,
   QuoteDetails,
+  CustomerInformation,
 } from "@components/Forms";
 import {
   DesignMeeting,
@@ -43,6 +44,7 @@ import {
   InProgress,
   Scheduling,
   EstimatePrepared,
+  BuildScheduled,
 } from "@components/JobDetails";
 import {
   KanbanBoard,
@@ -167,6 +169,12 @@ export function AppRoute() {
             <Route path="overturn" element={<Overturn />} />
             <Route path="approved" element={<DesignMeeting />} />
             <Route path="ready-to-build" element={<ReadyToBuild />} />
+            <Route path="build-scheduled" element={<BuildScheduled />} />
+            <Route
+              path="material-order-form"
+              element={<CustomerInformation />}
+            />
+
             <Route path="scheduling" element={<Scheduling />} />
             <Route path="in-progress" element={<InProgress />} />
             <Route path="complete" element={<Complete />} />
