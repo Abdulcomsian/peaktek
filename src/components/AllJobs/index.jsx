@@ -9,6 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { seletectedStatus } from "@store/slices/JobsSlice";
 import { useAuth } from "@context/AuthContext";
+import BuildConfirmation from "./components/form";
 
 export default function AllJobs() {
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
@@ -61,6 +62,7 @@ export default function AllJobs() {
     );
 
   return (
+    // <BuildConfirmation />
     <>
       <div className="px-5 py-4 max-w-screen-lg">
         <Button
