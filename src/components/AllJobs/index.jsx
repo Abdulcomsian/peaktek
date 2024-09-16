@@ -1,6 +1,6 @@
 import { FaPlus } from "react-icons/fa6";
 
-import { Button, NumJob } from "@components/UI";
+import { Button, Card, NumJob } from "@components/UI";
 import { NewJobModal } from "@components/Modals";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { seletectedStatus } from "@store/slices/JobsSlice";
 import { useAuth } from "@context/AuthContext";
 import AddNewJob from "@components/AddNewJob";
+import JobCard from "@components/JobCard";
 
 export default function AllJobs() {
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
@@ -63,21 +64,16 @@ export default function AllJobs() {
 
   return (
     <>
-      <div className="px-5 py-4 max-w-screen-lg">
-        {/* <Button
-          onClick={() => setAddNewJobModal(true)}
-          className="float-end"
-          variant="gradient"
-        >
-          <FaPlus className="text-white mr-1" />
-          New Job
-        </Button> */}
+      <div className="flex items-center justify-between mb-5 max-w-screen-xl">
+        <h2 className="font-black text-3xl">Jobs</h2>
         <AddNewJob />
+      </div>
+      <Card className="px-5 py-4 max-w-screen-xl">
         <JobsSection header="Preliminary Phase" jobs={preliminaryPhases} />
         <JobsSection header="In Build Progress" jobs={inBuildProcessJobs} />
         <JobsSection header="Final Stage" jobs={finalStage} />
         <JobsSection header="Completed Projects" jobs={completedProjects} />
-      </div>
+      </Card>
       {showAddNewJobModal && (
         <NewJobModal
           open={showAddNewJobModal}
@@ -101,16 +97,19 @@ function JobsSection({ header, jobs }) {
   };
   return (
     <>
-      <h2 className="mt-6 mb-2 text-medium text-[#26bbd8]">{header}</h2>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <h2 className="col-span-full text-lg font-semibold tracking-wide mb-4">
+        {header}
+      </h2>
+      <div className="flex items-stretch justify-start flex-wrap gap-6">
         {jobs.map((job) => (
-          <NumJob
-            onClick={() => handleClick(job)}
-            title={job.name}
-            number={job.jobs_count}
-            varient="gray"
-            className="cursor-pointer hover:shadow-sm hover:shadow-stone-400 transition-all duration-300"
-          />
+          <>
+            <JobCard
+              onClick={() => handleClick(job)}
+              label={job.name}
+              number={job.jobs_count}
+              className="cursor-pointer"
+            />
+          </>
         ))}
       </div>
     </>

@@ -2,6 +2,7 @@ import { getAllStatusJobs } from "@services/apiJobs";
 import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Link, useParams } from "react-router-dom";
+import { Card } from "..";
 
 export default function JobListing() {
   const [statusJobs, setStatusJobs] = useState([]);
@@ -35,7 +36,7 @@ export default function JobListing() {
       />
     );
   return (
-    <div className="px-2 py-5">
+    <Card className="">
       <h1 className="font-extrabold text-xl translate-x-2 text-[#2a95c5] mb-5">
         {statusJobs.name}
       </h1>
@@ -44,12 +45,14 @@ export default function JobListing() {
           👋 There are no jobs yet created for {statusJobs.name}
         </p>
       )}
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 px-5">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 ">
         {statusJobs?.jobs?.map((job) => (
           <div className="bg-stone-200 rounded-2xl p-3 space-y-4">
-            <p className="border-b-2 border-stone-300 px-3 mb-3 text-stone-900 font-medium">
-              {statusJobs.name}
-            </p>
+            <div>
+              <p className="border-b-2 border-stone-300 px-3 mb-3 text-stone-900 font-normal">
+                {statusJobs.name}
+              </p>
+            </div>
             <Link to={`/job-details/${job.id}`}>
               <div className="space-y-4 bg-stone-100 p-3 rounded-2xl">
                 <div className="space-y-2">
@@ -65,6 +68,6 @@ export default function JobListing() {
           </div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 }
