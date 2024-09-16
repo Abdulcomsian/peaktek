@@ -27,20 +27,19 @@ export default function NavBar({ onCloseSidebar }) {
             />
           </svg>
         </button>
-        <div className="mr-auto">
-          <ul className="list nav-list justify-between">
-            <li>
-              <span className="font-bold text-lg">Welcome, {user?.name}</span>
-            </li>
-          </ul>
-        </div>
         <Input
           type="search"
           placeholder="Search here..."
-          inputClass="!p-1"
-          className="!w-fit"
+          inputClass="!p-3"
+          className="!w-[15rem]"
         />
-        <ProfileAvatar />
+        <div className="ml-auto">
+          <span className="font-bold text-blue-600 text-lg leading-3">
+            {user?.name}
+          </span>
+          <p className="text-sm text-end">Job title here</p>
+        </div>
+        {/* <ProfileAvatar /> */}
       </div>
     </nav>
   );

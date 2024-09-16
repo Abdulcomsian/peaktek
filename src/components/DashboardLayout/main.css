@@ -52,6 +52,7 @@
     padding: 1.5rem;
     height: 100%;
     /* overflow-y: auto; */
+    background-color: #efefef;
 }
 .dashboard-nav .dash-nav-title{
     font-size: 2.6rem;
