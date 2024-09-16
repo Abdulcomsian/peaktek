@@ -17,7 +17,7 @@ const weeklyDataToMap = [
   },
   {
     to: "/user-jobs?type=weekly&status=won_closed_values",
-    label: "Won & Closed value",
+    label: "Revenue Generated",
     status: "won_closed_values",
   },
 ];
@@ -34,7 +34,7 @@ const monthlyDataToMap = [
   },
   {
     to: "/user-jobs?type=monthly&status=won_closed_values",
-    label: "Won & Closed value",
+    label: "Revenue Generated",
     status: "won_closed_values",
   },
 ];
