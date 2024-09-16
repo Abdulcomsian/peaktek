@@ -9,6 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { seletectedStatus } from "@store/slices/JobsSlice";
 import { useAuth } from "@context/AuthContext";
+import AddNewJob from "@components/AddNewJob";
 
 export default function AllJobs() {
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
@@ -63,14 +64,15 @@ export default function AllJobs() {
   return (
     <>
       <div className="px-5 py-4 max-w-screen-lg">
-        <Button
+        {/* <Button
           onClick={() => setAddNewJobModal(true)}
           className="float-end"
           variant="gradient"
         >
           <FaPlus className="text-white mr-1" />
           New Job
-        </Button>
+        </Button> */}
+        <AddNewJob />
         <JobsSection header="Preliminary Phase" jobs={preliminaryPhases} />
         <JobsSection header="In Build Progress" jobs={inBuildProcessJobs} />
         <JobsSection header="Final Stage" jobs={finalStage} />
