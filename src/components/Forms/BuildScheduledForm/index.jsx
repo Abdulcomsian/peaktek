@@ -1,25 +1,32 @@
 import React from "react";
 import { InputContainer } from "@components";
-import { Input, DateSelector } from "@components/FormControls";
+import {
+  CustomDatePicker,
+  DateSelector,
+  Input,
+} from "@components/FormControls";
 import { Button } from "@components/UI";
 
-const BuildScheduledForm = ({ register, errors }) => {
+const BuildScheduledForm = ({ register, control }) => {
   return (
     <div className="w-full">
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <DateSelector
+        <CustomDatePicker
           label="Build Date"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("buildDate", { required: "Build Date is required" })}
-          error={errors?.buildDate && <p>{errors.buildDate.message}</p>}
+          name="buildDate"
+          register={register}
+          control={control}
         />
+
         <Input
           label="Build Time"
           placeholder="7:00 AM"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("buildTime", { required: "Build Time is required" })}
-          error={errors?.buildTime && <p>{errors.buildTime.message}</p>}
+          name="buildTime"
+          register={register}
+          control={control}
         />
       </InputContainer>
 
@@ -29,24 +36,18 @@ const BuildScheduledForm = ({ register, errors }) => {
           placeholder="Alex"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("homeOwner", { required: "Home Owner is required" })}
-          error={errors?.homeOwner && <p>{errors.homeOwner.message}</p>}
+          name="homeOwner"
+          register={register}
+          control={control}
         />
         <Input
           label="Homeowner Email"
           placeholder="example@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("homeOwnerEmail", {
-            required: "Homeowner Email is required",
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Invalid email format",
-            },
-          })}
-          error={
-            errors?.homeOwnerEmail && <p>{errors.homeOwnerEmail.message}</p>
-          }
+          name="homeOwnerEmail"
+          register={register}
+          control={control}
         />
       </InputContainer>
 
@@ -56,24 +57,18 @@ const BuildScheduledForm = ({ register, errors }) => {
           placeholder="JL Construction LLC"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("contractor", { required: "Contractor is required" })}
-          error={errors?.contractor && <p>{errors.contractor.message}</p>}
+          name="contractor"
+          register={register}
+          control={control}
         />
         <Input
           label="Contractor Email"
           placeholder="example@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("contractorEmail", {
-            required: "Contractor Email is required",
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Invalid email format",
-            },
-          })}
-          error={
-            errors?.contractorEmail && <p>{errors.contractorEmail.message}</p>
-          }
+          name="contractorEmail"
+          register={register}
+          control={control}
         />
       </InputContainer>
 
@@ -83,22 +78,18 @@ const BuildScheduledForm = ({ register, errors }) => {
           placeholder="Home Depot"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("supplier", { required: "Supplier is required" })}
-          error={errors?.supplier && <p>{errors.supplier.message}</p>}
+          name="supplier"
+          register={register}
+          control={control}
         />
         <Input
           label="Supplier Email"
           placeholder="example@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          {...register("supplierEmail", {
-            required: "Supplier Email is required",
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Invalid email format",
-            },
-          })}
-          error={errors?.supplierEmail && <p>{errors.supplierEmail.message}</p>}
+          name="supplierEmail"
+          register={register}
+          control={control}
         />
       </InputContainer>
     </div>

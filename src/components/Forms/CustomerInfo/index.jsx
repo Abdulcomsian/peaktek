@@ -2,16 +2,25 @@ import React from "react";
 import { InputContainer } from "@components";
 import { Input, TextBox } from "@components/FormControls";
 
-const CustomerInformation = ({ register, className }) => {
+const CustomerInformation = ({ register, className, control }) => {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
+        <Input
+          label="Supplier:"
+          placeholder="John Doe"
+          className="md:mr-4 mb-4 md:mb-0"
+          name="supplier"
+          register={register}
+          control={control}
+        />
         <Input
           label="Homeowner Name:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
           name="name"
           register={register}
+          control={control}
         />
         <Input
           label="Homeowner Email:"
@@ -91,6 +100,24 @@ const CustomerInformation = ({ register, className }) => {
           type="number"
           className="mb-4 md:mb-0"
           name="policy_number"
+          register={register}
+        />
+      </InputContainer>
+      <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
+        <Input
+          label="Supplier ID:"
+          placeholder="7632456"
+          type="number"
+          className="mb-4 md:mb-0 "
+          name="supplier_id"
+          register={register}
+        />
+        <Input
+          label="Material:"
+          placeholder="7632456"
+          type="text"
+          className="mb-4 md:mb-0 ml-4"
+          name="materials"
           register={register}
         />
       </InputContainer>
