@@ -38,7 +38,7 @@ import EstimatePreparedForm from "./EstimatePrepared";
 import ItemsRow from "./ItemsRow";
 import ItemsList from "./ItemsList";
 import BuildScheduledForm from "./BuildScheduledForm";
-import MOConfirmationEmail from "./MOConfirmationEmail";
+import BSDeliveryInformation from "./BSDeliveryInfo";
 export {
   Row,
   ItemsList,
@@ -78,5 +78,5 @@ export {
   TermandConditionForm,
   EstimatePreparedForm,
   BuildScheduledForm,
-  MOConfirmationEmail,
+  BSDeliveryInformation,
 };
