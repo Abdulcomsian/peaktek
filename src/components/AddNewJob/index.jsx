@@ -12,7 +12,7 @@ export default function AddNewJob({ className }) {
         className={className}
         variant="gradient"
       >
-        <FaPlus className="text-white mr-1" />+ New Lead
+        <FaPlus className="text-white mr-1" /> New Lead
       </Button>
       {showAddNewJobModal && (
         <NewJobModal

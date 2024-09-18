@@ -18,6 +18,7 @@ import { Loader } from "@components/UI";
 import { useForm } from "react-hook-form";
 import { getCOC } from "@services/apiCOC";
 import { useAuth } from "@context/AuthContext";
+import { HiArrowDownTray } from "react-icons/hi2";
 
 export default function COCForm() {
   const { id } = useParams();
@@ -49,10 +50,19 @@ export default function COCForm() {
 
   return (
     <div className="flex flex-col">
-      <Button className="!font-xs self-end" variant="gradient">
-        Download COC form
-      </Button>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex items-center justify-between mb-4">
+        <span className="font-bold text-lg text-stone-500">COC Form</span>
+        <Button className="!font-xs self-end text-sm" variant="gradient">
+          Download COC form{" "}
+          <span>
+            <HiArrowDownTray />
+          </span>
+        </Button>
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-slate-50 rounded-3xl px-4 py-5"
+      >
         <CustomerInformation register={register} />
         <COC register={register} />
         <Depreciation register={register} />
@@ -75,7 +85,7 @@ export default function COCForm() {
         </div>
         <div className="flex">
           <Button className="text-black mr-4 px-4 py-1">Cancel</Button>
-          <Button type="submit" className={`text-white btn-gradient px-4 py-1`}>
+          <Button type="submit" variant="gradient">
             {isSubmitting ? (
               <div className="flex justify-center items-center">
                 <Loader width={"28px"} height={"28px"} color="#fff" />

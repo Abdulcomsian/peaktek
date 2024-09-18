@@ -16,9 +16,9 @@ export default function CurrentJobs({ customers, deals_won_closed }) {
           <JobCard
             label={item.label}
             number={customers}
-            className={`${index === 0 && "bg-[#20b6d5]"} ${
-              index === 1 && "bg-[#22a3cc]"
-            } ${index === 2 && "bg-[#2590c2]"} w-full text-blue-100 `}
+            className={`${index === 0 && "!bg-[#20b6d5]"} ${
+              index === 1 && "!bg-[#22a3cc]"
+            } ${index === 2 && "!bg-[#2590c2]"} w-full text-blue-100 `}
             labeClassName="!font-medium"
           />
         ))}

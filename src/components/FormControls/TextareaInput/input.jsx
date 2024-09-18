@@ -1,6 +1,13 @@
-export default function TextareaInput({ register, name, label, placeholder, applyMarginBottom }) {
+export default function TextareaInput({
+  register,
+  name,
+  label,
+  placeholder,
+  applyMarginBottom,
+  className,
+}) {
   return (
-    <div>
+    <div className={className}>
       <label
         htmlFor={name}
         className={`block  text-sm font-medium text-gray-900  ${
