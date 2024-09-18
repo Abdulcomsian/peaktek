@@ -2,7 +2,13 @@ import { Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
 import TabsContentBox from "@components/UI/TabsContentBox";
 import { useState } from "react";
-import { CustomerInformation, MOConfirmationEmail } from "@components/Forms";
+import {
+  CustomerInformation,
+  CustomerInformationForm,
+} from "@components/Forms";
+import MOForm from "../MOForm";
+import MOConfimationForm from "@components/Forms/MOConfirmationEmail";
+import { useForm } from "react-hook-form";
 
 const tabsDesignMeeting = [
   { id: 1, title: "Confirmation Email" },
@@ -13,11 +19,11 @@ const tabsDesignMeeting = [
 function renderSection(currTab) {
   switch (currTab) {
     case 1:
-      return <MOConfirmationEmail />;
+      return <MOConfimationForm isMaterialOrderForm={false} />;
     case 2:
-      return <CustomerInformation />;
+      return <MOForm />;
     case 3:
-      return <>MO Confirmation Email</>;
+      return <MOConfimationForm isMaterialOrderForm={true} />;
   }
 }
 
