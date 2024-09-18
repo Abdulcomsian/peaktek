@@ -1,11 +1,13 @@
-import { Input } from "@components/FormControls";
+import { CheckBox, Input, TextareaInput } from "@components/FormControls";
 import { useForm } from "react-hook-form";
 import { UploaderInputs } from "@components/index";
 import { Ckeditor } from "@components/FormControls";
-import { ImageIcon, Loader, RenameFileUI } from "@components/UI";
+import { Button, ImageIcon, Loader, RenameFileUI } from "@components/UI";
+import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 
 export default function COCInsuranceForm() {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -26,42 +28,57 @@ export default function COCInsuranceForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 bg-slate-50 rounded-3xl px-4 py-5">
+        <CheckBox
+          label="Email sent"
+          id="status"
+          name="status"
+          register={register}
+          wrapperClassName="flex items-center justify-end gap-2 col-span-2"
+        />
         <Input
+          id="sent_to"
+          name="sent_to"
           register={register}
           label="Sent to:"
           type="email"
           placeholder="insurance@email.com"
+          applyMarginBottom={true}
         />
         <Input
+          id="claim_number"
+          name="claim_number"
           register={register}
           label="Subject"
-          type="email"
           placeholder="Claim # number"
+          applyMarginBottom={true}
         />
-        {/* <Ckeditor
-          className=" md:col-start-1 col-span-2 md:col-span-1"
-          onChange={(data) => handleDataChange(data, index)}
-          initialData="test"
-        /> */}
-        {/* <div>
+        <CkeditorControlled
+          control={control}
+          name="email_body"
+          className="col-span-2"
+        />
+        <div className="col-span-1 md:col-span-2">
           <UploaderInputs
-            wrapperClass="col-span-2 md:col-span-1"
             name="attachments"
+            id="attachment"
             register={register}
             icon={<ImageIcon />}
             require={false}
             fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
           />
-          {row?.attachment && (
-            <RenameFileUI
-              files={row.attachment}
-              apiUpdateFileEndPoint="/api/change/project-design-inspection/file-name"
-              apiDeleteFileEndpoint="/api/delete/project-design-inspection/media"
-            />
-          )}
-        </div> */}
+          {/* {row?.attachment && (
+              <RenameFileUI
+                files={row.attachment}
+                apiUpdateFileEndPoint="/api/change/project-design-inspection/file-name"
+                apiDeleteFileEndpoint="/api/delete/project-design-inspection/media"
+              />
+            )} */}
+        </div>
       </div>
+      <Button type="submit" variant="gradient">
+        Send
+      </Button>
     </form>
   );
 }

@@ -11,12 +11,14 @@ const SignatureForm = ({ register, control, className }) => {
           className="md:mr-4 mb-4 md:mb-0"
           name="company_representative"
           register={register}
+          applyMarginBottom={true}
         />
         <Input
           label="Printed Name:"
           placeholder="john Doe"
           className="md:mr-4 mb-4 md:mb-0"
           name="company_printed_name"
+          applyMarginBottom={true}
         />
         <CustomDatePicker
           label="Date Signed"

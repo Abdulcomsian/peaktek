@@ -46,7 +46,6 @@ const tabsDesignMeeting = [
 
 const Complete = () => {
   const [currTab, setCurrTab] = useState(1);
-  const dispatch = useDispatch();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
@@ -63,10 +62,7 @@ const Complete = () => {
         COC
       </h1>
       <div className="bg-white p-5 rounded-2xl">
-        <h2 className="text-black text-xl font-medium mb-4 font-poppins">
-          Customer Information
-        </h2>
-        <form className="grid grid-cols-1 sm:grid-cols-2  gap-4 mb-2">
+        <form className="grid grid-cols-1 sm:grid-cols-2  gap-4 mb-5">
           <Input register={register} name="name" label="Homeowner Name" />
           <Input
             register={register}
@@ -85,8 +81,8 @@ const Complete = () => {
           <Input register={register} name="email" type="email" label="Email" />
           <Input register={register} name="claim_number" label="Claim #" />
         </form>
-        <TabsContentBox contentTitle="Design Meeting">
-          <div className="hidden md:block p-4">
+        <TabsContentBox>
+          <div>
             <Tabs
               items={tabsDesignMeeting}
               activeTab={currTab}
