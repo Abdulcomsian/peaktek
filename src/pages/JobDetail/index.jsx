@@ -15,7 +15,7 @@ export default function JobDetail() {
   const currentPath = location.pathname.split("/").pop();
 
   return (
-    <div className="bg-bluish min-h-full p-5">
+    <div className="bg-stone-200 min-h-full p-5 rounded-3xl">
       <Header companyName="Company Name" className="mb-4">
         <BreadCrumb items={[{ title: "Dashboard" }, { title: "Leads" }]} />
       </Header>
