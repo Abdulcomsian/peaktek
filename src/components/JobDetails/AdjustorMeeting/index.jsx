@@ -32,6 +32,7 @@ const AdjustorMeeting = () => {
   const [status, setStatus] = useState("Overturn");
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [isDone, setIsDone] = useState(false);
 
   // useEffect(() => {
   //   const setSentStatus = async () => {
@@ -83,7 +84,7 @@ const AdjustorMeeting = () => {
     if (id) {
       getAdjustorMeetingData();
     }
-  }, [id]);
+  }, [id, isDone]);
 
   const formik = useFormik({
     initialValues: {
@@ -147,6 +148,10 @@ const AdjustorMeeting = () => {
         if (response?.status >= 200 && response?.status < 300) {
           toast.success(response?.data?.message);
           // actions.resetForm();
+          console.log("show rename file");
+          setIsDone((is) => !is);
+          setImages([]);
+          setDocuments([]);
         }
         console.log(response);
       } catch (error) {
