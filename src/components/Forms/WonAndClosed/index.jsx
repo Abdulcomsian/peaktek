@@ -27,7 +27,7 @@ export default function WonAndClosed() {
           id="date"
           label="Notes:"
         />
-        <Button variant="gradient" className="">
+        <Button type="submit" variant="gradient" className="">
           Save
         </Button>
       </div>

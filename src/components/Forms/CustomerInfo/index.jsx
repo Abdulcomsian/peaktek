@@ -1,8 +1,13 @@
 import React from "react";
 import { InputContainer } from "@components";
 import { Input, TextBox } from "@components/FormControls";
+import { useSelector } from "react-redux";
 
 const CustomerInformation = ({ register, className }) => {
+  const { name, email, phone } = useSelector(
+    (state) => state?.jobs?.singleJobData
+  );
+  console.log("CUSTOMER JOB DETAIL", { name, email, phone });
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -10,24 +15,24 @@ const CustomerInformation = ({ register, className }) => {
           label="Homeowner Name:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
-          name="name"
-          register={register}
+          readOnly={true}
+          defaultValue={name || ""}
         />
         <Input
           label="Homeowner Email:"
           placeholder="john@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          name="email"
-          register={register}
+          readOnly={true}
+          defaultValue={email || ""}
         />
         <Input
           label="Phone:"
           placeholder="923081177825"
-          type="number"
+          type="text"
           className="mb-4 md:mb-0"
-          name="phone"
-          register={register}
+          readOnly={true}
+          defaultValue={phone || ""}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">

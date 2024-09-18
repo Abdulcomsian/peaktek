@@ -1,95 +1,64 @@
 import React from "react";
 import { InputContainer } from "@components";
-import { DateSelector, TextBox } from "@components/FormControls";
+import { CustomDatePicker, Input, TextBox } from "@components/FormControls";
 
-const SignatureForm = ({
-  className,
-  handleChange,
-  handleBlur,
-  touched,
-  errors,
-  values,
-  setFieldValue,
-  inputRefs,
-}) => {
+const SignatureForm = ({ className, register, control }) => {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <TextBox
+        <Input
           label="Company Representative:"
           placeholder="john Doe"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="company_signature"
-          ref={inputRefs?.company_signature}
-          value={values?.company_signature || ""}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.company_signature}
-          touched={touched?.company_signature}
+          id="company_signature"
+          register={register}
+          applyMarginBottom={true}
         />
-        <TextBox
+        <Input
           label="Printed Name:"
           placeholder="john Doe"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="company_printed_name"
-          ref={inputRefs?.company_printed_name}
-          value={values?.company_printed_name || ""}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.company_printed_name}
-          touched={touched?.company_printed_name}
+          id="company_printed_name"
+          register={register}
+          applyMarginBottom={true}
         />
-        <DateSelector
+        <CustomDatePicker
           name="company_date"
+          id="company_date"
+          control={control}
           label="Select a Date"
           className="mb-4 md:mb-0"
-          value={values?.company_date || ""}
-          onBlur={handleBlur}
-          ref={inputRefs?.company_date}
-          onChange={(dateString) => setFieldValue("company_date", dateString)}
-          error={errors?.company_date}
-          touched={touched?.company_date}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <TextBox
+        <Input
           label="Customer Signature:"
           placeholder="john Doe"
-          type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="customer_signature"
-          ref={inputRefs?.customer_signature}
-          value={values?.customer_signature || ""}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.customer_signature}
-          touched={touched?.customer_signature}
+          id="customer_signature"
+          register={register}
+          applyMarginBottom={true}
         />
-        <TextBox
+        <Input
           label="Printed Name:"
           placeholder="john Doe"
-          type="text"
           className="md:mr-4 mb-4 md:mb-0"
           name="customer_printed_name"
-          ref={inputRefs?.customer_printed_name}
-          value={values?.customer_printed_name || ""}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.customer_printed_name}
-          touched={touched?.customer_printed_name}
+          id="customer_printed_name"
+          register={register}
+          applyMarginBottom={true}
         />
-        <DateSelector
+        <CustomDatePicker
           name="customer_date"
+          id="customer_date"
           label="Select a Date"
           className="mb-4 md:mb-0"
-          value={values?.customer_date || ""}
-          ref={inputRefs?.customer_date}
-          onBlur={handleBlur}
-          onChange={(dateString) => setFieldValue("customer_date", dateString)}
-          error={errors?.customer_date}
-          touched={touched?.customer_date}
+          control={control}
         />
       </InputContainer>
     </div>
