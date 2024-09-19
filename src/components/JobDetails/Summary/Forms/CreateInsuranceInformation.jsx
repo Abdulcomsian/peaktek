@@ -38,11 +38,28 @@ export default function CreateInsuranceInformation() {
   };
 
   return (
-    <form action="" onSubmit={handleSubmit(onsubmit)}>
-      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl mb-4">
-        <h2 className="col-span-full text-stone-500 font-semibold uppercase">
-          Insurance information
-        </h2>
+    <form
+      action=""
+      onSubmit={handleSubmit(onsubmit)}
+      className="bg-stone-200 rounded-2xl p-4"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-semibold uppercase">Insurance information</h2>
+        <Button
+          type="submit"
+          variant="gradient"
+          className="col-span-full w-fit mt-2 text-sm"
+        >
+          {isSubmitting ? (
+            <div className="flex justify-center items-center">
+              <Loader width={"24px"} height={"24px"} color="#fff" />
+            </div>
+          ) : (
+            "SAVE"
+          )}
+        </Button>
+      </div>
+      <div className="bg-white rounded-2xl p-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl">
         <Input
           label="Insurance:"
           name="insurance"
@@ -63,30 +80,13 @@ export default function CreateInsuranceInformation() {
           className="rounded-2xl"
           register={register}
         />
-        <DropDown
-          vertical={true}
-          control={control}
+        <Input
           label="Insurance Representative"
-          labelClass="font-medium text-sm"
           name="insurance_representative"
           id="insurance_representative"
-          options={userOptions}
-          placeholder="Select an option"
-          rules={{ required: "This field is required" }} // Optional validation rules
+          className="rounded-2xl"
+          register={register}
         />
-        <Button
-          type="submit"
-          variant="gradient"
-          className="col-span-full w-fit mt-2"
-        >
-          {isSubmitting ? (
-            <div className="flex justify-center items-center">
-              <Loader width={"24px"} height={"24px"} color="#fff" />
-            </div>
-          ) : (
-            "SAVE"
-          )}
-        </Button>
       </div>
     </form>
   );

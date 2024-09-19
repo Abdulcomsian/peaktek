@@ -18,6 +18,8 @@ const SignatureForm = ({ register, control, className }) => {
           placeholder="john Doe"
           className="md:mr-4 mb-4 md:mb-0"
           name="company_printed_name"
+          id="company_printed_name"
+          register={register}
           applyMarginBottom={true}
         />
         <CustomDatePicker

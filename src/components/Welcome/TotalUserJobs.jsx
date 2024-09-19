@@ -1,8 +1,7 @@
 import JobCard from "@components/JobCard";
 import React from "react";
-import { Link } from "react-router-dom";
-import { number } from "yup";
 import { Card } from "..";
+import { formatCurrency } from "../../utils/helper";
 
 const weeklyDataToMap = [
   {
@@ -64,7 +63,11 @@ export default function TotalUserJobs({ dataDashboard }) {
           <JobCard
             to={data.to}
             label={data.label}
-            number={dataDashboard?.["monthly"]?.[data.status]}
+            number={
+              data?.status === "won_closed_values"
+                ? formatCurrency(dataDashboard?.["monthly"]?.[data.status])
+                : dataDashboard?.["monthly"]?.[data.status]
+            }
             className="w-full h-full"
           />
         ))}

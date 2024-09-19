@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Ckeditor, FileUploader, Form } from "@components/FormControls";
 import {
+  Button,
   FileIcon,
   GalleryIcon,
   ImageIcon,
@@ -9,9 +10,10 @@ import {
   TabsContentBox,
 } from "@components/UI";
 import toast from "react-hot-toast";
-import Button from "@components/JobDetails/Button";
+// import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import RenameFiles from "@components/JobDetails/Summary/RenameFiles";
+
 const MediaContent = ({ id, className }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [notes, setNotes] = useState("");
@@ -129,23 +131,27 @@ const MediaContent = ({ id, className }) => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit} className={className}>
-        <TabsContentBox contentTitle="Job Content" className="mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <span className="font-semibold uppercase">Job Content</span>
+          <Button
+            variant="gradient"
+            type="submit"
+            className={`text-sm`}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </div>
+        <TabsContentBox className="p-4">
           <Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
           {renderActiveTab()}
         </TabsContentBox>
-        <Button
-          type="submit"
-          className={`w-full max-w-24 text-white btn-gradient px-4 py-1 mb-4`}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <div className="flex justify-center items-center">
-              <Loader width={"24px"} height={"24px"} color="#fff" />
-            </div>
-          ) : (
-            "Submit"
-          )}
-        </Button>
       </Form>
       {activeTab === 2 &&
         showRenameBox &&

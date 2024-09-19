@@ -16,6 +16,7 @@ import DropDown from "./DropDown";
 import CheckBox from "./CheckBox";
 import RadioButton from "./RadioButton";
 import SelectInput from "./SelectInput";
+import ColoredCirleByDays from "./ColoredCirleByDays";
 
 export {
   Button,
@@ -36,4 +37,5 @@ export {
   CheckBox,
   RadioButton,
   SelectInput,
+  ColoredCirleByDays,
 };

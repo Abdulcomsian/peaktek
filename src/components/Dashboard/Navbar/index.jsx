@@ -37,7 +37,7 @@ export default function NavBar({ onCloseSidebar }) {
           <span className="font-bold text-blue-600 text-lg leading-3">
             {user?.name}
           </span>
-          <p className="text-sm text-end">Job title here</p>
+          <p className="text-sm text-end capitalize">{user?.role?.name}</p>
         </div>
         {/* <ProfileAvatar /> */}
       </div>

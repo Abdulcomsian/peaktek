@@ -10,11 +10,13 @@ import TotalUserJobs from "./TotalUserJobs";
 import YearToDateSection from "./YearToDateSection";
 
 export default function Welcome() {
+  const [invalidatePage, setInvalidatePage] = useState(false);
   const [dataDashboard, setDataDashboard] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const { customers, deals_won_closed } = dataDashboard;
   const navigate = useNavigate();
   const { logout } = useAuth();
+
+  const { current_jobs, current_year, needs_attention } = dataDashboard;
 
   useEffect(() => {
     async function fetchDashbordStats() {
@@ -37,7 +39,7 @@ export default function Welcome() {
     }
 
     fetchDashbordStats();
-  }, []);
+  }, [invalidatePage]);
 
   if (isLoading)
     return (
@@ -57,16 +59,13 @@ export default function Welcome() {
     <>
       <div className="flex items-center justify-between mb-5">
         <h2 className="font-black text-3xl">Dashbord</h2>
-        <AddNewJob />
+        <AddNewJob onJobAdded={setInvalidatePage} />
       </div>
       <div className="grid grid-cols-[1fr] md:grid-cols-[1fr_30%] md:grid-rows-[auto_150px_auto] gap-6 ">
-        <CurrentJobs
-          customers={customers}
-          deals_won_closed={deals_won_closed}
-        />
-        <NeedAtthentionBox />
+        <CurrentJobs currentJobs={current_jobs} />
+        <NeedAtthentionBox listOfAttentions={needs_attention} />
         <TotalUserJobs dataDashboard={dataDashboard} />
-        <YearToDateSection />
+        <YearToDateSection totalRevenue={current_year} />
       </div>
       <div className="px-5 py-4 max-w-screen-lg grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
     </>

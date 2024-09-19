@@ -13,12 +13,10 @@ import AddNewJob from "@components/AddNewJob";
 import JobCard from "@components/JobCard";
 
 export default function AllJobs() {
-  const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   const [invalidatePage, setInvalidatePage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
-
   const [jobs, setJobs] = useState([]);
   const preliminaryPhases = jobs.filter((job) => job.id <= 8);
   const inBuildProcessJobs = jobs.filter((job) => job.id >= 9 && job.id <= 11);
@@ -66,7 +64,7 @@ export default function AllJobs() {
     <>
       <div className="flex items-center justify-between mb-5 max-w-screen-xl">
         <h2 className="font-black text-3xl">Jobs</h2>
-        <AddNewJob />
+        <AddNewJob onJobAdded={setInvalidatePage} />
       </div>
       <Card className="px-5 py-4 max-w-screen-xl">
         <JobsSection header="Preliminary Phase" jobs={preliminaryPhases} />
@@ -74,14 +72,6 @@ export default function AllJobs() {
         <JobsSection header="Final Stage" jobs={finalStage} />
         <JobsSection header="Completed Projects" jobs={completedProjects} />
       </Card>
-      {showAddNewJobModal && (
-        <NewJobModal
-          open={showAddNewJobModal}
-          onOk={() => setAddNewJobModal(false)}
-          onCancel={() => setAddNewJobModal(false)}
-          onAddJob={() => setInvalidatePage((is) => !is)}
-        />
-      )}
     </>
   );
 }
