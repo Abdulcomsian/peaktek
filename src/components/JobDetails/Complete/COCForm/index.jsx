@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Form } from "@components/FormControls";
+import { CheckBox, Form } from "@components/FormControls";
 import { CustomerInformation, ProjectSummaryForm } from "@components/Forms";
 import SignatureForm from "../SignatureForm";
 import { useSelector } from "react-redux";
@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Loader } from "@components/UI";
 import { useForm } from "react-hook-form";
-import { getCOC } from "@services/apiCOC";
+import { creatCOC, getCoc } from "@services/apiCOC";
 import { useAuth } from "@context/AuthContext";
 import { HiArrowDownTray } from "react-icons/hi2";
 
@@ -24,6 +24,9 @@ export default function COCForm() {
   const { id } = useParams();
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { name, email, phone } = useSelector(
+    (state) => state?.jobs?.singleJobData
+  );
 
   const {
     control,
@@ -32,7 +35,7 @@ export default function COCForm() {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: async () => {
-      const resp = await getCOC(id);
+      const resp = await getCoc(id);
       console.log("useform default resp", resp);
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data;
@@ -44,8 +47,13 @@ export default function COCForm() {
     },
   });
 
-  const onSubmit = function (data) {
-    console.log(data);
+  const onSubmit = async function (data) {
+    const dataToLoad = { ...data, name, email, phone };
+    const resp = await creatCOC(dataToLoad, id);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.message);
+    }
+    console.log("COC SUbmit resp", resp);
   };
 
   return (
@@ -68,22 +76,17 @@ export default function COCForm() {
         <Depreciation register={register} />
         <OverheadProfit />
         <ProjectSummaryForm register={register} />
-        <Conclusion />
+        <Conclusion register={register} />
         <SignatureForm register={register} control={control} />
         <div className="flex items-center mb-6">
-          <input
-            id="complete"
-            type="checkbox"
-            className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+          <CheckBox
+            register={register}
+            name="status"
+            id="status"
+            label="Completed"
           />
-          <label
-            htmlFor="complete"
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Complete
-          </label>
         </div>
-        <div className="flex">
+        <div className="flex justify-end">
           <Button className="text-black mr-4 px-4 py-1">Cancel</Button>
           <Button type="submit" variant="gradient">
             {isSubmitting ? (

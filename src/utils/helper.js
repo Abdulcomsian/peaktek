@@ -1,3 +1,5 @@
+import { format, differenceInDays } from "date-fns";
+
 export function formateErrorName(name) {
   return (
     name
@@ -23,3 +25,16 @@ export function createSlug(string) {
 export function formateDate(date) {
   return new Intl.DateTimeFormat("en-US").format(date);
 }
+
+export const formatCurrency = (value) =>
+  new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
+    value
+  );
+
+export const dateDifference = (createdDate) => {
+  const today = new Date();
+  const parsedCreatedDate = new Date(createdDate);
+  const difference = differenceInDays(today, parsedCreatedDate);
+
+  return difference;
+};

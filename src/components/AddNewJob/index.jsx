@@ -3,7 +3,7 @@ import { Button } from "..";
 import { FaPlus } from "react-icons/fa6";
 import { NewJobModal } from "@components/Modals";
 
-export default function AddNewJob({ className }) {
+export default function AddNewJob({ className, onJobAdded }) {
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   return (
     <>
@@ -19,7 +19,7 @@ export default function AddNewJob({ className }) {
           open={showAddNewJobModal}
           onOk={() => setAddNewJobModal(false)}
           onCancel={() => setAddNewJobModal(false)}
-          onAddJob={() => setInvalidatePage((is) => !is)}
+          onAddJob={() => onJobAdded((is) => !is)}
         />
       )}
     </>

@@ -12,6 +12,7 @@ const ProjectSummaryForm = ({ register, className }) => {
           className="md:mr-4  mb-4 md:mb-0"
           type="number"
           name="job_total"
+          id="job_total"
           register={register}
         />
         <Input
@@ -20,6 +21,7 @@ const ProjectSummaryForm = ({ register, className }) => {
           placeholder="type"
           className="md:mr-4  mb-4 md:mb-0"
           name="customer_paid_upgrades"
+          id="customer_paid_upgrades"
           register={register}
         />
         <Input
@@ -27,6 +29,7 @@ const ProjectSummaryForm = ({ register, className }) => {
           placeholder="type"
           className="mb-4 md:mb-0"
           name="deductible"
+          id="deductible"
           register={register}
         />
       </InputContainer>
@@ -36,6 +39,7 @@ const ProjectSummaryForm = ({ register, className }) => {
           placeholder="type"
           className="md:mr-4  mb-4 md:mb-0"
           name="acv_check"
+          id="acv_check"
           register={register}
         />
         <Input
@@ -43,6 +47,7 @@ const ProjectSummaryForm = ({ register, className }) => {
           placeholder="type"
           className="md:mr-4  mb-4 md:mb-0"
           name="rcv_check"
+          id="rcv_check"
           register={register}
         />
         <Input
@@ -50,6 +55,7 @@ const ProjectSummaryForm = ({ register, className }) => {
           placeholder="type"
           className="mb-4 md:mb-0"
           name="supplemental_items"
+          id="supplemental_items"
           register={register}
         />
       </InputContainer>

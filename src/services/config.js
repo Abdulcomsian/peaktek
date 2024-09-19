@@ -122,6 +122,7 @@ const clientEndPoints = {
   //COC
   createCoc: "/api/store/coc",
   getCoc: "/api/get/coc",
+  createCOCInsuranceEmail: "/api/coc/insurance-email",
 };
 
 export { clientBaseURL, clientEndPoints, stagingURL, baseURL };

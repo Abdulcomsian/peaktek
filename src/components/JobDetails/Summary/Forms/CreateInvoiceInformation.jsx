@@ -74,71 +74,76 @@ export default function CreateInvoiceInformation() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2  gap-3 max-w-screen-xl mb-4">
-        <div className="bg-white rounded-2xl col-span-full">
-          <label className="font-medium text-sm inline-block">Address</label>
-          <input
+      <div className="bg-stone-200 rounded-2xl py-4 px-3  max-w-screen-xl">
+        <div className="col-span-full flex items-center justify-between">
+          <span className="font-semibold uppercase">Profile Summary</span>
+          <Button
+            type="submit"
+            variant="gradient"
+            className="col-span-full w-fit mt-2 text-sm"
+          >
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "SAVE"
+            )}
+          </Button>
+        </div>
+        <div className="bg-white rounded-2xl grid grid-cols-1 sm:grid-cols-2  gap-3 py-7 px-5 mt-4">
+          <div className=" col-span-full">
+            <label className="font-medium text-sm inline-block">Address</label>
+            <input
+              type="text"
+              name="address"
+              className="w-full py-2 px-3 text-sm rounded-md border border-stone-300"
+              disabled={true}
+              value={address}
+            />
+          </div>
+          <Input
+            label="Invoice Number:"
+            placeholder="00-000-0000-00000"
             type="text"
-            name="address"
-            className="w-full py-2 px-3 text-sm rounded-md border border-stone-300"
-            disabled={true}
-            value={address}
+            name="invoice_number"
+            className="rounded-2xl"
+            register={register}
+            required={false}
+            error={errors?.invoice_number}
+          />
+          <SelectInput
+            label="Sales Representative"
+            control={control}
+            placeholder="Select options"
+            name="user_ids"
+            options={userOptions}
+            labelClass="font-medium text-sm"
+            rules={{ required: "This field is required" }}
+          />
+          <DropDown
+            vertical={true}
+            control={control}
+            label="Market"
+            labelClass="font-medium text-sm"
+            name="market"
+            id="market"
+            options={marketOptions}
+            placeholder="Select an option"
+            rules={{ required: "This field is required" }}
+          />
+          <DropDown
+            vertical={true}
+            control={control}
+            name="lead_source"
+            label="Lead Source:"
+            labelClass="font-medium text-sm"
+            id="lead_source"
+            options={leadSources}
+            placeholder="Select an option"
+            rules={{ required: "This field is required" }}
           />
         </div>
-        <Input
-          label="Invoice Number:"
-          placeholder="00-000-0000-00000"
-          type="text"
-          name="invoice_number"
-          className="rounded-2xl"
-          register={register}
-          required={false}
-          error={errors?.invoice_number}
-        />
-        <SelectInput
-          label="Sales Representative"
-          control={control}
-          placeholder="Select options"
-          name="user_ids"
-          options={userOptions}
-          labelClass="font-medium text-sm"
-          rules={{ required: "This field is required" }}
-        />
-        <DropDown
-          vertical={true}
-          control={control}
-          label="Market"
-          labelClass="font-medium text-sm"
-          name="market"
-          id="market"
-          options={marketOptions}
-          placeholder="Select an option"
-          rules={{ required: "This field is required" }}
-        />
-        <DropDown
-          vertical={true}
-          control={control}
-          name="lead_source"
-          label="Lead Source:"
-          labelClass="font-medium text-sm"
-          id="lead_source"
-          options={leadSources}
-          placeholder="Select an option"
-          rules={{ required: "This field is required" }}
-        />
-        <Button
-          type="submit"
-          variant="gradient"
-          className="col-span-full w-fit mt-2"
-        >
-          {isSubmitting ? (
-            <div className="flex justify-center items-center">
-              <Loader width={"24px"} height={"24px"} color="#fff" />
-            </div>
-          ) : (
-            "SAVE"
-          )}
-        </Button>
       </div>
     </form>
   );

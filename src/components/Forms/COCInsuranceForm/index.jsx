@@ -1,11 +1,14 @@
 import { CheckBox, Input, TextareaInput } from "@components/FormControls";
 import { useForm } from "react-hook-form";
 import { UploaderInputs } from "@components/index";
-import { Ckeditor } from "@components/FormControls";
-import { Button, ImageIcon, Loader, RenameFileUI } from "@components/UI";
+import { Button, ImageIcon, RenameFileUI } from "@components/UI";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
+import { creatCOCInsuranceEmail } from "@services/apiCOC";
+import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function COCInsuranceForm() {
+  const { id: jobId } = useParams();
   const {
     control,
     register,
@@ -22,8 +25,32 @@ export default function COCInsuranceForm() {
     });
   };
 
-  const onSubmit = function (data) {
+  const onSubmit = async function (data) {
     console.log(data);
+    const { subject, email_body, sent_to, status, attachments } = data;
+    console.log(attachments.length);
+    const formData = new FormData();
+    formData.append("subject", subject);
+    formData.append("email_body", email_body);
+    formData.append("send_to", sent_to);
+    formData.append("coc_insurance_email_sent", status);
+
+    if (attachments.length > 0) {
+      for (let x = 0; x < attachments.length; x++) {
+        formData.append("attachments[]", attachments[x]);
+      }
+    }
+
+    // To view the contents of FormData, you can iterate over it
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+
+    const resp = await creatCOCInsuranceEmail(formData, jobId);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.message);
+    }
+    console.log(resp);
   };
 
   return (
@@ -37,20 +64,19 @@ export default function COCInsuranceForm() {
           wrapperClassName="flex items-center justify-end gap-2 col-span-2"
         />
         <Input
-          id="sent_to"
-          name="sent_to"
+          id="send_to"
+          name="send_to"
           register={register}
-          label="Sent to:"
+          label="Send to:"
           type="email"
           placeholder="insurance@email.com"
           applyMarginBottom={true}
         />
         <Input
-          id="claim_number"
-          name="claim_number"
+          id="subject"
+          name="subject"
           register={register}
           label="Subject"
-          placeholder="Claim # number"
           applyMarginBottom={true}
         />
         <CkeditorControlled

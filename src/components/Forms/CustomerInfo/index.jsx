@@ -15,24 +15,30 @@ const CustomerInformation = ({ register, className }) => {
           label="Homeowner Name:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
-          readOnly={true}
+          disabled={true}
           defaultValue={name || ""}
+          name="name"
+          id="name"
         />
         <Input
           label="Homeowner Email:"
           placeholder="john@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          readOnly={true}
+          disabled={true}
           defaultValue={email || ""}
+          name="email"
+          id="email"
         />
         <Input
           label="Phone:"
           placeholder="923081177825"
           type="text"
           className="mb-4 md:mb-0"
-          readOnly={true}
+          disabled={true}
           defaultValue={phone || ""}
+          name="phone"
+          id="phone"
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -41,6 +47,7 @@ const CustomerInformation = ({ register, className }) => {
           placeholder="west Bridge"
           className="md:mr-4 mb-4 md:mb-0"
           name="street"
+          id="street"
           register={register}
         />
         <Input
@@ -48,6 +55,7 @@ const CustomerInformation = ({ register, className }) => {
           placeholder="New York"
           className="md:mr-4 md:max-w-xs mb-4 md:mb-0"
           name="city"
+          id="city"
           register={register}
         />
         <Input
@@ -55,6 +63,7 @@ const CustomerInformation = ({ register, className }) => {
           placeholder="NY"
           className="md:mr-4 md:max-w-40 mb-4 md:mb-0"
           name="state"
+          id="state"
           register={register}
         />
         <Input
@@ -63,6 +72,7 @@ const CustomerInformation = ({ register, className }) => {
           type="number"
           className="md:max-w-40 mb-4 md:mb-0"
           name="zip_code"
+          id="zip_code"
           register={register}
         />
       </InputContainer>
@@ -72,6 +82,7 @@ const CustomerInformation = ({ register, className }) => {
           placeholder="eg. Health Insurance"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance"
+          id="insurance"
           register={register}
         />
         <Input
@@ -80,6 +91,7 @@ const CustomerInformation = ({ register, className }) => {
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance_email"
+          id="insurance_email"
           register={register}
         />
         <Input
@@ -88,6 +100,7 @@ const CustomerInformation = ({ register, className }) => {
           type="number"
           className="md:mr-4 mb-4 md:mb-0"
           name="claim_number"
+          id="claim_number"
           register={register}
         />
         <Input
@@ -96,6 +109,7 @@ const CustomerInformation = ({ register, className }) => {
           type="number"
           className="mb-4 md:mb-0"
           name="policy_number"
+          id="policy_number"
           register={register}
         />
       </InputContainer>
