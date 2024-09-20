@@ -126,6 +126,12 @@ const clientEndPoints = {
   // Final Payment due
   getFinalPaymentStats: "/api/get/final-payment-due",
   updateFinalPaymentStatus: "/api/update/final-payment-due",
+  // Ready To Closed
+  updateReadyToClose: "/api/update/ready-to-close",
+  getReadyToCloseData: "/api/get/ready-to-close",
+  // Won and closed
+  updateWonAndClosedInfo: "/api/update/won-closed",
+  getWonAndClosedInfo: "/api/get/won-closed",
 };
 
 export { clientBaseURL, clientEndPoints, stagingURL, baseURL };
