@@ -1,12 +1,17 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { DateSelector, Form, TextBox } from "@components/FormControls";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  CheckBox,
+  DateSelector,
+  Form,
+  TextBox,
+} from "@components/FormControls";
 import { CustomerInformation, SignatureForm } from "@components/Forms";
 import TextSection1 from "@pages/CustomerAgreement/TextSection1";
 import TextSection2 from "@pages/CustomerAgreement/TextSection2";
-import Button from "@components/JobDetails/Button";
+
 import toast from "react-hot-toast";
 import { createAgreementSchema } from "@services/schema";
 import { fetchSingleJob } from "@store/slices/JobsSlice";
@@ -19,234 +24,91 @@ import {
 import dayjs from "dayjs";
 import SignatureModal from "@components/Modals/SignatureModal";
 import { Spin } from "antd";
-import { Loader } from "@components/UI";
+import { Button, Loader } from "@components/UI";
 import LinkButton from "@components/UI/LinkButton";
+import { useForm } from "react-hook-form";
+import Footer from "./Footer";
+import {
+  createCustomerAggreement,
+  getCustomerAggreement,
+  signedCustomerAgreementByEmail,
+} from "@services/apiCustomerAgreement";
+import { useAuth } from "@context/AuthContext";
+
 const CustomerAgreementForm = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [showPdfButton, setShowPdfButton] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const location = useLocation();
-  const [agreementId, setAgreementId] = useState("");
-  const singleJobData = useSelector((state) => state?.jobs?.singleJobData);
-  const [isApprovalButtonDisabled, setIsApprovalButtonDisabled] =
-    useState(true);
+  const [showPdfButton, setShowPdfButton] = useState(false);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
-  const [customerData, setCustomerData] = useState(null);
-  const [isDone, setIsDone] = useState(false);
 
-  const getCustomerData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      setLoading(true);
-      const response = await clientBaseURL.get(
-        `${clientEndPoints?.getCustomerAgreement}/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response?.status >= 200 && response?.status < 300) {
-        setCustomerData(response?.data?.agreement);
-        setAgreementId(response?.data?.agreement?.id);
-        setIsApprovalButtonDisabled(!response?.data?.agreement?.is_complete);
-        if (response?.data?.agreement?.sign_pdf_url != null) {
-          setShowPdfButton(true);
-        }
-      }
-    } catch (error) {
-      if (error?.response) {
-        console.error(
-          error?.response?.data?.error || error?.response?.data?.message
-        );
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchSingleJob(id));
-      getCustomerData();
-    }
-  }, [id, showPdfButton]);
-  const openFileHandler = () => {
-    const fullFileUrl = `${baseURL}${customerData?.sign_pdf_url}`;
-    window.open(fullFileUrl, "_blank");
-  };
-  const sendFormByEmail = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await clientBaseURL.post(
-        `${clientEndPoints?.signByEmail}/${agreementId}`,
-        { url: `${stagingURL}${location?.pathname}` },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response?.status >= 200 && response?.status < 300) {
-        toast.success(response?.data?.message);
-        setIsApprovalButtonDisabled(false);
-        setIsDone(true);
-      }
-    } catch (error) {
-      if (error?.response) {
-        toast.error(
-          error?.response?.data?.error || error?.response?.data?.message
-        );
-      }
-    }
-  };
-
-  const showSignatureModel = () => {
-    setIsSignatureModelOpen(true);
-  };
-
-  const closeSignatureModel = () => {
-    setIsSignatureModelOpen(false);
-  };
-
-  const formik = useFormik({
-    initialValues: {
-      street: "",
-      city: "",
-      state: "",
-      zip_code: "",
-      insurance: "",
-      claim_number: "",
-      policy_number: "",
-      company_signature: "",
-      company_printed_name: "",
-      company_date: "",
-      customer_signature: "",
-      customer_printed_name: "",
-      customer_date: "",
-      customer_name: "",
-      agreement_date: "",
-      status: false,
-    },
-    // validationSchema: createAgreementSchema,
-    enableReinitialize: true,
-    onSubmit: async (values, actions) => {
-      const formattedValues = {
-        ...values,
-        company_date: values.company_date
-          ? dayjs(values.company_date).format("MM/DD/YYYY")
-          : "",
-        customer_date: values.customer_date
-          ? dayjs(values.customer_date).format("MM/DD/YYYY")
-          : "",
-        agreement_date: values.agreement_date
-          ? dayjs(values.date).format("MM/DD/YYYY")
-          : "",
-      };
-
-      try {
-        const token = localStorage.getItem("token");
-        const response = await clientBaseURL.post(
-          `${clientEndPoints?.createAgreement}/${id}`,
-          formattedValues,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response?.status >= 200 && response?.status < 300) {
-          toast.success(response?.data?.message);
-          await getCustomerData();
-        }
-      } catch (error) {
-        if (error?.response) {
-          toast.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
+  const {
+    control,
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    getValues,
+    formState: { errors, isSubmitting, isLoading },
+  } = useForm({
+    defaultValues: async () => {
+      const resp = await getCustomerAggreement(id);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data.agreement;
       }
     },
   });
 
-  console.log(formik.values, "formik");
+  const isFormCompleted = watch("is_complete");
+  const agreementId = watch("id");
+  const sign_pdf_url = getValues().sign_pdf_url;
+  const sign_image_url = watch("sign_image_url");
+  const FormStatus = getValues().status;
 
-  useEffect(() => {
-    if (customerData) {
-      const formattedCompanyDate = customerData.company_date
-        ? dayjs(customerData.company_date, "MM/DD/YYYY")
-        : null;
-      const formattedCustomerDate = customerData.customer_date
-        ? dayjs(customerData.customer_date, "MM/DD/YYYY")
-        : null;
-      const formattedDate = customerData.agreement_date
-        ? dayjs(customerData.agreement_date, "MM/DD/YYYY")
-        : null;
-      formik.setValues({
-        street: customerData.street || "",
-        city: customerData.city || "",
-        state: customerData.state || "",
-        zip_code: customerData.zip_code || "",
-        insurance: customerData.insurance || "",
-        claim_number: customerData.claim_number || "",
-        policy_number: customerData.policy_number || "",
-        company_signature: customerData.company_signature || "",
-        company_printed_name: customerData.company_printed_name || "",
-        company_date: formattedCompanyDate,
-        customer_signature: customerData.customer_signature || "",
-        customer_printed_name: customerData.customer_printed_name || "",
-        customer_date: formattedCustomerDate,
-        customer_name: customerData.customer_name || "",
-        status: customerData.status || false,
-        agreement_date: formattedDate,
-      });
+  const openFileHandler = () => {
+    console.log(sign_pdf_url);
+    const fullFileUrl = `${baseURL}${sign_pdf_url}`;
+    window.open(fullFileUrl, "_blank");
+  };
+  const sendFormByEmail = async () => {
+    const response = await signedCustomerAgreementByEmail(
+      agreementId,
+      location?.pathname
+    );
+    if (response?.status >= 200 && response?.status < 300) {
+      toast.success(response?.data?.message);
     }
-  }, [customerData]);
-
-  const inputRefs = {
-    street: useRef(null),
-    city: useRef(null),
-    state: useRef(null),
-    zip_code: useRef(null),
-    insurance: useRef(null),
-    claim_number: useRef(null),
-    policy_number: useRef(null),
-    agreement_date: useRef(null),
-    company_signature: useRef(null),
-    company_printed_name: useRef(null),
-    company_date: useRef(null),
-    customer_signature: useRef(null),
-    customer_printed_name: useRef(null),
-    customer_date: useRef(null),
-    customer_name: useRef(null),
-    status: useRef(null),
   };
 
-  useEffect(() => {
-    if (formik.isSubmitting && !formik.isValid) {
-      const firstErrorField = Object.keys(formik.errors).find(
-        (field) => formik.touched[field] && formik.errors[field]
-      );
-      if (firstErrorField && inputRefs[firstErrorField]?.current) {
-        inputRefs[firstErrorField].current.focus();
+  const handleSigned = async () => {
+    const updatedResp = await getCustomerAggreement(id);
+    if (updatedResp.status >= 200 && updatedResp.status < 300) {
+      reset(updatedResp.data.agreement);
+    }
+  };
+
+  const onSubmit = async function (data) {
+    const dataToLoad = { ...data };
+    if (!data.status) dataToLoad["status"] = false;
+
+    const resp = await createCustomerAggreement(dataToLoad, id);
+    console.log("resp", resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.data.message);
+
+      const updatedResp = await getCustomerAggreement(id);
+      if (updatedResp.status >= 200 && updatedResp.status < 300) {
+        reset(updatedResp.data.agreement);
       }
     }
-  }, [formik.isSubmitting, formik.isValid, formik.errors, formik.touched]);
+    if (resp.status === 401) {
+      logout();
+      navigate("/");
+    }
+  };
 
-  console.log(
-    "STATE",
-    !customerData?.is_complete,
-    isApprovalButtonDisabled,
-    !customerData?.sign_image_url,
-    !customerData?.sign_pdf_url
-  );
-
-  if (
-    customerData?.status &&
-    customerData?.sign_image_url &&
-    customerData?.sign_pdf_url
-  )
+  if (FormStatus)
     return (
       <p className="text-center text-sm text-stone-600 ">
         👋 Customer agreement is already created, Please{" "}
@@ -259,30 +121,17 @@ const CustomerAgreementForm = () => {
 
   return (
     <Fragment>
-      {loading && <Spin fullscreen={true} />}
+      {isLoading && <Spin fullscreen={true} />}
       <div className="flex flex-col md:flex-row justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <label htmlFor="status" className="uppercase">
-            Status
-          </label>
-          <input
-            type="checkbox"
-            disabled={
-              !customerData?.is_complete ||
-              !customerData?.sign_image_url ||
-              !customerData?.sign_pdf_url ||
-              isDone
-            }
-            className="h-6 w-6 border border-gray-300 bg-gray-50"
-            id="status"
-            name="status"
-            checked={formik.values.status}
-            onChange={() =>
-              formik.setFieldValue("status", !formik.values.status)
-            }
-          />
-        </div>
-        {showPdfButton ? (
+        <CheckBox
+          label="Status:"
+          id="status"
+          name="status"
+          register={register}
+          disabled={!isFormCompleted || !sign_image_url}
+        />
+
+        {showPdfButton || sign_image_url ? (
           <Button
             className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
             onClick={openFileHandler}
@@ -293,15 +142,15 @@ const CustomerAgreementForm = () => {
           <div className="flex items-center justify-center gap-6">
             <Button
               className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
-              onClick={showSignatureModel}
-              disabled={isApprovalButtonDisabled}
+              onClick={() => setIsSignatureModelOpen(true)}
+              disabled={!isFormCompleted}
             >
               Sign Now
             </Button>
             <Button
               className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
               onClick={sendFormByEmail}
-              disabled={isApprovalButtonDisabled}
+              disabled={!isFormCompleted}
             >
               Send for Approval
             </Button>
@@ -312,67 +161,19 @@ const CustomerAgreementForm = () => {
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Customer Information
         </h2>
-        <Form onSubmit={formik.handleSubmit}>
-          <CustomerInformation
-            customer={singleJobData}
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
-            touched={formik.touched}
-            errors={formik.errors}
-            values={formik.values}
-            setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs}
-            readOnlyFields={["name", "email", "phone"]}
-          />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CustomerInformation register={register} />
           <TextSection1 />
           <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
-          <SignatureForm
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
-            touched={formik.touched}
-            errors={formik.errors}
-            values={formik.values}
-            setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs}
-          />
+          <SignatureForm register={register} control={control} />
           <TextSection2 />
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-            <div className="flex items-center md:mb-0 w-full md:max-w-md mb-4">
-              <span className="mr-2">I</span>
-              <TextBox
-                className={`w-full md:mr-2`}
-                placeholder="Customer Name"
-                ref={inputRefs.customer_name}
-                value={formik.values.customer_name}
-                name="customer_name"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </div>
-            <span className="w-full inline-block md:mb-0 mb-4">
-              the undersigned, hereby cancel this transaction as of{" "}
-              <span className="font-bold">Date:</span>
-            </span>
-            <DateSelector
-              className={`w-full md:max-w-[27rem] md:ml-1`}
-              placeholder="Signature Date"
-              name="agreement_date"
-              ref={inputRefs?.agreement_date}
-              value={formik?.values?.agreement_date}
-              onBlur={formik.handleBlur}
-              onChange={(dateString) =>
-                formik.setFieldValue("agreement_date", dateString)
-              }
-              // error={errors?.date}
-              // touched={touched?.date}
-            />
-          </div>
+          <Footer register={register} control={control} />
           <Button
+            variant="gradient"
             type="submit"
-            disabled={formik?.isSubmitting}
             className="w-full max-w-24 font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
           >
-            {formik?.isSubmitting ? (
+            {isSubmitting ? (
               <div className="flex justify-center items-center">
                 <Loader width={"24px"} height={"24px"} color="#fff" />
               </div>
@@ -380,16 +181,18 @@ const CustomerAgreementForm = () => {
               "Submit"
             )}
           </Button>
-        </Form>
+        </form>
       </div>
       {isSignatureModelOpen && (
         <SignatureModal
           open={isSignatureModelOpen}
-          onCancel={closeSignatureModel}
-          onOk={closeSignatureModel}
+          onCancel={() => setIsSignatureModelOpen((is) => !is)}
+          onOk={() => setIsSignatureModelOpen((is) => !is)}
           id={agreementId}
-          setIsDone={setIsDone}
-          setShowPdfButton={setShowPdfButton}
+          setShowPdfButton={() => {
+            handleSigned();
+            setShowPdfButton;
+          }}
         />
       )}
     </Fragment>

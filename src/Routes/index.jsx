@@ -31,6 +31,9 @@ import {
   InsuranceReport,
   TermsAndConditions,
   QuoteDetails,
+  FinalDuePayment,
+  ReadyToClose,
+  WonAndClosed,
   CustomerInformation,
 } from "@components/Forms";
 import {
@@ -178,6 +181,9 @@ export function AppRoute() {
             <Route path="scheduling" element={<Scheduling />} />
             <Route path="in-progress" element={<InProgress />} />
             <Route path="complete" element={<Complete />} />
+            <Route path="final-due-payments" element={<FinalDuePayment />} />
+            <Route path="ready-to-close" element={<ReadyToClose />} />
+            <Route path="won-closed-jobs" element={<WonAndClosed />} />
           </Route>
         </Route>
         <Route path="*" element={<p>Page Not Found</p>} />

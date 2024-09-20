@@ -26,7 +26,7 @@ export default function MainTabs({ className }) {
   };
 
   const buttonsData = [
-    { id: 1, text: "Summary", path: "summary" },
+    { id: 1, text: "New Leads", path: "summary" },
     { id: 2, text: "Customer Agreement", path: "customer-agreement" },
     { id: 4, text: "Adjustor Meeting", path: "adjustor-meeting" },
     { id: 8, text: "Ready To Build", path: "ready-to-build" },
@@ -34,6 +34,9 @@ export default function MainTabs({ className }) {
     { id: 6, text: "Approved", path: "approved" },
     { id: 9, text: "In Progress", path: "in-progress" },
     { id: 10, text: "Complete", path: "complete" },
+    { id: 11, text: "Final Payment due", path: "final-due-payments" },
+    { id: 11, text: "Ready to close", path: "ready-to-close" },
+    { id: 11, text: "won & closed", path: "won-closed-jobs" },
   ];
 
   return (
@@ -44,8 +47,10 @@ export default function MainTabs({ className }) {
       {buttonsData.map((btn) => (
         <React.Fragment key={btn.id}>
           <button
-            className={`flex justify-between items-center focus:outline-none min-w-fit font-bold uppercase ${
-              activeTab === btn.path ? "text-black" : "text-gray-500"
+            className={`flex justify-between items-center focus:outline-none min-w-fit ${
+              activeTab === btn.path
+                ? "font-bold text-[#2a6eb0]"
+                : "text-gray-700"
             }`}
             onClick={() => handleNavigation(btn.path)}
             aria-current="page" // or "false" depending on the current tab

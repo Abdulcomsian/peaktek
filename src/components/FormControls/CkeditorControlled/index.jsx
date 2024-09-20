@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-import "./ckeditor-styles.css"; // Import your custom CSS here
+// import "./ckeditor-styles.css"; // Import your custom CSS here
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import "react-quill/dist/quill.snow.css";
 import { Controller } from "react-hook-form";
 
-const CkeditorControlled = ({ className, value, onChange, id, label }) => {
+const CkeditorControlled = ({
+  className,
+  value,
+  onChange,
+  id,
+  label,
+  control,
+  name,
+}) => {
   const [editorData, setEditorData] = useState(value || "");
   const modules = {
     toolbar: [

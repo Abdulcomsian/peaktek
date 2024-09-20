@@ -13,6 +13,9 @@ const Input = ({
   required = true,
   error = "",
   inputClass,
+  min,
+  max,
+  readOnly = false,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -27,6 +30,9 @@ const Input = ({
         </label>
       )}
       <input
+        readOnly={readOnly}
+        min={min}
+        max={max}
         disabled={disabled}
         defaultValue={defaultValue}
         ref={ref}

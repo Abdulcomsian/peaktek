@@ -14,6 +14,7 @@ import Form from "./Form";
 import SelectBox from "./SelectBox";
 import TextareaInput from "./TextareaInput/input";
 import PasswordBox from "./PasswordBox/input";
+import CheckBox from "./CheckBox";
 export {
   Ckeditor,
   CustomDatePicker,
@@ -31,4 +32,5 @@ export {
   DateSelector,
   SelectBox,
   Form,
+  CheckBox,
 };

@@ -13,6 +13,7 @@ const COC = ({ register, error }) => {
           <Input
             className={`px-2 py-1 bg-gray-100 outline-none text-gray-900 text-sm rounded-md inline-block w-full max-w-xs`}
             name="awarded_to"
+            id="awarded_to"
             register={register}
             placeholder="Enter award to value"
           />

@@ -23,6 +23,7 @@ import PaymentScheduleForm from "./PaymentScheduleForm";
 import DeliveryInformation from "./DeliveryInfo";
 import RoofComponent from "./RoofComponent";
 import TermandConditionForm from "./TermandConditionForm";
+import COCInsuranceForm from "./COCInsuranceForm";
 import {
   Title,
   Introduction,
@@ -37,6 +38,9 @@ import {
 import EstimatePreparedForm from "./EstimatePrepared";
 import ItemsRow from "./ItemsRow";
 import ItemsList from "./ItemsList";
+import FinalDuePayment from "./FinalDuePayment";
+import ReadyToClose from "./ReadyToClose";
+import WonAndClosed from "./WonAndClosed";
 import BuildScheduledForm from "./BuildScheduledForm";
 import BSDeliveryInformation from "./BSDeliveryInfo";
 export {
@@ -77,6 +81,4 @@ export {
   RoofComponent,
   TermandConditionForm,
   EstimatePreparedForm,
-  BuildScheduledForm,
-  BSDeliveryInformation,
 };

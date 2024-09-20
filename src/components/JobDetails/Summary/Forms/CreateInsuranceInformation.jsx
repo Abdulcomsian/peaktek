@@ -14,8 +14,6 @@ export default function CreateInsuranceInformation() {
   }));
   const { id: jobId } = useParams();
   const {
-    watch,
-    control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -38,46 +36,17 @@ export default function CreateInsuranceInformation() {
   };
 
   return (
-    <form action="" onSubmit={handleSubmit(onsubmit)}>
-      <div className="bg-white rounded-2xl py-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl mb-4">
-        <h2 className="col-span-full text-stone-500 font-semibold uppercase">
-          Insurance information
-        </h2>
-        <Input
-          label="Insurance:"
-          name="insurance"
-          className="rounded-2xl"
-          register={register}
-        />
-        <Input
-          label="Policy#:"
-          type="number"
-          name="policy_number"
-          className="rounded-2xl"
-          register={register}
-        />
-        <Input
-          label="Email:"
-          type="email"
-          name="email"
-          className="rounded-2xl"
-          register={register}
-        />
-        <DropDown
-          vertical={true}
-          control={control}
-          label="Insurance Representative"
-          labelClass="font-medium text-sm"
-          name="insurance_representative"
-          id="insurance_representative"
-          options={userOptions}
-          placeholder="Select an option"
-          rules={{ required: "This field is required" }} // Optional validation rules
-        />
+    <form
+      action=""
+      onSubmit={handleSubmit(onsubmit)}
+      className="bg-stone-200 rounded-2xl p-4"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-semibold uppercase">Insurance information</h2>
         <Button
           type="submit"
           variant="gradient"
-          className="col-span-full w-fit mt-2"
+          className="col-span-full w-fit mt-2 text-sm"
         >
           {isSubmitting ? (
             <div className="flex justify-center items-center">
@@ -87,6 +56,50 @@ export default function CreateInsuranceInformation() {
             "SAVE"
           )}
         </Button>
+      </div>
+      <div className="bg-white divide-x-2 divide-stone-300 rounded-2xl p-4 px-3 grid grid-cols-1 sm:grid-cols-[2fr_1.5fr] gap-3 max-w-screen-xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3  ">
+          <Input
+            label="Insurance Company:"
+            name="insurance"
+            id="insurance"
+            className="rounded-2xl col-span-full"
+            register={register}
+          />
+          <Input
+            label="Insurance Representative"
+            name="insurance_representative"
+            id="insurance_representative"
+            className="rounded-2xl"
+            register={register}
+          />
+          <Input
+            label="Email:"
+            type="email"
+            name="email"
+            id="email"
+            className="rounded-2xl"
+            register={register}
+          />
+        </div>
+        <div className="px-3 flex flex-col gap-3">
+          <Input
+            label="Policy#:"
+            type="number"
+            name="policy_number"
+            id="policy_number"
+            className="rounded-2xl"
+            register={register}
+          />
+          <Input
+            label="Claim number:"
+            type="number"
+            name="claim_number"
+            id="claim_number"
+            className="rounded-2xl"
+            register={register}
+          />
+        </div>
       </div>
     </form>
   );

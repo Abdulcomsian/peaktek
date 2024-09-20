@@ -14,7 +14,7 @@ export default function Dashboard() {
     <main className="dashboard-layout-wrapper">
       <Sidebar isShow={isShowNav} onCloseSidebar={handleCloseSideBar} />
       <NavBar onCloseSidebar={handleCloseSideBar} />
-      <main className="dashboard-main-content">
+      <main className="dashboard-main-content bg-[#efefef]">
         <Outlet />
       </main>
     </main>

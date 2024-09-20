@@ -1,8 +1,13 @@
 import React from "react";
 import { InputContainer } from "@components";
 import { Input, TextBox } from "@components/FormControls";
+import { useSelector } from "react-redux";
 
 const CustomerInformation = ({ register, className, control }) => {
+  const { name, email, phone } = useSelector(
+    (state) => state?.jobs?.singleJobData
+  );
+  console.log("CUSTOMER JOB DETAIL", { name, email, phone });
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -18,8 +23,10 @@ const CustomerInformation = ({ register, className, control }) => {
           label="Homeowner Name:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
+          disabled={true}
+          defaultValue={name || ""}
           name="name"
-          register={register}
+          id="name"
           control={control}
         />
         <Input
@@ -27,16 +34,20 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="john@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
+          disabled={true}
+          defaultValue={email || ""}
           name="email"
-          register={register}
+          id="email"
         />
         <Input
           label="Phone:"
           placeholder="923081177825"
-          type="number"
+          type="text"
           className="mb-4 md:mb-0"
+          disabled={true}
+          defaultValue={phone || ""}
           name="phone"
-          register={register}
+          id="phone"
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -45,6 +56,7 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="west Bridge"
           className="md:mr-4 mb-4 md:mb-0"
           name="street"
+          id="street"
           register={register}
         />
         <Input
@@ -52,6 +64,7 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="New York"
           className="md:mr-4 md:max-w-xs mb-4 md:mb-0"
           name="city"
+          id="city"
           register={register}
         />
         <Input
@@ -59,6 +72,7 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="NY"
           className="md:mr-4 md:max-w-40 mb-4 md:mb-0"
           name="state"
+          id="state"
           register={register}
         />
         <Input
@@ -67,6 +81,7 @@ const CustomerInformation = ({ register, className, control }) => {
           type="number"
           className="md:max-w-40 mb-4 md:mb-0"
           name="zip_code"
+          id="zip_code"
           register={register}
         />
       </InputContainer>
@@ -76,6 +91,7 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="eg. Health Insurance"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance"
+          id="insurance"
           register={register}
         />
         <Input
@@ -84,6 +100,7 @@ const CustomerInformation = ({ register, className, control }) => {
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance_email"
+          id="insurance_email"
           register={register}
         />
         <Input
@@ -92,6 +109,7 @@ const CustomerInformation = ({ register, className, control }) => {
           type="number"
           className="md:mr-4 mb-4 md:mb-0"
           name="claim_number"
+          id="claim_number"
           register={register}
         />
         <Input

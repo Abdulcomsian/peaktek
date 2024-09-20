@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import Button from "@components/JobDetails/Button";
+// import Button from "@components/JobDetails/Button";
 import MoneyInput from "./MoneyInput";
 import SimpleInput from "./SimpleInput";
 import { clientBaseURL, clientEndPoints } from "@services/config";
@@ -9,7 +9,7 @@ import { Spin } from "antd";
 import { Form } from "@components/FormControls";
 import SelectBox from "./SelectBox";
 import MediaContent from "./MediaContent";
-import { DropDown, Loader } from "@components/UI";
+import { Button, DropDown, Loader } from "@components/UI";
 import { useDispatch } from "react-redux";
 import { fetchUsersData } from "@store/slices/usersSlice";
 import { useSelector } from "react-redux";
@@ -160,11 +160,28 @@ const Summary = () => {
     label: user.name,
   }));
   return (
-    <Fragment>
+    <div className="space-y-6">
       {loading && <Spin fullscreen={true} />}
       <CreateInvoiceInformation />
-      <Form onSubmit={handleSubmit}>
-        <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
+      <Form onSubmit={handleSubmit} className="bg-stone-200 rounded-2xl p-4">
+        <div className="flex items-center justify-between mb-4">
+          <span className="font-semibold uppercase">Deal Value</span>
+          <Button
+            type="submit"
+            variant="gradient"
+            className="text-sm"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </div>
+        <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl ">
           <div className="bg-white w-full rounded-2xl p-5 mb-4 lg:mb-0">
             <div className="flex flex-col lg:flex-row justify-start mb-4">
               <div className="flex justify-between  lg:flex-col  font-poppins font-normal text-sm  mb-4 lg:mb-0">
@@ -304,26 +321,13 @@ const Summary = () => {
             </div>
           </div>
         </div>
-
-        <Button
-          type="submit"
-          className="w-full max-w-24 text-center text-white btn-gradient mb-4 px-4 py-1"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <div className="flex justify-center items-center">
-              <Loader width={"24px"} height={"24px"} color="#fff" />
-            </div>
-          ) : (
-            "Submit"
-          )}
-        </Button>
       </Form>
+
       <CreateInsuranceInformation />
-      <div className="bg-white rounded-2xl p-5 w-full max-w-7xl mb-6">
+      <div className="bg-stone-200 rounded-2xl p-5 w-full max-w-7xl">
         <MediaContent id={id} />
       </div>
-    </Fragment>
+    </div>
   );
 };
 
