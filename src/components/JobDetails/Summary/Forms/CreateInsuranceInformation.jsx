@@ -14,8 +14,6 @@ export default function CreateInsuranceInformation() {
   }));
   const { id: jobId } = useParams();
   const {
-    watch,
-    control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -59,34 +57,49 @@ export default function CreateInsuranceInformation() {
           )}
         </Button>
       </div>
-      <div className="bg-white rounded-2xl p-4 px-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-screen-xl">
-        <Input
-          label="Insurance:"
-          name="insurance"
-          className="rounded-2xl"
-          register={register}
-        />
-        <Input
-          label="Policy#:"
-          type="number"
-          name="policy_number"
-          className="rounded-2xl"
-          register={register}
-        />
-        <Input
-          label="Email:"
-          type="email"
-          name="email"
-          className="rounded-2xl"
-          register={register}
-        />
-        <Input
-          label="Insurance Representative"
-          name="insurance_representative"
-          id="insurance_representative"
-          className="rounded-2xl"
-          register={register}
-        />
+      <div className="bg-white divide-x-2 divide-stone-300 rounded-2xl p-4 px-3 grid grid-cols-1 sm:grid-cols-[2fr_1.5fr] gap-3 max-w-screen-xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3  ">
+          <Input
+            label="Insurance Company:"
+            name="insurance"
+            id="insurance"
+            className="rounded-2xl col-span-full"
+            register={register}
+          />
+          <Input
+            label="Insurance Representative"
+            name="insurance_representative"
+            id="insurance_representative"
+            className="rounded-2xl"
+            register={register}
+          />
+          <Input
+            label="Email:"
+            type="email"
+            name="email"
+            id="email"
+            className="rounded-2xl"
+            register={register}
+          />
+        </div>
+        <div className="px-3 flex flex-col gap-3">
+          <Input
+            label="Policy#:"
+            type="number"
+            name="policy_number"
+            id="policy_number"
+            className="rounded-2xl"
+            register={register}
+          />
+          <Input
+            label="Claim number:"
+            type="number"
+            name="claim_number"
+            id="claim_number"
+            className="rounded-2xl"
+            register={register}
+          />
+        </div>
       </div>
     </form>
   );
