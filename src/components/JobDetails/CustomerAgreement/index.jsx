@@ -40,12 +40,16 @@ const CustomerAgreementForm = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [showPdfButton, setShowPdfButton] = useState(false);
+  const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
 
   const {
     control,
     register,
     handleSubmit,
     watch,
+    reset,
+    getValues,
     formState: { errors, isSubmitting, isLoading },
   } = useForm({
     defaultValues: async () => {
@@ -58,14 +62,12 @@ const CustomerAgreementForm = () => {
 
   const isFormCompleted = watch("is_complete");
   const agreementId = watch("id");
-  const sign_pdf_url = watch("sign_pdf_url");
-  const FormStatus = watch("status");
-
-  const [showPdfButton, setShowPdfButton] = useState(false);
-
-  const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
+  const sign_pdf_url = getValues().sign_pdf_url;
+  const sign_image_url = watch("sign_image_url");
+  const FormStatus = getValues().status;
 
   const openFileHandler = () => {
+    console.log(sign_pdf_url);
     const fullFileUrl = `${baseURL}${sign_pdf_url}`;
     window.open(fullFileUrl, "_blank");
   };
@@ -76,7 +78,13 @@ const CustomerAgreementForm = () => {
     );
     if (response?.status >= 200 && response?.status < 300) {
       toast.success(response?.data?.message);
-      setIsDone(true);
+    }
+  };
+
+  const handleSigned = async () => {
+    const updatedResp = await getCustomerAggreement(id);
+    if (updatedResp.status >= 200 && updatedResp.status < 300) {
+      reset(updatedResp.data.agreement);
     }
   };
 
@@ -88,6 +96,11 @@ const CustomerAgreementForm = () => {
     console.log("resp", resp);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
+
+      const updatedResp = await getCustomerAggreement(id);
+      if (updatedResp.status >= 200 && updatedResp.status < 300) {
+        reset(updatedResp.data.agreement);
+      }
     }
     if (resp.status === 401) {
       logout();
@@ -95,7 +108,7 @@ const CustomerAgreementForm = () => {
     }
   };
 
-  if (FormStatus && sign_pdf_url)
+  if (FormStatus)
     return (
       <p className="text-center text-sm text-stone-600 ">
         👋 Customer agreement is already created, Please{" "}
@@ -115,10 +128,10 @@ const CustomerAgreementForm = () => {
           id="status"
           name="status"
           register={register}
-          disabled={!isFormCompleted || !sign_pdf_url}
+          disabled={!isFormCompleted || !sign_image_url}
         />
 
-        {showPdfButton ? (
+        {showPdfButton || sign_image_url ? (
           <Button
             className="font-poppins font-medium text-base text-white btn-gradient px-4 py-1 rounded-md"
             onClick={openFileHandler}
@@ -176,8 +189,10 @@ const CustomerAgreementForm = () => {
           onCancel={() => setIsSignatureModelOpen((is) => !is)}
           onOk={() => setIsSignatureModelOpen((is) => !is)}
           id={agreementId}
-          setIsDone={setIsDone}
-          setShowPdfButton={setShowPdfButton}
+          setShowPdfButton={() => {
+            handleSigned();
+            setShowPdfButton;
+          }}
         />
       )}
     </Fragment>
