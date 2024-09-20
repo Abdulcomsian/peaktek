@@ -5,6 +5,7 @@ import ProfileAvatar from "@components/ProfileAvatar";
 import { useSelector } from "react-redux";
 import { Input } from "@components/FormControls";
 import { useAuth } from "@context/AuthContext";
+import { CgSearch } from "react-icons/cg";
 
 export default function NavBar({ onCloseSidebar }) {
   const { user } = useAuth();
@@ -27,12 +28,15 @@ export default function NavBar({ onCloseSidebar }) {
             />
           </svg>
         </button>
-        <Input
-          type="search"
-          placeholder="Search here..."
-          inputClass="!p-3"
-          className="!w-[15rem]"
-        />
+        <div className="relative">
+          <CgSearch className="absolute top-1/2 left-1.5 -translate-y-1/2" />
+          <Input
+            type="search"
+            placeholder="Search here..."
+            inputClass="!p-3 !pl-7 "
+            className="!w-[15rem]"
+          />
+        </div>
         <div className="ml-auto">
           <span className="font-bold text-[rgb(44_128_186)] text-lg leading-3">
             {user?.name}
