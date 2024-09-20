@@ -4,6 +4,7 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import { useAuth } from "@context/AuthContext";
 import listupIcon from "@assets/images/listUp.svg";
 import clipboardCheck from "@assets/images/clipboardCheck.svg";
+import { PiBagSimpleFill } from "react-icons/pi";
 import settingsMinimalistic from "@assets/images/settingsMinimalistic.svg";
 import FileText from "@assets/images/FileText.svg";
 import JobIcon from "@assets/images/jobs.svg";
@@ -28,7 +29,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     {
       id: 2,
       linkSrc: "/jobs",
-      linkText: <IoBagOutline />,
+      linkText: <PiBagSimpleFill />,
       text: "Jobs",
     },
     {

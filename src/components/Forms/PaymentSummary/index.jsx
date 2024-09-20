@@ -1,15 +1,28 @@
 import { Input } from "@components/FormControls";
 import ChequeInput from "@components/JobDetails/Summary/ChequeInput";
-import MoneyInput from "@components/JobDetails/Summary/MoneyInput";
-import SimpleInput from "@components/JobDetails/Summary/SimpleInput";
+import { getFinalPaymentStats } from "@services/apiFinalPaymentDue";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function PaymentSummary() {
+  const { id: jobId } = useParams();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async () => {
+      const data = await getFinalPaymentStats(jobId);
+      console.log("COC FINAL PAYMENTS", data);
+      if (data.status >= 200 && data.status < 300) {
+        return data.data.summary;
+      }
+      if (data.status === 422) {
+        return data.response.data.data.summary;
+      }
+      return {};
+    },
+  });
   return (
     <div className="flex flex-col lg:flex-row justify-between w-full max-w-screen-xl   mb-6 ">
       <div className="bg-white w-full rounded-2xl p-5 mb-4 lg:mb-0">
@@ -18,9 +31,9 @@ export default function PaymentSummary() {
             <div className="text-black text-opacity-30 ">Job Total</div>
             <Input
               id="job_total"
+              name="job_total"
               className="!w-20 ps-2"
               placeholder="10000"
-              name="job_total"
               max={8}
               min={0}
               required={true}
@@ -120,6 +133,7 @@ export default function PaymentSummary() {
                   name="final_payment"
                   min={0}
                   readOnly={true}
+                  register={register}
                 />
                 <ChequeInput
                   id="final_payment_cheque_number"
@@ -144,6 +158,7 @@ export default function PaymentSummary() {
               placeholder="Total balance"
               name="balance"
               readOnly={true}
+              register={register}
             />
           </div>
         </div>
