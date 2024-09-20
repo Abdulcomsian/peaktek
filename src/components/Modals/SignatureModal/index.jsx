@@ -11,7 +11,6 @@ export default function SignatureModal({
   open,
   onCancel,
   onOk,
-  setIsDone,
   setShowPdfButton,
 }) {
   const signatureRef = useRef();
@@ -40,7 +39,6 @@ export default function SignatureModal({
 
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response?.data?.message);
-        setIsDone(false);
         onOk();
         setShowPdfButton(true);
       }

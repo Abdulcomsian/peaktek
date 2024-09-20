@@ -66,7 +66,7 @@ export default function AllJobs() {
         <h2 className="font-black text-3xl">Jobs</h2>
         <AddNewJob onJobAdded={setInvalidatePage} />
       </div>
-      <Card className="px-5 py-4 max-w-screen-xl">
+      <Card className="px-5 py-4 max-w-screen-xl space-y-8">
         <JobsSection header="Preliminary Phase" jobs={preliminaryPhases} />
         <JobsSection header="In Build Progress" jobs={inBuildProcessJobs} />
         <JobsSection header="Final Stage" jobs={finalStage} />
@@ -86,8 +86,8 @@ function JobsSection({ header, jobs }) {
     navigate(`/jobs/${job.id}`);
   };
   return (
-    <>
-      <h2 className="col-span-full text-lg font-semibold tracking-wide mb-4">
+    <div>
+      <h2 className="col-span-full text-lg font-semibold tracking-wide mb-2">
         {header}
       </h2>
       <div className="flex items-stretch justify-start flex-wrap gap-6">
@@ -102,6 +102,6 @@ function JobsSection({ header, jobs }) {
           </>
         ))}
       </div>
-    </>
+    </div>
   );
 }

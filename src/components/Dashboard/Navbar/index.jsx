@@ -34,7 +34,7 @@ export default function NavBar({ onCloseSidebar }) {
           className="!w-[15rem]"
         />
         <div className="ml-auto">
-          <span className="font-bold text-blue-600 text-lg leading-3">
+          <span className="font-bold text-[rgb(44_128_186)] text-lg leading-3">
             {user?.name}
           </span>
           <p className="text-sm text-end capitalize">{user?.role?.name}</p>

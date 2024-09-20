@@ -175,7 +175,7 @@ const InProgress = () => {
           <h2 className="text-black text-xl font-medium mb-4 font-poppins">
             Quality Control Form (QC)
           </h2>
-          <CustomerInformation
+          {/* <CustomerInformation
             customer={singleJobData}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
@@ -183,7 +183,7 @@ const InProgress = () => {
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
-          />
+          /> */}
           <MaterialForm
             values={formik.values.materials}
             setFieldValue={formik.setFieldValue}
@@ -192,14 +192,14 @@ const InProgress = () => {
             touched={formik.touched.materials}
             errors={formik.errors.materials}
           />
-          <SignatureForm
+          {/* <SignatureForm
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             touched={formik.touched}
             errors={formik.errors}
             values={formik.values}
             setFieldValue={formik.setFieldValue}
-          />
+          /> */}
 
           <div className="flex items-center mb-6">
             <input
