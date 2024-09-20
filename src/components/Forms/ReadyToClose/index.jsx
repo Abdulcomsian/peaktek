@@ -1,16 +1,73 @@
 import { CheckBox, Input } from "@components/FormControls";
 import { Button, DropDown } from "@components/UI";
+import ButtonSave from "@components/UI/ButtonSave";
+import { getReadyToClose, updateReadyToClose } from "@services/apiReadyToClose";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
+
 const marketOptions = [
   { label: "Nashville", value: "Nashville" },
   { label: "Chattanooga", value: "Chattanooga" },
 ];
 
 export default function ReadyToClose() {
-  const { control, register, handleSubmit, setValue } = useForm();
-  const onSubmit = function (data) {
-    console.log(date);
+  const { id: jobId } = useParams();
+  const {
+    control,
+    register,
+    handleSubmit,
+    getValues,
+    formState: { isSubmitting, isLoading },
+  } = useForm({
+    defaultValues: async () => {
+      const resp = await getReadyToClose(jobId);
+      console.log(resp.data.data);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data.data;
+      } else return {};
+    },
+  });
+
+  const isVarified = getValues()?.status === "1";
+  console.log("Isvariefied", isVarified);
+  const usersData = useSelector((state) => state?.users?.usersData);
+  const userOptions = usersData.map((user) => ({
+    value: `${user.id}`,
+    label: user.name,
+  }));
+
+  const onSubmit = async function (data) {
+    console.log(data);
+    const resp = await updateReadyToClose(data, jobId);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.data.message);
+    }
+    console.log(resp);
   };
+
+  if (isLoading)
+    return (
+      <ThreeDots
+        visible={true}
+        height="80"
+        width="80"
+        color="#18faf8"
+        radius="9"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass="flex item-center justify-center"
+      />
+    );
+
+  if (isVarified)
+    return (
+      <p className="text-sm text-stone-500 text-center">
+        ⛔️ This job is alreday closed
+      </p>
+    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -18,8 +75,8 @@ export default function ReadyToClose() {
         <CheckBox
           label="Final Verifications:"
           register={register}
-          name="is_paid"
-          id="is_paid"
+          name="status"
+          id="status"
           wrapperClassName="col-span-2"
         />
         <div className="col-span-full  bg-stone-200 p-4 rounded-2xl mb-4">
@@ -32,9 +89,9 @@ export default function ReadyToClose() {
               control={control}
               label="Sale Rep 1:"
               labelClass="font-medium text-sm"
-              name="insurance_representative"
-              id="insurance_representative"
-              options={[]}
+              name="sales_rep1"
+              id="sales_rep1"
+              options={userOptions}
               placeholder="Select an option"
               rules={{ required: "This field is required" }} // Optional validation rules
             />
@@ -43,9 +100,9 @@ export default function ReadyToClose() {
               control={control}
               label="Sale Rep 2:"
               labelClass="font-medium text-sm"
-              name="insurance_representative"
-              id="insurance_representative"
-              options={[]}
+              name="sales_rep2"
+              id="sales_rep2"
+              options={userOptions}
               placeholder="Select an option"
               rules={{ required: "This field is required" }} // Optional validation rules
             />
@@ -53,8 +110,8 @@ export default function ReadyToClose() {
               type="number"
               label="Commission Percentage:"
               register={register}
-              name="commission_percentage_rep_1"
-              id="commission_percentage_rep_1"
+              name="sales_rep1_commission_percentage"
+              id="sales_rep1_commission_percentage"
               min={0}
               max={100}
             />
@@ -63,8 +120,8 @@ export default function ReadyToClose() {
               min={0}
               max={100}
               label="Commission Percentage:"
-              name="commission_percentage_rep_2"
-              id="commission_percentage_rep_2"
+              name="sales_rep2_commission_percentage"
+              id="sales_rep2_commission_percentage"
               register={register}
             />
           </div>
@@ -95,8 +152,8 @@ export default function ReadyToClose() {
             <Input
               type="number"
               label="Material Costs:"
-              name="deal_value"
-              id="deal_value"
+              name="material_costs"
+              id="material_costs"
               register={register}
             />
             <Input
@@ -109,22 +166,23 @@ export default function ReadyToClose() {
             <Input
               type="number"
               label="Labour Costs:"
-              name="laber_costs"
-              id="laber_costs"
+              name="labor_costs"
+              id="labor_costs"
               register={register}
             />
             <Input
               type="number"
               label="Costs of Goods:"
-              name="cost_of_goods"
-              id="cost_of_goods"
+              name="costs_of_goods"
+              id="costs_of_goods"
               register={register}
             />
           </div>
         </div>
-        <Button variant="gradient" className="col-span-2 justify-self-end">
-          Save
-        </Button>
+        <ButtonSave
+          isLoading={isSubmitting}
+          className="col-span-2 justify-self-end"
+        />
       </div>
     </form>
   );
