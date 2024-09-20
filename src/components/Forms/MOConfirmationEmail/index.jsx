@@ -23,25 +23,26 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      send_to: "",
+      send_to: [],
       subject: "",
       email_body: "",
     },
     mode: "onBlur",
   });
   const onSubmit = async (data) => {
-    console.log("Data=>", data);
+    console.log("Data Format=>", data);
 
     try {
       setIsCreating(true);
 
-      //   const formattedData = {
-      //     send_to: data.send_to,
-      //     subject: data.subject,
-      //     email_body: data.email_body,
-      //   };
+      const formattedData = {
+        send_to: [data.send_to],
+        subject: data.subject,
+        email_body: data.email_body,
+      };
+      console.log("Formatted Data=>", formattedData);
 
-      const response = await api(data, id);
+      const response = await api(formattedData, id);
       console.log("response ", response);
 
       if (response?.status >= 200 && response?.status < 300) {

@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsersData, STATUS } from "@store/slices/usersSlice";
 import moment from "moment";
 import { InputContainer } from "@components/index";
+import { useAuth } from "@context/AuthContext";
 
 const { RangePicker } = DatePicker;
 
 const Users = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { usersData, status } = useSelector((state) => state.users);
   const [showModal, setShowModal] = useState(false);
   const [selectedUserIds, setSelectedUserIds] = useState([]); // Track selected user IDs
@@ -20,6 +22,10 @@ const Users = () => {
     current: 1,
     pageSize: 5,
   });
+  console.log("StoredUser =>", user);
+
+  console.log("User Data New=>", usersData);
+
   const leadSources = [
     { label: "Door Knocking", value: "Door Knocking" },
     { label: "Customer Referral", value: "Customer Referral" },
@@ -49,8 +55,14 @@ const Users = () => {
     // Filter by date range
     if (dateRange) {
       const [startDate, endDate] = dateRange;
+
       filtered = filtered.filter((user) =>
-        moment(user.created_at).isBetween(startDate, endDate, "day", "[]")
+        moment(user.created_at).isBetween(
+          moment(startDate).startOf("day"), // Start of the selected day
+          moment(endDate).endOf("day"), // End of the selected day
+          null,
+          "[]"
+        )
       );
     }
 
@@ -104,14 +116,14 @@ const Users = () => {
       sorter: (a, b) => a.email.localeCompare(b.email),
       width: "30%",
     },
-    // {
-    //   title: "Created At",
-    //   dataIndex: "created_at",
-    //   render: (created_at) => moment(created_at).format("YYYY-MM-DD"),
-    //   sorter: (a, b) =>
-    //     moment(a.created_at).unix() - moment(b.created_at).unix(),
-    //   width: "30%",
-    // },
+    {
+      title: "Created At",
+      dataIndex: "created_at",
+      render: (created_at) => moment(created_at).format("YYYY-MM-DD"),
+      sorter: (a, b) =>
+        moment(a.created_at).unix() - moment(b.created_at).unix(),
+      width: "30%",
+    },
   ];
 
   const paginatedData = filteredUsers.slice(
@@ -189,7 +201,7 @@ const Users = () => {
       </div>
       {showModal && (
         <AddUser
-          roleId={5}
+          roleId={user.role_id}
           heading="Create New User"
           open={showModal}
           onOk={handleUserAdded}
