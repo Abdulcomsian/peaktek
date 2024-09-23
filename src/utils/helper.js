@@ -38,3 +38,14 @@ export const dateDifference = (createdDate) => {
 
   return difference;
 };
+
+export const formatPhoneNumber = (value) => {
+  // Remove all non-digit characters
+  const digits = value?.replace(/\D/g, "");
+
+  // Format the phone number
+  const formatted = digits?.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1-$2-$3");
+
+  // Return formatted value, or the original if it doesn't match the desired length
+  return formatted;
+};
