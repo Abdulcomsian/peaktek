@@ -24,6 +24,7 @@ export default function ReadyToClose() {
   } = useForm({
     defaultValues: async () => {
       const resp = await getReadyToClose(jobId);
+
       console.log(resp.data.data);
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data.data;

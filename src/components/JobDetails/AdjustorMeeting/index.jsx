@@ -250,7 +250,7 @@ const AdjustorMeeting = () => {
                 htmlFor="completed"
                 className="text-base font-medium text-gray-900"
               >
-                BUILD CONFIRMED
+                SENT
               </label>
               <input
                 ref={inputRefs?.completed}
