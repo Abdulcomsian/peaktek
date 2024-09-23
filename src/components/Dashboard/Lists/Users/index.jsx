@@ -132,59 +132,67 @@ const Users = () => {
   );
 
   return (
-    <div className="w-full max-w-7xl mx-auto py-10">
-      <div className="flex justify-between mb-6 items-center">
-        <div style={{ width: "100%" }}>
-          <div className="flex flex-row items-start space-x-6 mt-2">
-            {/* Select User */}
-            <div className="flex flex-col w-1/3">
-              <label className="font-medium text-sm mb-1">Select User</label>
-              <Select
-                mode="multiple"
-                placeholder="Select users"
-                options={usersData.map((user) => ({
-                  value: `${user.id}`,
-                  label: user.name,
-                }))}
-                onChange={handleUserSelect}
-                className="text-sm"
-              />
-            </div>
-
-            {/* Lead Source */}
-            <div className="flex flex-col w-1/3">
-              <label className="font-medium text-sm mb-1">Lead Source</label>
-              <Select
-                mode="multiple"
-                placeholder="Select lead source"
-                options={leadSources}
-                onChange={handleUserSelect}
-                className="text-sm"
-              />
-            </div>
-
-            {/* Select Date */}
-            <div className="flex flex-col w-1/3">
-              <label className="font-medium text-sm mb-1">Select Date</label>
-              <RangePicker
-                style={{ height: "40px" }}
-                onChange={handleDateChange}
-                className="w-full text-sm"
-                format="YYYY-MM-DD"
-              />
-            </div>
-          </div>
-        </div>
-
+    <div className="w-full max-w-7xl mx-auto">
+      <div style={{ textAlign: "right" }}>
         <Button
-          className="w-full max-w-28 text-white btn-gradient px-4 py-2 ml-2"
+          className="w-full max-w-28 text-white btn-gradient px-4 py-2 "
           onClick={openModal}
         >
           Add User
         </Button>
       </div>
-      <div className="flex justify-center">
+
+      <div className="flex justify-between mb-6 items-center">
+        <div style={{ width: "100%" }}>
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-row items-start space-x-6 mt-2">
+              {/* Select User */}
+              <div className="flex flex-col w-1/2">
+                <label className="font-medium text-sm mb-1">Select User</label>
+                <Select
+                  mode="multiple"
+                  placeholder="Select users"
+                  options={usersData.map((user) => ({
+                    value: `${user.id}`,
+                    label: user.name,
+                  }))}
+                  onChange={handleUserSelect}
+                  className="text-sm"
+                />
+              </div>
+
+              {/* Lead Source */}
+              <div className="flex flex-col w-1/2">
+                <label className="font-medium text-sm mb-1">Lead Source</label>
+                <Select
+                  mode="multiple"
+                  placeholder="Select lead source"
+                  options={leadSources}
+                  onChange={handleUserSelect}
+                  className="text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-row items-start space-x-6 mt-2">
+              {/* Select Date */}
+              <div className="flex flex-col w-full">
+                <label className="font-medium text-sm mb-1">Select Date</label>
+                <RangePicker
+                  style={{ height: "40px" }}
+                  onChange={handleDateChange}
+                  className="w-full text-sm"
+                  format="YYYY-MM-DD"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full">
         <Table
+          style={{ width: "100%" }}
           columns={columns}
           rowKey={(record) => record.id}
           dataSource={paginatedData}
@@ -194,11 +202,12 @@ const Users = () => {
           }}
           loading={status === STATUS.LOADING}
           size="large"
-          className="w-full max-w-4xl"
+          className="w-full"
           onChange={handleTableChange}
           bordered
         />
       </div>
+
       {showModal && (
         <AddUser
           roleId={user.role_id}

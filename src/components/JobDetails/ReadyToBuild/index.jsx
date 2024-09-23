@@ -135,7 +135,7 @@ const ReadyToBuild = () => {
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
-      <Scheduling />
+      {/* <Scheduling /> */}
       <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
         Ready to Build
       </h1>
