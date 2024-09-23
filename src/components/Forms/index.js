@@ -81,4 +81,9 @@ export {
   RoofComponent,
   TermandConditionForm,
   EstimatePreparedForm,
+  COCInsuranceForm,
+  BuildScheduledForm,
+  FinalDuePayment,
+  ReadyToClose,
+  WonAndClosed,
 };

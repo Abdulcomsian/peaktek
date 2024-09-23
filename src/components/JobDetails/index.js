@@ -12,7 +12,7 @@ import InProgress from "./InProgress";
 import Scheduling from "./Scheduling";
 import EstimatePrepared from "./EstimatePrepared";
 import COC from "./COC";
-import BuildScheduled from "./builldScheduled";
+import BuildScheduled from "./BuildScheduled";
 export {
   Summary,
   DesignMeeting,
