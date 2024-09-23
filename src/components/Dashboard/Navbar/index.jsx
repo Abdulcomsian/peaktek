@@ -13,13 +13,13 @@ export default function NavBar({ onCloseSidebar }) {
   return (
     <nav className="dashboard-nav">
       <div className="welcome-box items-center justify-between !w-full pr-3">
-        <button className="btn btn-icon-close" onClick={onCloseSidebar}>
+        <button className="btn btn-icon-close " onClick={onCloseSidebar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
             fill="currentColor"
-            className="bi bi-list"
+            className="bi bi-list "
             viewBox="0 0 16 16"
           >
             <path
@@ -28,13 +28,13 @@ export default function NavBar({ onCloseSidebar }) {
             />
           </svg>
         </button>
-        <div className="relative">
-          <CgSearch className="absolute top-1/2 left-1.5 -translate-y-1/2" />
+        <div className="relative w-1/2">
+          <CgSearch className="absolute top-1/2 left-1.5 -translate-y-1/2 text-[rgb(44_128_186)]" />
           <Input
             type="search"
             placeholder="Search here..."
             inputClass="!p-3 !pl-7 "
-            className="!w-[15rem]"
+            className="!w-full"
           />
         </div>
         <div className="ml-auto">

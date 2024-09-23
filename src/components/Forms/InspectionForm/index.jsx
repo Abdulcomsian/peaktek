@@ -138,10 +138,10 @@ export default function InspectionForm() {
             className="grid grid-cols-2 md:grid-cols-[1fr_1fr] gap-4 mb-6"
             key={row.id}
           >
-            <TfiAlignJustify size="24px" className=" h-full mt-2" />
+            {/* <TfiAlignJustify size="24px" className=" h-full mt-2" /> */}
             <RiDeleteBin5Line
               size="24px"
-              className="justify-self-end h-full mt-2 text-red-500 cursor-pointer"
+              className="justify-self-end h-full mt-2 text-red-500 cursor-pointer col-span-2"
               onClick={() => confirmDelete(row)}
             />
             <Ckeditor

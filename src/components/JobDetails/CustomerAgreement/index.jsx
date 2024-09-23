@@ -50,6 +50,7 @@ const CustomerAgreementForm = () => {
     watch,
     reset,
     getValues,
+    setValue,
     formState: { errors, isSubmitting, isLoading },
   } = useForm({
     defaultValues: async () => {
@@ -162,7 +163,12 @@ const CustomerAgreementForm = () => {
           Customer Information
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CustomerInformation register={register} />
+          <CustomerInformation
+            register={register}
+            getValue={getValues}
+            setValue={setValue}
+            watch={watch}
+          />
           <TextSection1 />
           <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
           <SignatureForm register={register} control={control} />

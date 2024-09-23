@@ -3,7 +3,7 @@ import { Button } from "..";
 import { FaPlus } from "react-icons/fa6";
 import { NewJobModal } from "@components/Modals";
 
-export default function AddNewJob({ className, onJobAdded }) {
+export default function AddNewJob({ className, onJobAdded = () => {} }) {
   const [showAddNewJobModal, setAddNewJobModal] = useState(false);
   return (
     <>

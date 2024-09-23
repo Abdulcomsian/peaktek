@@ -84,7 +84,7 @@ export default function CreateInsuranceInformation() {
         </div>
         <div className="px-3 flex flex-col gap-3">
           <Input
-            label="Policy#:"
+            label="Policy Number:"
             type="number"
             name="policy_number"
             id="policy_number"
@@ -92,7 +92,7 @@ export default function CreateInsuranceInformation() {
             register={register}
           />
           <Input
-            label="Claim number:"
+            label="Claim Number:"
             type="number"
             name="claim_number"
             id="claim_number"
