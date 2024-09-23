@@ -15,6 +15,7 @@ const AdjustorForm = ({
   values,
   setFieldValue,
   inputRefs,
+  onchangePhoneNumber,
 }) => {
   console.log("values", values);
   return (
@@ -35,14 +36,14 @@ const AdjustorForm = ({
         />
         <TextBox
           label="Phone:"
-          placeholder="923081177825"
-          type="number"
+          placeholder="000-000-0000"
+          type="tel"
           name="phone"
           className="md:mr-4 mb-4 md:mb-0"
           ref={inputRefs?.phone}
           value={values?.phone}
           onBlur={handleBlur}
-          onChange={handleChange}
+          onChange={onchangePhoneNumber}
           error={errors?.phone}
           touched={touched?.phone}
         />

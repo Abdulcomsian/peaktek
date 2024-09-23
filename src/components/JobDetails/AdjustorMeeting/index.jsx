@@ -86,6 +86,23 @@ const AdjustorMeeting = () => {
     }
   }, [id, isDone]);
 
+  const formatPhoneNumber = (value) => {
+    // Remove all non-digit characters
+    const digits = value.replace(/\D/g, "");
+
+    // Format the phone number
+    const formatted = digits.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1-$2-$3");
+
+    // Return formatted value, or the original if it doesn't match the desired length
+    return formatted;
+  };
+
+  const handlePhoneChange = (event) => {
+    const { value } = event.target;
+    const formattedValue = formatPhoneNumber(value);
+    formik.setFieldValue("phone", formattedValue);
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -288,6 +305,7 @@ const AdjustorMeeting = () => {
             values={formik.values}
             setFieldValue={formik.setFieldValue}
             inputRefs={inputRefs}
+            onchangePhoneNumber={handlePhoneChange}
           />
 
           <div className="flex flex-col md:flex-row">

@@ -25,7 +25,10 @@ const adjustorMeetingSchema = Yup.object().shape({
     .email("Invalid email address")
     .required("Email is required"),
   phone: Yup.string()
-    .matches(/^[0-9]{12}$/, "Phone number must be exactly 11 digits")
+    .matches(
+      /^(?:\d{3}-?\d{3}-?\d{4}|\d{10})$/,
+      "Phone number must be exactly 10 digits."
+    )
     .required("Phone number is required"),
   time: Yup.string().required("Time is required"),
   date: Yup.date().required("Date is required").typeError("Invalid date"),
