@@ -12,17 +12,20 @@ import {
   deleteQuoteSection,
   getQuoteDetail,
 } from "@services/apiDesignMeeting";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { clientBaseURL } from "@services/config";
 import { number } from "yup";
 import { Loader } from "@components/UI";
+import { useAuth } from "@context/AuthContext";
 
 export default function QuoteDetailsForm() {
+  const { logout } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const { id: jobId } = useParams();
   const [sections, setSections] = useState([{ id: uuidv4(), title: "" }]);
   const [progress, setProgress] = useState(30);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -33,10 +36,15 @@ export default function QuoteDetailsForm() {
   } = useForm({
     defaultValues: async function () {
       const resp = await getQuoteDetail(jobId);
+      console.log("QUOTE DETAIL RESP", resp);
       if (resp.status >= 200 && resp.status < 300) {
         if (resp.data.data.sections.length > 0)
           setSections([...resp.data.data.sections]);
         return resp.data.data;
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
       }
     },
   });
@@ -103,11 +111,9 @@ export default function QuoteDetailsForm() {
   };
 
   const handleDeleteRemoteItem = async (section_id, item_id) => {
-    console.log(section_id, item_id);
     const resp = await deleteQuoteItem(jobId, section_id, item_id);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
-      console.log(resp.data.data);
       setSections(resp.data.data.sections);
     }
   };
@@ -119,14 +125,15 @@ export default function QuoteDetailsForm() {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
+      }
     } catch (error) {
+      console.log("QUOTE DETAIL RESP", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const onerror = (error) => {
-    console.error(error);
   };
 
   return (
@@ -180,7 +187,7 @@ export default function QuoteDetailsForm() {
         </Button>
       </div>
       <div className="flex items-center gap-8 py-8 border-b border-gray-150 mb-4">
-        <div className="grow flex flex-col gap-7 ">
+        <div className="grow w-full flex flex-col gap-7 ">
           <div className="flex items-center justify-between">
             <h2 className="text-base">Profit margin for this quote</h2>
             <span>{progress}</span>

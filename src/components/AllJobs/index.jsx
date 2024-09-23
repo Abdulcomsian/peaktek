@@ -18,6 +18,7 @@ export default function AllJobs() {
   const [isLoading, setIsLoading] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
+
   const [jobs, setJobs] = useState([]);
   const preliminaryPhases = jobs.filter((job) => job.id <= 8);
   const inBuildProcessJobs = jobs.filter((job) => job.id >= 9 && job.id <= 11);
