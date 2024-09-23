@@ -17,7 +17,6 @@ const AdjustorForm = ({
   inputRefs,
   onchangePhoneNumber,
 }) => {
-  console.log("values", values);
   return (
     <div className={className}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">

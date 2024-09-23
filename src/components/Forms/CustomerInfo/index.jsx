@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InputContainer } from "@components";
 import { Input, TextBox } from "@components/FormControls";
 import { useSelector } from "react-redux";
+import { formatPhoneNumber } from "../../../utils/helper";
 
-const CustomerInformation = ({ register, className, control }) => {
+const CustomerInformation = ({
+  register,
+  className,
+  control,
+  setValue,
+  watch,
+}) => {
   const { name, email, phone } = useSelector(
     (state) => state?.jobs?.singleJobData
   );
-  console.log("CUSTOMER JOB DETAIL", { name, email, phone });
+  console.log(
+    "CUSTOMER JOB DETAIL",
+    { name, email, phone },
+    formatPhoneNumber(phone)
+  );
+
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -45,7 +57,7 @@ const CustomerInformation = ({ register, className, control }) => {
           type="text"
           className="mb-4 md:mb-0"
           disabled={true}
-          defaultValue={phone || ""}
+          defaultValue={formatPhoneNumber(phone) || ""}
           name="phone"
           id="phone"
         />

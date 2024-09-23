@@ -27,7 +27,7 @@ const CustomerAgreement = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [defaultValue, setDefaultValue] = useState({});
   const { id: agreementId, ...defaultValuesform } = defaultValue;
-  const { register, handleSubmit, reset, control } = useForm({
+  const { register, handleSubmit, reset, control, setValue } = useForm({
     defaultValues: agreementId && isEditing ? defaultValuesform : {},
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -139,6 +139,7 @@ const CustomerAgreement = () => {
           register={register}
           defaultValue={defaultValuesform} // Pass defaultValues to the form component
           disabled={isSigned}
+          setValue={setValue}
         />
         <TextSection1 />
 
