@@ -21,6 +21,8 @@ import Welcome from "./Welcome";
 import AllJobs from "./AllJobs";
 import JobListing from "./JobListing";
 import UserJobs from "./UserJobs";
+import ConfirmationEmail from "./ConfirmationEmail";
+import TextareaI from "./TextArea";
 
 export {
   Button,
@@ -45,4 +47,6 @@ export {
   AllJobs,
   JobListing,
   UserJobs,
+  ConfirmationEmail,
+  TextareaI,
 };

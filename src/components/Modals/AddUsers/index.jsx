@@ -25,12 +25,21 @@ const AddUser = ({ roleId, heading, open, onCancel, onOk }) => {
     enableReinitialize: true,
     validationSchema: addUserSchema,
     onSubmit: async (values, actions) => {
+      console.log("Values for create user=>", values);
+      console.log("Role ID=>", roleId);
+      console.log("Values chk=>", {
+        name: values.name,
+        email: values.email,
+        role_id: roleId,
+      });
+
       try {
         const token = localStorage.getItem("token");
         const response = await clientBaseURL.post(
           `${clientEndPoints?.createUsers}`,
           {
-            ...values,
+            name: values.name,
+            email: values.email,
             role_id: roleId,
           },
           {

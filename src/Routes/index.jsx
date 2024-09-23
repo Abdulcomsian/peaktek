@@ -34,6 +34,7 @@ import {
   FinalDuePayment,
   ReadyToClose,
   WonAndClosed,
+  CustomerInformation,
 } from "@components/Forms";
 import {
   DesignMeeting,
@@ -46,6 +47,7 @@ import {
   InProgress,
   Scheduling,
   EstimatePrepared,
+  BuildScheduled,
 } from "@components/JobDetails";
 import {
   KanbanBoard,
@@ -60,6 +62,7 @@ import Test from "@pages/Test";
 import { JobDetail } from "@pages/index";
 import { Inspection } from "@components/Forms/Sidebar";
 import { AllJobs, JobListing, UserJobs, Welcome } from "@components/index";
+import BuildScheduledTab from "@components/JobDetails/builldScheduled";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -170,6 +173,12 @@ export function AppRoute() {
             <Route path="overturn" element={<Overturn />} />
             <Route path="approved" element={<DesignMeeting />} />
             <Route path="ready-to-build" element={<ReadyToBuild />} />
+            <Route path="build-scheduled" element={<BuildScheduledTab />} />
+            <Route
+              path="material-order-form"
+              element={<CustomerInformation />}
+            />
+
             <Route path="scheduling" element={<Scheduling />} />
             <Route path="in-progress" element={<InProgress />} />
             <Route path="complete" element={<Complete />} />

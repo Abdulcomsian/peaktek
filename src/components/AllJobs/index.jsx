@@ -9,6 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { seletectedStatus } from "@store/slices/JobsSlice";
 import { useAuth } from "@context/AuthContext";
+import BuildConfirmation from "./components/form";
 import AddNewJob from "@components/AddNewJob";
 import JobCard from "@components/JobCard";
 

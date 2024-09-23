@@ -1,53 +1,33 @@
 import React from "react";
 import { InputContainer } from "@components";
 import { Input, TextBox } from "@components/FormControls";
-import { useSelector } from "react-redux";
 
-const CustomerInformation = ({ register, className, control }) => {
-  const { name, email, phone } = useSelector(
-    (state) => state?.jobs?.singleJobData
-  );
-  console.log("CUSTOMER JOB DETAIL", { name, email, phone });
+const ConfirmationEmail = ({ register, className }) => {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
-          label="Supplier:"
-          placeholder="John Doe"
-          className="md:mr-4 mb-4 md:mb-0"
-          name="supplier"
-          register={register}
-          control={control}
-        />
-        <Input
           label="Homeowner Name:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
-          disabled={true}
-          defaultValue={name || ""}
           name="name"
-          id="name"
-          control={control}
+          register={register}
         />
         <Input
           label="Homeowner Email:"
           placeholder="john@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          disabled={true}
-          defaultValue={email || ""}
           name="email"
-          id="email"
+          register={register}
         />
         <Input
           label="Phone:"
           placeholder="923081177825"
-          type="text"
+          type="number"
           className="mb-4 md:mb-0"
-          disabled={true}
-          defaultValue={phone || ""}
           name="phone"
-          id="phone"
+          register={register}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -56,7 +36,6 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="west Bridge"
           className="md:mr-4 mb-4 md:mb-0"
           name="street"
-          id="street"
           register={register}
         />
         <Input
@@ -64,7 +43,6 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="New York"
           className="md:mr-4 md:max-w-xs mb-4 md:mb-0"
           name="city"
-          id="city"
           register={register}
         />
         <Input
@@ -72,7 +50,6 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="NY"
           className="md:mr-4 md:max-w-40 mb-4 md:mb-0"
           name="state"
-          id="state"
           register={register}
         />
         <Input
@@ -81,7 +58,6 @@ const CustomerInformation = ({ register, className, control }) => {
           type="number"
           className="md:max-w-40 mb-4 md:mb-0"
           name="zip_code"
-          id="zip_code"
           register={register}
         />
       </InputContainer>
@@ -91,7 +67,6 @@ const CustomerInformation = ({ register, className, control }) => {
           placeholder="eg. Health Insurance"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance"
-          id="insurance"
           register={register}
         />
         <Input
@@ -100,7 +75,6 @@ const CustomerInformation = ({ register, className, control }) => {
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
           name="insurance_email"
-          id="insurance_email"
           register={register}
         />
         <Input
@@ -109,7 +83,6 @@ const CustomerInformation = ({ register, className, control }) => {
           type="number"
           className="md:mr-4 mb-4 md:mb-0"
           name="claim_number"
-          id="claim_number"
           register={register}
         />
         <Input
@@ -121,26 +94,8 @@ const CustomerInformation = ({ register, className, control }) => {
           register={register}
         />
       </InputContainer>
-      <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <Input
-          label="Supplier ID:"
-          placeholder="7632456"
-          type="number"
-          className="mb-4 md:mb-0 "
-          name="supplier_id"
-          register={register}
-        />
-        <Input
-          label="Material:"
-          placeholder="7632456"
-          type="text"
-          className="mb-4 md:mb-0 ml-4"
-          name="materials"
-          register={register}
-        />
-      </InputContainer>
     </div>
   );
 };
 
-export default CustomerInformation;
+export default ConfirmationEmail;
