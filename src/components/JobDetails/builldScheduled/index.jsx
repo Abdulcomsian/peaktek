@@ -23,7 +23,7 @@ import SubTabs from "./components/tabs";
 import { useForm } from "react-hook-form";
 import { buildScheduled } from "@services/apiBuildScheduled";
 
-const BuildScheduled = () => {
+const BuildScheduledTab = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
@@ -100,7 +100,7 @@ const BuildScheduled = () => {
   );
 };
 
-export default BuildScheduled;
+export default BuildScheduledTab;
 
 {
   /* <BuildScheduledForm
