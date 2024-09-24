@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@components";
 import { Modal, Spin } from "antd";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import { addJob } from "@store/slices/JobsSlice";
 import { Button } from "@components/UI";
 import { useAuth } from "@context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { formatPhoneNumber } from "../../../utils/helper";
 
 const modalInputsData = [
   {
@@ -19,7 +20,6 @@ const modalInputsData = [
   },
   { id: "2", name: "name", label: "Name", placeholder: "Enter customer name" },
   { id: "3", name: "email", label: "Email", placeholder: "Email address" },
-  { id: "4", name: "phone", label: "Phone", placeholder: "Phone number" },
 ];
 
 function NewJobModal({ open, onCancel, onOk, onAddJob }) {
@@ -28,6 +28,8 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
     register,
     reset,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm();
   const dispatch = useDispatch();
 
@@ -56,6 +58,12 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
     }
   };
 
+  const phone = watch("phone");
+
+  useEffect(() => {
+    setValue("phone", formatPhoneNumber(phone));
+  }, [phone]);
+
   return (
     <Modal open={open} onCancel={onCancel} onOk={onOk} footer={null}>
       <h1 className="text-center text-xl font-semibold my-4">New Job</h1>
@@ -72,6 +80,17 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
             error={errors?.[data.name]?.message}
           />
         ))}
+        <Input
+          key={4}
+          applyMarginBottom={true}
+          name="phone"
+          label="Phone"
+          placeholder="000-000-0000"
+          className="mb-3"
+          register={register}
+          error={errors?.phone?.message}
+          maxLength={12}
+        />
         <div className="flex justify-center">
           <Button
             variant="gradient"
