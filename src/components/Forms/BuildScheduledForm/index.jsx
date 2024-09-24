@@ -3,6 +3,7 @@ import { InputContainer } from "@components";
 import {
   CustomDatePicker,
   DateSelector,
+  TimeInput,
   Input,
 } from "@components/FormControls";
 import { Button } from "@components/UI";
@@ -19,14 +20,13 @@ const BuildScheduledForm = ({ register, control }) => {
           control={control}
         />
 
-        <Input
+        <TimeInput
           label="Build Time"
           placeholder="7:00 AM"
-          type="text"
-          className="md:mr-4 mb-4 md:mb-0"
-          name="buildTime"
+          name="build_time"
           register={register}
           control={control}
+          className="md:mr-4 mb-4 md:mb-0"
         />
       </InputContainer>
 

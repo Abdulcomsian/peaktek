@@ -2,6 +2,7 @@ import { clientBaseURL, clientEndPoints } from "./config";
 
 export async function buildScheduled(data, id) {
   const token = localStorage.getItem("token");
+  console.log("Data In Service=>", data);
 
   try {
     const response = await clientBaseURL.post(

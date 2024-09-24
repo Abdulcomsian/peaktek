@@ -35,7 +35,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
 
     {
       id: 3,
-      linkSrc: "/dashboard/users-list",
+      linkSrc: "/reports",
       linkText: <IoBagOutline />,
       text: "Reports",
     },
@@ -97,6 +97,8 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
           >
             <NavLink
               to={link?.linkSrc}
+              // Add 'end' for dashboard and jobs routes
+              end={link?.linkSrc === "/dashboard" || link?.linkSrc === "/jobs"}
               className="p-2 inline-flex items-center gap-2 border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md w-full"
             >
               {link.linkText}

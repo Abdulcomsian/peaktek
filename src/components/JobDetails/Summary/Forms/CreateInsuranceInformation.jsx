@@ -90,6 +90,7 @@ export default function CreateInsuranceInformation() {
             id="policy_number"
             className="rounded-2xl"
             register={register}
+            min={0}
           />
           <Input
             label="Claim Number:"

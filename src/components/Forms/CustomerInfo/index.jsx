@@ -24,6 +24,14 @@ const CustomerInformation = ({
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
+          label="Supplier Id:"
+          placeholder="John Doe"
+          className="md:mr-4 mb-4 md:mb-0"
+          name="supplier_id"
+          register={register}
+          control={control}
+        />
+        <Input
           label="Supplier:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
@@ -35,8 +43,7 @@ const CustomerInformation = ({
           label="Homeowner Name:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
-          disabled={true}
-          defaultValue={name || ""}
+          // disabled={true}
           name="name"
           id="name"
           control={control}
@@ -46,18 +53,17 @@ const CustomerInformation = ({
           placeholder="john@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          disabled={true}
-          defaultValue={email || ""}
+          // disabled={true}
           name="email"
           id="email"
         />
         <Input
           label="Phone:"
           placeholder="923081177825"
-          type="text"
+          type="number"
           className="mb-4 md:mb-0"
-          disabled={true}
-          defaultValue={formatPhoneNumber(phone) || ""}
+          // disabled={true}
+          // defaultValue={formatPhoneNumber(phone) || ""}
           name="phone"
           id="phone"
         />

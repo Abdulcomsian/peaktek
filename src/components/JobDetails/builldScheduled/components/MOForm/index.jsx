@@ -18,60 +18,36 @@ const MOForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    // Preparing materials as an array of objects
-    const materialsArray = [
-      {
-        material: "test 1",
-        quantity: 3,
-        order_key: "anything",
-      },
-      {
-        material: "test 2",
-        quantity: 3,
-        order_key: "anything",
-      },
-    ];
-
-    // Preparing the data object to match the API's expected format
-    const preparedData = {
-      street: data.street || "test",
-      city: data.city || "test",
-      state: data.state || "test",
-      zip_code: data.zip_code || 40100,
-      claim_number: data.claim_number || 10100,
-      policy_number: data.policy_number || 10010,
-      insurance: data.insurance || "test",
-      date_needed: data.date_needed || "12/07/2024",
-      square_count: data.square_count || "anything",
-      total_perimeter: data.total_perimeter || "anything",
-      build_date: data.build_date || "12/07/2024",
-      ridge_lf: data.ridge_lf || "anything",
-      valley_sf: data.valley_sf || "anything",
-      hip_and_ridge_lf: data.hip_and_ridge_lf || "anything",
-      drip_edge_lf: data.drip_edge_lf || "anything",
-      supplier_id: data.supplier_id || 10,
-      supplier: data.supplier || "test supplier",
-      materials: materialsArray,
-    };
+    // const preparedData = {
+    //   street: data.street || "test",
+    //   city: data.city || "test",
+    //   state: data.state || "test",
+    //   zip_code: data.zip_code || 40100,
+    //   claim_number: data.claim_number || 10100,
+    //   policy_number: data.policy_number || 10010,
+    //   insurance: data.insurance || "test",
+    //   date_needed: data.date_needed || "12/07/2024",
+    //   square_count: data.square_count || "anything",
+    //   total_perimeter: data.total_perimeter || "anything",
+    //   build_date: data.build_date || "12/07/2024",
+    //   ridge_lf: data.ridge_lf || "anything",
+    //   valley_sf: data.valley_sf || "anything",
+    //   hip_and_ridge_lf: data.hip_and_ridge_lf || "anything",
+    //   drip_edge_lf: data.drip_edge_lf || "anything",
+    //   supplier_id: data.supplier_id || 10,
+    //   materials: [data.materials] || [], // Adjust if materials need to be handled differently
+    // };
 
     try {
       setIsCreating(true);
-
-      const response = await materialOrderForm(preparedData, id);
-      console.log("Material Order Form===>", response);
-
+      const response = await materialOrderForm(data, id);
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response.message);
-      } else if (response?.status === 401) {
-        toast.error("Session expired. Please log in again.");
-        navigate("/");
-      } else if (response?.status === 422) {
-        toast.error(response.data.message);
       } else {
-        toast.error("Something went wrong. Please try again.");
+        toast.error("Error occurred. Please try again.");
       }
     } catch (error) {
-      console.error("Material Order Form Submission error:", error);
+      console.error("Error submitting form:", error);
     } finally {
       setIsCreating(false);
     }

@@ -36,9 +36,9 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
       setIsCreating(true);
 
       const formattedData = {
+        email_body: data.email_body,
         send_to: [data.send_to],
         subject: data.subject,
-        email_body: data.email_body,
       };
       console.log("Formatted Data=>", formattedData);
 

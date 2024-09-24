@@ -35,23 +35,33 @@ const BuildScheduledTab = () => {
     handleSubmit,
     setValue,
     control,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log("Data=>", data);
+
+    if (data.build_time) {
+      const formattedTime = dayjs(data.build_time, ["h:mm A", "HH:mm"]).format(
+        "h:mm A"
+      );
+      data.build_time = formattedTime;
+    }
+
     try {
       setIsCreating(true);
       const response = await buildScheduled(data, id);
-      console.log("response hai", response);
 
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response.message);
+        reset();
       } else if (response?.status === 401) {
-        // If unauthorized, log the user out
         toast.error("Session expired. Please log in again.");
         navigate("/");
       } else if (response?.status === 422) {
-        toast.error(response.data.message);
+        // Display validation errors from the response
+        toast.error(response.data.errors.build_time[0]);
       } else {
         toast.error("Something went wrong. Please try again.");
       }
@@ -61,6 +71,7 @@ const BuildScheduledTab = () => {
       setIsCreating(false);
     }
   };
+
   return (
     <div className="bg-white p-5 rounded-2xl w-full max-w-7xl">
       {loading && <Spin fullscreen={true} />}
@@ -87,13 +98,15 @@ const BuildScheduledTab = () => {
           setValue={setValue}
           control={control}
         />
-        <button
-          disabled={isCreating}
-          type="submit"
-          className="w-full max-w-24 text-white btn-gradient px-4 py-1 rounded-sm"
-        >
-          Submit
-        </button>
+        <div className="flex justify-end mr-4">
+          <button
+            disabled={isCreating}
+            type="submit"
+            className="w-full max-w-24 text-white btn-gradient px-4 py-1 rounded-sm"
+          >
+            Submit
+          </button>
+        </div>
       </Form>
       <SubTabs className="mb-4" currentPath={path} />
     </div>
