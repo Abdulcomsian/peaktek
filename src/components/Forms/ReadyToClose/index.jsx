@@ -24,7 +24,6 @@ export default function ReadyToClose() {
   } = useForm({
     defaultValues: async () => {
       const resp = await getReadyToClose(jobId);
-
       console.log(resp.data.data);
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data.data;
@@ -33,7 +32,6 @@ export default function ReadyToClose() {
   });
 
   const isVarified = getValues()?.status === "1";
-  console.log("Isvariefied", isVarified);
   const usersData = useSelector((state) => state?.users?.usersData);
   const userOptions = usersData.map((user) => ({
     value: `${user.id}`,

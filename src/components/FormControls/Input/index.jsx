@@ -16,6 +16,7 @@ const Input = ({
   min,
   max,
   readOnly = false,
+  maxLength,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -33,6 +34,7 @@ const Input = ({
         readOnly={readOnly}
         min={min}
         max={max}
+        maxLength={maxLength}
         disabled={disabled}
         defaultValue={defaultValue}
         ref={ref}

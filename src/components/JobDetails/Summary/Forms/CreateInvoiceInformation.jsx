@@ -103,7 +103,7 @@ export default function CreateInvoiceInformation() {
             />
           </div>
           <Input
-            label="PeakTek:"
+            label="PeakTek Invoice number:"
             placeholder="00-000-0000-00000"
             type="text"
             name="invoice_number"
