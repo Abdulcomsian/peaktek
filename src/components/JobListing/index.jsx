@@ -49,7 +49,7 @@ export default function JobListing() {
         <h2 className="font-black text-3xl">Jobs</h2>
         <AddNewJob onJobAdded={setInvalidatePage} />
       </div>
-      <Card className="h-full">
+      <Card className="min-h-full">
         <h1 className="font-extrabold text-xl translate-x-2 text-[#2a95c5] mb-5">
           {statusJobs.name}
         </h1>
