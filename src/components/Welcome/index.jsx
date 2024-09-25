@@ -33,6 +33,10 @@ export default function Welcome() {
         console.log(resp);
       } catch (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          logout();
+          navigate("/");
+        }
       } finally {
         setIsLoading(false);
       }
