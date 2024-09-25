@@ -61,7 +61,7 @@ export default function Welcome() {
         <h2 className="font-black text-3xl">Dashbord</h2>
         <AddNewJob onJobAdded={setInvalidatePage} />
       </div>
-      <div className="grid grid-cols-[1fr] md:grid-cols-[1fr_30%] md:grid-rows-[auto_150px_auto] gap-6 ">
+      <div className="grid grid-cols-[1fr] md:grid-cols-[1fr_30%] md:grid-rows-[200px_150px_auto] gap-6 ">
         <CurrentJobs currentJobs={current_jobs} />
         <NeedAtthentionBox listOfAttentions={needs_attention} />
         <TotalUserJobs dataDashboard={dataDashboard} />

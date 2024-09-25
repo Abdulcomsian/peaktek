@@ -24,15 +24,17 @@ export default function NeedAtthentionBox({ listOfAttentions = [] }) {
 function AtthentionsList({ attentions }) {
   console.log("Attention list", attentions);
   return (
-    <ul className="flex flex-col gap-3">
-      {attentions.map((item) => {
-        return (
-          <li>
-            <AtthentionListItem key={item.id} item={item} />
-          </li>
-        );
-      })}
-    </ul>
+    <div className="max-h-[80%] overflow-auto">
+      <ul className="flex flex-col gap-3 ">
+        {attentions.map((item) => {
+          return (
+            <li>
+              <AtthentionListItem key={item.id} item={item} />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
