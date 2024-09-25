@@ -42,17 +42,20 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     {
       id: 4,
       linkSrc: "/dashboard/sub-contractor-list",
-      linkText: clipboardCheck,
+      linkText: <IoBagOutline />,
+      text: "Sub Contractor",
     },
     {
       id: 5,
       linkSrc: "/dashboard/suppliers-list",
-      linkText: settingsMinimalistic,
+      linkText: <IoBagOutline />,
+      text: "Suppliers",
     },
     {
       id: 6,
       linkSrc: "/dashboard/adjustors-list",
-      linkText: FileText,
+      linkText: <IoBagOutline />,
+      text: "Adjustor",
     },
     {
       id: 7,
@@ -63,7 +66,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     {
       id: 8,
       linkSrc: "/",
-      linkText: FileText,
+      linkText: <IoBagOutline />,
     },
   ];
 
@@ -98,7 +101,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
             <NavLink
               to={link?.linkSrc}
               // Add 'end' for dashboard and jobs routes
-              end={link?.linkSrc === "/dashboard" || link?.linkSrc === "/jobs"}
+              // end={link?.linkSrc === "/dashboard" || link?.linkSrc === "/jobs"}
               className="p-2 inline-flex items-center gap-2 border-none text-white fill-slate-100 hover:bg-blue-500 rounded-md w-full"
             >
               {link.linkText}
