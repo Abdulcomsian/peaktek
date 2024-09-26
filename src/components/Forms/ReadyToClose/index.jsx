@@ -8,6 +8,10 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import { useEffect } from "react";
+import {
+  formatePercentageInputValue,
+  formateCurrencyInputValue,
+} from "../../../utils/helper";
 
 const marketOptions = [
   { label: "Nashville", value: "Nashville" },
@@ -129,20 +133,7 @@ export default function ReadyToClose() {
                 const newValue = value?.replaceAll("%", "");
                 setValue("sales_rep1_commission_percentage", `${newValue}%`);
               }}
-              validate={(value) => {
-                const isValidWithPercent = /^(100|[1-9]?[0-9])%?$/.test(value);
-
-                if (!isValidWithPercent) {
-                  return "Please enter a valid number between 0 and 100.";
-                }
-
-                if (value.endsWith("%")) {
-                  const numberValue = parseInt(value.slice(0, -1), 10); // Extract the numeric part
-                  if (numberValue > 100) {
-                    return "Number should be less than or equal to 100.";
-                  }
-                }
-              }}
+              validate={(value) => formatePercentageInputValue(value)}
               error={errors?.sales_rep1_commission_percentage?.message}
             />
             <Input
@@ -157,22 +148,7 @@ export default function ReadyToClose() {
                 const newValue = value?.replaceAll("%", "");
                 setValue("sales_rep2_commission_percentage", `${newValue}%`);
               }}
-              validate={(value) => {
-                // Check if the value is a valid number or empty
-                const isValidWithPercent = /^(100|[1-9]?[0-9])%?$/.test(value);
-
-                if (!isValidWithPercent) {
-                  return "Please enter a valid number between 0 and 100.";
-                }
-
-                // If it ends with '%', check the numeric part
-                if (value.endsWith("%")) {
-                  const numberValue = parseInt(value.slice(0, -1), 10); // Extract the numeric part
-                  if (numberValue > 100) {
-                    return "Number should be less than or equal to 100.";
-                  }
-                }
-              }}
+              validate={(value) => formatePercentageInputValue(value)}
               error={errors?.sales_rep2_commission_percentage?.message}
             />
           </div>
@@ -183,11 +159,17 @@ export default function ReadyToClose() {
           </h2>
           <div className="col-span-full grid grid-cols-1 sm:grid-cols-2 sm:gap-3 bg-white rounded-2xl p-4">
             <Input
-              type="number"
               label="Deal value:"
               name="deal_value"
               id="deal_value"
               register={register}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newValue = value?.replaceAll("$", "");
+                setValue("deal_value", `$${newValue}`);
+              }}
+              validate={(value) => formateCurrencyInputValue(value)}
+              error={errors?.deal_value?.message}
             />
             <DropDown
               vertical={true}
@@ -201,11 +183,17 @@ export default function ReadyToClose() {
               rules={{ required: "This field is required" }} // Optional validation rules
             />
             <Input
-              type="number"
               label="Material Costs:"
               name="material_costs"
               id="material_costs"
               register={register}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newValue = value?.replaceAll("$", "");
+                setValue("material_costs", `$${newValue}`);
+              }}
+              validate={(value) => formateCurrencyInputValue(value)}
+              error={errors?.material_costs?.message}
             />
             <Input
               type="number"
@@ -215,18 +203,30 @@ export default function ReadyToClose() {
               register={register}
             />
             <Input
-              type="number"
               label="Labour Costs:"
               name="labor_costs"
               id="labor_costs"
               register={register}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newValue = value?.replaceAll("$", "");
+                setValue("labor_costs", `$${newValue}`);
+              }}
+              validate={(value) => formateCurrencyInputValue(value)}
+              error={errors?.labor_costs?.message}
             />
             <Input
-              type="number"
               label="Costs of Goods:"
               name="costs_of_goods"
               id="costs_of_goods"
               register={register}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newValue = value?.replaceAll("$", "");
+                setValue("costs_of_goods", `$${newValue}`);
+              }}
+              validate={(value) => formateCurrencyInputValue(value)}
+              error={errors?.costs_of_goods?.message}
             />
           </div>
         </div>

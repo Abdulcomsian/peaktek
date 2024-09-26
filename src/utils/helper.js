@@ -49,3 +49,35 @@ export const formatPhoneNumber = (value) => {
   // Return formatted value, or the original if it doesn't match the desired length
   return formatted;
 };
+
+export const formatePercentageInputValue = function (value) {
+  const isValidWithPercent = /^(100|[1-9]?[0-9])%?$/.test(value);
+
+  if (!isValidWithPercent) {
+    return "Please enter a valid number between 0 and 100.";
+  }
+
+  // If it ends with '%', check the numeric part
+  if (value.endsWith("%")) {
+    const numberValue = parseInt(value.slice(0, -1), 10); // Extract the numeric part
+    if (numberValue > 100) {
+      return "Number should be less than or equal to 100.";
+    }
+  }
+};
+
+export const formateCurrencyInputValue = function (value) {
+  const isValidWithPercent = /^\$?\d+$/.test(value);
+
+  if (!isValidWithPercent) {
+    return "Please enter a valid number.";
+  }
+
+  // If it ends with '%', check the numeric part
+  if (value.endsWith("$")) {
+    const numberValue = parseInt(value.slice(0, -1), 10); // Extract the numeric part
+    // if (numberValue > 100) {
+    //   return "Number should be less than or equal to 100.";
+    // }
+  }
+};
