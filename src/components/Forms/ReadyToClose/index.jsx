@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import { useEffect } from "react";
 
 const marketOptions = [
   { label: "Nashville", value: "Nashville" },
@@ -20,7 +21,8 @@ export default function ReadyToClose() {
     register,
     handleSubmit,
     getValues,
-    formState: { isSubmitting, isLoading },
+    setValue,
+    formState: { errors, isSubmitting, isLoading },
   } = useForm({
     defaultValues: async () => {
       const resp = await getReadyToClose(jobId);
@@ -32,11 +34,21 @@ export default function ReadyToClose() {
   });
 
   const isVarified = getValues()?.status === "1";
+  const sales_rep1_commission_percentage =
+    getValues()?.sales_rep1_commission_percentage;
+  const sales_rep2_commission_percentage =
+    getValues().sales_rep2_commission_percentage;
+
   const usersData = useSelector((state) => state?.users?.usersData);
   const userOptions = usersData.map((user) => ({
     value: `${user.id}`,
     label: user.name,
   }));
+
+  useEffect(() => {
+    const newValue = sales_rep1_commission_percentage?.replace("%", "");
+    setValue("sales_rep1_commission_percentage", `${newValue}%`);
+  }, [sales_rep1_commission_percentage]);
 
   const onSubmit = async function (data) {
     console.log(data);
@@ -106,22 +118,62 @@ export default function ReadyToClose() {
               rules={{ required: "This field is required" }} // Optional validation rules
             />
             <Input
-              type="number"
               label="Commission Percentage:"
               register={register}
               name="sales_rep1_commission_percentage"
               id="sales_rep1_commission_percentage"
               min={0}
               max={100}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newValue = value?.replaceAll("%", "");
+                setValue("sales_rep1_commission_percentage", `${newValue}%`);
+              }}
+              validate={(value) => {
+                const isValidWithPercent = /^(100|[1-9]?[0-9])%?$/.test(value);
+
+                if (!isValidWithPercent) {
+                  return "Please enter a valid number between 0 and 100.";
+                }
+
+                if (value.endsWith("%")) {
+                  const numberValue = parseInt(value.slice(0, -1), 10); // Extract the numeric part
+                  if (numberValue > 100) {
+                    return "Number should be less than or equal to 100.";
+                  }
+                }
+              }}
+              error={errors?.sales_rep1_commission_percentage?.message}
             />
             <Input
-              type="number"
               min={0}
               max={100}
               label="Commission Percentage:"
               name="sales_rep2_commission_percentage"
               id="sales_rep2_commission_percentage"
               register={register}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newValue = value?.replaceAll("%", "");
+                setValue("sales_rep2_commission_percentage", `${newValue}%`);
+              }}
+              validate={(value) => {
+                // Check if the value is a valid number or empty
+                const isValidWithPercent = /^(100|[1-9]?[0-9])%?$/.test(value);
+
+                if (!isValidWithPercent) {
+                  return "Please enter a valid number between 0 and 100.";
+                }
+
+                // If it ends with '%', check the numeric part
+                if (value.endsWith("%")) {
+                  const numberValue = parseInt(value.slice(0, -1), 10); // Extract the numeric part
+                  if (numberValue > 100) {
+                    return "Number should be less than or equal to 100.";
+                  }
+                }
+              }}
+              error={errors?.sales_rep2_commission_percentage?.message}
             />
           </div>
         </div>

@@ -61,7 +61,7 @@ export default function COCForm() {
       <div className="flex items-center justify-between mb-4">
         <span className="font-bold text-lg text-stone-500">COC Form</span>
         <Button className="!font-xs self-end text-sm" variant="gradient">
-          Download COC form{" "}
+          Download COC form
           <span>
             <HiArrowDownTray />
           </span>
