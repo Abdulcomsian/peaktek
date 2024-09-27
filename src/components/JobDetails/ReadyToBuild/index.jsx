@@ -29,6 +29,8 @@ const ReadyToBuild = () => {
     (state) => state?.subContractors?.subContractorsData
   );
 
+  console.log("SubCont=>", subContractorsData);
+
   const [initialValues, setInitialValues] = useState({
     recipient: "",
     date: null,

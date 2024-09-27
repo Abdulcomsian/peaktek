@@ -3,11 +3,13 @@ import { InputContainer } from "@components";
 import { Input, TextBox } from "@components/FormControls";
 import { useSelector } from "react-redux";
 import { formatPhoneNumber } from "../../../utils/helper";
+import { DropDown } from "@components/UI";
 
 const CustomerInformation = ({
   register,
   className,
   control,
+  suppliers,
   setValue,
   watch,
 }) => {
@@ -20,25 +22,35 @@ const CustomerInformation = ({
     formatPhoneNumber(phone)
   );
 
+  const supplierOptions = suppliers?.map((supplier) => ({
+    value: supplier?.id, // Assuming supplier has an id
+    label: supplier?.name, // Assuming supplier has a name
+  }));
+
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <Input
-          label="Supplier Id:"
-          placeholder="John Doe"
-          className="md:mr-4 mb-4 md:mb-0"
-          name="supplier_id"
-          register={register}
-          control={control}
-        />
-        <Input
+        {/* <Input
           label="Supplier:"
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
           name="supplier"
           register={register}
           control={control}
-        />
+        /> */}
+        <div className="flex flex-col w-1/2">
+          <label className="font-medium text-sm mb-0">Supplier</label>
+          <DropDown
+            mode="multiple"
+            placeholder="Supplier:"
+            options={supplierOptions}
+            className="md:mr-4 mb-4 md:mb-0Sales Representative"
+            name="supplier"
+            register={register}
+            control={control}
+          />
+        </div>
+
         <Input
           label="Homeowner Name:"
           placeholder="John Doe"

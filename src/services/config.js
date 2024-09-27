@@ -16,6 +16,9 @@ const clientEndPoints = {
   // Dashboard
   getDashboardStats: "/api/dashboard-stats",
 
+  // Suppliers
+  getSuppliers: "/api/get/suppliers",
+
   // Buil Scheduled
   buildScheduledForm: "/api/update/build-detail",
   confirmationEmail: "/api/confirmation-email",
