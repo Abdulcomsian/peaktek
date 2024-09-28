@@ -66,7 +66,7 @@ const AdjustorMeeting = () => {
         setShowRenameBox(true);
       }
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error?.response?.status === 401) {
         logout();
         navigate("/");
       }
@@ -249,7 +249,6 @@ const AdjustorMeeting = () => {
     getAdjustorMeetingData();
   };
 
-  console.log(formik.values);
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} delay={0} />}

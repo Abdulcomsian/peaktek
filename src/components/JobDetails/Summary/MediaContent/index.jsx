@@ -130,7 +130,7 @@ const MediaContent = ({ id, className }) => {
 
   return (
     <Fragment>
-      <Form onSubmit={handleSubmit} className={className}>
+      <Form onSubmit={handleSubmit} className={`${className} mb-5`}>
         <div className="flex items-center justify-between mb-4">
           <span className="font-semibold uppercase">Job Content</span>
           <Button

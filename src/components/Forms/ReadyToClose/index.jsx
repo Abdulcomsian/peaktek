@@ -77,12 +77,12 @@ export default function ReadyToClose() {
       />
     );
 
-  if (isVarified)
-    return (
-      <p className="text-sm text-stone-500 text-center">
-        ⛔️ This job is alreday closed
-      </p>
-    );
+  // if (isVarified)
+  //   return (
+  //     <p className="text-sm text-stone-500 text-center">
+  //       ⛔️ This job is already closed
+  //     </p>
+  //   );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -59,17 +59,6 @@ const AdjustorForm = ({
           error={errors?.email}
           touched={touched?.email}
         />
-        {/* <CustomTimePicker
-          label="Select a Time"
-          className="mb-4 md:mb-0"
-          value={values.time}
-          name="time"
-          ref={inputRefs?.time}
-          onBlur={handleBlur}
-          onChange={(timeString) => setFieldValue("time", timeString)}
-          error={errors?.time}
-          touched={touched?.time}
-        /> */}
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <DateSelector

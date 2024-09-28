@@ -100,6 +100,7 @@ export default function TermandConditionForm() {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
         signatureRef.current.clear();
+        setIsInitialLoading(true);
       }
     } catch (error) {
     } finally {

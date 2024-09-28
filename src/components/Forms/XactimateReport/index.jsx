@@ -12,8 +12,9 @@ import {
 import { createXactimatereport as createXactimatereportApi } from "@services/apiDesignMeeting";
 import { RenameFileUI, Button } from "@components/UI";
 import { UploaderInputs } from "@components/index";
-import { ArrowFileIcon } from "@components/UI";
+import { ArrowFileIcon, Loader } from "@components/UI";
 import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function RoofComponent() {
   const [defaultImages, setDefaultImages] = useState([]);
@@ -24,7 +25,7 @@ export default function RoofComponent() {
     handleSubmit,
     watch,
     getValues,
-    formState: { errors },
+    formState: { errors, isLoading, isSubmitting },
   } = useForm({
     defaultValues: async function () {
       const resp = await getXactimatereport(jobId);
@@ -73,6 +74,21 @@ export default function RoofComponent() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <ThreeDots
+        visible={true}
+        height="80"
+        width="80"
+        color="#18faf8"
+        radius="9"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass="flex item-center justify-center"
+      />
+    );
+  }
+
   return (
     <>
       <Controller
@@ -95,27 +111,33 @@ export default function RoofComponent() {
           className="py-6 border-b border-gray-200"
         />
         {selectedOption === 1 ? (
-          <UploaderInputs
-            register={register}
-            id="pdfs"
-            name="pdfs"
-            icon={<ArrowFileIcon />}
-            fileTypes={["application/pdf"]}
-          />
+          <>
+            <UploaderInputs
+              register={register}
+              id="pdfs"
+              name="pdfs"
+              icon={<ArrowFileIcon />}
+              fileTypes={["application/pdf"]}
+            />
+            {defaultImages?.length > 0 ? (
+              <RenameFileUI
+                files={defaultImages}
+                apiUpdateFileEndPoint="/api/change/xactimate-report/file-name"
+                apiDeleteFileEndpoint="/api/delete/xactimate-report/media"
+              />
+            ) : null}
+          </>
         ) : (
           <TextPage control={control} name="content" errors={errors} />
         )}
         <Button type="submit" variant="gradient" className="mt-4">
-          Save
+          {isSubmitting ? (
+            <Loader width={"24px"} height={"24px"} color="#fff" />
+          ) : (
+            "Save"
+          )}
         </Button>
       </form>
-      {selectedOption === 1 && defaultImages?.length > 0 ? (
-        <RenameFileUI
-          files={defaultImages}
-          apiUpdateFileEndPoint="/api/change/xactimate-report/file-name"
-          apiDeleteFileEndpoint="/api/delete/xactimate-report/media"
-        />
-      ) : null}
     </>
   );
 }

@@ -177,8 +177,9 @@ export default function TitleForm() {
           type="number"
           className="mb-4"
           applyMarginBottom={true}
-          register={register}
           name="zip"
+          id="zip"
+          register={register}
           error={
             errors.postal_code && formateErrorName(errors?.postal_code?.message)
           }

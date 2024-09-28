@@ -11,7 +11,7 @@ const COC = ({ register, error }) => {
         This certificate of completion is hereby awarded to
         <span className="inline-flex items-center mx-2">
           <Input
-            className={`px-2 py-1 bg-gray-100 outline-none text-gray-900 text-sm rounded-md inline-block w-full max-w-xs`}
+            className={`px-2 py-1 outline-none text-gray-900 text-sm rounded-md inline-block w-full max-w-xs`}
             name="awarded_to"
             id="awarded_to"
             register={register}

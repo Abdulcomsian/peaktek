@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import LinkButton from "@components/UI/LinkButton";
+import { dateDifference, formatCurrency } from "../../utils/helper";
+import { Card, ColoredCirleByDays } from "@components/UI";
 
 export default function UserJobs() {
   const [userJobs, setUserJobs] = useState([]);
@@ -53,26 +55,42 @@ export default function UserJobs() {
     );
 
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 px-5 mt-5">
+    <Card className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 px-5 mt-5">
       {userJobs.map((job) => (
         <div className="bg-stone-200 rounded-2xl p-3 space-y-4">
-          <p className="border-b-2 border-stone-300 px-3 mb-3 text-stone-900 font-medium">
-            {job.name}
-          </p>
+          <div className=" px-3 py-1 mb-3 border-b border-stone-700 flex items-center justify-between">
+            <p className="text-base font-medium ">{job.name}</p>
+            <p className="text-base font-light">
+              {formatCurrency(job.amount ? job.amount : 0)}
+            </p>
+          </div>
           <Link to={`/job-details/${job.id}`}>
-            <div className="space-y-4 bg-white p-3 rounded-2xl">
-              <div className="space-y-2">
-                <p className="text-sm">{job.name}</p>
-                <p className="text-stone-700">{job.address}</p>
+            <div className="space-y-2 bg-stone-100 p-3 rounded-2xl">
+              <div className="space-y-2 border-b border-stone-700 pb-3">
+                <p className="text-stone-800 font-light">{job.address}</p>
               </div>
-              <p className="text-stone-500 text-sm space-x-2">
-                <span>Date Added:</span>
-                <span>{new Date(job.created_at).toLocaleDateString()}</span>
-              </p>
+
+              {dateDifference(job.updated_at || job.created_at) === 0 && (
+                <p className="text-xs font-light flex items-center gap-2 ">
+                  <ColoredCirleByDays days={0} />
+                  <span>New to Stage</span>
+                </p>
+              )}
+
+              {dateDifference(job.updated_at || job.created_at) > 0 && (
+                <p className="text-xs font-light flex items-center gap-2">
+                  <ColoredCirleByDays
+                    days={dateDifference(job.updated_at || job.created_at)}
+                  />
+                  <span>
+                    {`${dateDifference(job.updated_at || job.created_at)} days`}
+                  </span>
+                </p>
+              )}
             </div>
           </Link>
         </div>
       ))}
-    </div>
+    </Card>
   );
 }
