@@ -104,6 +104,9 @@ const clientEndPoints = {
   createTermCondition: "/api/store/term-and-condition",
   getTermCondition: "/api/get/term-and-condition",
 
+  //Desing Meeting
+  generatePDFDesignMeeting: "/api/generate/design-meeting-pdf",
+
   ///Adjustor Meeting
   createAdjustorMeeting: "/api/create/adjustor-meeting",
   getAdjustorMeeting: "/api/get/adjustor-meeting",

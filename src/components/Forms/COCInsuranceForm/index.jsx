@@ -3,19 +3,29 @@ import { useForm } from "react-hook-form";
 import { UploaderInputs } from "@components/index";
 import { Button, ImageIcon, RenameFileUI } from "@components/UI";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
-import { creatCOCInsuranceEmail } from "@services/apiCOC";
+import { creatCOCInsuranceEmail, getCoc } from "@services/apiCOC";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Loader } from "@components/UI";
 
+const getCOCInsuraceEmail = async (jobId) => {
+  const resp = await getCoc(jobId);
+  if (resp.status >= 200 && resp.status < 300) {
+    return resp.data;
+  }
+  console.log("COC insurance email", resp);
+};
+
 export default function COCInsuranceForm() {
-  const { id: jobId } = useParams();
   const {
     control,
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting, isLoading },
-  } = useForm();
+  } = useForm({ defaultValues: () => getCOCInsuraceEmail(jobId) });
+  const { id: jobId } = useParams();
+  const COCId = watch("id");
 
   const handleDataChange = (dataToMap, id) => {
     // Update the receivedData based on the id
@@ -46,12 +56,15 @@ export default function COCInsuranceForm() {
       console.log(key, value);
     });
 
-    const resp = await creatCOCInsuranceEmail(formData, jobId);
+    const resp = await creatCOCInsuranceEmail(formData, COCId);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.message);
     }
     if (resp.status === 422) {
       toast.error("COC not Found");
+    }
+    if (resp.status === 500) {
+      toast.error("Something went wrong.");
     }
     console.log(resp);
   };
@@ -61,8 +74,8 @@ export default function COCInsuranceForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 bg-slate-50 rounded-3xl px-4 py-5">
         <CheckBox
           label="Email sent"
-          id="status"
-          name="status"
+          id="coc_insurance_email_sent"
+          name="coc_insurance_email_sent"
           register={register}
           wrapperClassName="flex items-center justify-end gap-2 col-span-2"
         />

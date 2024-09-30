@@ -98,7 +98,13 @@ export default function COCForm() {
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between mb-4">
-        <span className="font-bold text-lg text-stone-500">COC Form</span>
+        <CheckBox
+          label="COC complete"
+          id="status"
+          name="status"
+          register={register}
+          wrapperClassName="flex items-center justify-end gap-2 col-span-2"
+        />
         <Button
           type="button"
           onClick={downloadButton}
@@ -116,7 +122,6 @@ export default function COCForm() {
         onSubmit={handleSubmit(onSubmit, onError)}
         className="bg-slate-50 rounded-3xl px-4 py-5"
       >
-        {/* <CustomerInformation register={register} /> */}
         <ClientInformation register={register} />
         <COC register={register} />
         <Depreciation register={register} />
@@ -124,14 +129,6 @@ export default function COCForm() {
         <ProjectSummaryForm register={register} />
         <Conclusion register={register} />
         <SignatureForm register={register} control={control} />
-        <div className="flex items-center mb-6">
-          <CheckBox
-            register={register}
-            name="status"
-            id="status"
-            label="Completed"
-          />
-        </div>
         <div className="flex justify-end">
           <Button className="text-black mr-4 px-4 py-1">Cancel</Button>
           <Button type="submit" variant="gradient">

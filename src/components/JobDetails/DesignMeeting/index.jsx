@@ -1,7 +1,7 @@
-import { Tabs } from "@components/UI";
+import { Button, Loader, Tabs } from "@components/UI";
 import { FileIcon, GalleryIcon, TextIcon } from "@components/UI";
 import TabsContentBox from "@components/UI/TabsContentBox";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   AuthorizationForm,
   InspectionForm,
@@ -16,6 +16,11 @@ import {
 } from "@components/Forms";
 import CarrierScope from "../CarrierScope";
 import XactimateReport from "@components/Forms/XactimateReport";
+import { generatePDFDesignMeeting } from "@services/apiDesignMeeting";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { baseURL } from "@services/config";
 
 const tabsDesignMeeting = [
   { id: 1, title: "Carrier Scope" },
@@ -56,9 +61,56 @@ function renderSection(currTab) {
 }
 
 const DesignMeeting = () => {
+  const { id: jobId } = useParams();
   const [currTab, setCurrTab] = useState(1);
+  const [showViewPdfBtn, setShowViewPdfBtn] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const pdfUrl = useRef(null);
+
+  const handleGeneratePdf = async function () {
+    setIsGeneratingPdf(true);
+    try {
+      const resp = await generatePDFDesignMeeting(jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.message);
+        pdfUrl.current = resp.data.pdf_url;
+        setShowViewPdfBtn(true);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+    console.log(resp);
+  };
+
+  const openFileHandler = () => {
+    const fullFileUrl = `${baseURL}${pdfUrl.current}`;
+    window.open(fullFileUrl, "_blank");
+    setShowViewPdfBtn(false);
+  };
   return (
-    <TabsContentBox contentTitle="Design Meeting">
+    // <TabsContentBox contentTitle="Design Meeting">
+    <div>
+      <div className="flex items-center justify-between">
+        <h2>Design Meeting</h2>
+        <div className="flex gap-3">
+          <Button variant="gradient" onClick={handleGeneratePdf}>
+            {isGeneratingPdf ? (
+              <div className="flex justify-center items-center">
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              </div>
+            ) : (
+              "Generate PDF"
+            )}
+          </Button>
+          {showViewPdfBtn && (
+            <Button variant="gradient" onClick={openFileHandler}>
+              view PDF
+            </Button>
+          )}
+        </div>
+      </div>
       <div className="hidden md:block p-4">
         <Tabs
           items={tabsDesignMeeting}
@@ -75,7 +127,8 @@ const DesignMeeting = () => {
           activeTab={currTab}
         />
       </div>
-    </TabsContentBox>
+    </div>
+    // </TabsContentBox>
   );
 };
 
