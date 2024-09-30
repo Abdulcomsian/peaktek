@@ -314,6 +314,7 @@ const Summary = () => {
                   placeholder="Total balance"
                   type="text"
                   name="balance"
+                  min={0}
                   value={fields.balance}
                   readOnly={true}
                 />

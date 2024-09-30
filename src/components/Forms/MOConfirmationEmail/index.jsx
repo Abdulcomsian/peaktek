@@ -23,7 +23,7 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      send_to: [],
+      send_to: ["test1@yopmail.com", "test2@yopmail.com"],
       subject: "",
       email_body: "",
     },
@@ -51,7 +51,7 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
         toast.error("Session expired. Please log in again.");
         navigate("/");
       } else if (response?.status === 422) {
-        toast.error(response.data.errors?.send_to?.[0] || "Validation error");
+        toast.error(response.message || "Validation error");
       } else {
         toast.error("Something went wrong. Please try again.");
       }
@@ -80,7 +80,7 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
             placeholder="Subject"
             type="text"
             className="md:mr-4 mb-4 md:mb-0"
-            name="subject"
+            name="a"
             register={register}
             control={control}
           />
