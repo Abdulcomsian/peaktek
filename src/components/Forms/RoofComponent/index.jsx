@@ -9,7 +9,7 @@ import { getRooferComponent } from "@services/apiDesignMeeting";
 import { createRoofComponent as createRoofComponentApi } from "@services/apiDesignMeeting";
 import { RenameFileUI, Button } from "@components/UI";
 import { UploaderInputs } from "@components/index";
-import { ArrowFileIcon } from "@components/UI";
+import { ArrowFileIcon, Loader } from "@components/UI";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 

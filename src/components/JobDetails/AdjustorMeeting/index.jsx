@@ -4,87 +4,47 @@ import { adjustorMeetingSchema } from "@services/schema";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Ckeditor, FileUploader, Form } from "@components/FormControls";
-import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { AdjustorForm } from "@components/Forms";
 import { useNavigate, useParams } from "react-router-dom";
-import { Spin } from "antd";
+import { CheckBox } from "@components/FormControls";
 import {
   ArrowFileIcon,
-  CheckBox,
+  Button,
   ImageIcon,
   Loader,
   RadioButton,
   RenameFileUI,
 } from "@components/UI";
 import { useAuth } from "@context/AuthContext";
-import { updateAdjustorMeetingStatus } from "@services/apiAdjustorMeeting";
+import {
+  getAdjustorMeeting,
+  updateAdjustorMeetingStatus,
+} from "@services/apiAdjustorMeeting";
+import { useForm } from "react-hook-form";
+import CkeditorControlled from "@components/FormControls/CkeditorControlled";
+import { UploaderInputs } from "@components/index";
 
 const AdjustorMeeting = () => {
-  const { id } = useParams();
-  const [loading, setLoading] = useState(false);
+  const { id: jobId } = useParams();
   const [showRenameBox, setShowRenameBox] = useState(false);
-  const [adjustorMeetingData, setAdjustorMeetingData] = useState(null);
-  const [images, setImages] = useState([]);
-  const [documents, setDocuments] = useState([]);
-  const [notes, setNotes] = useState("");
-  const [isSent, setIsSent] = useState(false);
   const [status, setStatus] = useState("Overturn");
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const [isDone, setIsDone] = useState(false);
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isLoading, isSubmitting },
+  } = useForm({ defaultValues: getAdjustorMeetingData });
 
-  // useEffect(() => {
-  //   const setSentStatus = async () => {
-  //     const token = localStorage.getItem("token");
-  //     try{
-  //       const resp = await clientBaseURL.post(`${}`)
-  //     }
-  //   };
-  // }, [isSent]);
-  const getAdjustorMeetingData = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      return;
+  async function getAdjustorMeetingData() {
+    const resp = await getAdjustorMeeting(jobId);
+    // console.log(resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      return resp.data.data;
     }
-    try {
-      setLoading(true);
-      const response = await clientBaseURL.get(
-        `${clientEndPoints?.getAdjustorMeeting}/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response?.status >= 200 && response?.status < 300) {
-        setAdjustorMeetingData(response?.data?.data);
-        setNotes(response.data.data.notes);
-        setStatus(response.data.data.status);
-        setShowRenameBox(true);
-      }
-    } catch (error) {
-      if (error?.response?.status === 401) {
-        logout();
-        navigate("/");
-      }
-      if (error?.response) {
-        console.error(
-          error?.response?.data?.error || error?.response?.data?.message
-        );
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      getAdjustorMeetingData();
-    }
-  }, [id, isDone]);
+  }
 
   const formatPhoneNumber = (value) => {
     // Remove all non-digit characters
@@ -97,187 +57,51 @@ const AdjustorMeeting = () => {
     return formatted;
   };
 
-  const handlePhoneChange = (event) => {
-    const { value } = event.target;
-    const formattedValue = formatPhoneNumber(value);
-    formik.setFieldValue("phone", formattedValue);
+  const onSubmit = function (data) {
+    console.log(data);
+    const { images, documents } = data;
+    const formData = new FormData();
+    // images.forEach((file) => {
+    //   formData.append("images[]", file.file);
+    // });
+    // documents.forEach((file) => {
+    //   formData.append("attachments[]", file.file);
+    // });
+
+    // console.log(
+    //   "FORM DATA ENTRIES",
+    //   images,
+    //   documents,
+    //   Object.fromEntries(formData)
+    // );
+
+    // formData.append("name", values.name);
+    // formData.append("email", values.email);
+    // formData.append("phone", formatPhone);
+    // formData.append("date", formattedDate);
+    // formData.append("notes", notes);
+    // formData.append("status", status);
+    // formData.append("completed", Number(values.completed));
   };
-
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      phone: "",
-      email: "",
-      time: null,
-      date: null,
-      completed: false,
-    },
-    enableReinitialize: true,
-    validationSchema: adjustorMeetingSchema,
-    onSubmit: async (values, actions) => {
-      console.log("ADJUSTOR MEETING VALUES", values, values.completed);
-      const formData = new FormData();
-      images.forEach((file) => {
-        formData.append("images[]", file.file);
-      });
-      documents.forEach((file) => {
-        formData.append("attachments[]", file.file);
-      });
-      const formatPhone = values?.phone.toString();
-
-      const formattedTime = values.time
-        ? dayjs(values.time).format("hh:mm A")
-        : "Invalid Time";
-
-      const formattedDate = dayjs(values.date).format("MM/DD/YYYY");
-
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("phone", formatPhone);
-      formData.append("time", formattedTime);
-      formData.append("date", formattedDate);
-      formData.append("notes", notes);
-      formData.append("status", status);
-      formData.append("completed", Number(values.completed));
-
-      // const formattedValues = {
-      //   ...values,
-      //   phone: formatPhone,
-      //   time: formattedTime,
-      //   date: formattedDate,
-      // };
-
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-        const response = await clientBaseURL.post(
-          `${clientEndPoints?.createAdjustorMeeting}/${id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response?.status >= 200 && response?.status < 300) {
-          toast.success(response?.data?.message);
-          // actions.resetForm();
-          console.log("show rename file");
-          setIsDone((is) => !is);
-          setImages([]);
-          setDocuments([]);
-        }
-        console.log(response);
-      } catch (error) {
-        if (error?.response) {
-          toast.error(
-            // error?.response?.data?.error || error?.response?.data?.message
-            "Something went wrong."
-          );
-        }
-      }
-    },
-  });
-
-  useEffect(() => {
-    if (adjustorMeetingData) {
-      const formattedInitialDate = adjustorMeetingData?.date
-        ? dayjs(adjustorMeetingData?.date, "MM/DD/YYYY")
-        : null;
-
-      const formattedInitialTime = adjustorMeetingData?.time
-        ? dayjs(adjustorMeetingData?.time, "hh:mm A")
-        : null;
-
-      formik.setValues({
-        name: adjustorMeetingData.name || "",
-        phone: adjustorMeetingData.phone || "",
-        email: adjustorMeetingData.email || "",
-        completed: adjustorMeetingData.completed || false,
-        time: formattedInitialTime,
-        date: formattedInitialDate,
-      });
-    }
-  }, [adjustorMeetingData]);
-
-  // useEffect(() => {
-  //   const updateStatus = async () => {
-  //     const data = await updateAdjustorMeetingStatus(status, id);
-  //     console.log(data);
-  //   };
-  //   updateStatus();
-  // }, [status]);
-
-  const inputRefs = {
-    name: useRef(null),
-    phone: useRef(null),
-    email: useRef(null),
-    time: useRef(null),
-    date: useRef(null),
-    completed: useRef(null),
-  };
-  useEffect(() => {
-    if (formik.isSubmitting && !formik.isValid) {
-      const firstErrorField = Object.keys(formik.errors).find(
-        (field) => formik.errors[field]
-      );
-      if (firstErrorField && inputRefs[firstErrorField]?.current) {
-        const fieldElement = inputRefs[firstErrorField].current;
-        fieldElement.focus();
-        fieldElement.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-        // Set the cursor inside the input field if it supports setSelectionRange
-        if (
-          fieldElement.setSelectionRange &&
-          ["text", "search", "url", "tel", "password"].includes(
-            fieldElement.type
-          )
-        ) {
-          const length = fieldElement.value.length;
-          fieldElement.setSelectionRange(length, length);
-        }
-      }
-    }
-  }, [formik.isSubmitting, formik.isValid, formik.errors]);
-
-  const refreshData = () => {
-    getAdjustorMeetingData();
+  const onError = function (error) {
+    console.log(error);
   };
 
   return (
     <Fragment>
-      {loading && <Spin fullscreen={true} delay={0} />}
-      {/* <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
-        Adjustor Meeting
-      </h1> */}
+      {/* {loading && <Spin fullscreen={true} delay={0} />} */}
       <div className="bg-white p-5 rounded-2xl">
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Adjust Meeting
         </h2>
-        <Form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2  mb-4 md:mb-0">
-              <label
-                htmlFor="completed"
-                className="text-base font-medium text-gray-900"
-              >
-                SENT
-              </label>
-              <input
-                ref={inputRefs?.completed}
-                type="checkbox"
-                className="h-6 w-6 border border-gray-300 bg-gray-50"
-                id="completed"
+              <CheckBox
+                label="SENT"
+                register={register}
                 name="completed"
-                checked={formik.values.completed}
-                onChange={() =>
-                  formik.setFieldValue("completed", !formik.values.completed)
-                }
+                id="completed"
               />
             </div>
             <div>
@@ -297,89 +121,67 @@ const AdjustorMeeting = () => {
 
           <AdjustorForm
             className="mb-8"
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
-            touched={formik.touched}
-            errors={formik.errors}
-            values={formik.values}
-            setFieldValue={formik.setFieldValue}
-            inputRefs={inputRefs}
-            onchangePhoneNumber={handlePhoneChange}
+            register={register}
+            control={control}
           />
 
           <div className="flex flex-col md:flex-row">
-            <Ckeditor
-              className="w-full mb-4"
-              label="Notes"
-              id="notes"
-              value={notes}
-              onChange={setNotes}
-            />
+            <CkeditorControlled control={control} name="notes" id="notes" />
           </div>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:mr-4">
-              <FileUploader
-                label="Images"
+              <UploaderInputs
+                text="Images:"
+                name="images"
                 id="images"
+                register={register}
                 icon={<ImageIcon />}
-                className="mb-4"
+                require={false}
                 fileTypes={[
                   "image/png",
                   "image/jpeg",
                   "image/jpg",
                   "image/gif",
                 ]}
-                text="Drop your image here, or"
-                files={images}
-                setFiles={setImages}
-                handleDelete={(index) =>
-                  setImages(images.filter((_, i) => i !== index))
-                }
+                // error={
+                //   errors.secondary_image &&
+                //   formateErrorName(errors?.secondary_image?.message)
+                // }
               />
-              {showRenameBox &&
+              {/* {showRenameBox &&
                 adjustorMeetingData?.images?.map((file) => (
                   <RenameFileUI
                     files={adjustorMeetingData.images}
                     apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
                     apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
                   />
-                ))}
+                ))} */}
             </div>
             <div className="w-full mr-4">
-              <FileUploader
-                label="Documents"
+              <UploaderInputs
+                text="Documents:"
+                name="documents"
                 id="documents"
+                register={register}
                 icon={<ArrowFileIcon />}
-                className="w-full mb-4"
+                require={false}
                 fileTypes={["application/pdf"]}
-                text="Drop your documents here, or"
-                files={documents}
-                setFiles={setDocuments}
-                handleDelete={(index) =>
-                  setDocuments(documents.filter((_, i) => i !== index))
-                }
               />
 
-              {showRenameBox &&
+              {/* {showRenameBox &&
                 adjustorMeetingData?.attachments?.map((file) => (
                   <RenameFileUI
                     files={adjustorMeetingData.attachments}
                     apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
                     apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
                   />
-                ))}
+                ))} */}
             </div>
           </div>
-          <div className="flex">
-            <Button className="text-black mr-4 border border-gray-300 px-4 py-1">
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={formik?.isSubmitting}
-              className={`w-full max-w-24 text-white btn-gradient px-4 py-1`}
-            >
-              {formik?.isSubmitting ? (
+          <div className="flex gap-4 mt-4">
+            <Button variant="primary">Cancel</Button>
+            <Button type="submit" disabled={isSubmitting} variant="gradient">
+              {isSubmitting ? (
                 <div className="flex justify-center items-center">
                   <Loader width={"24px"} height={"24px"} color="#fff" />
                 </div>
@@ -388,7 +190,7 @@ const AdjustorMeeting = () => {
               )}
             </Button>
           </div>
-        </Form>
+        </form>
       </div>
     </Fragment>
   );

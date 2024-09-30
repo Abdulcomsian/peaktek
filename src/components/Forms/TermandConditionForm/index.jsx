@@ -86,7 +86,7 @@ export default function TermandConditionForm() {
     }
 
     getTermsSignature();
-  }, []);
+  }, [isSigned]);
 
   const clearSignature = () => {
     signatureRef.current.clear();
@@ -100,7 +100,7 @@ export default function TermandConditionForm() {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
         signatureRef.current.clear();
-        setIsInitialLoading(true);
+        setIsSigned(true);
       }
     } catch (error) {
     } finally {

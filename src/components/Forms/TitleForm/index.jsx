@@ -52,6 +52,7 @@ export default function TitleForm() {
   const defaultSecondaryImage = watch("secondary_images");
 
   const onSubmit = async function (data) {
+    console.log("TITLE FORM DATA", data);
     const finalDataToUpload = {
       ...data,
       primary_image:

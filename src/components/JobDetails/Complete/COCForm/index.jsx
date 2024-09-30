@@ -39,10 +39,12 @@ export default function COCForm() {
     control,
     register,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting, isLoading },
   } = useForm({
     defaultValues: async () => {
       const resp = await getCoc(id);
+      console.log("GET COC", resp);
       if (resp.status >= 200 && resp.status < 300) {
         setPdfUrl(resp.data.pdf_url); // Store PDF URL
         return resp.data;
@@ -53,6 +55,8 @@ export default function COCForm() {
       }
     },
   });
+
+  console.log(getValues().insurance_email);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -89,21 +93,6 @@ export default function COCForm() {
       }
     };
     downloadPdf();
-  };
-
-  const handleDownload = (e) => {
-    if (pdfUrl) {
-      const link = document.createElement("a");
-      link.href = `${baseURL}${pdfUrl}`;
-      link.setAttribute("download", `COC_${id}.pdf`);
-      console.log(link);
-      // document.body.appendChild(link);
-      // link.click();
-
-      // document.body.removeChild(link);
-    } else {
-      toast.error("PDF URL is not available");
-    }
   };
 
   return (

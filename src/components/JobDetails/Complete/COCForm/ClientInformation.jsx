@@ -81,6 +81,7 @@ export default function ClientInformation({ register, className }) {
           name="insurance"
           id="insurance"
           register={register}
+          required={false}
           disabled={true}
         />
         <Input
@@ -90,7 +91,7 @@ export default function ClientInformation({ register, className }) {
           name="claim_number"
           id="claim_number"
           register={register}
-          defaultValue={123123}
+          required={false}
           disabled={true}
         />
         <Input
@@ -101,6 +102,7 @@ export default function ClientInformation({ register, className }) {
           name="policy_number"
           register={register}
           disabled={true}
+          required={false}
         />
       </InputContainer>
     </div>

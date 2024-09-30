@@ -6,6 +6,7 @@ import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 import { creatCOCInsuranceEmail } from "@services/apiCOC";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Loader } from "@components/UI";
 
 export default function COCInsuranceForm() {
   const { id: jobId } = useParams();
@@ -13,7 +14,7 @@ export default function COCInsuranceForm() {
     control,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isLoading },
   } = useForm();
 
   const handleDataChange = (dataToMap, id) => {
@@ -26,13 +27,12 @@ export default function COCInsuranceForm() {
   };
 
   const onSubmit = async function (data) {
-    console.log(data);
-    const { subject, email_body, sent_to, status, attachments } = data;
-    console.log(attachments.length);
+    console.log("INSURANCE EMAIL DATA", data);
+    const { subject, email_body, send_to, status, attachments } = data;
     const formData = new FormData();
     formData.append("subject", subject);
     formData.append("email_body", email_body);
-    formData.append("send_to", sent_to);
+    formData.append("send_to", send_to);
     formData.append("coc_insurance_email_sent", status);
 
     if (attachments.length > 0) {
@@ -49,6 +49,9 @@ export default function COCInsuranceForm() {
     const resp = await creatCOCInsuranceEmail(formData, jobId);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.message);
+    }
+    if (resp.status === 422) {
+      toast.error("COC not Found");
     }
     console.log(resp);
   };
@@ -103,7 +106,13 @@ export default function COCInsuranceForm() {
         </div>
       </div>
       <Button type="submit" variant="gradient">
-        Send
+        {isSubmitting ? (
+          <div className="flex justify-center items-center">
+            <Loader width={"28px"} height={"28px"} color="#fff" />
+          </div>
+        ) : (
+          "Send"
+        )}
       </Button>
     </form>
   );

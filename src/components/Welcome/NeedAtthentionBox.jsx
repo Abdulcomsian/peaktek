@@ -40,6 +40,7 @@ function AtthentionsList({ attentions }) {
 
 function AtthentionListItem({ item }) {
   const { name: customerName, status, date } = item;
+  console.log("NEED ATTENTIONS", item);
   const { name: statusName } = status;
   const daysElapsedInCurrStatus = dateDifference(date);
 
