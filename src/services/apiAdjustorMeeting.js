@@ -15,3 +15,38 @@ export async function updateAdjustorMeetingStatus(status, id) {
     return error;
   }
 }
+
+export async function createAdjustorMeeting(formData, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints?.createAdjustorMeeting}/${jobId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getAdjustorMeeting(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.get(
+      `${clientEndPoints?.getAdjustorMeeting}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

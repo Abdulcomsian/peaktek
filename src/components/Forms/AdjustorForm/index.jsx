@@ -1,87 +1,44 @@
 import React from "react";
-import { InputContainer } from "@components";
-import {
-  CustomTimePicker,
-  DateSelector,
-  TextBox,
-} from "@components/FormControls";
+import { InputContainer, CustomDatePicker } from "@components";
+import { DateSelector, Input, TextBox } from "@components/FormControls";
 
-const AdjustorForm = ({
-  className,
-  handleChange,
-  handleBlur,
-  touched,
-  errors,
-  values,
-  setFieldValue,
-  inputRefs,
-  onchangePhoneNumber,
-}) => {
+const AdjustorForm = ({ className, register, control }) => {
   return (
     <div className={className}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <TextBox
+        <Input
           label="Adjustor"
           placeholder="John Doe"
-          type="text"
           name="name"
+          id="name"
           className="md:mr-4 mb-4 md:mb-0"
-          value={values?.name}
-          ref={inputRefs?.name}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.name}
-          touched={touched?.name}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Phone:"
           placeholder="000-000-0000"
           type="tel"
           name="phone"
+          id="phone"
           className="md:mr-4 mb-4 md:mb-0"
-          ref={inputRefs?.phone}
-          value={values?.phone}
-          onBlur={handleBlur}
-          onChange={onchangePhoneNumber}
-          error={errors?.phone}
-          touched={touched?.phone}
+          register={register}
         />
-        <TextBox
+        <Input
           label="Adjustor Email:"
           placeholder="john@gmail.com"
           type="email"
           name="email"
+          id="email"
           className="md:mr-4 mb-4 md:mb-0"
-          ref={inputRefs?.email}
-          value={values?.email}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          error={errors?.email}
-          touched={touched?.email}
+          register={register}
         />
-        {/* <CustomTimePicker
-          label="Select a Time"
-          className="mb-4 md:mb-0"
-          value={values.time}
-          name="time"
-          ref={inputRefs?.time}
-          onBlur={handleBlur}
-          onChange={(timeString) => setFieldValue("time", timeString)}
-          error={errors?.time}
-          touched={touched?.time}
-        /> */}
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-        <DateSelector
+        <CustomDatePicker
           label="Date sent"
           className="w-full lg:max-w-[18.5rem]"
+          control={control}
           name="date"
-          ref={inputRefs?.date}
-          value={values?.date}
-          onBlur={handleBlur}
-          onChange={(dateString) => setFieldValue("date", dateString)}
-          error={errors?.date}
-          touched={touched?.date}
         />
       </InputContainer>
     </div>

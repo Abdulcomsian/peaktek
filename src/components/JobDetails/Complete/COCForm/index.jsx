@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckBox, Form } from "@components/FormControls";
 import { CustomerInformation, ProjectSummaryForm } from "@components/Forms";
 import SignatureForm from "../SignatureForm";
@@ -19,6 +19,11 @@ import { useForm } from "react-hook-form";
 import { creatCOC, getCoc } from "@services/apiCOC";
 import { useAuth } from "@context/AuthContext";
 import { HiArrowDownTray } from "react-icons/hi2";
+import ClientInformation from "./ClientInformation";
+import { jsPDF } from "jspdf";
+import axios from "axios";
+
+const baseURL = "https://accrualhub.com";
 
 export default function COCForm() {
   const { id } = useParams();
@@ -28,16 +33,20 @@ export default function COCForm() {
     (state) => state?.jobs?.singleJobData
   );
 
+  const [pdfUrl, setPdfUrl] = useState("");
+
   const {
     control,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    getValues,
+    formState: { errors, isSubmitting, isLoading },
   } = useForm({
     defaultValues: async () => {
       const resp = await getCoc(id);
-      console.log("useform default resp", resp);
+      console.log("GET COC", resp);
       if (resp.status >= 200 && resp.status < 300) {
+        setPdfUrl(resp.data.pdf_url); // Store PDF URL
         return resp.data;
       }
       if (resp.status === 401) {
@@ -47,20 +56,56 @@ export default function COCForm() {
     },
   });
 
-  const onSubmit = async function (data) {
+  console.log(getValues().insurance_email);
+
+  const onSubmit = async (data) => {
+    console.log(data);
     const dataToLoad = { ...data, name, email, phone };
     const resp = await creatCOC(dataToLoad, id);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.message);
     }
-    console.log("COC SUbmit resp", resp);
+    console.log("COC Submit resp", resp);
+  };
+
+  const onError = function (errors) {
+    console.log(errors);
+  };
+
+  const downloadButton = () => {
+    const downloadPdf = async () => {
+      try {
+        // Fetch the PDF as a Blobconst
+        const response = await axios.get(`${baseURL}${pdfUrl}`, {
+          responseType: "blob",
+        }); // Important: Tell axios to handle the response as a blob });
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const link = document.createElement("a");
+        const url = window.URL.createObjectURL(blob);
+        link.href = url;
+        link.setAttribute("download", `COC_${id}.pdf`); // Set the file name
+        document.body.appendChild(link);
+        link.click(); // Cleanup: Remove the link and revoke the object URL
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error downloading the PDF:", error);
+      }
+    };
+    downloadPdf();
   };
 
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <span className="font-bold text-lg text-stone-500">COC Form</span>
-        <Button className="!font-xs self-end text-sm" variant="gradient">
+        <Button
+          type="button"
+          onClick={downloadButton}
+          className="!font-xs self-end text-sm"
+          variant="gradient"
+          disabled={!pdfUrl}
+        >
           Download COC form
           <span>
             <HiArrowDownTray />
@@ -68,10 +113,11 @@ export default function COCForm() {
         </Button>
       </div>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, onError)}
         className="bg-slate-50 rounded-3xl px-4 py-5"
       >
-        <CustomerInformation register={register} />
+        {/* <CustomerInformation register={register} /> */}
+        <ClientInformation register={register} />
         <COC register={register} />
         <Depreciation register={register} />
         <OverheadProfit />

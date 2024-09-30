@@ -34,6 +34,8 @@ import {
   signedCustomerAgreementByEmail,
 } from "@services/apiCustomerAgreement";
 import { useAuth } from "@context/AuthContext";
+import ClientInformation from "../Complete/COCForm/ClientInformation";
+import CustomerInformationDetail from "./CustomerInformationDetail";
 
 const CustomerAgreementForm = () => {
   const { id } = useParams();
@@ -163,12 +165,7 @@ const CustomerAgreementForm = () => {
           Customer Information
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CustomerInformation
-            register={register}
-            getValue={getValues}
-            setValue={setValue}
-            watch={watch}
-          />
+          <CustomerInformationDetail register={register} />
           <TextSection1 />
           <h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
           <SignatureForm register={register} control={control} />
