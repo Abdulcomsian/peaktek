@@ -12,6 +12,7 @@ const initialState = {
   singleJobData: {},
   seletedStatus: null,
   status: STATUS.IDLE,
+  designMeetingPDFgenerated: false,
 };
 
 // Create an async thunk for fetching singleJob
@@ -67,6 +68,10 @@ const jobsSlice = createSlice({
         return board;
       });
     },
+
+    updateAllowPadfGenration: (state, action) => {
+      state.designMeetingPDFgenerated = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -83,7 +88,12 @@ const jobsSlice = createSlice({
   },
 });
 
-export const { addJob, updateColumn, boardDataLoaded, seletectedStatus } =
-  jobsSlice.actions;
+export const {
+  addJob,
+  updateColumn,
+  boardDataLoaded,
+  seletectedStatus,
+  updateAllowPadfGenration,
+} = jobsSlice.actions;
 
 export default jobsSlice.reducer;

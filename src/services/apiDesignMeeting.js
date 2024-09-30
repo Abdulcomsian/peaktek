@@ -413,3 +413,18 @@ export async function getTermCondition(id) {
     return error;
   }
 }
+
+export async function generatePDFDesignMeeting(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.get(
+      `${clientEndPoints.generatePDFDesignMeeting}/${jobId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (resp.status >= 200 && resp.status < 300) {
+      return resp.data;
+    }
+  } catch (error) {
+    return error;
+  }
+}
