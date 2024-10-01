@@ -30,7 +30,6 @@ export default function WonAndClosed() {
   const closedDate = getValues().closed_date;
 
   const onSubmit = async function (data) {
-    console.log(data);
     const resp = await updateWonAndCloseInfo(data, jobId);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);

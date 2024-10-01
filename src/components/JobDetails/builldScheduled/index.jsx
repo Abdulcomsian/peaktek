@@ -40,8 +40,6 @@ const BuildScheduledTab = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("Data=>", data);
-
     if (data.build_time) {
       const formattedTime = dayjs(data.build_time, ["h:mm A", "HH:mm"]).format(
         "h:mm A"
@@ -66,7 +64,6 @@ const BuildScheduledTab = () => {
         toast.error("Something went wrong. Please try again.");
       }
     } catch (error) {
-      console.error("Submit error:", error);
     } finally {
       setIsCreating(false);
     }

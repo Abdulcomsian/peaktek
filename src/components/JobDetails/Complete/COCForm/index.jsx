@@ -22,54 +22,37 @@ import { HiArrowDownTray } from "react-icons/hi2";
 import ClientInformation from "./ClientInformation";
 import { jsPDF } from "jspdf";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setActiveTab } from "@store/slices/activeTabSlice";
 
 const baseURL = "https://accrualhub.com";
 
-export default function COCForm() {
+export default function COCForm({
+  register,
+  control,
+  getValues,
+  pdfUrl,
+  handleSubmit,
+  isSubmitting,
+}) {
   const { id } = useParams();
   const { logout } = useAuth();
   const navigate = useNavigate();
   const { name, email, phone } = useSelector(
     (state) => state?.jobs?.singleJobData
   );
-
-  const [pdfUrl, setPdfUrl] = useState("");
-
-  const {
-    control,
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors, isSubmitting, isLoading },
-  } = useForm({
-    defaultValues: async () => {
-      const resp = await getCoc(id);
-      console.log("GET COC", resp);
-      if (resp.status >= 200 && resp.status < 300) {
-        setPdfUrl(resp.data.pdf_url); // Store PDF URL
-        return resp.data;
-      }
-      if (resp.status === 401) {
-        logout();
-        navigate("/");
-      }
-    },
-  });
-
-  console.log(getValues().insurance_email);
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    console.log(data);
     const dataToLoad = { ...data, name, email, phone };
     const resp = await creatCOC(dataToLoad, id);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.message);
+      if (resp.data.status) {
+        dispatch(setActiveTab("final-due-payments"));
+        navigate(`/job-details/${id}/final-due-payments`);
+      }
     }
-    console.log("COC Submit resp", resp);
-  };
-
-  const onError = function (errors) {
-    console.log(errors);
   };
 
   const downloadButton = () => {
@@ -88,9 +71,7 @@ export default function COCForm() {
         link.click(); // Cleanup: Remove the link and revoke the object URL
         link.parentNode.removeChild(link);
         window.URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Error downloading the PDF:", error);
-      }
+      } catch (error) {}
     };
     downloadPdf();
   };
@@ -113,7 +94,7 @@ export default function COCForm() {
         </Button>
       </div>
       <form
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-slate-50 rounded-3xl px-4 py-5"
       >
         <ClientInformation register={register} />

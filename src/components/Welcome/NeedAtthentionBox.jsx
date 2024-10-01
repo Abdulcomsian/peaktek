@@ -22,7 +22,6 @@ export default function NeedAtthentionBox({ listOfAttentions = [] }) {
 }
 
 function AtthentionsList({ attentions }) {
-  console.log("Attention list", attentions);
   return (
     <div className="max-h-[80%] overflow-auto">
       <ul className="flex flex-col gap-3 ">
@@ -40,7 +39,7 @@ function AtthentionsList({ attentions }) {
 
 function AtthentionListItem({ item }) {
   const { name: customerName, status, date } = item;
-  console.log("NEED ATTENTIONS", item);
+
   const { name: statusName } = status;
   const daysElapsedInCurrStatus = dateDifference(date);
 

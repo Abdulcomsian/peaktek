@@ -18,12 +18,8 @@ const MOForm = () => {
   const fetchSupplier = async () => {
     try {
       const response = await getSuppliers(id);
-      console.log("Get SUpplier=> ", response);
       setSuppliers(response.user);
-      console.log("Suppliers Arrray=>", suppliers);
-    } catch (e) {
-      console.log("Error getting suppliers=>", e);
-    }
+    } catch (e) {}
   };
   useEffect(() => {
     fetchSupplier();
@@ -69,8 +65,6 @@ const MOForm = () => {
       ],
     };
 
-    console.log("Payload=>", preparedData);
-
     try {
       setIsCreating(true);
       const response = await materialOrderForm(preparedData, id);
@@ -80,7 +74,6 @@ const MOForm = () => {
         toast.error("Error occurred. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast.error("Failed to submit the form.");
     } finally {
       setIsCreating(false);

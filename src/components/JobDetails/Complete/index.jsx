@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Input } from "@components/FormControls";
+import { CheckBox, Input } from "@components/FormControls";
 import { COCInsuranceForm } from "@components/Forms";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
@@ -16,24 +16,49 @@ const tabsDesignMeeting = [
 ];
 
 const Complete = () => {
+  const { id } = useParams();
   const [currTab, setCurrTab] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState("");
 
-  const handleChange = function (e) {
-    console.log(e.target.checked);
-  };
+  const {
+    control,
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors, isSubmitting, isLoading },
+  } = useForm({
+    defaultValues: async () => {
+      const resp = await getCoc(id);
+      if (resp.status >= 200 && resp.status < 300) {
+        setPdfUrl(resp.data.pdf_url); // Store PDF URL
+        return resp.data;
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
+      }
+    },
+  });
 
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
       <div className={`flex items-center gap-2`}>
-        <label htmlFor="status" className="font-semibold uppercase">
+        {/* <label htmlFor="status" className="font-semibold uppercase">
           coc complete
         </label>
         <input
           type="checkbox"
           className="h-6 w-6 border border-gray-300 bg-gray-50"
           onChange={(e) => handleChange(e)}
+        /> */}
+        <CheckBox
+          label="COC complete"
+          id="status"
+          name="status"
+          register={register}
+          wrapperClassName="flex items-center justify-end gap-2 col-span-2"
         />
       </div>
       <div className="bg-white p-5 rounded-2xl">
@@ -53,7 +78,16 @@ const Complete = () => {
               activeTab={currTab}
               onClick={setCurrTab}
             />
-            {currTab === 1 && <COCForm />}
+            {currTab === 1 && (
+              <COCForm
+                register={register}
+                control={control}
+                getValues={getValues}
+                handleSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                pdfUrl={pdfUrl}
+              />
+            )}
             {currTab === 2 && <COCInsuranceForm />}
           </div>
           {/* <div className="md:hidden">

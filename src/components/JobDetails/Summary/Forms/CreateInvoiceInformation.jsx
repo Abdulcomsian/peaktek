@@ -49,7 +49,6 @@ export default function CreateInvoiceInformation() {
   } = useForm({
     defaultValues: async () => {
       const resp = await getSummaryInitialInformation(jobId);
-      console.log("JOB SUMMRAY", resp);
       if (resp.status >= 200 && resp.status < 300) {
         setAddress(resp.data.job.address);
         return resp.data.job; // Ensure job object matches form fields
@@ -63,7 +62,6 @@ export default function CreateInvoiceInformation() {
 
   const onSubmit = async (data) => {
     const resp = await createSummaryInitialInformation(data, jobId);
-    console.log(resp);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
     }

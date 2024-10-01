@@ -8,7 +8,7 @@ export default function InsuranceInfo() {
   const { register } = useForm({
     defaultValues: async () => {
       const resp = await getCoc(jobId);
-      console.log("COC REPSS", resp);
+
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data;
       }

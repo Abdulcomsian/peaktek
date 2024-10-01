@@ -1,10 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
-import { useFormik } from "formik";
-import { adjustorMeetingSchema } from "@services/schema";
-import dayjs from "dayjs";
-import toast from "react-hot-toast";
-import { Ckeditor, FileUploader, Form } from "@components/FormControls";
-import { clientBaseURL, clientEndPoints } from "@services/config";
+import React, { Fragment, useState } from "react";
 import { AdjustorForm } from "@components/Forms";
 import { useNavigate, useParams } from "react-router-dom";
 import { CheckBox } from "@components/FormControls";
@@ -40,7 +34,6 @@ const AdjustorMeeting = () => {
 
   async function getAdjustorMeetingData() {
     const resp = await getAdjustorMeeting(jobId);
-    // console.log(resp);
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data.data;
     }
@@ -68,13 +61,6 @@ const AdjustorMeeting = () => {
     //   formData.append("attachments[]", file.file);
     // });
 
-    // console.log(
-    //   "FORM DATA ENTRIES",
-    //   images,
-    //   documents,
-    //   Object.fromEntries(formData)
-    // );
-
     // formData.append("name", values.name);
     // formData.append("email", values.email);
     // formData.append("phone", formatPhone);
@@ -83,8 +69,9 @@ const AdjustorMeeting = () => {
     // formData.append("status", status);
     // formData.append("completed", Number(values.completed));
   };
-  const onError = function (error) {
-    console.log(error);
+
+  const handleFileChange = function (files) {
+    console.log(files);
   };
 
   return (
@@ -94,7 +81,7 @@ const AdjustorMeeting = () => {
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Adjust Meeting
         </h2>
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2  mb-4 md:mb-0">
               <CheckBox
@@ -128,7 +115,7 @@ const AdjustorMeeting = () => {
           <div className="flex flex-col md:flex-row">
             <CkeditorControlled control={control} name="notes" id="notes" />
           </div>
-          <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col md:flex-row mt-4">
             <div className="w-full md:mr-4">
               <UploaderInputs
                 text="Images:"
@@ -143,19 +130,16 @@ const AdjustorMeeting = () => {
                   "image/jpg",
                   "image/gif",
                 ]}
-                // error={
-                //   errors.secondary_image &&
-                //   formateErrorName(errors?.secondary_image?.message)
-                // }
+                onFileChange={handleFileChange}
               />
-              {/* {showRenameBox &&
-                adjustorMeetingData?.images?.map((file) => (
+              {showRenameBox &&
+                images?.map((file) => (
                   <RenameFileUI
-                    files={adjustorMeetingData.images}
+                    // files={adjustorMeetingData.images}
                     apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
                     apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
                   />
-                ))} */}
+                ))}
             </div>
             <div className="w-full mr-4">
               <UploaderInputs

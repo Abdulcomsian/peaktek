@@ -20,7 +20,7 @@ export default function CreateInsuranceInformation() {
   } = useForm({
     defaultValues: async () => {
       const resp = await getSummaryInsurance(jobId);
-      console.log("DEfault insurance values", resp?.data?.job);
+
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data.job;
       }
@@ -28,7 +28,6 @@ export default function CreateInsuranceInformation() {
   });
 
   const onsubmit = async function (data) {
-    console.log(data);
     const resp = await createSummaryInsurance(data, jobId);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);

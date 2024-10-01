@@ -70,10 +70,8 @@ const CustomerAgreementForm = () => {
   const sign_pdf_url = getValues().sign_pdf_url;
   const sign_image_url = watch("sign_image_url");
   const FormStatus = getValues().status;
-  console.log("FORM STATU SVALUES", FormStatus);
 
   const openFileHandler = () => {
-    console.log(sign_pdf_url);
     const fullFileUrl = `${baseURL}${sign_pdf_url}`;
     window.open(fullFileUrl, "_blank");
   };
@@ -117,33 +115,6 @@ const CustomerAgreementForm = () => {
       navigate("/");
     }
   };
-
-  // if (FormStatus) {
-  //   dispatch(setActiveTab("adjustor-meeting"));
-  //   navigate(`/job-details/${id}/adjustor-meeting`);
-  // }
-
-  // const handleChange = function (e) {
-  //   console.log(e.target.checked);
-  //   const isCompletedChecked = e.target.checked;
-  //   if (isCompletedChecked) {
-  //     dispatch(setActiveTab("adjustor-meeting"));
-  //     navigate(`/job-details/${id}/adjustor-meeting`);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (FormStatus) navigate(`/job-details/${id}/adjustor-meeting`);
-  // }, [FormStatus]);
-  // return (
-  //   <p className="text-center text-sm text-stone-600 ">
-  //     👋 Customer agreement is already created, Please{" "}
-  //     <LinkButton onClick={openFileHandler} className="text-sm">
-  //       Click here
-  //     </LinkButton>
-  //     to view agreement
-  //   </p>
-  // );
 
   return (
     <Fragment>

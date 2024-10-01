@@ -10,7 +10,6 @@ export default function RenameFileUI({
   apiDeleteFileEndpoint,
   apiUpdateFileEndPoint,
 }) {
-  console.log("FILE", files);
   const [inputValues, setInputValues] = useState(
     files.reduce(
       (acc, file) => ({
@@ -79,7 +78,6 @@ export default function RenameFileUI({
   };
 
   const deleteFileHandler = async (id, image_url, fileType) => {
-    console.log("FILE DELETE HANLDER", image_url);
     setLoadingStates((prevStates) => ({
       ...prevStates,
       [id]: { ...prevStates[id], isDeleting: true },
@@ -122,7 +120,6 @@ export default function RenameFileUI({
     }`;
     window.open(fullFileUrl, "_blank");
   };
-  console.log(filesToUpdate);
 
   return (
     <form className="flex flex-col md:gap-2 mb-4 max-w-full mt-3">
