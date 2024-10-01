@@ -98,13 +98,7 @@ export default function COCForm() {
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between mb-4">
-        <CheckBox
-          label="COC complete"
-          id="status"
-          name="status"
-          register={register}
-          wrapperClassName="flex items-center justify-end gap-2 col-span-2"
-        />
+        <h2>COC form</h2>
         <Button
           type="button"
           onClick={downloadButton}

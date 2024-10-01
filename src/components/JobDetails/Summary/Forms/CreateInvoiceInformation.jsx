@@ -34,7 +34,6 @@ export default function CreateInvoiceInformation() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const usersData = useSelector((state) => state?.users?.usersData);
-  console.log("USER DATA FROM USE SELECTOR", usersData);
   const userOptions = usersData.map((user) => ({
     value: `${user.id}`,
     label: user.name,

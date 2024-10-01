@@ -36,6 +36,7 @@ import {
 import { useAuth } from "@context/AuthContext";
 import ClientInformation from "../Complete/COCForm/ClientInformation";
 import CustomerInformationDetail from "./CustomerInformationDetail";
+import { setActiveTab } from "@store/slices/activeTabSlice";
 
 const CustomerAgreementForm = () => {
   const { id } = useParams();
@@ -44,6 +45,7 @@ const CustomerAgreementForm = () => {
   const location = useLocation();
   const [showPdfButton, setShowPdfButton] = useState(false);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     control,
@@ -68,6 +70,7 @@ const CustomerAgreementForm = () => {
   const sign_pdf_url = getValues().sign_pdf_url;
   const sign_image_url = watch("sign_image_url");
   const FormStatus = getValues().status;
+  console.log("FORM STATU SVALUES", FormStatus);
 
   const openFileHandler = () => {
     console.log(sign_pdf_url);
@@ -96,9 +99,13 @@ const CustomerAgreementForm = () => {
     if (!data.status) dataToLoad["status"] = false;
 
     const resp = await createCustomerAggreement(dataToLoad, id);
-    console.log("resp", resp);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
+
+      if (resp.data.agreement.status) {
+        dispatch(setActiveTab("adjustor-meeting"));
+        navigate(`/job-details/${id}/adjustor-meeting`);
+      }
 
       const updatedResp = await getCustomerAggreement(id);
       if (updatedResp.status >= 200 && updatedResp.status < 300) {
@@ -111,16 +118,32 @@ const CustomerAgreementForm = () => {
     }
   };
 
-  if (FormStatus)
-    return (
-      <p className="text-center text-sm text-stone-600 ">
-        👋 Customer agreement is already created, Please{" "}
-        <LinkButton onClick={openFileHandler} className="text-sm">
-          Click here
-        </LinkButton>
-        to view agreement
-      </p>
-    );
+  // if (FormStatus) {
+  //   dispatch(setActiveTab("adjustor-meeting"));
+  //   navigate(`/job-details/${id}/adjustor-meeting`);
+  // }
+
+  // const handleChange = function (e) {
+  //   console.log(e.target.checked);
+  //   const isCompletedChecked = e.target.checked;
+  //   if (isCompletedChecked) {
+  //     dispatch(setActiveTab("adjustor-meeting"));
+  //     navigate(`/job-details/${id}/adjustor-meeting`);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (FormStatus) navigate(`/job-details/${id}/adjustor-meeting`);
+  // }, [FormStatus]);
+  // return (
+  //   <p className="text-center text-sm text-stone-600 ">
+  //     👋 Customer agreement is already created, Please{" "}
+  //     <LinkButton onClick={openFileHandler} className="text-sm">
+  //       Click here
+  //     </LinkButton>
+  //     to view agreement
+  //   </p>
+  // );
 
   return (
     <Fragment>

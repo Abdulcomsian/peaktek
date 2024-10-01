@@ -19,19 +19,32 @@ const Complete = () => {
   const [currTab, setCurrTab] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const handleChange = function (e) {
+    console.log(e.target.checked);
+  };
 
   return (
     <Fragment>
       {loading && <Spin fullscreen={true} />}
-      <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
-        COC
-      </h1>
+      <div className={`flex items-center gap-2`}>
+        <label htmlFor="status" className="font-semibold uppercase">
+          coc complete
+        </label>
+        <input
+          type="checkbox"
+          className="h-6 w-6 border border-gray-300 bg-gray-50"
+          onChange={(e) => handleChange(e)}
+        />
+      </div>
       <div className="bg-white p-5 rounded-2xl">
+        {/* <CheckBox
+          label="COC complete"
+          id="status"
+          name="status"
+          register={register}
+          wrapperClassName="flex items-center justify-end gap-2 col-span-2"
+        /> */}
+
         <InsuranceInfo />
         <TabsContentBox>
           <div>

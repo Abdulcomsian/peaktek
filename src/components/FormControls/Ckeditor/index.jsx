@@ -11,7 +11,6 @@ const Ckeditor = ({
   error,
   touched,
 }) => {
-  console.log(value, "CKEDITOR");
   const [editorData, setEditorData] = useState(value || "");
 
   const modules = {
