@@ -7,11 +7,15 @@ import {
   getFinalPaymentStats,
   updateFinalPaymentStatus,
 } from "@services/apiFinalPaymentDue";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setActiveTab } from "@store/slices/activeTabSlice";
 
 export default function FinalDuePayment() {
   const { id: jobId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     control,
     register,
@@ -45,6 +49,12 @@ export default function FinalDuePayment() {
 
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.message);
+
+      if (Boolean(resp.data.status)) {
+        console.log("RESP FINAL DUE PAYMENT", Boolean(resp.data.status));
+        dispatch(setActiveTab("ready-to-close"));
+        navigate(`/job-details/${jobId}/ready-to-close`);
+      }
     }
     console.log(resp);
   };

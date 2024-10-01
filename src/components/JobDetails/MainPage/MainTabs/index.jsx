@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { MobileContent } from "@components/JobDetails";
 import { setActiveTab } from "@store/slices/activeTabSlice";
@@ -9,6 +9,7 @@ export default function MainTabs({ className }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParam] = useSearchParams();
   const activeTab = useSelector((state) => state.activeTab.activeTab);
 
   useEffect(() => {
@@ -16,7 +17,10 @@ export default function MainTabs({ className }) {
     dispatch(setActiveTab(currentPath));
   }, [location.pathname, dispatch]);
 
-  const handleNavigation = (path) => {
+  const handleNavigation = ({ id, path }) => {
+    console.log(id);
+    searchParams.set("mainTab", id);
+    setSearchParam(searchParams);
     if (activeTab === path) {
       dispatch(setActiveTab(null)); // Toggle off if the same tab is clicked again
     } else {
@@ -54,7 +58,7 @@ export default function MainTabs({ className }) {
                 ? "font-bold text-[#2a6eb0]"
                 : "text-gray-700"
             }`}
-            onClick={() => handleNavigation(btn.path)}
+            onClick={() => handleNavigation(btn)}
             aria-current="page" // or "false" depending on the current tab
           >
             {btn.text}

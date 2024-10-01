@@ -7,6 +7,7 @@ export default function CheckBox({
   name,
   disabled = false,
   register,
+  onChange = () => {},
 }) {
   return (
     <div className={`flex items-center gap-2 ${wrapperClassName}`}>
@@ -21,7 +22,7 @@ export default function CheckBox({
         className="h-6 w-6 border border-gray-300 bg-gray-50"
         id={id}
         name={name}
-        {...register(name)}
+        {...register(name, { onChange })}
       />
     </div>
   );

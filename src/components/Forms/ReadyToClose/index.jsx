@@ -5,13 +5,15 @@ import { getReadyToClose, updateReadyToClose } from "@services/apiReadyToClose";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import { useEffect } from "react";
 import {
   formatePercentageInputValue,
   formateCurrencyInputValue,
 } from "../../../utils/helper";
+import { setActiveTab } from "@store/slices/activeTabSlice";
+import { useDispatch } from "react-redux";
 
 const marketOptions = [
   { label: "Nashville", value: "Nashville" },
@@ -20,6 +22,8 @@ const marketOptions = [
 
 export default function ReadyToClose() {
   const { id: jobId } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     control,
     register,
@@ -55,10 +59,19 @@ export default function ReadyToClose() {
   }, [sales_rep1_commission_percentage]);
 
   const onSubmit = async function (data) {
-    console.log(data);
+    console.log("RADY RTO CLOSE ONSUBMIT DATA", data);
     const resp = await updateReadyToClose(data, jobId);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
+
+      if (Boolean(resp.data.data.status)) {
+        console.log(
+          "RESP READY TO CLOSED PAYMENT",
+          Boolean(resp.data.data.status)
+        );
+        dispatch(setActiveTab("won-closed-jobs"));
+        navigate(`/job-details/${jobId}/won-closed-jobs`);
+      }
     }
     console.log(resp);
   };
