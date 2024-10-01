@@ -45,9 +45,6 @@ const MediaContent = ({ id, className }) => {
       }
     } catch (error) {
       if (error?.response) {
-        console.error(
-          error?.response?.data?.error || error?.response?.data?.message
-        );
       }
     }
   };

@@ -77,11 +77,9 @@ const DesignMeeting = () => {
         setShowViewPdfBtn(true);
       }
     } catch (error) {
-      console.log(error);
     } finally {
       setIsGeneratingPdf(false);
     }
-    console.log(resp);
   };
 
   const openFileHandler = () => {

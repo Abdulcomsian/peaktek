@@ -29,8 +29,6 @@ const ReadyToBuild = () => {
     (state) => state?.subContractors?.subContractorsData
   );
 
-  console.log("SubCont=>", subContractorsData);
-
   const [initialValues, setInitialValues] = useState({
     recipient: "",
     date: null,
@@ -52,7 +50,6 @@ const ReadyToBuild = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
       setLoading(true);
@@ -83,9 +80,6 @@ const ReadyToBuild = () => {
       }
     } catch (error) {
       if (error?.response) {
-        console.error(
-          error?.response?.data?.error || error?.response?.data?.message
-        );
       }
     } finally {
       setLoading(false);

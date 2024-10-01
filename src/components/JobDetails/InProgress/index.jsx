@@ -29,7 +29,6 @@ const InProgress = () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          console.error("No token found");
           return;
         }
         setLoading(true);
@@ -49,9 +48,6 @@ const InProgress = () => {
         }
       } catch (error) {
         if (error?.response) {
-          console.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
         }
       } finally {
         setLoading(false);
@@ -109,7 +105,6 @@ const InProgress = () => {
 
       try {
         if (!token) {
-          console.error("No token found");
           return;
         }
         const response = await clientBaseURL.post(
@@ -175,31 +170,6 @@ const InProgress = () => {
           <h2 className="text-black text-xl font-medium mb-4 font-poppins">
             Quality Control Form (QC)
           </h2>
-          {/* <CustomerInformation
-            customer={singleJobData}
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
-            touched={formik.touched}
-            errors={formik.errors}
-            values={formik.values}
-            setFieldValue={formik.setFieldValue}
-          /> */}
-          <MaterialForm
-            values={formik.values.materials}
-            setFieldValue={formik.setFieldValue}
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
-            touched={formik.touched.materials}
-            errors={formik.errors.materials}
-          />
-          {/* <SignatureForm
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
-            touched={formik.touched}
-            errors={formik.errors}
-            values={formik.values}
-            setFieldValue={formik.setFieldValue}
-          /> */}
 
           <div className="flex items-center mb-6">
             <input

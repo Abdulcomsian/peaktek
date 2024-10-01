@@ -14,9 +14,7 @@ function AuthProvider({ children }) {
       try {
         setUser(JSON.parse(storedUser));
         setIsAuthenticated(true);
-      } catch (error) {
-        console.error("Failed to parse user data from localStorage", error);
-      }
+      } catch (error) {}
     }
   }, []);
 

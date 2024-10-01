@@ -13,11 +13,9 @@ export default function JobListing() {
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const { jobId } = useParams();
 
-  console.log("Status jobs", statusJobs.updated_at, statusJobs.created_at);
   const { updated_at, created_at } = statusJobs;
 
   const x = dateDifference(updated_at || created_at);
-  console.log(x);
 
   useEffect(() => {
     async function fetchAllStatusJobs() {

@@ -21,7 +21,6 @@ const EstimatePrepared = () => {
   const getEstimatePreparedData = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error("No token found");
       return;
     }
     try {
@@ -41,9 +40,6 @@ const EstimatePrepared = () => {
       }
     } catch (error) {
       if (error?.response) {
-        console.error(
-          error?.response?.data?.error || error?.response?.data?.message
-        );
       }
     } finally {
       setLoading(false);
@@ -67,7 +63,6 @@ const EstimatePrepared = () => {
     enableReinitialize: true,
     validationSchema: estimatePreparedSchema,
     onSubmit: async (values, actions) => {
-      console.log(values);
       const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
 
       const formData = new FormData();
@@ -83,7 +78,6 @@ const EstimatePrepared = () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          console.error("No token found");
           return;
         }
         const response = await clientBaseURL.post(

@@ -70,7 +70,7 @@ export default function RoofComponent() {
         toast.success(resp.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -30,9 +30,7 @@ export default function Welcome() {
           logout();
           navigate("/");
         }
-        console.log(resp);
       } catch (error) {
-        console.log(error);
         if (error.response.status === 401) {
           logout();
           navigate("/");

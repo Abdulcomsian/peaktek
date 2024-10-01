@@ -82,7 +82,6 @@ export default function TermandConditionForm() {
         setImage_url(resp.data.data.sign_image);
       }
       setIsInitialLoading(false);
-      console.log("RESP", resp);
     }
 
     getTermsSignature();

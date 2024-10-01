@@ -19,7 +19,6 @@ export default function UploaderInputs({
   const [files, setFiles] = useState([]);
 
   const handleFiles = (selectedFiles) => {
-    console.log("SELECTED FILES", selectedFiles);
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
     );
@@ -39,7 +38,6 @@ export default function UploaderInputs({
 
   const handleFileChange = (e) => {
     const selectedFiles = e.target.files;
-    console.log("SELECTED FILES arug", selectedFiles);
     handleFiles(selectedFiles);
   };
 
@@ -51,12 +49,7 @@ export default function UploaderInputs({
     return name;
   };
 
-  useEffect(() => {
-    console.log(files);
-  });
-
   const handleDeletFileItem = function (id) {
-    console.log("HERE", files, id);
     setFiles((files) => files.filter((_, i) => i !== id));
   };
 

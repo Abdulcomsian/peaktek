@@ -40,7 +40,6 @@ export default function TitleForm() {
           return {}; // Return empty object if no data
         }
       } catch (error) {
-        console.error(error);
         return {}; // Return empty object on error
       } finally {
         setIsLoading(false); // Set loading to false after data fetch
@@ -52,7 +51,6 @@ export default function TitleForm() {
   const defaultSecondaryImage = watch("secondary_images");
 
   const onSubmit = async function (data) {
-    console.log("TITLE FORM DATA", data);
     const finalDataToUpload = {
       ...data,
       primary_image:

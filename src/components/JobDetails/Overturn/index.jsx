@@ -13,7 +13,6 @@ const Overturn = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
         return;
       }
       setLoading(true);
@@ -30,9 +29,6 @@ const Overturn = () => {
       }
     } catch (error) {
       if (error?.response) {
-        console.error(
-          error?.response?.data?.error || error?.response?.data?.message
-        );
       }
     } finally {
       setLoading(false);
