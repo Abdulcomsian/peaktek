@@ -131,6 +131,9 @@ const clientEndPoints = {
   storeQCInspection: "/api/store/qc-inspection",
   storeQCInspectionMedia: "/api/store/qc-inspection/media",
   getQCInspection: "/api/get/qc-inspection",
+  // In Progress
+  storeInProgress: "/api/update/in-progress",
+  getInProgress: "/api/get/in-progress",
   //COC
   createCoc: "/api/store/coc",
   getCoc: "/api/get/coc",
