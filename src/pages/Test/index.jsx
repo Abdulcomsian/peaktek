@@ -1,65 +1,117 @@
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-export default function Index() {
-  const [state, setState] = useState([
-    {
-      id: uuidv4(),
-      name: "input",
-      order_key: 23,
-    },
-    {
-      id: uuidv4(),
-      name: "input",
-      order_key: 23,
-    },
-    {
-      id: uuidv4(),
-      name: "input",
-      order_key: 23,
-    },
-  ]);
+import React, { useState, useEffect, Fragment } from "react";
+import {
+  CheckBox,
+  Ckeditor,
+  CustomTimePicker,
+  DateSelector,
+  Form,
+  Input,
+  SelectBox,
+  TextBox,
+} from "@components/FormControls";
+import { useFormik } from "formik";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
+import { clientBaseURL, clientEndPoints } from "@services/config";
+import Button from "@components/JobDetails/Button";
+import { InputContainer } from "@components/index";
+import { useParams } from "react-router-dom";
+import { readyToBuildSchema } from "@services/schema";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSubContractors } from "@store/slices/subContractorSlice";
+import { Scheduling } from "@components/JobDetails";
+import { useForm } from "react-hook-form";
+import { CustomDatePicker } from "@components";
+import CkeditorControlled from "@components/FormControls/CkeditorControlled";
+import { UploaderInputs } from "@components/index";
+import { ImageIcon, Loader, RenameFileUI } from "@components/UI";
 
-  const handleChange = function (e) {
-    let key = e.target.dataset.key;
-    let name = e.target.name;
-    let value = e.target.value;
+const Test = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
 
-    // Create a new state array
-    let updatedState = [...state];
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isLoading, isSubmitting },
+  } = useForm();
 
-    // Update the specific item in the new array
-    updatedState[key] = {
-      ...updatedState[key],
-      [name]: value,
-    };
-
-    // Set the new state
-    setState(updatedState);
-  };
-
-  const handleAddInput = function () {
-    setState((items) => [...items, { id: uuidv4() }]);
-  };
-
-  const handleDelete = function (id) {
-    setState((items) => items.filter((item) => item.id !== id));
+  const onSubmit = function (data) {
+    console.log(data);
   };
 
   return (
-    <>
-      {state.map((data, index) => (
-        <div key={data.id}>
-          <input
-            name="name" // Ensure the correct name attribute
-            value={data.name} // Bind input value to the state
-            style={{ border: "1px solid red" }}
-            onChange={handleChange}
-            data-key={index}
-          />
-          <button onClick={() => handleDelete(data.id)}>Delete</button>
-        </div>
-      ))}
-      <button onClick={handleAddInput}>Add input</button>
-    </>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <CheckBox
+        name="status"
+        id="status"
+        register={register}
+        label="build confirmed"
+      />
+      <div className="bg-white p-5 rounded-2xl">
+        <Input
+          label="Home Owner"
+          placeholder="John Doe"
+          name="name"
+          id="name"
+          className="md:mr-4 mb-4 md:mb-0"
+          register={register}
+          applyMarginBottom={true}
+        />
+        <Input
+          label="Home Owner Email"
+          placeholder="example@gmail.com"
+          name="email"
+          id="email"
+          type="email"
+          className="md:mr-4 mb-4 md:mb-0"
+          register={register}
+          applyMarginBottom={true}
+        />
+        <CustomDatePicker
+          label="Date sent:"
+          className="mb-4"
+          control={control}
+          name="date_sent"
+          error={errors.date && formateErrorName(errors?.date_sent?.message)}
+        />
+
+        <CkeditorControlled control={control} name="notes" id="notes" />
+
+        <UploaderInputs
+          wrapperClass="col-span-2 md:col-span-1 mt-4"
+          name={`attachments`}
+          id={`attachments`}
+          register={register}
+          icon={<ImageIcon />}
+          require={false}
+          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+        />
+        {/* {row?.attachment && (
+              <RenameFileUI
+                files={row.attachment}
+                apiUpdateFileEndPoint="/api/change/project-design-inspection/file-name"
+                apiDeleteFileEndpoint="/api/delete/project-design-inspection/media"
+              />
+            )} */}
+
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full max-w-28 text-white btn-gradient px-4 py-1"
+        >
+          {isSubmitting ? (
+            <div className="flex justify-center items-center">
+              <Loader width={"24px"} height={"24px"} color="#fff" />
+            </div>
+          ) : (
+            "Save"
+          )}
+        </Button>
+      </div>
+    </form>
   );
-}
+};
+
+export default Test;

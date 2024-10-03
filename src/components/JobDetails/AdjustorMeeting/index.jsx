@@ -117,21 +117,23 @@ const AdjustorMeeting = () => {
           </div>
           <div className="flex flex-col md:flex-row mt-4">
             <div className="w-full md:mr-4">
-              <UploaderInputs
-                text="Images:"
-                name="images"
-                id="images"
-                register={register}
-                icon={<ImageIcon />}
-                require={false}
-                fileTypes={[
-                  "image/png",
-                  "image/jpeg",
-                  "image/jpg",
-                  "image/gif",
-                ]}
-                onFileChange={handleFileChange}
-              />
+              <div>
+                <UploaderInputs
+                  text="Images:"
+                  name="images"
+                  id="images"
+                  register={register}
+                  icon={<ImageIcon />}
+                  require={false}
+                  fileTypes={[
+                    "image/png",
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/gif",
+                  ]}
+                  onFileChange={handleFileChange}
+                />
+              </div>
               {showRenameBox &&
                 images?.map((file) => (
                   <RenameFileUI

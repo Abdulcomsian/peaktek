@@ -60,7 +60,7 @@ export async function moConfirmationEmail(data, id) {
   try {
     const response = await clientBaseURL.post(
       `${clientEndPoints.confirmationEmail}/${id}`,
-      { data },
+      data,
       {
         headers: {
           Authorization: `Bearer ${token}`,

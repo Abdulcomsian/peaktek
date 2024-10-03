@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Fragment } from "react";
 import {
+  CheckBox,
   Ckeditor,
   CustomTimePicker,
   DateSelector,
   Form,
+  Input,
   SelectBox,
   TextBox,
 } from "@components/FormControls";
@@ -11,209 +13,97 @@ import { useFormik } from "formik";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "@services/config";
-import Button from "@components/JobDetails/Button";
 import { InputContainer } from "@components/index";
 import { useParams } from "react-router-dom";
 import { readyToBuildSchema } from "@services/schema";
-import { Spin } from "antd";
-import { Loader } from "@components/UI";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSubContractors } from "@store/slices/subContractorSlice";
 import { Scheduling } from "@components/JobDetails";
+import { useForm } from "react-hook-form";
+import { CustomDatePicker } from "@components";
+import CkeditorControlled from "@components/FormControls/CkeditorControlled";
+import { UploaderInputs } from "@components/index";
+import { Button, ImageIcon, Loader, RenameFileUI } from "@components/UI";
 
 const ReadyToBuild = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
-  const subContractorsData = useSelector(
-    (state) => state?.subContractors?.subContractorsData
-  );
 
-  const [initialValues, setInitialValues] = useState({
-    recipient: "",
-    date: null,
-    time: null,
-    text: "",
-    sub_contractor_id: "",
-  });
-  const subContractorsOptions =
-    subContractorsData?.map((subContractor) => ({
-      label: subContractor?.name,
-      value: subContractor?.id,
-    })) || [];
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isLoading, isSubmitting },
+  } = useForm();
 
-  useEffect(() => {
-    dispatch(fetchSubContractors());
-  }, []);
-
-  const getReadyToBuildData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        return;
-      }
-      setLoading(true);
-      const response = await clientBaseURL.get(
-        `${clientEndPoints?.getReadyToBuild}/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response?.status >= 200 && response?.status < 300) {
-        const data = response?.data?.data;
-        const formattedInitialDate = data?.date
-          ? dayjs(data?.date, "DD/MM/YYYY")
-          : null;
-        const formattedInitialTime = data?.time
-          ? dayjs(data?.time, "hh:mm A")
-          : null;
-        setInitialValues({
-          recipient: data?.recipient || "",
-          date: formattedInitialDate,
-          time: formattedInitialTime,
-          text: data?.text || "",
-          sub_contractor_id: data?.sub_contractor_id || "",
-        });
-      }
-    } catch (error) {
-      if (error?.response) {
-      }
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = function (data) {
+    console.log(data);
   };
-  useEffect(() => {
-    if (id) getReadyToBuildData();
-  }, [id]);
-
-  const formik = useFormik({
-    initialValues,
-    enableReinitialize: true,
-    validationSchema: readyToBuildSchema,
-    onSubmit: async (values, actions) => {
-      const formattedTime = values.time
-        ? dayjs(values.time).format("hh:mm A")
-        : "Invalid Time";
-      const formattedDate = dayjs(values.date).format("DD/MM/YYYY");
-      const formattedValues = {
-        ...values,
-        time: formattedTime,
-        date: formattedDate,
-      };
-
-      try {
-        const token = localStorage.getItem("token");
-        const response = await clientBaseURL.post(
-          `${clientEndPoints?.createReadyToBuild}/${id}`,
-          formattedValues,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response?.status >= 200 && response?.status < 300) {
-          toast.success(response?.data?.message);
-        }
-      } catch (error) {
-        if (error?.response) {
-          toast.error(
-            error?.response?.data?.error || error?.response?.data?.message
-          );
-        }
-      }
-    },
-  });
 
   return (
-    <Fragment>
-      {loading && <Spin fullscreen={true} />}
-      {/* <Scheduling /> */}
-      <h1 className="font-poppins font-medium text-xl text-black mb-4 text-center md:text-left">
-        Ready to Build
-      </h1>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <CheckBox
+        name="status"
+        id="status"
+        register={register}
+        label="build confirmed"
+      />
       <div className="bg-white p-5 rounded-2xl">
-        <Form onSubmit={formik.handleSubmit}>
-          <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
-            <TextBox
-              label="Recipient"
-              placeholder="John Doe"
-              type="text"
-              name="recipient"
-              className="md:mr-4 mb-4 md:mb-0"
-              value={formik.values.recipient}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              error={formik.errors.recipient}
-              touched={formik.touched.recipient}
-            />
-            <DateSelector
-              label="Select a Date"
-              className="md:mr-4 mb-4 md:mb-0"
-              name="date"
-              value={formik.values.date}
-              onBlur={formik.handleBlur}
-              onChange={(dateString) =>
-                formik.setFieldValue("date", dateString)
-              }
-              error={formik.errors.date}
-              touched={formik.touched.date}
-            />
-            <CustomTimePicker
-              label="Select a Time"
-              className="md:mr-4 mb-4 md:mb-0"
-              value={formik.values.time}
-              name="time"
-              onBlur={formik.handleBlur}
-              onChange={(timeString) =>
-                formik.setFieldValue("time", timeString)
-              }
-              error={formik.errors.time}
-              touched={formik.touched.time}
-            />
-            <SelectBox
-              label="Sub Contractor"
-              placeholder="Select Sub Contractor"
-              className="mb-4 md:mb-0 max-w-xl"
-              name="sub_contractor_id"
-              options={subContractorsOptions}
-              value={formik.values.sub_contractor_id}
-              onBlur={formik.handleBlur}
-              onChange={(value) =>
-                formik.setFieldValue("sub_contractor_id", value)
-              }
-              error={formik.errors.sub_contractor_id}
-              touched={formik.touched.sub_contractor_id}
-            />
-          </InputContainer>
-          <Ckeditor
-            label="Notes"
-            id="text"
-            className="mb-4"
-            value={formik.values.text}
-            onChange={(content) => formik.setFieldValue("text", content)}
-            error={formik.errors.text}
-            touched={formik.touched.text}
-          />
-          <Button
-            disabled={formik.isSubmitting}
-            type="submit"
-            className="w-full max-w-28 text-white btn-gradient px-4 py-1"
-          >
-            {formik.isSubmitting ? (
-              <div className="flex justify-center items-center">
-                <Loader width={"24px"} height={"24px"} color="#fff" />
-              </div>
-            ) : (
-              "Build SMS"
-            )}
-          </Button>
-        </Form>
+        <Input
+          label="Home Owner"
+          placeholder="John Doe"
+          name="name"
+          id="name"
+          className="md:mr-4 mb-4 md:mb-0"
+          register={register}
+          applyMarginBottom={true}
+        />
+        <Input
+          label="Home Owner Email"
+          placeholder="example@gmail.com"
+          name="email"
+          id="email"
+          type="email"
+          className="md:mr-4 mb-4 md:mb-0"
+          register={register}
+          applyMarginBottom={true}
+        />
+        <CustomDatePicker
+          label="Date sent:"
+          className="mb-4"
+          control={control}
+          name="date_sent"
+          error={errors.date && formateErrorName(errors?.date_sent?.message)}
+        />
+
+        <CkeditorControlled control={control} name="notes" id="notes" />
+
+        <UploaderInputs
+          wrapperClass="col-span-2 md:col-span-1 mt-4"
+          name={`attachments`}
+          id={`attachments`}
+          register={register}
+          icon={<ImageIcon />}
+          require={false}
+          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+        />
+
+        <Button
+          variant="gradient"
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full max-w-28 text-white btn-gradient px-4 py-1 mt-3"
+        >
+          {isSubmitting ? (
+            <div className="flex justify-center items-center">
+              <Loader width={"24px"} height={"24px"} color="#fff" />
+            </div>
+          ) : (
+            "Save"
+          )}
+        </Button>
       </div>
-    </Fragment>
+    </form>
   );
 };
 
