@@ -2,9 +2,10 @@ import { ArrowFileIcon, ImageIcon } from "@components/UI";
 import { FaTrashAlt } from "react-icons/fa";
 
 export default function UploadedImageItems({ files = [], onDeleteFileItem }) {
+  console.log("FINAL IMAGES RENDER", files, [...files]);
   return (
     <>
-      {[...files].map((file, index) => (
+      {files.map((file, index) => (
         <div
           key={index}
           className="flex items-center justify-between border p-2 rounded mb-2 mt-4"

@@ -43,6 +43,7 @@ import ReadyToClose from "./ReadyToClose";
 import WonAndClosed from "./WonAndClosed";
 import BuildScheduledForm from "./BuildScheduledForm";
 import BSDeliveryInformation from "./BSDeliveryInfo";
+import MoInformationEmail from "./MOInforamtionEmail";
 export {
   Row,
   ItemsList,
@@ -86,4 +87,5 @@ export {
   FinalDuePayment,
   ReadyToClose,
   WonAndClosed,
+  MoInformationEmail,
 };

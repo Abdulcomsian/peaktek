@@ -9,6 +9,9 @@ import { useParams } from "react-router-dom";
 import { fetchUsersData } from "@store/slices/usersSlice";
 import { useSelector } from "react-redux";
 import { getSuppliers } from "@services/apiSuppliers";
+import ClientInformation from "@components/JobDetails/Complete/COCForm/ClientInformation";
+import SupplierInfo from "./SupplierInfo";
+import MaterialListForm from "./MaterialListForm";
 
 const MOForm = () => {
   const { id } = useParams();
@@ -85,13 +88,14 @@ const MOForm = () => {
       <h2 className="text-black text-xl font-medium mb-4 font-poppins">
         Material Order
       </h2>
-      <CustomerInformation
+      {/* <CustomerInformation
         className="pb-4 border-b border-gray-300"
         register={register}
         control={control}
         readOnlyFields={["name", "email", "phone"]} // Optional: if you want to make them readonly
-      />
-      <h2 className="text-black text-xl font-medium mb-4 pt-4 font-poppins">
+      /> */}
+      <SupplierInfo register={register} />
+      <h2 className="text-black text-xl font-medium my-4 pt-4 font-poppins">
         Delivery Information
       </h2>
       <BSDeliveryInformation
@@ -99,6 +103,7 @@ const MOForm = () => {
         register={register}
         control={control}
       />
+      <MaterialListForm />
       <Button
         onClick={handleSubmit(onSubmit)}
         type="submit"

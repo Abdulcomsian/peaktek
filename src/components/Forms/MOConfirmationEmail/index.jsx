@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { InputContainer } from "@components";
-import { Input, Form } from "@components/FormControls";
-import { TextareaI } from "@components/index";
+import { Input, Form, CheckBox } from "@components/FormControls";
 import toast from "react-hot-toast";
-import {
-  confirmationEmail,
-  moConfirmationEmail,
-} from "@services/apiBuildScheduled";
 import { Button } from "@components/UI";
+import CkeditorControlled from "@components/FormControls/CkeditorControlled";
+import { moConfirmationEmail } from "@services/apiBuildScheduled";
 
 const MOConfimationForm = ({ isMaterialOrderForm }) => {
   const [isCreating, setIsCreating] = useState(false);
   const { id } = useParams();
-  const api = isMaterialOrderForm ? moConfirmationEmail : confirmationEmail;
 
   const {
     register,
@@ -29,6 +24,7 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
     },
     mode: "onBlur",
   });
+
   const onSubmit = async (data) => {
     console.log("Data Format=>", data);
 
@@ -42,7 +38,7 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
       };
       console.log("Formatted Data=>", formattedData);
 
-      const response = await api(formattedData, id);
+      const response = await moConfirmationEmail(formattedData, id);
       console.log("response ", response);
 
       if (response?.status >= 200 && response?.status < 300) {
@@ -64,45 +60,50 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
+        <div className="flex items-center justify-between mb-4">
           <Input
             label="Send To:"
-            placeholder="test@test.com"
-            className="md:mr-4 mb-4 md:mb-0"
+            type="email"
+            placeholder="example@gmail.com"
+            className="md:mr-4 mb-4 md:mb-0 max-w-[50%]"
             name="send_to"
+            id="send_to"
             register={register}
-            control={control}
           />
-          <Input
-            label="Subject:"
-            placeholder="Subject"
-            type="text"
-            className="md:mr-4 mb-4 md:mb-0"
-            name="a"
+          <CheckBox
             register={register}
-            control={control}
+            name="status"
+            id="status"
+            label="Email sent:"
           />
-        </InputContainer>
-        <TextareaI
-          label="Email Body:"
-          placeholder="Email body..."
-          type="text"
-          className="md:mr-4 mb-4 md:mb-0"
-          name="email_body"
+        </div>
+        <Input
+          label="Subject:"
+          placeholder="Subject"
+          className="md:mr-4 mb-4"
+          name="subject"
+          id="subject"
           register={register}
           control={control}
+        />
+        <CkeditorControlled
+          label="Email body:"
+          control={control}
+          name="email_body"
+          id="email_body"
         />
         <Button
           disabled={isCreating}
           type="submit"
-          className="w-full max-w-24 text-white btn-gradient px-4 py-1 rounded-sm mt-4"
+          variant="gradient"
+          className="mt-4"
         >
           Send
         </Button>
       </div>
-    </Form>
+    </form>
   );
 };
 

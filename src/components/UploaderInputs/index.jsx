@@ -22,6 +22,7 @@ export default function UploaderInputs({
     const filteredFiles = Array.from([...selectedFiles]).filter((file) =>
       fileTypes.includes(file.type)
     );
+    console.log("FILTERD FILE", filteredFiles);
 
     setFiles((files) => [...files, ...filteredFiles]);
     onFileChange?.(filteredFiles);

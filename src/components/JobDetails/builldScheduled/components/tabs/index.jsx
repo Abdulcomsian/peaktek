@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   CustomerInformation,
   CustomerInformationForm,
+  MoInformationEmail,
 } from "@components/Forms";
 import MOForm from "../MOForm";
 import MOConfimationForm from "@components/Forms/MOConfirmationEmail";
@@ -19,11 +20,11 @@ const tabsDesignMeeting = [
 function renderSection(currTab) {
   switch (currTab) {
     case 1:
-      return <MOConfimationForm isMaterialOrderForm={false} />;
+      return <MOConfimationForm />;
     case 2:
       return <MOForm />;
     case 3:
-      return <MOConfimationForm isMaterialOrderForm={true} />;
+      return <MoInformationEmail />;
   }
 }
 
