@@ -11,10 +11,15 @@ const CustomDatePicker = ({
   name,
   defaultValue,
   disabled,
+  applyMarginBottom = false,
 }) => {
   return (
     <div className={`w-full ${className}`}>
-      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+      <label
+        className={`block ${
+          applyMarginBottom ? "mb-2" : ""
+        } text-sm font-medium text-gray-700 dark:text-gray-300`}
+      >
         {label}
       </label>
       <Controller

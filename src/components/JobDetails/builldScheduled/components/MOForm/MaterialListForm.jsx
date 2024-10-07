@@ -1,10 +1,10 @@
-import { Input } from "@components/FormControls";
+import { Input, Select } from "@components/FormControls";
 import { Button } from "@components/UI";
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-export default function MaterialListForm() {
-  const { register, control, handleSubmit } = useForm({
+export default function MaterialListForm({ register, control }) {
+  const {} = useForm({
     defaultValues: {
       materials: [{ material: "", quality: "", color: "", orderKey: "" }],
     },
@@ -20,74 +20,72 @@ export default function MaterialListForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-5">
-      <table className="w-full">
-        <thead>
-          <tr>
-            <th>Material</th>
-            <th>Quality</th>
-            <th>Color</th>
-            <th>Order key</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {fields.map((item, index) => (
-            <tr key={item.id}>
-              <td>
-                <Input
-                  name={`materials[${index}].material`}
-                  id={`material-${index}`}
-                  register={register}
-                />
-              </td>
-              <td>
-                <Input
-                  name={`materials[${index}].quality`}
-                  id={`quality-${index}`}
-                  register={register}
-                />
-              </td>
-              <td>
-                <Input
-                  name={`materials[${index}].color`}
-                  id={`color-${index}`}
-                  register={register}
-                />
-              </td>
-              <td>
-                <Input
-                  name={`materials[${index}].orderKey`}
-                  id={`orderKey-${index}`}
-                  register={register}
-                />
-              </td>
-              <td>
-                {index === 0 ? (
-                  <Button
-                    variant="accent"
-                    onClick={() =>
-                      append({
-                        material: "",
-                        quality: "",
-                        color: "",
-                        orderKey: "",
-                      })
-                    }
-                  >
-                    +
-                  </Button>
-                ) : (
-                  <Button variant="accent" onClick={() => remove(index)}>
-                    -
-                  </Button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Button type="submit">Submit</Button>
-    </form>
+    <div className="w-full mt-4">
+      <header className="grid grid-cols-[1fr_1fr_1fr_1fr_100px] gap-3 text-center font-semibold">
+        <div>Material</div>
+        <div>Quality</div>
+        <div>Color</div>
+        <div>Order key</div>
+        <div>Action</div>
+      </header>
+      <main>
+        {fields.map((item, index) => (
+          <div
+            key={item.id}
+            className="grid grid-cols-[1fr_1fr_1fr_1fr_100px] gap-3 mb-3"
+          >
+            <Input
+              name={`materials[${index}].material`}
+              id={`material-${index}`}
+              register={register}
+            />
+
+            <Input
+              type="number"
+              name={`materials[${index}].quality`}
+              id={`quality-${index}`}
+              register={register}
+            />
+
+            <Select
+              className="w-full"
+              control={control}
+              name={`materials[${index}].color`}
+              id={`materials[${index}].color`}
+              options={[
+                { value: "red", label: "Red" },
+                { value: "green", label: "green" },
+                { value: "blue", label: "blue" },
+              ]}
+              placeholder="Select Color"
+            />
+            <Input
+              name={`materials[${index}].orderKey`}
+              id={`orderKey-${index}`}
+              register={register}
+            />
+            {index === 0 ? (
+              <Button
+                variant="accent"
+                onClick={() =>
+                  append({
+                    material: "",
+                    quality: "",
+                    color: "",
+                    orderKey: "",
+                  })
+                }
+              >
+                +
+              </Button>
+            ) : (
+              <Button variant="accent" onClick={() => remove(index)}>
+                -
+              </Button>
+            )}
+          </div>
+        ))}
+      </main>
+    </div>
   );
 }

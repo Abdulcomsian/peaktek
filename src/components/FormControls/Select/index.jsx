@@ -1,5 +1,6 @@
 import React from "react";
 import { Select } from "antd";
+import { Controller } from "react-hook-form";
 
 const CustomSelect = ({
   className = "",
@@ -11,12 +12,9 @@ const CustomSelect = ({
   isMulti = false,
   isDisabled = false,
   applyMarginBottom = false,
-  register,
-  required = true,
   control,
+  required = true,
   error = "",
-  defaultValue = null,
-  onChange,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -30,20 +28,24 @@ const CustomSelect = ({
           {label}
         </label>
       )}
-      <Select
-        id={id}
+      <Controller
         name={name}
-        placeholder={placeholder}
-        options={options}
-        isMulti={isMulti}
-        isDisabled={isDisabled}
-        defaultValue={defaultValue}
-        className={`basic-multi-select ${className}`}
-        classNamePrefix="select"
-        onChange={onChange}
-        {...register?.(name, {
-          required: required ? `${name} is required` : false,
-        })}
+        control={control}
+        rules={{ required: required ? `${name} is required` : false }}
+        render={({ field }) => (
+          <Select
+            {...field}
+            id={id}
+            placeholder={placeholder}
+            options={options}
+            disabled={isDisabled}
+            mode={isMulti ? "multiple" : "default"}
+            className={`basic-multi-select ${className}`}
+            classNamePrefix="select"
+            onChange={(value) => field.onChange(value)} // Handle change
+            defaultValue={field.value || []} // Set default value
+          />
+        )}
       />
       {error && <p className="text-sm mt-1 text-red-500 py-1">{error}</p>}
     </div>

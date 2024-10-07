@@ -35,7 +35,7 @@ export default function MoInformationEmail() {
             label="Email sent:"
           />
         </div>
-        {/* <Input
+        <Input
           label="Subject:"
           placeholder="Subject"
           className="md:mr-4 mb-4"
@@ -43,13 +43,13 @@ export default function MoInformationEmail() {
           id="subject"
           register={register}
           control={control}
-        /> */}
-        {/* <CkeditorControlled
+        />
+        <CkeditorControlled
           label="Email body:"
           control={control}
           name="email_body"
           id="email_body"
-        /> */}
+        />
         <UploaderInputs
           register={register}
           name="attachments"

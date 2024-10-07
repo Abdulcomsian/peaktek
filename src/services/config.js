@@ -21,6 +21,7 @@ const clientEndPoints = {
 
   // Buil Scheduled
   buildScheduledForm: "/api/update/build-detail",
+  getBuildSchedule: "/api/get/build-detail",
   confirmationEmail: "/api/confirmation-email",
   moConfirmationEmail: "/api/material-order/confirmation-email",
   materialOrderForm: "/api/material-order",

@@ -25,6 +25,21 @@ export async function buildScheduled(data, id) {
   }
 }
 
+export async function getBuildSchedule(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.get(
+      `${clientEndPoints.getBuildSchedule}/${jobId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function confirmationEmail(data, id) {
   const token = localStorage.getItem("token");
   console.log("URL:", `${clientEndPoints.confirmationEmail}/${id}`);
