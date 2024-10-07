@@ -3,46 +3,41 @@ import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Input, Form, CheckBox } from "@components/FormControls";
 import toast from "react-hot-toast";
-import { Button } from "@components/UI";
+import { Button, Loader } from "@components/UI";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 import { moConfirmationEmail } from "@services/apiBuildScheduled";
 
 const MOConfimationForm = ({ isMaterialOrderForm }) => {
-  const [isCreating, setIsCreating] = useState(false);
   const { id } = useParams();
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: {
-      send_to: ["test1@yopmail.com", "test2@yopmail.com"],
-      subject: "",
-      email_body: "",
-    },
-    mode: "onBlur",
+    defaultValues: {},
   });
 
   const onSubmit = async (data) => {
     console.log("Data Format=>", data);
 
     try {
-      setIsCreating(true);
-
       const formattedData = {
         email_body: data.email_body,
-        send_to: [data.send_to],
+        send_to: data.send_to,
         subject: data.subject,
+        staus: `${data.sent_email}`,
       };
-      console.log("Formatted Data=>", formattedData);
+      console.log("Formatted Data=>", data);
 
       const response = await moConfirmationEmail(formattedData, id);
       console.log("response ", response);
 
       if (response?.status >= 200 && response?.status < 300) {
         toast.success("Email sent successfully.");
+        dispatch(setActiveTab("approved"));
+        navigate(`/job-details/${jobId}/approved`);
       } else if (response?.status === 401) {
         toast.error("Session expired. Please log in again.");
         navigate("/");
@@ -54,8 +49,6 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
     } catch (error) {
       console.error("Submit error:", error);
       toast.error("An unexpected error occurred.");
-    } finally {
-      setIsCreating(false);
     }
   };
 
@@ -65,18 +58,17 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
         <div className="flex items-center justify-between mb-4">
           <Input
             label="Send To:"
-            type="email"
-            placeholder="example@gmail.com"
+            placeholder="If more then two, please use comma in between emails."
             className="md:mr-4 mb-4 md:mb-0 max-w-[50%]"
             name="send_to"
             id="send_to"
             register={register}
           />
           <CheckBox
-            register={register}
-            name="status"
-            id="status"
+            name="sent_email"
+            id="sent_email"
             label="Email sent:"
+            register={register}
           />
         </div>
         <Input
@@ -86,7 +78,6 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
           name="subject"
           id="subject"
           register={register}
-          control={control}
         />
         <CkeditorControlled
           label="Email body:"
@@ -95,12 +86,16 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
           id="email_body"
         />
         <Button
-          disabled={isCreating}
+          disabled={isSubmitting}
           type="submit"
           variant="gradient"
           className="mt-4"
         >
-          Send
+          {isSubmitting ? (
+            <Loader width={"24px"} height={"24px"} color="#fff" />
+          ) : (
+            "Send"
+          )}
         </Button>
       </div>
     </form>

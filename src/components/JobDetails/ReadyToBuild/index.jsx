@@ -39,6 +39,9 @@ const ReadyToBuild = () => {
   } = useForm({
     defaultValues: async () => {
       const resp = await getReadyToBuild(jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
       console.log(resp);
     },
   });

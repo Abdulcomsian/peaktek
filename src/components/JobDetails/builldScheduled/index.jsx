@@ -45,11 +45,17 @@ const BuildScheduledTab = () => {
 
     try {
       setIsCreating(true);
-      const response = await buildScheduled(data, jobId);
+      const response = await buildScheduled(
+        { ...data, confirmed: `${data.confirmed}` },
+        jobId
+      );
 
       if (response?.status >= 200 && response?.status < 300) {
         toast.success(response.message);
-        reset();
+        // if (response.data.status) {
+        //   dispatch(setActiveTab("ready-to-close"));
+        //   navigate(`/job-details/${jobId}/ready-to-close`);
+        // }
       } else if (response?.status === 401) {
         toast.error("Session expired. Please log in again.");
         navigate("/");
