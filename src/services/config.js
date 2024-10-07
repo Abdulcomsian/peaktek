@@ -125,9 +125,12 @@ const clientEndPoints = {
   checkMaterialOrder: "/api/check/material-order",
   materialOrderEmail: "/api/material-order/email",
   emailToSupplier: "/api/send/email",
+  createMaterialOrderConfirmationEmail:
+    "/api/material-order/confirmation-email",
   //Ready to build
   createReadyToBuild: "/api/store/ready-to-build",
   getReadyToBuild: "/api/get/ready-to-build",
+
   //QC Inspection
   storeQCInspection: "/api/store/qc-inspection",
   storeQCInspectionMedia: "/api/store/qc-inspection/media",

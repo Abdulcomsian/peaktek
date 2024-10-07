@@ -1,10 +1,14 @@
 import { CheckBox, Input } from "@components/FormControls";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
+import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
 import { Button, ImageIcon } from "@components/UI";
 import { UploaderInputs } from "@components/index";
+import { createMaterialOrderConfirmationEmail } from "@services/apiMaterialOrder";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function MoInformationEmail() {
+  const { id: jobId } = useParams();
   const {
     register,
     control,
@@ -12,8 +16,26 @@ export default function MoInformationEmail() {
     formState: { errors, isSubmitting, isLoading },
   } = useForm();
 
-  const onSubmit = function (data) {
-    console.log(data);
+  const onSubmit = async function (data) {
+    const { email_body, send_to, status, subject, attachments } = data;
+
+    const formData = new FormData();
+    formData.append("send_to", send_to);
+    formData.append("subject", subject);
+    formData.append("email_body", email_body);
+    formData.append("status", status);
+
+    if (attachments.length > 0) {
+      for (let x = 0; x < attachments.length; x++) {
+        formData.append("attachments[]", attachments[x]);
+      }
+    }
+
+    console.log(Object.fromEntries(formData));
+    const resp = await createMaterialOrderConfirmationEmail(formData, jobId);
+    if (resp.status >= 200 && resp.status < 300) {
+      console.log(resp);
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,12 +71,15 @@ export default function MoInformationEmail() {
           control={control}
           name="email_body"
           id="email_body"
+          className="mb-4"
         />
-        <UploaderInputs
+        <SimpleFileUploader
           register={register}
           name="attachments"
           id="attachments"
           icon={<ImageIcon />}
+          multiple={true}
+          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
         />
         <Button
           disabled={isSubmitting}
