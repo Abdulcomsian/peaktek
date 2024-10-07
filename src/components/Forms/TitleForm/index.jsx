@@ -49,8 +49,10 @@ export default function TitleForm() {
 
   const defaultPrimaryImage = watch("primary_images");
   const defaultSecondaryImage = watch("secondary_images");
+  console.log("RE-rendered");
 
   const onSubmit = async function (data) {
+    console.log("TITLE FORM DATA", data, data.primary_image);
     const finalDataToUpload = {
       ...data,
       primary_image:
@@ -60,6 +62,7 @@ export default function TitleForm() {
           ? data.secondary_image[0]
           : null,
     };
+    console.log("TITLE FORM DATA", finalDataToUpload);
 
     try {
       const resp = await createTitle(finalDataToUpload, jobId);

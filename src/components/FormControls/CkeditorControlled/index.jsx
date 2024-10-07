@@ -12,6 +12,7 @@ const CkeditorControlled = ({
   label,
   control,
   name,
+  applyMarginBottom,
 }) => {
   const [editorData, setEditorData] = useState(value || "");
   const modules = {
@@ -60,7 +61,9 @@ const CkeditorControlled = ({
       {label && (
         <label
           htmlFor={id}
-          className="block w-full text-sm font-medium text-gray-900 mb-2"
+          className={`block w-full text-sm font-medium text-gray-900 ${
+            applyMarginBottom ? "mb-2" : ""
+          }`}
         >
           {label}
         </label>

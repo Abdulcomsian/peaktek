@@ -5,17 +5,31 @@ import {
   DateSelector,
   TimeInput,
   Input,
+  CheckBox,
 } from "@components/FormControls";
 import { Button } from "@components/UI";
 
 const BuildScheduledForm = ({ register, control }) => {
   return (
     <div className="w-full">
+      <div className="flex">
+        <div class="flex items-center mb-2 ">
+          <CheckBox
+            register={register}
+            name="confirmed"
+            id="confirmed"
+            label="Build Confirmed (Contractor/Homeowner):"
+          />
+        </div>
+      </div>
+      <h2 className="text-black text-xl font-medium mb-4 font-poppins">
+        Build Details
+      </h2>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <CustomDatePicker
           label="Build Date"
           className="md:mr-4 mb-4 md:mb-0"
-          name="buildDate"
+          name="build_date"
           register={register}
           control={control}
         />
@@ -36,7 +50,7 @@ const BuildScheduledForm = ({ register, control }) => {
           placeholder="Alex"
           type="text"
           className="md:mr-4 mb-4 md:mb-0"
-          name="homeOwner"
+          name="homeowner"
           register={register}
           control={control}
         />
@@ -45,7 +59,7 @@ const BuildScheduledForm = ({ register, control }) => {
           placeholder="example@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          name="homeOwnerEmail"
+          name="homeowner_email"
           register={register}
           control={control}
         />
@@ -66,9 +80,8 @@ const BuildScheduledForm = ({ register, control }) => {
           placeholder="example@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          name="contractorEmail"
+          name="contractor_email"
           register={register}
-          control={control}
         />
       </InputContainer>
 
@@ -80,16 +93,15 @@ const BuildScheduledForm = ({ register, control }) => {
           className="md:mr-4 mb-4 md:mb-0"
           name="supplier"
           register={register}
-          control={control}
         />
         <Input
           label="Supplier Email"
           placeholder="example@gmail.com"
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
-          name="supplierEmail"
+          name="supplier_email"
+          id="supplier_email"
           register={register}
-          control={control}
         />
       </InputContainer>
     </div>

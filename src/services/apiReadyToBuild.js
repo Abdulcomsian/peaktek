@@ -1,10 +1,12 @@
 import toast from "react-hot-toast";
+import { clientBaseURL, clientEndPoints } from "./config";
 
-export async function createReadyToBuild(data, jobId) {
+export async function createReadyToBuild(formData, jobId) {
+  const token = localStorage.getItem("token");
   try {
     const response = await clientBaseURL.post(
       `${clientEndPoints?.createReadyToBuild}/${jobId}`,
-      data,
+      formData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -14,6 +16,7 @@ export async function createReadyToBuild(data, jobId) {
     if (response?.status >= 200 && response?.status < 300) {
       toast.success(response?.data?.message);
     }
+    return response;
   } catch (error) {
     console.log(error);
     return error;
@@ -21,6 +24,7 @@ export async function createReadyToBuild(data, jobId) {
 }
 
 export async function getReadyToBuild(jobId) {
+  const token = localStorage.getItem("token");
   try {
     const response = await clientBaseURL.get(
       `${clientEndPoints?.getReadyToBuild}/${jobId}`,
@@ -32,7 +36,6 @@ export async function getReadyToBuild(jobId) {
     );
 
     if (response?.status >= 200 && response?.status < 300) {
-      toast.success(response.data.message);
       return response.data;
     }
   } catch (error) {

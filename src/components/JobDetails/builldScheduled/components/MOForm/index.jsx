@@ -35,6 +35,7 @@ const MOForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log("Material Order data", data);
     const preparedData = {
       street: data.street,
       city: data.city,
@@ -88,12 +89,6 @@ const MOForm = () => {
       <h2 className="text-black text-xl font-medium mb-4 font-poppins">
         Material Order
       </h2>
-      {/* <CustomerInformation
-        className="pb-4 border-b border-gray-300"
-        register={register}
-        control={control}
-        readOnlyFields={["name", "email", "phone"]} // Optional: if you want to make them readonly
-      /> */}
       <SupplierInfo register={register} />
       <h2 className="text-black text-xl font-medium my-4 pt-4 font-poppins">
         Delivery Information
@@ -103,7 +98,7 @@ const MOForm = () => {
         register={register}
         control={control}
       />
-      <MaterialListForm />
+      <MaterialListForm register={register} control={control} />
       <Button
         onClick={handleSubmit(onSubmit)}
         type="submit"

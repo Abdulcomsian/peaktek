@@ -7,13 +7,16 @@ const TimeInput = ({
   className = "",
   error = "",
   required = true,
+  applyMarginBottom,
 }) => {
   return (
     <div className={`w-full ${className}`}>
       {label && (
         <label
           htmlFor={name}
-          className="block w-full text-sm font-medium text-gray-900 mb-2"
+          className={`block w-full text-sm font-medium text-gray-900 ${
+            applyMarginBottom ? "mb-2" : ""
+          } `}
         >
           {label}
         </label>
