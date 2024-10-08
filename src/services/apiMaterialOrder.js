@@ -1,3 +1,5 @@
+import { clientBaseURL, clientEndPoints } from "./config";
+
 export async function createMaterialOrder(dataToLoad, id) {
   const token = localStorage.getItem("token");
   const myHeaders = new Headers();
@@ -42,4 +44,20 @@ export async function checkMaterialOrderApi(id) {
   );
   const data = await resp.json();
   return data;
+}
+
+export async function createMaterialOrderConfirmationEmail(data, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const responce = await clientBaseURL.post(
+      `${clientEndPoints.createMaterialOrderConfirmationEmail}/${jobId}`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (responce.status >= 200 && responce.status < 300) {
+      return responce.data;
+    }
+  } catch (error) {
+    return error;
+  }
 }

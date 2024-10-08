@@ -46,6 +46,7 @@ const CustomerAgreementForm = () => {
   const [showPdfButton, setShowPdfButton] = useState(false);
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const dispatch = useDispatch();
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
 
   const {
     control,
@@ -76,13 +77,15 @@ const CustomerAgreementForm = () => {
     window.open(fullFileUrl, "_blank");
   };
   const sendFormByEmail = async () => {
+    setIsSendingEmail(true);
     const response = await signedCustomerAgreementByEmail(
       agreementId,
       location?.pathname
     );
     if (response?.status >= 200 && response?.status < 300) {
-      toast.success(response?.data?.message);
+      toast.success(response?.message);
     }
+    setIsSendingEmail(false);
   };
 
   const handleSigned = async () => {
@@ -149,7 +152,11 @@ const CustomerAgreementForm = () => {
               onClick={sendFormByEmail}
               disabled={!isFormCompleted}
             >
-              Send for Approval
+              {isSendingEmail ? (
+                <Loader width={"24px"} height={"24px"} color="#fff" />
+              ) : (
+                "Send for Approval"
+              )}
             </Button>
           </div>
         )}

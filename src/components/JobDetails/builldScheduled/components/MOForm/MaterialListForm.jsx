@@ -3,8 +3,8 @@ import { Button } from "@components/UI";
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-export default function MaterialListForm({ register, control }) {
-  const {} = useForm({
+export default function MaterialListForm({ register }) {
+  const { control } = useForm({
     defaultValues: {
       materials: [{ material: "", quality: "", color: "", orderKey: "" }],
     },

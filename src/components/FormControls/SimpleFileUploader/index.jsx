@@ -11,6 +11,7 @@ export default function SimpleFileUploader({
   disabled,
   multiple,
   fileTypes,
+  applyMarginBottom = false,
 }) {
   const [files, setFiles] = useState([]);
 
@@ -54,6 +55,16 @@ export default function SimpleFileUploader({
 
   return (
     <div>
+      {label && (
+        <label
+          htmlFor={id}
+          className={`block w-full text-sm font-medium text-gray-900 ${
+            applyMarginBottom ? "mb-2" : "mb-1"
+          }`}
+        >
+          {label}
+        </label>
+      )}
       <input
         type="file"
         accept={fileTypes.join(",")}

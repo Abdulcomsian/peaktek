@@ -12,12 +12,14 @@ import {
 } from "@components/UI";
 import { useAuth } from "@context/AuthContext";
 import {
+  createAdjustorMeeting,
   getAdjustorMeeting,
   updateAdjustorMeetingStatus,
 } from "@services/apiAdjustorMeeting";
 import { useForm } from "react-hook-form";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 import { UploaderInputs } from "@components/index";
+import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
 
 const AdjustorMeeting = () => {
   const { id: jobId } = useParams();
@@ -29,6 +31,7 @@ const AdjustorMeeting = () => {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors, isLoading, isSubmitting },
   } = useForm({ defaultValues: getAdjustorMeetingData });
 
@@ -50,24 +53,36 @@ const AdjustorMeeting = () => {
     return formatted;
   };
 
-  const onSubmit = function (data) {
+  const onSubmit = async function (data) {
     console.log(data);
-    const { images, documents } = data;
+    const { completed, date, documents, email, images, name, notes, phone } =
+      data;
     const formData = new FormData();
-    // images.forEach((file) => {
-    //   formData.append("images[]", file.file);
-    // });
-    // documents.forEach((file) => {
-    //   formData.append("attachments[]", file.file);
-    // });
+    if (images.length > 0) {
+      for (let x = 0; x < images.length; x++) {
+        formData.append("images[]", images[x]);
+      }
+    }
+    if (documents.length > 0) {
+      for (let x = 0; x < documents.length; x++) {
+        formData.append("attachments[]", documents[x]);
+      }
+    }
 
-    // formData.append("name", values.name);
-    // formData.append("email", values.email);
-    // formData.append("phone", formatPhone);
-    // formData.append("date", formattedDate);
-    // formData.append("notes", notes);
-    // formData.append("status", status);
-    // formData.append("completed", Number(values.completed));
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("date", date);
+    formData.append("notes", notes);
+    formData.append("sent", completed);
+    formData.append("status", status);
+
+    try {
+      const resp = await createAdjustorMeeting(formData, jobId);
+      console.log("AJUSTR MEETING RESP", resp);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFileChange = function (files) {
@@ -94,9 +109,9 @@ const AdjustorMeeting = () => {
             <div>
               <RadioButton
                 items={[
-                  { label: "OVERTURN", value: "Overturn" },
-                  { label: "APPRAISAL", value: "Appraisal" },
-                  { label: "APPROVED", value: "Approved" },
+                  { label: "OVERTURN", value: "overturn" },
+                  { label: "APPRAISAL", value: "appraisal" },
+                  { label: "APPROVED", value: "approved" },
                 ]}
                 value={status}
                 onChange={(e) => {
@@ -110,6 +125,8 @@ const AdjustorMeeting = () => {
             className="mb-8"
             register={register}
             control={control}
+            setValue={setValue}
+            errors={errors}
           />
 
           <div className="flex flex-col md:flex-row">
@@ -118,7 +135,20 @@ const AdjustorMeeting = () => {
           <div className="flex flex-col md:flex-row mt-4">
             <div className="w-full md:mr-4">
               <div>
-                <UploaderInputs
+                <SimpleFileUploader
+                  label="Images"
+                  name="images"
+                  id="images"
+                  register={register}
+                  fileTypes={[
+                    "image/png",
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/gif",
+                  ]}
+                  multiple={true}
+                />
+                {/* <UploaderInputs
                   text="Images:"
                   name="images"
                   id="images"
@@ -132,7 +162,7 @@ const AdjustorMeeting = () => {
                     "image/gif",
                   ]}
                   onFileChange={handleFileChange}
-                />
+                /> */}
               </div>
               {showRenameBox &&
                 images?.map((file) => (
@@ -144,7 +174,15 @@ const AdjustorMeeting = () => {
                 ))}
             </div>
             <div className="w-full mr-4">
-              <UploaderInputs
+              <SimpleFileUploader
+                label="Documents"
+                name="documents"
+                id="documents"
+                register={register}
+                fileTypes={["application/pdf"]}
+                multiple={true}
+              />
+              {/* <UploaderInputs
                 text="Documents:"
                 name="documents"
                 id="documents"
@@ -152,7 +190,7 @@ const AdjustorMeeting = () => {
                 icon={<ArrowFileIcon />}
                 require={false}
                 fileTypes={["application/pdf"]}
-              />
+              /> */}
 
               {/* {showRenameBox &&
                 adjustorMeetingData?.attachments?.map((file) => (
