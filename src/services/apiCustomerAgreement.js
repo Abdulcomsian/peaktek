@@ -50,7 +50,7 @@ export async function signedCustomerAgreementByEmail(agreementId, pathname) {
     );
 
     if (response?.status >= 200 && response?.status < 300) {
-      return resp.data;
+      return response.data;
     }
   } catch (error) {
     return error;

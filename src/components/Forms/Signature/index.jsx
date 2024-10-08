@@ -14,7 +14,6 @@ const SignatureForm = ({ className, register, control }) => {
           name="company_signature"
           id="company_signature"
           register={register}
-          applyMarginBottom={true}
         />
         <Input
           label="Printed Name:"
@@ -24,7 +23,6 @@ const SignatureForm = ({ className, register, control }) => {
           name="company_printed_name"
           id="company_printed_name"
           register={register}
-          applyMarginBottom={true}
         />
         <CustomDatePicker
           name="company_date"
@@ -42,7 +40,6 @@ const SignatureForm = ({ className, register, control }) => {
           name="customer_signature"
           id="customer_signature"
           register={register}
-          applyMarginBottom={true}
         />
         <Input
           label="Printed Name:"
@@ -51,7 +48,6 @@ const SignatureForm = ({ className, register, control }) => {
           name="customer_printed_name"
           id="customer_printed_name"
           register={register}
-          applyMarginBottom={true}
         />
         <CustomDatePicker
           name="customer_date"
