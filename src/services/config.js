@@ -127,6 +127,7 @@ const clientEndPoints = {
   emailToSupplier: "/api/send/email",
   createMaterialOrderConfirmationEmail:
     "/api/material-order/confirmation-email",
+  createMaterialConfirmationEmail: "/api/get/build-detail",
   //Ready to build
   createReadyToBuild: "/api/store/ready-to-build",
   getReadyToBuild: "/api/get/ready-to-build",
