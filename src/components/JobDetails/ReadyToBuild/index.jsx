@@ -1,34 +1,19 @@
 import React, { useState, useEffect, Fragment } from "react";
-import {
-  CheckBox,
-  Ckeditor,
-  CustomTimePicker,
-  DateSelector,
-  Form,
-  Input,
-  SelectBox,
-  TextBox,
-} from "@components/FormControls";
-import { useFormik } from "formik";
-import dayjs from "dayjs";
-import toast from "react-hot-toast";
-import { clientBaseURL, clientEndPoints } from "@services/config";
-import { InputContainer } from "@components/index";
-import { useParams } from "react-router-dom";
-import { readyToBuildSchema } from "@services/schema";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchSubContractors } from "@store/slices/subContractorSlice";
-import { Scheduling } from "@components/JobDetails";
+import { CheckBox, Input } from "@components/FormControls";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { CustomDatePicker } from "@components";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
-import { UploaderInputs } from "@components/index";
-import { Button, ImageIcon, Loader, RenameFileUI } from "@components/UI";
+import { Button, Loader } from "@components/UI";
 import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
 import { createReadyToBuild, getReadyToBuild } from "@services/apiReadyToBuild";
+import { useAuth } from "@context/AuthContext";
 
 const ReadyToBuild = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const { id: jobId } = useParams();
 
   const {
@@ -41,6 +26,10 @@ const ReadyToBuild = () => {
       const resp = await getReadyToBuild(jobId);
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data;
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
       }
       console.log(resp);
     },
