@@ -26,6 +26,8 @@ const AdjustorMeeting = () => {
   const { id: jobId } = useParams();
   const [showRenameBox, setShowRenameBox] = useState(false);
   const [status, setStatus] = useState("overturn");
+  const [documents, setDocuments] = useState([]);
+  const [images, setImages] = useState([]);
   const { logout } = useAuth();
   const navigate = useNavigate();
   const {
@@ -34,22 +36,22 @@ const AdjustorMeeting = () => {
     handleSubmit,
     setValue,
     watch,
+    getValues,
     formState: { errors, isLoading, isSubmitting },
   } = useForm({
     defaultValues: async () => {
       const resp = await getAdjustorMeeting(jobId);
-      console.log("GET RESP", resp);
       if (resp.status >= 200 && resp.status < 300) {
         setShowRenameBox(true);
+        setDocuments(resp.data.data.documents);
+        setImages(resp.data.data.image_url);
         setStatus(resp.data.data.status);
         return resp.data.data;
       }
     },
   });
-  const attachments = watch("attachments");
-  const images = watch("images");
-
-  console.log("ATTADKAJHLDKJHASD", attachments, images);
+  // const attachments = getValues("documents");
+  // const images = getValues("images_url");
 
   const formatPhoneNumber = (value) => {
     // Remove all non-digit characters
@@ -63,9 +65,8 @@ const AdjustorMeeting = () => {
   };
 
   const onSubmit = async function (data) {
-    console.log(data);
     const { sent, date, documents, email, images, name, notes, phone } = data;
-    console.log(documents, images);
+
     const formData = new FormData();
     if (!images[0]?.media_url && images.length > 0) {
       for (let x = 0; x < images.length; x++) {
@@ -88,7 +89,6 @@ const AdjustorMeeting = () => {
 
     try {
       const resp = await createAdjustorMeeting(formData, jobId);
-      console.log("AJUSTR MEETING RESP", resp);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
@@ -160,21 +160,6 @@ const AdjustorMeeting = () => {
                   ]}
                   multiple={true}
                 />
-                {/* <UploaderInputs
-                  text="Images:"
-                  name="images"
-                  id="images"
-                  register={register}
-                  icon={<ImageIcon />}
-                  require={false}
-                  fileTypes={[
-                    "image/png",
-                    "image/jpeg",
-                    "image/jpg",
-                    "image/gif",
-                  ]}
-                  onFileChange={handleFileChange}
-                /> */}
               </div>
               {showRenameBox && (
                 <RenameFileUI
@@ -205,7 +190,7 @@ const AdjustorMeeting = () => {
 
               {showRenameBox && (
                 <RenameFileUI
-                  files={attachments}
+                  files={documents}
                   apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
                   apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
                 />

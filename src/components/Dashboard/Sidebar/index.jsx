@@ -80,7 +80,9 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const filteredLinks =
     userData?.role?.name === "Manager" || userData?.role?.name === "Company"
       ? sidebarLinks
-      : sidebarLinks?.filter((link) => link.id <= 3 || link.id === 7); // Only show the first link for other roles
+      : sidebarLinks?.filter(
+          (link) => link.id <= 3 || link.id === 7 || link.id === 8
+        ); // Only show the first link for other roles
 
   const handleLogout = async function () {
     await logout();
