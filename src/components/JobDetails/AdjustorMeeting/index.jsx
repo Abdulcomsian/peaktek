@@ -20,11 +20,12 @@ import { useForm } from "react-hook-form";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 import { UploaderInputs } from "@components/index";
 import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
+import toast from "react-hot-toast";
 
 const AdjustorMeeting = () => {
   const { id: jobId } = useParams();
   const [showRenameBox, setShowRenameBox] = useState(false);
-  const [status, setStatus] = useState("Overturn");
+  const [status, setStatus] = useState("overturn");
   const { logout } = useAuth();
   const navigate = useNavigate();
   const {
@@ -32,15 +33,23 @@ const AdjustorMeeting = () => {
     control,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isLoading, isSubmitting },
-  } = useForm({ defaultValues: getAdjustorMeetingData });
+  } = useForm({
+    defaultValues: async () => {
+      const resp = await getAdjustorMeeting(jobId);
+      console.log("GET RESP", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        setShowRenameBox(true);
+        setStatus(resp.data.data.status);
+        return resp.data.data;
+      }
+    },
+  });
+  const attachments = watch("attachments");
+  const images = watch("images");
 
-  async function getAdjustorMeetingData() {
-    const resp = await getAdjustorMeeting(jobId);
-    if (resp.status >= 200 && resp.status < 300) {
-      return resp.data.data;
-    }
-  }
+  console.log("ATTADKAJHLDKJHASD", attachments, images);
 
   const formatPhoneNumber = (value) => {
     // Remove all non-digit characters
@@ -55,15 +64,15 @@ const AdjustorMeeting = () => {
 
   const onSubmit = async function (data) {
     console.log(data);
-    const { completed, date, documents, email, images, name, notes, phone } =
-      data;
+    const { sent, date, documents, email, images, name, notes, phone } = data;
+    console.log(documents, images);
     const formData = new FormData();
-    if (images.length > 0) {
+    if (!images[0]?.media_url && images.length > 0) {
       for (let x = 0; x < images.length; x++) {
         formData.append("images[]", images[x]);
       }
     }
-    if (documents.length > 0) {
+    if (!documents[0]?.media_url && documents.length > 0) {
       for (let x = 0; x < documents.length; x++) {
         formData.append("attachments[]", documents[x]);
       }
@@ -74,12 +83,15 @@ const AdjustorMeeting = () => {
     formData.append("phone", phone);
     formData.append("date", date);
     formData.append("notes", notes);
-    formData.append("sent", completed);
+    formData.append("sent", sent);
     formData.append("status", status);
 
     try {
       const resp = await createAdjustorMeeting(formData, jobId);
       console.log("AJUSTR MEETING RESP", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -102,8 +114,8 @@ const AdjustorMeeting = () => {
               <CheckBox
                 label="SENT"
                 register={register}
-                name="completed"
-                id="completed"
+                name="sent"
+                id="sent"
               />
             </div>
             <div>
@@ -164,14 +176,13 @@ const AdjustorMeeting = () => {
                   onFileChange={handleFileChange}
                 /> */}
               </div>
-              {showRenameBox &&
-                images?.map((file) => (
-                  <RenameFileUI
-                    // files={adjustorMeetingData.images}
-                    apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
-                    apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
-                  />
-                ))}
+              {showRenameBox && (
+                <RenameFileUI
+                  files={images}
+                  apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
+                  apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
+                />
+              )}
             </div>
             <div className="w-full mr-4">
               <SimpleFileUploader
@@ -192,14 +203,13 @@ const AdjustorMeeting = () => {
                 fileTypes={["application/pdf"]}
               /> */}
 
-              {/* {showRenameBox &&
-                adjustorMeetingData?.attachments?.map((file) => (
-                  <RenameFileUI
-                    files={adjustorMeetingData.attachments}
-                    apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
-                    apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
-                  />
-                ))} */}
+              {showRenameBox && (
+                <RenameFileUI
+                  files={attachments}
+                  apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
+                  apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
+                />
+              )}
             </div>
           </div>
           <div className="flex gap-4 mt-4">

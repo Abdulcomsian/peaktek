@@ -10,18 +10,20 @@ export default function RenameFileUI({
   apiDeleteFileEndpoint,
   apiUpdateFileEndPoint,
 }) {
-  const [inputValues, setInputValues] = useState(
-    files.reduce(
+  console.log("FILESSSS TO SHOW ON BOARD", files);
+  const [inputValues, setInputValues] = useState(function () {
+    return files?.reduce(
       (acc, file) => ({
         ...acc,
         [file.id]: file?.file_name || "", // Initialize with existing file names or empty
       }),
       {}
-    )
-  );
+    );
+  });
+
   const [filesToUpdate, setFilesToUpdate] = useState([]);
   const [loadingStates, setLoadingStates] = useState(
-    files.reduce(
+    files?.reduce(
       (acc, file) => ({
         ...acc,
         [file.id]: { isSubmitting: false, isDeleting: false },
@@ -33,6 +35,7 @@ export default function RenameFileUI({
   useEffect(
     function () {
       if (files.length > 0) setFilesToUpdate([...files]);
+      console.log("FILE NAME", files);
     },
     [files]
   );

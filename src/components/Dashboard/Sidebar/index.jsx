@@ -59,12 +59,18 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     },
     {
       id: 7,
+      linkSrc: "/users",
+      linkText: <IoMdSettings />,
+      text: "Users",
+    },
+    {
+      id: 8,
       linkSrc: "/",
       linkText: <IoMdSettings />,
       text: "Settings",
     },
     {
-      id: 8,
+      id: 9,
       linkSrc: "/",
       linkText: <IoBagOutline />,
     },

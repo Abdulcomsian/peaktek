@@ -144,6 +144,19 @@ export function AppRoute() {
           <Route index element={<AllJobs />} />
           <Route path=":jobId" element={<JobListing />} />
         </Route>
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
+          {/* <Route path="users-list" element={<Users />} /> */}
+
+          <Route index element={<AllJobs />} />
+          <Route path=":jobId" element={<JobListing />} />
+        </Route>
 
         <Route
           path="/reports"
