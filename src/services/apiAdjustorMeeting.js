@@ -38,7 +38,7 @@ export async function getAdjustorMeeting(jobId) {
   const token = localStorage.getItem("token");
   try {
     const response = await clientBaseURL.get(
-      `${clientEndPoints?.getAdjustorMeeting}/${id}`,
+      `${clientEndPoints?.getAdjustorMeeting}/${jobId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
