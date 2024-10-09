@@ -1,10 +1,11 @@
 import { CheckBox, Input } from "@components/FormControls";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
-import { Button, ImageIcon } from "@components/UI";
+import { Button, ImageIcon, Loader } from "@components/UI";
 import { UploaderInputs } from "@components/index";
 import { createMaterialOrderConfirmationEmail } from "@services/apiMaterialOrder";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
 export default function MoInformationEmail() {
@@ -35,6 +36,9 @@ export default function MoInformationEmail() {
     const resp = await createMaterialOrderConfirmationEmail(formData, jobId);
     if (resp.status >= 200 && resp.status < 300) {
       console.log(resp);
+    }
+    if (resp.status === 422) {
+      toast.error("Material Order should be created first.");
     }
   };
   return (
@@ -87,7 +91,11 @@ export default function MoInformationEmail() {
           variant="gradient"
           className="mt-4"
         >
-          Send
+          {isSubmitting ? (
+            <Loader width={"24px"} height={"24px"} color="#fff" />
+          ) : (
+            "Send"
+          )}
         </Button>
       </div>
     </form>

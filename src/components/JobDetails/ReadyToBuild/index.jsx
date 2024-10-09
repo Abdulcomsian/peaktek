@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { CustomDatePicker } from "@components";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
-import { Button, Loader } from "@components/UI";
+import { Button, Loader, RenameFileUI } from "@components/UI";
 import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
 import { createReadyToBuild, getReadyToBuild } from "@services/apiReadyToBuild";
 import { useAuth } from "@context/AuthContext";
@@ -15,6 +15,8 @@ const ReadyToBuild = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { id: jobId } = useParams();
+  const [showRenameBox, setShowRenameBox] = useState(false);
+  const [attachements, setAttachements] = useState([]);
 
   const {
     register,
@@ -25,6 +27,8 @@ const ReadyToBuild = () => {
     defaultValues: async () => {
       const resp = await getReadyToBuild(jobId);
       if (resp.status >= 200 && resp.status < 300) {
+        setShowRenameBox(true);
+        setAttachements(resp.data.attachements);
         return resp.data;
       }
       if (resp.status === 401) {
@@ -49,7 +53,7 @@ const ReadyToBuild = () => {
 
     if (attachements.length > 0) {
       for (let x = 0; x < attachements.length; x++) {
-        formData.append("attachments[]", attachements[x]);
+        formData.append("attachements[]", attachements[x]);
       }
     }
 
@@ -108,12 +112,20 @@ const ReadyToBuild = () => {
         />
 
         <SimpleFileUploader
+          label="Attachments"
           register={register}
           name="attachements"
           id="attachments"
-          fileTypes={["image/png", "image/jpeg", "image/jpg", "image/gif"]}
+          fileTypes={["application/pdf"]}
           multiple={true}
         />
+        {showRenameBox && (
+          <RenameFileUI
+            files={attachements}
+            apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
+            apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
+          />
+        )}
 
         <Button
           variant="gradient"
