@@ -46,12 +46,42 @@ export async function checkMaterialOrderApi(id) {
   return data;
 }
 
+export async function getConfirmationEmailStatus(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const responce = await clientBaseURL.get(
+      `${clientEndPoints.getConfirmationEmailStatus}/${jobId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (responce.status >= 200 && responce.status < 300) {
+      return responce.data;
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function createMaterialOrderConfirmationEmail(data, jobId) {
   const token = localStorage.getItem("token");
   try {
     const responce = await clientBaseURL.post(
       `${clientEndPoints.createMaterialOrderConfirmationEmail}/${jobId}`,
       data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (responce.status >= 200 && responce.status < 300) {
+      return responce.data;
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getMaterialOrderConfirmationEmail(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const responce = await clientBaseURL.post(
+      `${clientEndPoints.createMaterialOrderConfirmationEmail}/${jobId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     if (responce.status >= 200 && responce.status < 300) {

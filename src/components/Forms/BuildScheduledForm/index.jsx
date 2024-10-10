@@ -12,16 +12,6 @@ import { Button } from "@components/UI";
 const BuildScheduledForm = ({ register, control }) => {
   return (
     <div className="w-full">
-      <div className="flex">
-        <div class="flex items-center mb-2 ">
-          <CheckBox
-            register={register}
-            name="confirmed"
-            id="confirmed"
-            label="Build Confirmed (Contractor/Homeowner):"
-          />
-        </div>
-      </div>
       <h2 className="text-black text-xl font-medium mb-4 font-poppins">
         Build Details
       </h2>

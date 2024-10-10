@@ -15,6 +15,7 @@ const CustomSelect = ({
   control,
   required = true,
   error = "",
+  defaultValue,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -43,7 +44,7 @@ const CustomSelect = ({
             className={`basic-multi-select ${className}`}
             classNamePrefix="select"
             onChange={(value) => field.onChange(value)} // Handle change
-            defaultValue={field.value || []} // Set default value
+            defaultValue={defaultValue} // Set default value
           />
         )}
       />

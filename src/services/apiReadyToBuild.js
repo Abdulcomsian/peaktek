@@ -42,3 +42,25 @@ export async function getReadyToBuild(jobId) {
     return error;
   }
 }
+
+export async function updateReadyToBuildStatus(formData, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints?.updateConfirmStatus}/${jobId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response?.status >= 200 && response?.status < 300) {
+      toast.success(response?.data?.message);
+    }
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}

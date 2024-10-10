@@ -58,6 +58,7 @@ export default function MaterialListForm({ register }) {
                 { value: "blue", label: "blue" },
               ]}
               placeholder="Select Color"
+              defaultValue="red"
             />
             <Input
               name={`materials[${index}].orderKey`}

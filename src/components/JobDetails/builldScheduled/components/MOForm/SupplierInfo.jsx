@@ -92,12 +92,6 @@ export default function SupplierInfo({ register, className }) {
           register={register}
         />
       </InputContainer>
-      <CheckBox
-        register={register}
-        name="info_completed"
-        id="info_completed"
-        label="Completed"
-      />
     </div>
   );
 }

@@ -7,8 +7,13 @@ import { CustomDatePicker } from "@components";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 import { Button, Loader, RenameFileUI } from "@components/UI";
 import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
-import { createReadyToBuild, getReadyToBuild } from "@services/apiReadyToBuild";
+import {
+  createReadyToBuild,
+  getReadyToBuild,
+  updateReadyToBuildStatus,
+} from "@services/apiReadyToBuild";
 import { useAuth } from "@context/AuthContext";
+import toast from "react-hot-toast";
 
 const ReadyToBuild = () => {
   const dispatch = useDispatch();
@@ -17,6 +22,7 @@ const ReadyToBuild = () => {
   const { id: jobId } = useParams();
   const [showRenameBox, setShowRenameBox] = useState(false);
   const [attachements, setAttachements] = useState([]);
+  const [isChangeStatus, setIsChangeStatus] = useState(false);
 
   const {
     register,
@@ -28,8 +34,8 @@ const ReadyToBuild = () => {
       const resp = await getReadyToBuild(jobId);
       if (resp.status >= 200 && resp.status < 300) {
         setShowRenameBox(true);
-        setAttachements(resp.data.attachements);
-        return resp.data;
+        setAttachements(resp.data.documents);
+        return { ...resp.data, status: resp.data.status === "true" };
       }
       if (resp.status === 401) {
         logout();
@@ -68,14 +74,37 @@ const ReadyToBuild = () => {
     }
   };
 
+  const handleStatusChange = async function (e) {
+    const status = e.target.checked;
+    const formData = new FormData();
+    formData.append("status", status);
+    setIsChangeStatus(true);
+    try {
+      const resp = await updateReadyToBuildStatus(formData, jobId);
+      console.log("STATUS RESP", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+      }
+    } finally {
+      setIsChangeStatus(false);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <CheckBox
-        name="status"
-        id="status"
-        register={register}
-        label="build confirmed"
-      />
+      <div className="flex items-center gap-3">
+        <CheckBox
+          name="status"
+          id="status"
+          register={register}
+          onChange={handleStatusChange}
+          label="build confirmed"
+          disabled={isChangeStatus}
+        />
+        {isChangeStatus && (
+          <Loader width={"24px"} height={"24px"} color="#000" />
+        )}
+      </div>
       <div className="bg-white p-5 rounded-2xl">
         <div className="flex gap-3 mb-3">
           <Input
@@ -122,8 +151,8 @@ const ReadyToBuild = () => {
         {showRenameBox && (
           <RenameFileUI
             files={attachements}
-            apiDeleteFileEndpoint="/api/delete/adjustor-meeting/media"
-            apiUpdateFileEndPoint="/api/change/adjustor-meeting/file-name"
+            apiDeleteFileEndpoint="/api/delete/ready-to-build/media"
+            apiUpdateFileEndPoint="/api/change/ready-to-build/file-name"
           />
         )}
 

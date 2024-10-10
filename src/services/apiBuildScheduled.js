@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { clientBaseURL, clientEndPoints } from "./config";
 
 export async function buildScheduled(data, id) {
@@ -113,6 +114,94 @@ export async function materialOrderForm(data, id) {
     }
   } catch (error) {
     console.error("Error updating Material Order Form:", error);
+    return error.response;
+  }
+}
+
+export async function updateEmailSentStatus(formData, id) {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints.updateMOconfiramtionEmailsentStaus}/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      toast.success(response.data.message);
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error updating Material Order Form:", error);
+    return error.response;
+  }
+}
+
+export async function updateBuildConfirmStatus(formData, id) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints.updateBuildConfirmStatus}/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      toast.success(response.data.message);
+      return response.data;
+    }
+  } catch (error) {
+    return error.response;
+  }
+}
+export async function getMOConfirmationEmailStatus(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.get(
+      `${clientEndPoints.getMaterialOrderConfirmationEmailStatus}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+  } catch (error) {
+    return error.response;
+  }
+}
+export async function getEmailSentStatus(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.get(
+      `${clientEndPoints.getMaterialOrderConfirmationEmailStatus}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+  } catch (error) {
     return error.response;
   }
 }
