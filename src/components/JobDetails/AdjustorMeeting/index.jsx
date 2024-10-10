@@ -92,6 +92,10 @@ const AdjustorMeeting = () => {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
       }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }

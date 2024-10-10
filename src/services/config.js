@@ -25,6 +25,11 @@ const clientEndPoints = {
   confirmationEmail: "/api/confirmation-email",
   moConfirmationEmail: "/api/material-order/confirmation-email",
   materialOrderForm: "/api/material-order",
+  updateConfirmationEmailStatus: "/api/confirmation-email-status",
+  getConfirmationEmailStatus: "/api/get-confirmation-email-status",
+  updateBuildConfirmStatus: "/api/update/build-detail-status",
+  updateMOconfiramtionEmailsentStaus:
+    "/api/material-order/confirmation-email-status",
 
   //create user
   createUsers: "/api/create/user",
@@ -127,10 +132,14 @@ const clientEndPoints = {
   emailToSupplier: "/api/send/email",
   createMaterialOrderConfirmationEmail:
     "/api/material-order/confirmation-email",
+  getMaterialOrderConfirmationEmailStatus:
+    "/api/get-material-order/confirmation-email-status",
+  getEmailSentStatus: "/api/get-material-order/confirmation-email-status",
   createMaterialConfirmationEmail: "/api/get/build-detail",
   //Ready to build
   createReadyToBuild: "/api/store/ready-to-build",
   getReadyToBuild: "/api/get/ready-to-build",
+  updateConfirmStatus: "/api/store/ready-to-build-status",
 
   //QC Inspection
   storeQCInspection: "/api/store/qc-inspection",

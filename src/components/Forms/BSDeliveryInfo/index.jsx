@@ -95,11 +95,6 @@ const BSDeliveryInformation = ({ className, register, control }) => {
           control={control}
         />
       </InputContainer>
-      <CheckBox
-        register={register}
-        name="delivery_info_Status"
-        label="Completed"
-      />
     </div>
   );
 };
