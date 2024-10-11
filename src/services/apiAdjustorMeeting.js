@@ -33,6 +33,23 @@ export async function createAdjustorMeeting(formData, jobId) {
     return error;
   }
 }
+export async function updateAdjustorMeetingSentStatus(formData, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints?.updateAdjustorMeetingSentStatus}/${jobId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
 
 export async function getAdjustorMeeting(jobId) {
   const token = localStorage.getItem("token");
