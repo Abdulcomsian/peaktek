@@ -15,7 +15,6 @@ import {
   createAdjustorMeeting,
   getAdjustorMeeting,
   updateAdjustorMeetingSentStatus,
-  updateAdjustorMeetingStatus,
 } from "@services/apiAdjustorMeeting";
 import { useForm } from "react-hook-form";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
@@ -30,15 +29,15 @@ const AdjustorMeeting = () => {
   const [status, setStatus] = useState("overturn");
   const [documents, setDocuments] = useState([]);
   const [images, setImages] = useState([]);
+  const [key, setKey] = useState(0); // State to control component key
   const { logout } = useAuth();
   const navigate = useNavigate();
+
   const {
     register,
     control,
     handleSubmit,
-    setValue,
-    watch,
-    getValues,
+    reset,
     formState: { errors, isLoading, isSubmitting },
   } = useForm({
     defaultValues: async () => {
@@ -52,21 +51,8 @@ const AdjustorMeeting = () => {
       }
     },
   });
-  // const attachments = getValues("documents");
-  // const images = getValues("images_url");
 
-  const formatPhoneNumber = (value) => {
-    // Remove all non-digit characters
-    const digits = value.replace(/\D/g, "");
-
-    // Format the phone number
-    const formatted = digits.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1-$2-$3");
-
-    // Return formatted value, or the original if it doesn't match the desired length
-    return formatted;
-  };
-
-  const onSubmit = async function (data) {
+  const onSubmit = async (data) => {
     const { sent, date, documents, email, images, name, notes, phone } = data;
 
     const formData = new FormData();
@@ -93,6 +79,9 @@ const AdjustorMeeting = () => {
       const resp = await createAdjustorMeeting(formData, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
+
+        // Re-render the component by changing the key
+        setKey((prevKey) => prevKey + 1);
       }
       if (resp.status === 401) {
         logout();
@@ -103,10 +92,8 @@ const AdjustorMeeting = () => {
     }
   };
 
-  const handleChange = async function (e) {
-    console.log(e.target.checked);
+  const handleChange = async (e) => {
     const isSent = e.target.checked;
-
     const formData = new FormData();
     formData.append("sent", isSent);
     setIsSent(true);
@@ -121,16 +108,16 @@ const AdjustorMeeting = () => {
       setIsSent(false);
     }
   };
+
   return (
-    <Fragment>
-      {/* {loading && <Spin fullscreen={true} delay={0} />} */}
+    <Fragment key={key}>
       <div className="bg-white p-5 rounded-2xl">
         <h2 className="text-black text-xl font-medium mb-4 font-poppins">
           Adjust Meeting
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3 flex items-center justify-between">
-            <div className="flex items-center gap-2  mb-4 md:mb-0">
+            <div className="flex items-center gap-2 mb-4 md:mb-0">
               <CheckBox
                 label="SENT"
                 register={register}
@@ -149,9 +136,7 @@ const AdjustorMeeting = () => {
                   { label: "APPROVED", value: "approved" },
                 ]}
                 value={status}
-                onChange={(e) => {
-                  setStatus(e.target.value);
-                }}
+                onChange={(e) => setStatus(e.target.value)}
               />
             </div>
           </div>
@@ -160,7 +145,6 @@ const AdjustorMeeting = () => {
             className="mb-8"
             register={register}
             control={control}
-            setValue={setValue}
             errors={errors}
           />
 
@@ -169,21 +153,19 @@ const AdjustorMeeting = () => {
           </div>
           <div className="flex flex-col md:flex-row mt-4">
             <div className="w-full md:mr-4">
-              <div>
-                <SimpleFileUploader
-                  label="Images"
-                  name="images"
-                  id="images"
-                  register={register}
-                  fileTypes={[
-                    "image/png",
-                    "image/jpeg",
-                    "image/jpg",
-                    "image/gif",
-                  ]}
-                  multiple={true}
-                />
-              </div>
+              <SimpleFileUploader
+                label="Images"
+                name="images"
+                id="images"
+                register={register}
+                fileTypes={[
+                  "image/png",
+                  "image/jpeg",
+                  "image/jpg",
+                  "image/gif",
+                ]}
+                multiple={true}
+              />
               {showRenameBox && (
                 <RenameFileUI
                   files={images}
@@ -214,9 +196,7 @@ const AdjustorMeeting = () => {
             <Button variant="primary">Cancel</Button>
             <Button type="submit" disabled={isSubmitting} variant="gradient">
               {isSubmitting ? (
-                <div className="flex justify-center items-center">
-                  <Loader width={"24px"} height={"24px"} color="#fff" />
-                </div>
+                <Loader width={"24px"} height={"24px"} color="#fff" />
               ) : (
                 "Save"
               )}
