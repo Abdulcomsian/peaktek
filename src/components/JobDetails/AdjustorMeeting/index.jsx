@@ -14,6 +14,7 @@ import { useAuth } from "@context/AuthContext";
 import {
   createAdjustorMeeting,
   getAdjustorMeeting,
+  updateAdjustorMeetingSentStatus,
   updateAdjustorMeetingStatus,
 } from "@services/apiAdjustorMeeting";
 import { useForm } from "react-hook-form";
@@ -25,6 +26,7 @@ import toast from "react-hot-toast";
 const AdjustorMeeting = () => {
   const { id: jobId } = useParams();
   const [showRenameBox, setShowRenameBox] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const [status, setStatus] = useState("overturn");
   const [documents, setDocuments] = useState([]);
   const [images, setImages] = useState([]);
@@ -46,7 +48,7 @@ const AdjustorMeeting = () => {
         setDocuments(resp.data.data.documents);
         setImages(resp.data.data.image_url);
         setStatus(resp.data.data.status);
-        return resp.data.data;
+        return { ...resp.data.data, sent: resp.data.data.sent === "true" };
       }
     },
   });
@@ -101,10 +103,24 @@ const AdjustorMeeting = () => {
     }
   };
 
-  const handleFileChange = function (files) {
-    console.log(files);
-  };
+  const handleChange = async function (e) {
+    console.log(e.target.checked);
+    const isSent = e.target.checked;
 
+    const formData = new FormData();
+    formData.append("sent", isSent);
+    setIsSent(true);
+    try {
+      const resp = await updateAdjustorMeetingSentStatus(formData, jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsSent(false);
+    }
+  };
   return (
     <Fragment>
       {/* {loading && <Spin fullscreen={true} delay={0} />} */}
@@ -120,7 +136,10 @@ const AdjustorMeeting = () => {
                 register={register}
                 name="sent"
                 id="sent"
+                onChange={handleChange}
+                disabled={isSent}
               />
+              {isSent && <Loader width={"20px"} height={"20px"} color="#000" />}
             </div>
             <div>
               <RadioButton
@@ -182,16 +201,6 @@ const AdjustorMeeting = () => {
                 fileTypes={["application/pdf"]}
                 multiple={true}
               />
-              {/* <UploaderInputs
-                text="Documents:"
-                name="documents"
-                id="documents"
-                register={register}
-                icon={<ArrowFileIcon />}
-                require={false}
-                fileTypes={["application/pdf"]}
-              /> */}
-
               {showRenameBox && (
                 <RenameFileUI
                   files={documents}
