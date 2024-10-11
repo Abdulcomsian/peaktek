@@ -6,13 +6,19 @@ import dayjs from "dayjs";
 import { Spin } from "antd";
 import SubTabs from "./components/tabs";
 import { useForm } from "react-hook-form";
-import { buildScheduled, getBuildSchedule } from "@services/apiBuildScheduled";
+import {
+  buildScheduled,
+  getBuildSchedule,
+  updateBuildConfirmStatus,
+} from "@services/apiBuildScheduled";
 import { ThreeDots } from "react-loader-spinner";
 import { Button, Loader } from "@components/UI";
+import { CheckBox } from "@components/FormControls";
 
 const BuildScheduledTab = () => {
   const { id: jobId } = useParams();
   const [loading, setLoading] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
   const location = useLocation();
   const [isCreating, setIsCreating] = useState(false);
   const path = location.pathname.split("/").pop();
@@ -30,7 +36,7 @@ const BuildScheduledTab = () => {
       const resp = await getBuildSchedule(jobId);
       console.log("Buil schedule", resp);
       if (resp.status >= 200 && resp.status < 300) {
-        return resp.data;
+        return { ...resp.data, confirmed: resp.data.confirmed === "true" };
       }
     },
   });
@@ -71,6 +77,19 @@ const BuildScheduledTab = () => {
     }
   };
 
+  const handleBuildConfirmation = async function (e) {
+    const confirmation = e.target.checked;
+    const formData = new FormData();
+    formData.append("confirmed", confirmation);
+    setIsConfirming(true);
+    try {
+      const resp = await updateBuildConfirmStatus(formData, jobId);
+      console.log("BUILD CONFIRMATION STATUS RESP", resp);
+    } finally {
+      setIsConfirming(false);
+    }
+  };
+
   if (isLoading)
     return (
       <ThreeDots
@@ -88,6 +107,17 @@ const BuildScheduledTab = () => {
   return (
     <div className="bg-white p-5 rounded-2xl w-full max-w-7xl">
       {loading && <Spin fullscreen={true} />}
+      <div class="flex items-center gap-3 mb-2 ">
+        <CheckBox
+          register={register}
+          name="confirmed"
+          id="confirmed"
+          label="Build Confirmed (Contractor/Homeowner):"
+          onChange={handleBuildConfirmation}
+          disabled={isConfirming}
+        />
+        {isConfirming && <Loader width={"24px"} height={"24px"} color="#000" />}
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <BuildScheduledForm
           register={register}

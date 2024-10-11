@@ -19,12 +19,17 @@ const clientEndPoints = {
 	// Suppliers
 	getSuppliers: '/api/get/suppliers',
 
-	// Buil Scheduled
-	buildScheduledForm: '/api/update/build-detail',
-	getBuildSchedule: '/api/get/build-detail',
-	confirmationEmail: '/api/confirmation-email',
-	moConfirmationEmail: '/api/material-order/confirmation-email',
-	materialOrderForm: '/api/material-order',
+  // Buil Scheduled
+  buildScheduledForm: "/api/update/build-detail",
+  getBuildSchedule: "/api/get/build-detail",
+  confirmationEmail: "/api/confirmation-email",
+  moConfirmationEmail: "/api/material-order/confirmation-email",
+  materialOrderForm: "/api/material-order",
+  updateConfirmationEmailStatus: "/api/confirmation-email-status",
+  getConfirmationEmailStatus: "/api/get-confirmation-email-status",
+  updateBuildConfirmStatus: "/api/update/build-detail-status",
+  updateMOconfiramtionEmailsentStaus:
+    "/api/material-order/confirmation-email-status",
 
 	//create user
 	createUsers: '/api/create/user',
@@ -107,28 +112,35 @@ const clientEndPoints = {
 	//Desing Meeting
 	generatePDFDesignMeeting: '/api/generate/design-meeting-pdf',
 
-	///Adjustor Meeting
-	createAdjustorMeeting: '/api/create/adjustor-meeting',
-	getAdjustorMeeting: '/api/get/adjustor-meeting',
-	updateAdjustorMaeetingStatus: '/api/update-status/adjustor-meeting',
-	//Overturn Meeting
-	createOverturn: '/api/create/overturn-meeting',
-	getOverturn: '/api/get/overturn-meeting',
-	updateOverturn: '/api/update/overturn-meeting-media',
-	updateOverturnFilename: '/api/change/overturn-meeting/file-name',
-	deleteOverturnFiles: '/api/delete/overturn-meeting/media',
-	// Scheduling
-	createMaterialOrder: '/api/material-order',
-	updateMaterialOrder: '/api/update/material-order',
-	getMaterialOrder: '/api/get/material-order',
-	checkMaterialOrder: '/api/check/material-order',
-	materialOrderEmail: '/api/material-order/email',
-	emailToSupplier: '/api/send/email',
-	createMaterialOrderConfirmationEmail: '/api/material-order/confirmation-email',
-	createMaterialConfirmationEmail: '/api/get/build-detail',
-	//Ready to build
-	createReadyToBuild: '/api/store/ready-to-build',
-	getReadyToBuild: '/api/get/ready-to-build',
+
+  ///Adjustor Meeting
+  createAdjustorMeeting: "/api/create/adjustor-meeting",
+  getAdjustorMeeting: "/api/get/adjustor-meeting",
+  updateAdjustorMaeetingStatus: "/api/update-status/adjustor-meeting",
+  //Overturn Meeting
+  createOverturn: "/api/create/overturn-meeting",
+  getOverturn: "/api/get/overturn-meeting",
+  updateOverturn: "/api/update/overturn-meeting-media",
+  updateOverturnFilename: "/api/change/overturn-meeting/file-name",
+  deleteOverturnFiles: "/api/delete/overturn-meeting/media",
+  // Scheduling
+  createMaterialOrder: "/api/material-order",
+  updateMaterialOrder: "/api/update/material-order",
+  getMaterialOrder: "/api/get/material-order",
+  checkMaterialOrder: "/api/check/material-order",
+  materialOrderEmail: "/api/material-order/email",
+  emailToSupplier: "/api/send/email",
+  createMaterialOrderConfirmationEmail:
+    "/api/material-order/confirmation-email",
+  getMaterialOrderConfirmationEmailStatus:
+    "/api/get-material-order/confirmation-email-status",
+  getEmailSentStatus: "/api/get-material-order/confirmation-email-status",
+  createMaterialConfirmationEmail: "/api/get/build-detail",
+  //Ready to build
+  createReadyToBuild: "/api/store/ready-to-build",
+  getReadyToBuild: "/api/get/ready-to-build",
+  updateConfirmStatus: "/api/store/ready-to-build-status",
+
 
 	//QC Inspection
 	storeQCInspection: '/api/store/qc-inspection',

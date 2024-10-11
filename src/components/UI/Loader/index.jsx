@@ -8,7 +8,7 @@ const Loader = ({ width, height, color = "#FFFFFF" }) => {
       height={height}
       width={width}
       color={color}
-      strokeColor="#FFFFFF"
+      strokeColor={color}
       strokeWidth="5"
       animationDuration="0.75"
       ariaLabel="rotating-lines-loading"

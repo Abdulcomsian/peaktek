@@ -3,19 +3,39 @@ import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 import SimpleFileUploader from "@components/FormControls/SimpleFileUploader";
 import { Button, ImageIcon, Loader } from "@components/UI";
 import { UploaderInputs } from "@components/index";
+import {
+  getEmailSentStatus,
+  getMOConfirmationEmailStatus,
+  updateEmailSentStatus,
+} from "@services/apiBuildScheduled";
 import { createMaterialOrderConfirmationEmail } from "@services/apiMaterialOrder";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
 export default function MoInformationEmail() {
   const { id: jobId } = useParams();
+  const [settingStatus, setSettingStatus] = useState(false);
+
   const {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting, isLoading },
   } = useForm();
+
+  useEffect(() => {
+    async function fetchEmailSentStatus() {
+      const resp = await getMOConfirmationEmailStatus(jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+        console.log("MO CONFIRMATION EMAIL STATUS", resp);
+        setValue("status", resp.data.status === "true");
+      }
+    }
+    fetchEmailSentStatus();
+  }, []);
 
   const onSubmit = async function (data) {
     const { email_body, send_to, status, subject, attachments } = data;
@@ -41,25 +61,47 @@ export default function MoInformationEmail() {
       toast.error("Material Order should be created first.");
     }
   };
+
+  const handleChange = async function (e) {
+    const isSent = e.target.checked;
+    const formData = new FormData();
+    formData.append("status", isSent);
+
+    setSettingStatus(true);
+    try {
+      const resp = await updateEmailSentStatus(formData, jobId);
+      if (resp.status >= 200 && resp.status < 300) {
+      }
+    } finally {
+      setSettingStatus(false);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <div className="flex items-center justify-between mb-4">
           <Input
             label="Send To:"
-            type="email"
             placeholder="test@test.com"
             className="md:mr-4 mb-4 md:mb-0 max-w-[50%]"
             name="send_to[]"
             id="send_to"
             register={register}
           />
-          <CheckBox
-            register={register}
-            name="status"
-            id="status"
-            label="Email sent:"
-          />
+          <div className="flex items-center gap-3">
+            {settingStatus && (
+              <Loader width={"24px"} height={"24px"} color="#000" />
+            )}
+            <CheckBox
+              name="status"
+              id="status"
+              label="Email sent:"
+              register={register}
+              onChange={handleChange}
+              disabled={settingStatus}
+            />
+          </div>
         </div>
         <Input
           label="Subject:"
