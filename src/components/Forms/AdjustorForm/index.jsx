@@ -26,9 +26,10 @@ const AdjustorForm = ({ className, register, control, setValue, errors }) => {
           onChange={(e) => {
             setValue("phone", formatPhoneNumber(e.target.value));
           }}
+          maxLength={12}
           validate={(value) => {
             return (
-              value.length < 12 || "number should be maximun of 10 numbers"
+              value.length === 12 || "number should be maximun of 10 numbers"
             );
           }}
           error={errors?.phone?.message && <p>{errors?.phone?.message}</p>}

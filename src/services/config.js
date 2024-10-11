@@ -111,6 +111,7 @@ const clientEndPoints = {
 	createAdjustorMeeting: '/api/create/adjustor-meeting',
 	getAdjustorMeeting: '/api/get/adjustor-meeting',
 	updateAdjustorMaeetingStatus: '/api/update-status/adjustor-meeting',
+	updateAdjustorMeetingSentStatus: '/api/add/adjustor-meeting-status',
 	//Overturn Meeting
 	createOverturn: '/api/create/overturn-meeting',
 	getOverturn: '/api/get/overturn-meeting',
@@ -125,10 +126,13 @@ const clientEndPoints = {
 	materialOrderEmail: '/api/material-order/email',
 	emailToSupplier: '/api/send/email',
 	createMaterialOrderConfirmationEmail: '/api/material-order/confirmation-email',
+	getMaterialOrderConfirmationEmailStatus: '/api/get-material-order/confirmation-email-status',
+	getEmailSentStatus: '/api/get-material-order/confirmation-email-status',
 	createMaterialConfirmationEmail: '/api/get/build-detail',
 	//Ready to build
 	createReadyToBuild: '/api/store/ready-to-build',
 	getReadyToBuild: '/api/get/ready-to-build',
+	updateConfirmStatus: '/api/store/ready-to-build-status',
 
 	//QC Inspection
 	storeQCInspection: '/api/store/qc-inspection',

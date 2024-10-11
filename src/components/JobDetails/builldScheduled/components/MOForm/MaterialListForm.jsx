@@ -52,13 +52,13 @@ export default function MaterialListForm({ register }) {
               control={control}
               name={`materials[${index}].color`}
               id={`materials[${index}].color`}
+              placeholder="Select Color"
               options={[
                 { value: "red", label: "Red" },
                 { value: "green", label: "green" },
                 { value: "blue", label: "blue" },
               ]}
-              placeholder="Select Color"
-              defaultValue="red"
+              defaultValue="green"
             />
             <Input
               name={`materials[${index}].orderKey`}

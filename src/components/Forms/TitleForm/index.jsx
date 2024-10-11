@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { Input, InputContainer, CustomDatePicker } from "@components";
@@ -18,6 +18,26 @@ export default function TitleForm() {
   const [pageInvalidate, setPageInvalidate] = useState(false);
   const { logout } = useAuth();
 
+  async function fetData() {
+    try {
+      const res = await getTitle(jobId);
+      if (
+        res.status >= 200 &&
+        res.status < 300 &&
+        Object.keys(res.data.data).length > 0
+      ) {
+        setIsEditing(true);
+        return res.data.data;
+      } else {
+        return {}; // Return empty object if no data
+      }
+    } catch (error) {
+      return {}; // Return empty object on error
+    } finally {
+      setIsLoading(false); // Set loading to false after data fetch
+    }
+  }
+
   const {
     register,
     handleSubmit,
@@ -26,30 +46,15 @@ export default function TitleForm() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: async () => {
-      try {
-        const res = await getTitle(jobId);
-        if (
-          res.status >= 200 &&
-          res.status < 300 &&
-          Object.keys(res.data.data).length > 0
-        ) {
-          setIsEditing(true);
-          return res.data.data;
-        } else {
-          return {}; // Return empty object if no data
-        }
-      } catch (error) {
-        return {}; // Return empty object on error
-      } finally {
-        setIsLoading(false); // Set loading to false after data fetch
-      }
-    },
+    defaultValues: fetData,
   });
 
   const defaultPrimaryImage = watch("primary_images");
   const defaultSecondaryImage = watch("secondary_images");
-  console.log("RE-rendered");
+
+  useEffect(() => {
+    fetData();
+  }, [pageInvalidate]);
 
   const onSubmit = async function (data) {
     console.log("TITLE FORM DATA", data, data.primary_image);

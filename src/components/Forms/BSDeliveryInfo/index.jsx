@@ -20,7 +20,6 @@ const BSDeliveryInformation = ({ className, register, control }) => {
           label="Select a Date:"
           className="md:mr-4 mb-4 md:mb-0"
           name="build_date"
-          register={register}
           control={control}
         />
         <Input
