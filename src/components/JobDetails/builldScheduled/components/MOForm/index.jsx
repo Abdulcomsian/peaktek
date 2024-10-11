@@ -1,6 +1,5 @@
 import { CustomerInformation } from "@components/Forms";
 import BSDeliveryInformation from "@components/Forms/BSDeliveryInfo";
-import { Button } from "@components/UI";
 import { materialOrderForm } from "@services/apiBuildScheduled";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,6 +11,8 @@ import { getSuppliers } from "@services/apiSuppliers";
 import ClientInformation from "@components/JobDetails/Complete/COCForm/ClientInformation";
 import SupplierInfo from "./SupplierInfo";
 import MaterialListForm from "./MaterialListForm";
+import { Button } from "@components/UI";
+import { getMaterialOrder } from "@services/apiMaterialOrder";
 
 const MOForm = () => {
   const { id } = useParams();
@@ -31,47 +32,26 @@ const MOForm = () => {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async () => {
+      const resp = await getMaterialOrder(id);
+      console.log("Material Order resp", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.material_order;
+      } else {
+        return {
+          materials: [{ material: "", quality: "", color: "", orderKey: "" }],
+        };
+      }
+    },
+  });
 
   const onSubmit = async (data) => {
-    console.log("Material Order data", data);
-    const preparedData = {
-      street: data.street,
-      city: data.city,
-      state: data.state,
-      zip_code: data.zip_code,
-      claim_number: data.claim_number,
-      policy_number: data.policy_number,
-      insurance: data.insurance,
-      date_needed: data.date_needed, // from BSDeliveryInformation
-      square_count: data.square_count, // from BSDeliveryInformation
-      total_perimeter: data.total_perimeter, // from BSDeliveryInformation
-      build_date: data.build_date, // from BSDeliveryInformation
-      ridge_lf: data.ridge_lf, // from BSDeliveryInformation
-      valley_sf: data.valley_sf, // from BSDeliveryInformation
-      hip_and_ridge_lf: data.hip_and_ridge_lf, // from BSDeliveryInformation
-      drip_edge_lf: data.drip_edge_lf, // from BSDeliveryInformation
-      supplier_id: 123,
-      materials: [
-        {
-          material: "test 1",
-          quantity: 3,
-          // "color": "red",
-          order_key: "anything",
-        },
-        {
-          material: "test 2",
-          quantity: 3,
-          color: "blue",
-          order_key: "anything",
-        },
-      ],
-    };
-
     try {
       setIsCreating(true);
-      const response = await materialOrderForm(preparedData, id);
+      const response = await materialOrderForm(data, id);
       if (response?.status >= 200 && response?.status < 300) {
         toast.success("Form submitted successfully!");
       } else {
@@ -89,7 +69,7 @@ const MOForm = () => {
       <h2 className="text-black text-xl font-medium mb-4 font-poppins">
         Material Order
       </h2>
-      <SupplierInfo register={register} />
+      <SupplierInfo register={register} setValue={setValue} errors={errors} />
       <h2 className="text-black text-xl font-medium my-4 pt-4 font-poppins">
         Delivery Information
       </h2>
@@ -100,9 +80,9 @@ const MOForm = () => {
       />
       <MaterialListForm register={register} control={control} />
       <Button
+        variant="gradient"
         onClick={handleSubmit(onSubmit)}
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         disabled={isCreating} // Disable while submitting
       >
         {isCreating ? "Submitting..." : "Submit"}

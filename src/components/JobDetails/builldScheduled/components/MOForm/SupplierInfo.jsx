@@ -1,7 +1,13 @@
 import { CheckBox } from "@components/FormControls";
 import { Input, InputContainer } from "@components/index";
+import { formatPhoneNumber } from "../../../../../utils/helper";
 
-export default function SupplierInfo({ register, className }) {
+export default function SupplierInfo({
+  register,
+  className,
+  setValue,
+  errors,
+}) {
   return (
     <div className={`w-full ${className}`}>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -29,6 +35,18 @@ export default function SupplierInfo({ register, className }) {
           register={register}
           name="phone"
           id="phone"
+          format="phone"
+          numberOnly={true}
+          maxLength={12}
+          onChange={(e) => {
+            setValue("phone", formatPhoneNumber(e.target.value));
+          }}
+          validate={(value) => {
+            return (
+              value.length === 12 || "number should be maximun of 10 numbers"
+            );
+          }}
+          error={errors?.phone?.message && <p>{errors?.phone?.message}</p>}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">

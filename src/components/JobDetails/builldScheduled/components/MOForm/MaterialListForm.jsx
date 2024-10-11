@@ -3,27 +3,17 @@ import { Button } from "@components/UI";
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-export default function MaterialListForm({ register }) {
-  const { control } = useForm({
-    defaultValues: {
-      materials: [{ material: "", quality: "", color: "", orderKey: "" }],
-    },
-  });
-
+export default function MaterialListForm({ register, control }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "materials",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   return (
     <div className="w-full mt-4">
       <header className="grid grid-cols-[1fr_1fr_1fr_1fr_100px] gap-3 text-center font-semibold">
         <div>Material</div>
-        <div>Quality</div>
+        <div>Quantity</div>
         <div>Color</div>
         <div>Order key</div>
         <div>Action</div>
@@ -42,7 +32,7 @@ export default function MaterialListForm({ register }) {
 
             <Input
               type="number"
-              name={`materials[${index}].quality`}
+              name={`materials[${index}].quantity`}
               id={`quality-${index}`}
               register={register}
             />
@@ -61,7 +51,7 @@ export default function MaterialListForm({ register }) {
               defaultValue="green"
             />
             <Input
-              name={`materials[${index}].orderKey`}
+              name={`materials[${index}].order_key`}
               id={`orderKey-${index}`}
               register={register}
             />
