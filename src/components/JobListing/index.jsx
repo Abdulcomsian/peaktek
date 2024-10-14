@@ -42,7 +42,7 @@ export default function JobListing() {
       />
     );
   return (
-    <>
+    <div className="px-8 min-h-full">
       <div className="flex items-center justify-between mb-5 max-w-screen-xl">
         <h2 className="font-black text-3xl">Jobs</h2>
         <AddNewJob onJobAdded={setInvalidatePage} />
@@ -96,6 +96,6 @@ export default function JobListing() {
           ))}
         </div>
       </Card>
-    </>
+    </div>
   );
 }

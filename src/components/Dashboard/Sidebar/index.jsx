@@ -9,10 +9,11 @@ import settingsMinimalistic from "@assets/images/settingsMinimalistic.svg";
 import FileText from "@assets/images/FileText.svg";
 import JobIcon from "@assets/images/jobs.svg";
 import GPS from "@assets/images/GPS.svg";
-import { IoMdSettings } from "react-icons/io";
 import { RiHomeLine } from "react-icons/ri";
 import { IoBagOutline } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
+import { IoMdSettings } from "react-icons/io";
+import { FaRegUser } from "react-icons/fa";
 
 export default function Sidebar({ isShow, onCloseSidebar }) {
   const { logout, user: userData } = useAuth();
@@ -60,7 +61,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     {
       id: 7,
       linkSrc: "/dashboard/users-list",
-      linkText: <IoMdSettings />,
+      linkText: <FaRegUser />,
       text: "Users",
     },
     {
