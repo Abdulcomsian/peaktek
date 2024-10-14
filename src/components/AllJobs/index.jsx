@@ -63,7 +63,7 @@ export default function AllJobs() {
     );
 
   return (
-    <>
+    <div className="px-8">
       <div className="flex items-center justify-between mb-5 max-w-screen-xl">
         <h2 className="font-black text-3xl">Jobs</h2>
         <AddNewJob onJobAdded={setInvalidatePage} />
@@ -74,7 +74,7 @@ export default function AllJobs() {
         <JobsSection header="Final Stage" jobs={finalStage} />
         <JobsSection header="Completed Projects" jobs={completedProjects} />
       </Card>
-    </>
+    </div>
   );
 }
 

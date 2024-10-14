@@ -59,7 +59,7 @@ export default function Welcome() {
     );
 
   return (
-    <>
+    <div className="px-8">
       <div className="flex items-center justify-between mb-5">
         <h2 className="font-black text-3xl">Dashbord</h2>
         <AddNewJob onJobAdded={setInvalidatePage} />
@@ -72,6 +72,6 @@ export default function Welcome() {
         <YearToDateSection totalRevenue={current_year} />
       </div>
       <div className="px-5 py-4 max-w-screen-lg grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
-    </>
+    </div>
   );
 }
