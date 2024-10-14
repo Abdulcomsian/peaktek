@@ -135,7 +135,6 @@ export default function CreateInvoiceInformation() {
 							required={false}
 							error={errors?.invoice_number}
 							numberOnly={true}
-							maxLength={14}
 							format={'invoice'}
 						/>
 					</div>
