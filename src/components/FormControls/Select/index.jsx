@@ -15,6 +15,7 @@ const CustomSelect = ({
   required = true,
   error = "",
   defaultValue,
+  size,
 }) => {
   return (
     <div className={`w-full ${className}`}>
@@ -34,6 +35,7 @@ const CustomSelect = ({
         rules={{ required: required ? `${name} is required` : false }}
         render={({ field }) => (
           <Select
+            size={size}
             {...field}
             id={id}
             placeholder={placeholder}

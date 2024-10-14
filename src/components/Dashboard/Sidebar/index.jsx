@@ -59,7 +59,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     },
     {
       id: 7,
-      linkSrc: "/users",
+      linkSrc: "/dashboard/users-list",
       linkText: <IoMdSettings />,
       text: "Users",
     },
