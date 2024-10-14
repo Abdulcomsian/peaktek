@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Card, Tabs } from "@components/UI";
 import AddNewUser from "@components/AddNewUser";
 import UserListings from "./UserListings";
+import CompanyList from "../CompanyList";
+import AddNewCompany from "@components/AddNewCompany";
 
 const tabUserListings = [
   { id: 1, title: "User List" },
@@ -26,10 +28,10 @@ const Users = () => {
               onClick={setCurrTab}
             />
           </div>
-          <AddNewUser />
+          {currTab === 1 ? <AddNewUser /> : <AddNewCompany />}
         </div>
 
-        {currTab === 1 ? <UserListings /> : <p>Compny listing will be here</p>}
+        {currTab === 1 ? <UserListings /> : <CompanyList />}
       </Card>
     </>
   );
