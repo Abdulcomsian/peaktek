@@ -109,7 +109,7 @@ export default function RoofComponent() {
           name="selectedOption"
           verticle={true}
           onOptionSelected={setSelectedOption}
-          className="py-6 border-b border-gray-200"
+          className="py-6 border-b border-gray-200 mb-5"
         />
         {selectedOption === 1 ? (
           <>

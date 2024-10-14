@@ -77,6 +77,20 @@ export async function createMaterialOrderConfirmationEmail(data, jobId) {
   }
 }
 
+export async function getMaterialOrder(jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const responce = await clientBaseURL.get(
+      `${clientEndPoints.getMaterialOrder}/${jobId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (responce.status >= 200 && responce.status < 300) {
+      return responce.data;
+    }
+  } catch (error) {
+    return error;
+  }
+}
 export async function getMaterialOrderConfirmationEmail(jobId) {
   const token = localStorage.getItem("token");
   try {

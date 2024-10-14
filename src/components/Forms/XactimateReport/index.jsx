@@ -4,7 +4,7 @@ import PdfOptions from "../Sidebar/PaymentSchedule/PdfOptions";
 import { SingleUsePdf, TextPage } from "@components/Payment";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getRooferComponent,
   getXactimatereport,
@@ -15,8 +15,11 @@ import { UploaderInputs } from "@components/index";
 import { ArrowFileIcon, Loader } from "@components/UI";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
+import { useAuth } from "@context/AuthContext";
 
 export default function RoofComponent() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const [defaultImages, setDefaultImages] = useState([]);
   const { id: jobId } = useParams();
   const {
@@ -61,13 +64,17 @@ export default function RoofComponent() {
       } else {
       }
     } else {
-      formData.append("pdfs[]", ""); // Append an empty string or null to indicate no PDFs
+      // formData.append("pdfs[]", ""); // Append an empty string or null to indicate no PDFs
     }
 
     try {
       const resp = await createXactimatereportApi(formData, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
+      }
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
       }
     } catch (error) {
       console.error(error);
@@ -108,7 +115,7 @@ export default function RoofComponent() {
           name="selectedOption"
           verticle={true}
           onOptionSelected={setSelectedOption}
-          className="py-6 border-b border-gray-200"
+          className="py-6 border-b border-gray-200 mb-5"
         />
         {selectedOption === 1 ? (
           <>
