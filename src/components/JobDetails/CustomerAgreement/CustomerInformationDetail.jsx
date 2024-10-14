@@ -2,10 +2,11 @@ import { useSelector } from 'react-redux'
 import { InputContainer } from '@components'
 import { Input } from '@components/FormControls'
 
-export default function CustomerInformationDetail({ register, className, insuranceSummary }) {
-	console.log('Register', insuranceSummary)
-	const { insurance = '', claim_number = '', policy_number = '' } = insuranceSummary.job
-	const { name, email, phone } = useSelector((state) => state?.jobs?.singleJobData)
+export default function CustomerInformationDetail({ register, className, insuranceSummary = {} }) {
+	// Destructure with default empty strings for each field in case insuranceSummary or job is missing
+	const { insurance = '', claim_number = '', policy_number = '' } = insuranceSummary?.job || {}
+	const { name, email, phone } = useSelector((state) => state?.jobs?.singleJobData) || {}
+
 	return (
 		<div className={`w-full ${className}`}>
 			<InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -16,7 +17,7 @@ export default function CustomerInformationDetail({ register, className, insuran
 					disabled={true}
 					name="name"
 					id="name"
-					defaultValue={name}
+					defaultValue={name || ''}
 				/>
 				<Input
 					label="Email:"
@@ -24,7 +25,7 @@ export default function CustomerInformationDetail({ register, className, insuran
 					type="email"
 					className="md:mr-4 mb-4 md:mb-0"
 					disabled={true}
-					defaultValue={email}
+					defaultValue={email || ''}
 					name="email"
 					id="email"
 				/>
@@ -33,7 +34,7 @@ export default function CustomerInformationDetail({ register, className, insuran
 					placeholder="923081177825"
 					className="mb-4 md:mb-0"
 					disabled={true}
-					defaultValue={phone}
+					defaultValue={phone || ''}
 					name="phone"
 					id="phone"
 				/>
@@ -81,7 +82,7 @@ export default function CustomerInformationDetail({ register, className, insuran
 					name="insurance"
 					id="insurance"
 					register={register}
-					defaultValue={insurance}
+					defaultValue={insurance || ''}
 				/>
 				<Input
 					label="Claim Number:"
@@ -90,7 +91,7 @@ export default function CustomerInformationDetail({ register, className, insuran
 					name="claim_number"
 					id="claim_number"
 					register={register}
-					defaultValue={claim_number}
+					defaultValue={claim_number || ''}
 				/>
 				<Input
 					label="Policy Number:"
@@ -99,7 +100,7 @@ export default function CustomerInformationDetail({ register, className, insuran
 					className="mb-4 md:mb-0"
 					name="policy_number"
 					register={register}
-					defaultValue={policy_number}
+					defaultValue={policy_number || ''}
 				/>
 			</InputContainer>
 		</div>
