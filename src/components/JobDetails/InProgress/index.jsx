@@ -44,7 +44,7 @@ const InProgress = () => {
 		try {
 			const resp = await updateIPstatus({ status }, jobId) // Assuming this API updates the status
 			if (resp.status >= 200 && resp.status < 300) {
-				toast.success('Status updated successfully')
+				dispatch(setActiveTab('complete'))
 				navigate(`/job-details/${jobId}/complete`)
 			} else {
 				toast.error('Failed to update status')

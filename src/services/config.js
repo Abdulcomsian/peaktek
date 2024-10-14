@@ -25,7 +25,7 @@ const clientEndPoints = {
 	confirmationEmail: '/api/confirmation-email',
 	moConfirmationEmail: '/api/material-order/confirmation-email',
 	materialOrderForm: '/api/material-order',
-
+	updateBuildConfirmStatus: '/api/update/build-detail-status',
 	//create user
 	createUsers: '/api/create/user',
 	getCompanyUsers: '/api/get/company-users',
