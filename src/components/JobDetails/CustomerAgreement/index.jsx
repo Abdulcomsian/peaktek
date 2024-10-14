@@ -68,7 +68,7 @@ const CustomerAgreementForm = () => {
 			if (resp.status >= 200 && resp.status < 300) {
 				setInsuranceSummary(resp.data) // store fetched data in the state
 			} else {
-				toast.error('Failed to fetch insurance summary')
+				console.log('Failed to fetch insurance summary')
 			}
 		}
 		fetchInsuranceData()

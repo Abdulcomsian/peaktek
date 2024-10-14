@@ -18,7 +18,7 @@ export default function Customers({ customers }) {
 					<JobCard
 						key={item.key} // Add a unique key for better React rendering
 						label={item.label}
-						number={customers[item.key]} // Dynamically access the value from the customers object
+						number={customers[item.key] ? customers[item.key] : 0} // Dynamically access the value from the customers object
 						className={`${index === 0 && '!bg-[#20b6d5]'} ${index === 1 && '!bg-[#22a3cc]'} ${
 							index === 2 && '!bg-[#2590c2]'
 						} w-full !text-blue-100 `}

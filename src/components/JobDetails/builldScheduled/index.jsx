@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BuildScheduledForm } from '@components/Forms'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -30,15 +30,41 @@ const BuildScheduledTab = () => {
 		reset,
 		watch,
 		formState: { errors, isLoading, isSubmitting },
-	} = useForm({
-		defaultValues: async () => {
+	} = useForm()
+	//   {
+	// 	defaultValues: async () => {
+	// 		const resp = await getBuildSchedule(jobId)
+	// 		console.log('Buil schedule', resp)
+	// 		if (resp.status >= 200 && resp.status < 300) {
+	// 			return { ...resp.data, confirmed: resp.data.confirmed === 'true' }
+	// 		}
+	// 	},
+	// }
+
+	useEffect(() => {
+		const fetchBuildSchedule = async () => {
 			const resp = await getBuildSchedule(jobId)
-			console.log('Buil schedule', resp)
 			if (resp.status >= 200 && resp.status < 300) {
-				return { ...resp.data, confirmed: resp.data.confirmed === 'true' }
+				const buildData = resp.data
+
+				// Convert build_time to HH:mm format for the time input
+				const formattedTime = dayjs(buildData.build_time, 'h:mm A').format('HH:mm')
+
+				// Set values in the form including formatted build_time
+				setValue('build_date', buildData.build_date)
+				setValue('build_time', formattedTime) // Ensure time is formatted
+				setValue('homeowner', buildData.homeowner)
+				setValue('homeowner_email', buildData.homeowner_email)
+				setValue('contractor', buildData.contractor)
+				setValue('contractor_email', buildData.contractor_email)
+				setValue('supplier', buildData.supplier)
+				setValue('supplier_email', buildData.supplier_email)
+				setValue('confirmed', buildData.confirmed === 'true')
 			}
-		},
-	})
+		}
+
+		fetchBuildSchedule()
+	}, [jobId, setValue])
 
 	const onSubmit = async (data) => {
 		if (data.build_time) {
