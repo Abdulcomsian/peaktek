@@ -162,7 +162,7 @@ const CustomerAgreementForm = () => {
 					{insuranceSummary ? (
 						<CustomerInformationDetail register={register} insuranceSummary={insuranceSummary} />
 					) : (
-						<div>Loading insurance information...</div> // A clear message instead of a general loader
+						<CustomerInformationDetail register={register} /> // A clear message instead of a general loader
 					)}
 					<TextSection1 />
 					<h2 className="text-black text-xl font-semibold mb-4">SIGNATURES</h2>
