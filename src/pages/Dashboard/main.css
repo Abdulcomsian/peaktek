@@ -53,8 +53,8 @@
 .dashboard-main-content{
     height: 100%;
     overflow-y: auto;
-    padding-inline: 2.6rem;
-    padding-block: 1.5rem;
+    /* padding-inline: 2.6rem;
+    padding-block: 1.5rem; */
 }
 .dashboard-nav .dash-nav-title{
     font-size: 2.6rem;

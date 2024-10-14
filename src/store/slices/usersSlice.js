@@ -25,6 +25,7 @@ export const fetchUsersData = createAsyncThunk("users/fetch", async () => {
         },
       }
     );
+    console.log("USER LIST RESP", response);
     return {
       data: response?.data?.data,
       total: response?.data?.total, // Ensure the API returns the total number of users
