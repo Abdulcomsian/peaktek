@@ -112,25 +112,25 @@ const MediaContent = ({ id, className }) => {
 				<div className="flex items-center justify-between mb-4">
 					<span className="font-semibold uppercase">Job Content</span>
 				</div>
-				<TabsContentBox className="p-4">
+				<TabsContentBox className="p-4 mb-4">
 					<Tabs items={items} activeTab={activeTab} onClick={setActiveTab} />
 					{renderActiveTab()}
 				</TabsContentBox>
+				<div className="flex items-center justify-end mb-4">
+					<Button variant="gradient" type="submit" className={`text-sm`} disabled={isSubmitting}>
+						{isSubmitting ? (
+							<div className="flex justify-center items-center">
+								<Loader width={'24px'} height={'24px'} color="#fff" />
+							</div>
+						) : (
+							'Submit'
+						)}
+					</Button>
+				</div>
 			</Form>
 			{activeTab === 2 &&
 				showRenameBox &&
 				files?.map((file) => <RenameFiles file={file} key={file?.id} id={file?.id} refreshData={refreshData} />)}
-			<div className="flex items-center justify-end mb-4 ">
-				<Button variant="gradient" type="submit" className={`text-sm`} disabled={isSubmitting}>
-					{isSubmitting ? (
-						<div className="flex justify-center items-center">
-							<Loader width={'24px'} height={'24px'} color="#fff" />
-						</div>
-					) : (
-						'Submit'
-					)}
-				</Button>
-			</div>
 		</Fragment>
 	)
 }
