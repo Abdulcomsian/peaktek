@@ -87,15 +87,6 @@ export default function CreateInvoiceInformation() {
 			<div className="bg-stone-200 rounded-2xl py-4 px-3 max-w-screen-xl">
 				<div className="col-span-full flex items-center justify-between">
 					<span className="font-semibold uppercase">Profile Summary</span>
-					<Button type="submit" variant="gradient" className="col-span-full w-fit mt-2 text-sm">
-						{isSubmitting ? (
-							<div className="flex justify-center items-center">
-								<Loader width={'24px'} height={'24px'} color="#fff" />
-							</div>
-						) : (
-							'SAVE'
-						)}
-					</Button>
 				</div>
 				<div className="bg-white divide-x-2 divide-stone-300 rounded-2xl grid grid-cols-1 sm:grid-cols-[2fr_1.5fr] gap-3 py-7 px-5 mt-4">
 					<div className="grid grid-cols-2 gap-3">
@@ -144,7 +135,6 @@ export default function CreateInvoiceInformation() {
 							required={false}
 							error={errors?.invoice_number}
 							numberOnly={true}
-							maxLength={14}
 							format={'invoice'}
 						/>
 					</div>
@@ -184,6 +174,17 @@ export default function CreateInvoiceInformation() {
 							required={false}
 						/>
 					</div>
+				</div>
+				<div className="col-span-full flex items-center justify-end">
+					<Button type="submit" variant="gradient" className="col-span-full w-fit mt-2 text-sm">
+						{isSubmitting ? (
+							<div className="flex justify-center items-center">
+								<Loader width={'24px'} height={'24px'} color="#fff" />
+							</div>
+						) : (
+							'SAVE'
+						)}
+					</Button>
 				</div>
 			</div>
 		</form>
