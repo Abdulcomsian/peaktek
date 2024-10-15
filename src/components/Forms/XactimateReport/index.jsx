@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import Header from "../Sidebar/PaymentSchedule/Header";
 import PdfOptions from "../Sidebar/PaymentSchedule/PdfOptions";
 import { SingleUsePdf, TextPage } from "@components/Payment";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -21,16 +21,14 @@ export default function RoofComponent() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [defaultImages, setDefaultImages] = useState([]);
+  const [revalidatePage, setRevalidatePage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { id: jobId } = useParams();
-  const {
-    control,
-    register,
-    handleSubmit,
-    watch,
-    getValues,
-    formState: { errors, isLoading, isSubmitting },
-  } = useForm({
-    defaultValues: async function () {
+  const [selectedOption, setSelectedOption] = useState(1);
+
+  async function fetchMeasurmentReport() {
+    setIsLoading(true);
+    try {
       const resp = await getXactimatereport(jobId);
       if (resp.status >= 200 && resp.status < 300) {
         if (resp.data.data.pdfs.length > 0)
@@ -39,10 +37,23 @@ export default function RoofComponent() {
       } else {
         return { selectedOption: 1, content: "", acknowledge: false };
       }
-    },
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: fetchMeasurmentReport,
   });
 
-  const [selectedOption, setSelectedOption] = useState(1);
+  useEffect(() => {
+    if (revalidatePage) fetchMeasurmentReport();
+  }, [revalidatePage, selectedOption]);
 
   const onsubmit = async (data) => {
     const { selectedOption, acknowledge, content, pdfs } = data;
@@ -71,6 +82,7 @@ export default function RoofComponent() {
       const resp = await createXactimatereportApi(formData, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
+        setRevalidatePage(true);
       }
       if (resp.status === 401) {
         logout();

@@ -52,7 +52,7 @@ export default function PaymentScheduleForm() {
 
   useEffect(() => {
     if (revalidatePage) fetPaymentSchedule();
-  }, [revalidatePage]);
+  }, [revalidatePage, selectedOption]);
 
   const onsubmit = async (data) => {
     const { selectedOption, acknowledge, content, pdfs } = data;
