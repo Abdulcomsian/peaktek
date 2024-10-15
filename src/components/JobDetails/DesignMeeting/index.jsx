@@ -24,14 +24,14 @@ import { baseURL } from "@services/config";
 
 const tabsDesignMeeting = [
   { id: 1, title: "Carrier Scope" },
-  { id: 2, title: "Title" },
-  { id: 3, title: "Introduction" },
+  // { id: 2, title: "Title" },
+  // { id: 3, title: "Introduction" },
   { id: 4, title: "Inspection" },
-  { id: 5, title: "Quote Detail" },
+  // { id: 5, title: "Quote Detail" },
   { id: 6, title: "Authorization" },
-  { id: 7, title: "Payment Schedule" },
-  { id: 8, title: "Roof Component" },
-  { id: 9, title: "Xactimate Report" },
+  { id: 7, title: "Proof of payments" },
+  // { id: 8, title: "Roof Component" },
+  { id: 9, title: "Measurement Reports" },
   { id: 10, title: "Terms and Condition" },
 ];
 
@@ -91,7 +91,7 @@ const DesignMeeting = () => {
     // <TabsContentBox contentTitle="Design Meeting">
     <div>
       <div className="flex items-center justify-between">
-        <h2>Design Meeting</h2>
+        <h2 className="font-bold text-lg">Design Meeting</h2>
         <div className="flex gap-3">
           <Button variant="gradient" onClick={handleGeneratePdf}>
             {isGeneratingPdf ? (

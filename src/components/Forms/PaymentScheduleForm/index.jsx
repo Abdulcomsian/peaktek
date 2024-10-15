@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import Header from "../Sidebar/PaymentSchedule/Header";
 import PdfOptions from "../Sidebar/PaymentSchedule/PdfOptions";
 import { SingleUsePdf, TextPage } from "@components/Payment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getPaymentSchedule } from "@services/apiDesignMeeting";
@@ -17,14 +17,13 @@ export default function PaymentScheduleForm() {
   const [defaultImages, setDefaultImages] = useState([]);
   const [isAcknowledge, setIsAcknowledge] = useState(false);
   const { id: jobId } = useParams();
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors, isLoading, isSubmitting },
-  } = useForm({
-    defaultValues: async function () {
-      const resp = await getPaymentSchedule(jobId);
+  const [revalidatePage, setRevalidatePage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function fetPaymentSchedule() {
+    setIsLoading(true);
+    const resp = await getPaymentSchedule(jobId);
+    try {
       if (resp.status >= 200 && resp.status < 300) {
         if (resp.data.data.pdfs?.length > 0)
           setDefaultImages(resp.data.data.pdfs);
@@ -33,12 +32,27 @@ export default function PaymentScheduleForm() {
       } else {
         return { selectedOption: 1, content: "", acknowledge: false };
       }
-    },
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: fetPaymentSchedule,
   });
 
   const [selectedOption, setSelectedOption] = useState(1);
   const dispatch = useDispatch();
   const { formError } = useSelector((store) => store.roofer);
+
+  useEffect(() => {
+    if (revalidatePage) fetPaymentSchedule();
+  }, [revalidatePage]);
 
   const onsubmit = async (data) => {
     const { selectedOption, acknowledge, content, pdfs } = data;
@@ -63,12 +77,11 @@ export default function PaymentScheduleForm() {
       formData.append("pdfs[]", ""); // Append an empty string or null to indicate no PDFs
     }
 
-    console.log("FORMDATA", defaultImages);
-
     try {
       const resp = await createPaymentScheduleApi(formData, jobId);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
+        setRevalidatePage(true);
       }
     } catch (error) {
       console.log(error);
@@ -113,7 +126,7 @@ export default function PaymentScheduleForm() {
           className="py-6 border-b border-gray-200"
         />
         {selectedOption === 1 ? (
-          <>
+          <div className="mt-4">
             <UploaderInputs
               register={register}
               id="pdfs"
@@ -128,9 +141,11 @@ export default function PaymentScheduleForm() {
                 apiDeleteFileEndpoint="/api/delete/payment-schedule/media"
               />
             ) : null}
-          </>
+          </div>
         ) : (
-          <TextPage control={control} name="content" errors={errors} />
+          <div className="mt-4">
+            <TextPage control={control} name="content" errors={errors} />
+          </div>
         )}
         <Button type="submit" variant="gradient" className="mt-4">
           {isSubmitting ? (
