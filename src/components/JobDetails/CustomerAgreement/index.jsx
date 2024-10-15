@@ -22,6 +22,7 @@ import {
 	createCustomerAggreement,
 	getCustomerAggreement,
 	signedCustomerAgreementByEmail,
+	updateCustomerAggreementStatus,
 } from '@services/apiCustomerAgreement'
 import { useAuth } from '@context/AuthContext'
 import ClientInformation from '../Complete/COCForm/ClientInformation'
@@ -103,8 +104,6 @@ const CustomerAgreementForm = () => {
 			toast.success(resp.data.message)
 
 			if (resp.data.agreement.status) {
-				dispatch(setActiveTab('adjustor-meeting'))
-				navigate(`/job-details/${id}/adjustor-meeting`)
 			}
 
 			const updatedResp = await getCustomerAggreement(id)
@@ -118,6 +117,26 @@ const CustomerAgreementForm = () => {
 		}
 	}
 
+	const handleCheckboxChange = async (e) => {
+		const status = e.target.checked
+		console.log('Status', status)
+
+		try {
+			const resp = await updateCustomerAggreementStatus({ status }, id) // Assuming this API updates the status
+			if (resp.status >= 200 && resp.status < 300) {
+				toast.success('Status updated successfully')
+				// navigate(`/job-details/${jobId}/complete`)
+				dispatch(setActiveTab('estimate-prepared'))
+				navigate(`/job-details/${id}/estimate-prepared`)
+			} else {
+				toast.error('Failed to update status')
+			}
+		} catch (error) {
+			console.error('Error occurred:', error)
+			toast.error('An error occurred while updating status')
+		}
+	}
+
 	return (
 		<Fragment>
 			{isLoading && <Spin fullscreen={true} />}
@@ -127,7 +146,8 @@ const CustomerAgreementForm = () => {
 					id="status"
 					name="status"
 					register={register}
-					disabled={!isFormCompleted || !sign_image_url}
+					onChange={handleCheckboxChange}
+					// disabled={!isFormCompleted || !sign_image_url}
 				/>
 
 				{showPdfButton || sign_image_url ? (

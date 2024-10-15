@@ -120,6 +120,7 @@ function NewJobModal({ open, onCancel, onOk, onAddJob }) {
 						variant="gradient"
 						type="Submit"
 						className="px-4 py-2 text-white uppercase font-semibold min-w-[100px]"
+						disabled={isCreating}
 					>
 						{isCreating ? <Spin /> : 'Add Job'}
 					</Button>
