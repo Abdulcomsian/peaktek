@@ -47,6 +47,7 @@ export default function CreateInsuranceInformation() {
 						id="insurance"
 						className="rounded-2xl col-span-full"
 						register={register}
+						required={false}
 					/>
 					<Input
 						label="Insurance Representative"
@@ -54,8 +55,17 @@ export default function CreateInsuranceInformation() {
 						id="insurance_representative"
 						className="rounded-2xl"
 						register={register}
+						required={false}
 					/>
-					<Input label="Email:" type="email" name="email" id="email" className="rounded-2xl" register={register} />
+					<Input
+						label="Email:"
+						type="email"
+						name="email"
+						id="email"
+						className="rounded-2xl"
+						register={register}
+						required={false}
+					/>
 				</div>
 				<div className="px-3 flex flex-col gap-3">
 					<Input
@@ -66,6 +76,7 @@ export default function CreateInsuranceInformation() {
 						className="rounded-2xl"
 						register={register}
 						min={0}
+						required={false}
 					/>
 					<Input
 						label="Claim Number:"
@@ -74,6 +85,7 @@ export default function CreateInsuranceInformation() {
 						id="claim_number"
 						className="rounded-2xl"
 						register={register}
+						required={false}
 					/>
 				</div>
 			</div>

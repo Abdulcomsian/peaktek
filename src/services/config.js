@@ -56,6 +56,7 @@ const clientEndPoints = {
 	getCustomerAgreement: '/api/check/customer-agreement',
 	createSignature: '/api/update/customer-agreement',
 	signByEmail: '/api/sign-by-email',
+	updateCustomerAgreementStatus: '/api/customer-agreement-status',
 	//Estimate prepared
 	createEstimatePrepared: '/api/store/estimate-prepared',
 	getEstimatePrepared: '/api/get/estimate-prepared',

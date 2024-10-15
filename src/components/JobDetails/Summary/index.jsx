@@ -184,7 +184,7 @@ const Summary = () => {
 									name="job_total"
 									max={8}
 									min={0}
-									required={true}
+									required={false}
 									value={fields.job_total}
 									onChange={handleChange}
 								/>
@@ -202,6 +202,7 @@ const Summary = () => {
 											value={fields.first_payment}
 											onChange={handleChange}
 											min={0}
+											required={false}
 										/>
 										<MoneyInput
 											id="first_payment_cheque_number"
@@ -226,6 +227,7 @@ const Summary = () => {
 											value={fields.deductable}
 											onChange={handleChange}
 											min={0}
+											required={false}
 										/>
 										<MoneyInput
 											id="deductable_cheque_number"
@@ -250,6 +252,7 @@ const Summary = () => {
 											value={fields.upgrades}
 											onChange={handleChange}
 											min={0}
+											required={false}
 										/>
 										<MoneyInput
 											id="upgrades_cheque_number"
@@ -274,6 +277,7 @@ const Summary = () => {
 											value={fields.final_payment}
 											onChange={handleChange}
 											min={0}
+											required={false}
 										/>
 										<MoneyInput
 											id="final_payment_cheque_number"
@@ -299,6 +303,7 @@ const Summary = () => {
 									min={0}
 									value={fields.balance}
 									readOnly={true}
+									required={false}
 								/>
 							</div>
 						</div>

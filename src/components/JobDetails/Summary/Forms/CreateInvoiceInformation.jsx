@@ -98,6 +98,7 @@ export default function CreateInvoiceInformation() {
 								className="w-full py-2 px-3 text-sm rounded-md border border-stone-300"
 								disabled={true}
 								{...register('address')}
+								required={false}
 							/>
 						</div>
 						<Input
@@ -147,7 +148,6 @@ export default function CreateInvoiceInformation() {
 							options={userOptions}
 							labelClass="font-medium text-sm"
 							rules={{ required: 'This field is required' }}
-							required={false}
 						/>
 						<DropDown
 							vertical={true}
@@ -158,8 +158,6 @@ export default function CreateInvoiceInformation() {
 							id="market"
 							options={marketOptions}
 							placeholder="Select an option"
-							rules={{ required: 'This field is required' }}
-							required={false}
 						/>
 						<DropDown
 							vertical={true}
@@ -170,8 +168,6 @@ export default function CreateInvoiceInformation() {
 							id="lead_source"
 							options={leadSources}
 							placeholder="Select an option"
-							rules={{ required: 'This field is required' }}
-							required={false}
 						/>
 					</div>
 				</div>
