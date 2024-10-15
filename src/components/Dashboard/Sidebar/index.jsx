@@ -66,7 +66,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     },
     {
       id: 8,
-      linkSrc: "/",
+      linkSrc: "/settings",
       linkText: <IoMdSettings />,
       text: "Settings",
     },

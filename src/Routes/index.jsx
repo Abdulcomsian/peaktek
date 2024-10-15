@@ -63,6 +63,7 @@ import { JobDetail } from "@pages/index";
 import { Inspection } from "@components/Forms/Sidebar";
 import { AllJobs, JobListing, UserJobs, Welcome } from "@components/index";
 import BuildScheduledTab from "@components/JobDetails/builldScheduled";
+import Settings from "@pages/Settings";
 export function AppRoute() {
   return (
     <BrowserRouter>
@@ -178,6 +179,7 @@ export function AppRoute() {
           <Route index element={<UserJobs />} />
         </Route>
         <Route element={<Dashboard />}>
+          <Route path="settings" element={<Settings />} />
           <Route
             path="/job-details/:id"
             element={
@@ -202,7 +204,6 @@ export function AppRoute() {
               path="material-order-form"
               element={<CustomerInformation />}
             />
-
             <Route path="scheduling" element={<Scheduling />} />
             <Route path="in-progress" element={<InProgress />} />
             <Route path="complete" element={<Complete />} />
