@@ -15,6 +15,7 @@ import {
 } from "@services/apiDesignMeeting";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import CkeditorControlled from "@components/FormControls/CkeditorControlled";
 
 export default function InspectionForm() {
   const { id } = useParams();
@@ -27,6 +28,7 @@ export default function InspectionForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     defaultValues: async function () {
@@ -83,27 +85,27 @@ export default function InspectionForm() {
 
   const onSubmit = async function (data) {
     console.log(data);
-    let imagesArrayConst = [];
-    const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
-      const images = data[`attachment-${index}`];
-      if (images.length > 0) {
-        imagesArrayConst = [];
-        for (const file of data[`attachment-${index}`]) {
-          imagesArrayConst.push(file);
-        }
-      } else imagesArrayConst = [];
+    // let imagesArrayConst = [];
+    // const formatedData = receivedData.reduce((dataToLoad, curr, index) => {
+    //   const images = data[`attachment-${index}`];
+    //   if (images.length > 0) {
+    //     imagesArrayConst = [];
+    //     for (const file of data[`attachment-${index}`]) {
+    //       imagesArrayConst.push(file);
+    //     }
+    //   } else imagesArrayConst = [];
 
-      return [
-        ...dataToLoad,
-        { inspection: curr, attachment: imagesArrayConst },
-      ];
-    }, []);
+    //   return [
+    //     ...dataToLoad,
+    //     { inspection: curr, attachment: imagesArrayConst },
+    //   ];
+    // }, []);
 
-    const dataToLoad = { inspections: formatedData };
-    console.log("data to load", dataToLoad);
+    // const dataToLoad = { inspections: formatedData };
+    // console.log("data to load", dataToLoad);
 
     let form = new FormData();
-    dataToLoad.inspections.forEach((item, index) => {
+    data.inspections.forEach((item, index) => {
       form.append(
         `inspectionData[${index}][inspection]`,
         item.inspection || ""
@@ -128,7 +130,6 @@ export default function InspectionForm() {
       setIsLoading(false);
     }
   };
-  console.log("ROWS", rows);
 
   return (
     <>
@@ -144,17 +145,16 @@ export default function InspectionForm() {
               className="justify-self-end h-full mt-2 text-red-500 cursor-pointer col-span-2"
               onClick={() => confirmDelete(row)}
             />
-            <Ckeditor
+            <CkeditorControlled
               className=" md:col-start-1 col-span-2 md:col-span-1"
-              onChange={(data) => handleDataChange(data, index)}
-              initialData="test"
-              value={initialData.at(index)}
+              name={`inspections[${index}].inspection`}
               id={index}
+              control={control}
             />
             <div>
               <UploaderInputs
                 wrapperClass="col-span-2 md:col-span-1"
-                name={`attachment-${index}`}
+                name={`inspections[${index}].attachment`}
                 register={register}
                 id={`attachment-${index}`}
                 icon={<ImageIcon />}

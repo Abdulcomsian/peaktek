@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Button, Drawer, Space, Switch } from "antd";
+import { Drawer, Space, Switch } from "antd";
 import { Input, Select } from "@components/FormControls";
 import { useForm } from "react-hook-form";
+import { Button } from "@components/UI";
 
 export default function AddNewUser() {
   const {
@@ -18,15 +19,27 @@ export default function AddNewUser() {
   const onClose = () => {
     setOpen(false);
   };
+
+  const onSubmit = function (data) {
+    console.log(data);
+  };
+  const onerror = function (data) {
+    console.log(data);
+  };
+
   return (
     <>
       <Space>
-        <Button type="primary" onClick={showDrawer}>
+        <Button variant="gradient" onClick={showDrawer}>
           + New User
         </Button>
       </Space>
       <Drawer title="New User" placement="right" onClose={onClose} open={open}>
-        <form action="" className="flex flex-col gap-3 h-full">
+        <form
+          onSubmit={handleSubmit(onSubmit, onerror)}
+          action=""
+          className="flex flex-col gap-3 h-full"
+        >
           <Input
             label="First Name"
             register={register}
@@ -71,7 +84,7 @@ export default function AddNewUser() {
               <span>Inactive</span>
             </div>
           </div>
-          <Button type="primary" size="large" className="mt-auto">
+          <Button variant="gradient" type="submit" className="mt-auto">
             Save
           </Button>
         </form>

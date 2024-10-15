@@ -20,7 +20,32 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const navigate = useNavigate();
 
   // Sidebar links
-  const sidebarLinks = [
+  const basicUserLinks = [
+    {
+      id: 9,
+      linkSrc: "/dashboard",
+      linkText: <RiHomeLine />,
+      text: "Dashboard",
+    },
+    {
+      id: 10,
+      linkSrc: "/jobs",
+      linkText: <PiBagSimpleFill />,
+      text: "Jobs",
+    },
+    {
+      id: 11,
+      linkSrc: "/settings",
+      linkText: <IoMdSettings />,
+      text: "Settings",
+    },
+    // {
+    //   id: 12,
+    //   linkSrc: "/",
+    //   linkText: <IoBagOutline />,
+    // },
+  ];
+  const superAdminLinks = [
     {
       id: 1,
       linkSrc: "/dashboard",
@@ -70,20 +95,13 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       linkText: <IoMdSettings />,
       text: "Settings",
     },
-    {
-      id: 9,
-      linkSrc: "/",
-      linkText: <IoBagOutline />,
-    },
   ];
 
   // Filter the links based on the user role
   const filteredLinks =
-    userData?.role?.name === "Manager" || userData?.role?.name === "Company"
-      ? sidebarLinks
-      : sidebarLinks?.filter(
-          (link) => link.id <= 3 || link.id === 7 || link.id === 8
-        ); // Only show the first link for other roles
+    userData?.role?.name === "Super Admin" || userData?.role?.name === "Company"
+      ? superAdminLinks
+      : basicUserLinks;
 
   const handleLogout = async function () {
     await logout();
@@ -104,7 +122,9 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       <ul className="flex flex-col gap-4 px-3 mb-2 h-full">
         {filteredLinks?.map((link) => (
           <li
-            className={`mainNavLinks ${link.id === 7 ? "mt-auto" : ""}`}
+            className={`mainNavLinks ${
+              link.id === 11 || link.id === 7 ? "mt-auto" : ""
+            }`}
             key={link?.id}
           >
             <NavLink
