@@ -4,6 +4,7 @@ import AddNewUser from "@components/AddNewUser";
 import UserListings from "./UserListings";
 import CompanyList from "../CompanyList";
 import AddNewCompany from "@components/AddNewCompany";
+import { useAuth } from "@context/AuthContext";
 
 const tabUserListings = [
   { id: 1, title: "User List" },
@@ -12,6 +13,9 @@ const tabUserListings = [
 
 const Users = () => {
   const [currTab, setCurrTab] = useState(1);
+  const { logout, user: userData } = useAuth();
+  const isCompany = userData.role.name === "Company";
+  console.log("USER DATA fkajhsdlfkj", userData);
 
   return (
     <>
@@ -28,7 +32,13 @@ const Users = () => {
               onClick={setCurrTab}
             />
           </div>
-          {currTab === 1 ? <AddNewUser /> : <AddNewCompany />}
+          {currTab === 1 ? (
+            isCompany ? (
+              <AddNewUser />
+            ) : null
+          ) : !isCompany ? (
+            <AddNewCompany />
+          ) : null}
         </div>
 
         {currTab === 1 ? <UserListings /> : <CompanyList />}
