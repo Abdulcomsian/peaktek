@@ -66,8 +66,8 @@ export default function CompanyList() {
     },
     {
       title: "",
-      dataIndex: "",
-      render: () => <EditCompanyDrawer />,
+      dataIndex: "dataToEdit",
+      render: (item) => <EditCompanyDrawer dataToEdit={item} />,
       width: "100%",
     },
   ];
@@ -84,10 +84,11 @@ export default function CompanyList() {
           const dataTable = data.map((item) => ({
             id: item.company.id,
             status: item.company.status,
-            company: item.company.name,
+            companyName: item.company.name,
             website: item.company.website,
             siteAdmin: item.company.site_admin.name,
             totalUser: item.company.users_count,
+            dataToEdit: item,
           }));
           console.log("Prepare data", dataTable);
           setCompanies(dataTable);
