@@ -65,10 +65,14 @@ export default function UserListings({ onRevalidatePage }) {
     setIsLoading(true);
     try {
       const resp = await getUser();
-      console.log("user respo", resp);
+      console.log(
+        "user respo",
+        resp.data.data.map((item) => item.role_id)
+      );
       if (resp.status >= 200 && resp.status < 300) {
         const data = resp.data.data;
         const dataTable = tableDataPreparation(data);
+        console.log("DDATA TABLE", dataTable);
         setCompanyUser(dataTable);
       }
 
@@ -113,7 +117,6 @@ export default function UserListings({ onRevalidatePage }) {
     {
       title: "User Permission Level",
       dataIndex: "permission_level",
-      render: () => "Site Admin",
       width: "20%",
     },
     {

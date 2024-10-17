@@ -86,7 +86,7 @@ export default function CompanyList() {
             status: item.company.status,
             company: item.company.name,
             website: item.company.website,
-            siteAdmin: `${item.company.site_admin.first_name} ${item.company.site_admin.last_name}`,
+            siteAdmin: item.company.site_admin.name,
             totalUser: item.company.users_count,
           }));
           console.log("Prepare data", dataTable);
