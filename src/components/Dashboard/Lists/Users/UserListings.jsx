@@ -40,8 +40,9 @@ function tableDataPreparation(data) {
 }
 
 export default function UserListings({ onRevalidatePage }) {
-  const dispatch = useDispatch();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const isAllowedToEditUser =
+    user?.role?.name === "Company" || user?.role?.name === "Site Admin";
   const navigate = useNavigate();
   const [companyUser, setCompanyUser] = useState([]);
   const [revalidatePage, setRevalidatePage] = useState(false);
@@ -119,7 +120,10 @@ export default function UserListings({ onRevalidatePage }) {
       dataIndex: "permission_level",
       width: "20%",
     },
-    {
+  ];
+
+  if (isAllowedToEditUser)
+    columns.push({
       title: "",
       dataIndex: "dataToEdit",
       render: (item) => (
@@ -129,8 +133,7 @@ export default function UserListings({ onRevalidatePage }) {
         />
       ),
       width: "100%",
-    },
-  ];
+    });
 
   useEffect(() => {
     fetchCompanyUsers();

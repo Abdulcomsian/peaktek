@@ -99,7 +99,9 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
 
   // Filter the links based on the user role
   const filteredLinks =
-    userData?.role?.name === "Super Admin" || userData?.role?.name === "Company"
+    userData?.role?.name === "Super Admin" ||
+    userData?.role?.name === "Company" ||
+    userData?.role?.name === "Job Admin"
       ? superAdminLinks
       : basicUserLinks;
 

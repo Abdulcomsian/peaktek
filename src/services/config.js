@@ -19,6 +19,7 @@ const clientEndPoints = {
   // Company
   createCompany: "/api/create/company",
   getCompanies: "/api/getCompanies",
+  updateCompany: "/api/update/company",
   // Authentications
   register: "/api/register",
   login: "/api/login",

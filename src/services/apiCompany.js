@@ -36,3 +36,23 @@ export async function getCompanies(id) {
     return err;
   }
 }
+
+export async function updateCompany(data, companyId) {
+  const token = localStorage.getItem("token");
+  try {
+    const resp = await clientBaseURL.post(
+      `${clientEndPoints.updateCompany}/${companyId}`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.data.message);
+      return resp;
+    }
+  } catch (err) {
+    if (err.response.status === 422) {
+      toast.error(err.response.data.message);
+    }
+    return err;
+  }
+}

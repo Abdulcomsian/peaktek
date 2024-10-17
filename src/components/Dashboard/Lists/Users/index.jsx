@@ -15,6 +15,7 @@ const Users = () => {
   const [currTab, setCurrTab] = useState(1);
   const { logout, user: userData } = useAuth();
   const isCompany = userData.role.name === "Company";
+  const isSuperAdmin = userData?.role?.name === "Super Admin";
   const [revalidatePage, setRevalidatePage] = useState(false);
 
   return (
@@ -38,7 +39,7 @@ const Users = () => {
                 onRevalidatePage={() => setRevalidatePage((is) => !is)}
               />
             ) : null
-          ) : !isCompany ? (
+          ) : isSuperAdmin ? (
             <AddNewCompany />
           ) : null}
         </div>
