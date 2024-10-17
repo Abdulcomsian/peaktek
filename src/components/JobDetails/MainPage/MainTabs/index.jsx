@@ -41,7 +41,7 @@ export default function MainTabs({ className }) {
     { id: 10, text: "Build Complete", path: "complete" },
     { id: 11, text: "Final Payment due", path: "final-due-payments" },
     { id: 12, text: "Ready to close", path: "ready-to-close" },
-    { id: 13, text: "won & closed", path: "won-closed-jobs" },
+    { id: 13, text: "Won & Closed", path: "won-closed-jobs" },
   ];
 
   return (

@@ -81,3 +81,18 @@ export const formateCurrencyInputValue = function (value) {
     // }
   }
 };
+
+export const handlePhoneChange = (e) => {
+  let value = e.target.value.replace(/\D/g, ""); // Remove all non-digit characters
+  console.log("Values", value);
+
+  if (value.length > 3 && value.length <= 6) {
+    value = `${value.slice(0, 3)}-${value.slice(3)}`;
+  } else if (value.length > 6) {
+    value = `${value.slice(0, 3)}-${value.slice(3, 6)}-${value.slice(6, 10)}`;
+  }
+  return value;
+
+  // setPhone(value);
+  // setValue("phone", value); // Update form value in react-hook-form
+};
