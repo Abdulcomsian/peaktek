@@ -65,24 +65,24 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
       linkText: <IoBagOutline />,
       text: "Reports",
     },
-    {
-      id: 4,
-      linkSrc: "/dashboard/sub-contractor-list",
-      linkText: <IoBagOutline />,
-      text: "Sub Contractor",
-    },
-    {
-      id: 5,
-      linkSrc: "/dashboard/suppliers-list",
-      linkText: <IoBagOutline />,
-      text: "Suppliers",
-    },
-    {
-      id: 6,
-      linkSrc: "/dashboard/adjustors-list",
-      linkText: <IoBagOutline />,
-      text: "Adjustor",
-    },
+    // {
+    //   id: 4,
+    //   linkSrc: "/dashboard/sub-contractor-list",
+    //   linkText: <IoBagOutline />,
+    //   text: "Sub Contractor",
+    // },
+    // {
+    //   id: 5,
+    //   linkSrc: "/dashboard/suppliers-list",
+    //   linkText: <IoBagOutline />,
+    //   text: "Suppliers",
+    // },
+    // {
+    //   id: 6,
+    //   linkSrc: "/dashboard/adjustors-list",
+    //   linkText: <IoBagOutline />,
+    //   text: "Adjustor",
+    // },
     {
       id: 7,
       linkSrc: "/dashboard/users-list",

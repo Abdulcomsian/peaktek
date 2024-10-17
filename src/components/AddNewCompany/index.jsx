@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Button, Drawer, Space, Switch } from "antd";
+import { Drawer, Space, Switch } from "antd";
 import { Input, Select } from "@components/FormControls";
 import { useForm } from "react-hook-form";
+import { Button } from "@components/UI";
+import SwitchControlled from "@components/FormControls/SwitchControlled";
+import { createCompany } from "@services/apiCompany";
+import toast from "react-hot-toast";
 
 export default function AddNewCompany() {
   const {
@@ -9,19 +13,37 @@ export default function AddNewCompany() {
     control,
     handleSubmit,
     formState: { errors, isLoading, isSubmitting },
-  } = useForm();
+  } = useForm({ defaultValues: { status: false } });
   const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState("left");
   const showDrawer = () => {
     setOpen(true);
   };
   const onClose = () => {
     setOpen(false);
   };
+
+  const onSubmit = async function (data) {
+    console.log(data);
+    const dataToLoad = {
+      ...data,
+      status: data.status ? "inactive" : "active",
+    };
+
+    const resp = await createCompany(dataToLoad);
+    console.log("Create company resp", resp);
+    if (resp.status >= 200 && resp.status < 300) {
+      toast.success(resp.data.message);
+      onClose();
+    }
+    if (resp.status === 401) {
+      logout();
+      navigate("/");
+    }
+  };
   return (
     <>
       <Space>
-        <Button type="primary" onClick={showDrawer}>
+        <Button variant="gradient" onClick={showDrawer}>
           + New Company
         </Button>
       </Space>
@@ -31,7 +53,10 @@ export default function AddNewCompany() {
         onClose={onClose}
         open={open}
       >
-        <form action="" className="flex flex-col gap-3 h-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-3 h-full"
+        >
           <Input
             label="Company Name"
             register={register}
@@ -48,25 +73,26 @@ export default function AddNewCompany() {
           <Input
             label="Site Admin Name (Main User)"
             register={register}
-            name="site_admin-name"
-            id="site_admin-name"
+            name="site_admin_name"
+            id="site_admin_name"
           />
           <Input
             label="Site Admin Email"
             register={register}
             type="email"
-            name="site_admin-email"
-            id="site_admin-email"
+            name="site_admin_email"
+            id="site_admin_email"
           />
           <Select
             size="large"
             className="w-full"
             control={control}
             label="Permission Level"
+            name="permission_level"
             options={[
-              { label: "Site Admin", value: "site_admin" },
-              { label: "Job Admin", value: "job_admin" },
-              { label: "Basic", value: "basic" },
+              { label: "Site Admin", value: 2 },
+              { label: "Job Admin", value: 9 },
+              { label: "Basic", value: 8 },
             ]}
           />
           <div>
@@ -74,15 +100,16 @@ export default function AddNewCompany() {
               Status
             </label>
             <div className="flex items-center gap-3">
-              <Switch
-              // onClick={onClick}
-              // value={value}
-              // defaultChecked={defaultChecked}
-              />
+              <SwitchControlled control={control} name="status" />
               <span>Inactive</span>
             </div>
           </div>
-          <Button type="primary" size="large" className="mt-auto">
+          <Button
+            variant="gradient"
+            type="submit"
+            size="large"
+            className="mt-auto"
+          >
             Save
           </Button>
         </form>

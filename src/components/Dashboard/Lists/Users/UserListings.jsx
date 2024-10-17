@@ -1,4 +1,4 @@
-import { Table, Select, DatePicker, Button } from "antd";
+import { Table, Select, DatePicker, Button, Tag } from "antd";
 import { Input } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,6 +6,10 @@ import { fetchUsersData, STATUS } from "@store/slices/usersSlice";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import EditUserDrawer from "@components/EditUser";
+import { getFilteredUsers, getSearchedUsers, getUser } from "@services/apiUser";
+import toast from "react-hot-toast";
+import { useAuth } from "@context/AuthContext";
+import { useNavigate } from "react-router-dom";
 const { Search } = Input;
 
 const userPermissionOptions = [
@@ -14,44 +18,78 @@ const userPermissionOptions = [
     label: "All",
   },
   {
-    value: "siteAdmin",
-    label: "Site admin",
-  },
-  {
-    value: "jobAdmin",
+    value: "9",
     label: "Job admin",
   },
   {
-    value: "basic",
+    value: "8",
     label: "Basic",
   },
 ];
 
-export default function UserListings() {
+function tableDataPreparation(data) {
+  return data.map((item) => ({
+    id: item.id,
+    status: item.status,
+    name: `${item.first_name} ${item.last_name}`,
+    email: item.email,
+    company: item.company.name,
+    permission_level: item.role_id === "9" ? "Job Admin" : "Basic",
+    dataToEdit: item,
+  }));
+}
+
+export default function UserListings({ onRevalidatePage }) {
   const dispatch = useDispatch();
-  const { usersData, status } = useSelector((state) => state.users);
-  console.log("USER DATA", usersData);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const [companyUser, setCompanyUser] = useState([]);
+  const [revalidatePage, setRevalidatePage] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [filterValue, setFilteValue] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+
+  let searchedData;
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
   };
 
-  const handleUserEdit = function (column_data) {
-    console.log("HANLDE EDIT CLICKED", column_data);
+  const fetchCompanyUsers = async () => {
+    setIsLoading(true);
+    try {
+      const resp = await getUser();
+      console.log("user respo", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        const data = resp.data.data;
+        const dataTable = tableDataPreparation(data);
+        setCompanyUser(dataTable);
+      }
+
+      if (resp.status === 401) {
+        logout();
+        navigate("/");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const columns = [
     {
       title: "Status",
       dataIndex: "status",
-      render: (text, record, index) =>
-        index +
-        1 +
-        (parseInt(pagination.current) - 1) * parseInt(pagination.pageSize),
+      render: (tag) => (
+        <Tag color={tag === "active" ? "green" : "default"}>
+          {tag.replace(tag[0], tag[0].toUpperCase())}
+        </Tag>
+      ),
       width: "10%",
     },
     {
@@ -80,17 +118,62 @@ export default function UserListings() {
     },
     {
       title: "",
-      dataIndex: "",
-      render: () => <EditUserDrawer />,
+      dataIndex: "dataToEdit",
+      render: (item) => (
+        <EditUserDrawer
+          item={item}
+          onRevalidatePage={() => setRevalidatePage((is) => !is)}
+        />
+      ),
       width: "100%",
     },
   ];
 
   useEffect(() => {
-    dispatch(fetchUsersData()); // Dispatch the action to fetch user data
-  }, [dispatch]);
+    fetchCompanyUsers();
+  }, [revalidatePage, onRevalidatePage]);
 
-  const paginatedData = usersData.slice(
+  useEffect(() => {
+    const fetchFilterdData = async function () {
+      setIsFiltering(true);
+      try {
+        const resp = await getFilteredUsers(filterValue);
+        console.log("filtered resp", resp);
+        if (resp.status >= 200 && resp.status < 300) {
+          const tableData = tableDataPreparation(resp.data.data);
+          setCompanyUser(tableData);
+        }
+      } finally {
+        setIsFiltering(false);
+      }
+    };
+    if (filterValue !== "all") fetchFilterdData();
+    else {
+      fetchCompanyUsers();
+    }
+  }, [filterValue]);
+
+  useEffect(() => {
+    console.log(searchQuery);
+    console.log(companyUser);
+    const fetchSeachedData = async function () {
+      setIsSearching(true);
+      try {
+        const resp = await getSearchedUsers(searchQuery);
+        console.log("Searched data resp", resp);
+        const tableData =
+          resp.data.data.length > 0 ? tableDataPreparation(resp.data.data) : [];
+        setCompanyUser(tableData);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+    if (searchQuery.length > 0) {
+      fetchSeachedData();
+    } else fetchCompanyUsers();
+  }, [searchQuery]);
+
+  const paginatedData = companyUser?.slice(
     (pagination.current - 1) * pagination.pageSize,
     pagination.current * pagination.pageSize
   );
@@ -102,13 +185,15 @@ export default function UserListings() {
           className="w-1/2"
           size="large"
           placeholder="Search user name, email ..."
-          onSearch={(value) => console.log(value)}
+          onSearch={(value) => setSearchQuery(value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
         <Select
           defaultValue="all"
           size="large"
           className="w-1/2"
           options={userPermissionOptions}
+          onChange={(value) => setFilteValue(value)}
         />
       </div>
 
@@ -118,10 +203,10 @@ export default function UserListings() {
         dataSource={paginatedData}
         pagination={{
           ...pagination,
-          total: usersData.length,
+          total: companyUser.length,
         }}
-        loading={status === STATUS.LOADING}
-        size="large"
+        loading={isLoading || isFiltering || isSearching}
+        size="middle"
         className="w-full mt-6"
         onChange={handleTableChange}
         bordered

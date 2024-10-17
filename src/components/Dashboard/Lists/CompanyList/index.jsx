@@ -1,12 +1,9 @@
-import { Table, Select, DatePicker, Button, Tag } from "antd";
+import { Table, Select, Tag } from "antd";
 import { Input } from "antd";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { fetchUsersData, STATUS } from "@store/slices/usersSlice";
-import { useDispatch } from "react-redux";
-import moment from "moment";
-import EditUserDrawer from "@components/EditUser";
 import EditCompanyDrawer from "@components/EditCompany";
+import { getCompanies } from "@services/apiCompany";
+import { useAuth } from "@context/AuthContext";
 const { Search } = Input;
 
 const statusFilterData = [
@@ -25,52 +22,46 @@ const statusFilterData = [
 ];
 
 export default function CompanyList() {
-  const dispatch = useDispatch();
-  const { usersData, status } = useSelector((state) => state.users);
-  console.log("USER DATA", usersData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [companies, setCompanies] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5,
   });
-
-  const handleTableChange = (newPagination) => {
-    setPagination(newPagination);
-  };
-
-  const handleUserEdit = function (column_data) {
-    console.log("HANLDE EDIT CLICKED", column_data);
-  };
+  const { user } = useAuth();
+  const isSiteAdmin = user.role.name === "Company";
 
   const columns = [
     {
       title: "Status",
       dataIndex: "status",
-      tags: ["cool", "teacher"],
-      render: (tags) => <Tag color="green">Active</Tag>,
+      render: (tags) => (
+        <Tag color={tags === "active" ? "green" : "default"}>
+          {tags.replace(tags[0], tags[0].toUpperCase())}
+        </Tag>
+      ),
       width: "10%",
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      sorter: (a, b) => a.name.localeCompare(b.name),
-      width: "20%",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      width: "20%",
-    },
-    {
       title: "Company",
-      dataIndex: "company",
+      dataIndex: "companyName",
       sorter: (a, b) => a.name.localeCompare(b.name),
-      render: () => "PeakTek",
       width: "20%",
     },
     {
-      title: "User Permission Level",
-      dataIndex: "permission_level",
-      render: () => "Site Admin",
+      title: "Website",
+      dataIndex: "website",
+      width: "20%",
+    },
+    {
+      title: "SiteAdmin",
+      dataIndex: "siteAdmin",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      width: "20%",
+    },
+    {
+      title: "Total Users",
+      dataIndex: "totalUser",
       width: "20%",
     },
     {
@@ -82,30 +73,68 @@ export default function CompanyList() {
   ];
 
   useEffect(() => {
-    dispatch(fetchUsersData()); // Dispatch the action to fetch user data
-  }, [dispatch]);
+    const fetchCompanies = async () => {
+      setIsLoading(true);
+      try {
+        const resp = await getCompanies();
+        console.log("get companies respo", resp);
+        if (resp.status >= 200 && resp.status < 300) {
+          const data = resp.data.data;
+          console.log("DATA GET COMPANIES", resp.data.data);
+          const dataTable = data.map((item) => ({
+            id: item.company.id,
+            status: item.company.status,
+            company: item.company.name,
+            website: item.company.website,
+            siteAdmin: `${item.company.site_admin.first_name} ${item.company.site_admin.last_name}`,
+            totalUser: item.company.users_count,
+          }));
+          console.log("Prepare data", dataTable);
+          setCompanies(dataTable);
+        }
 
-  const paginatedData = usersData.slice(
+        if (resp.status === 401) {
+          logout();
+          navigate("/");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCompanies();
+  }, []);
+
+  const handleTableChange = (newPagination) => {
+    setPagination(newPagination);
+  };
+
+  const handleUserEdit = function (column_data) {
+    console.log("HANLDE EDIT CLICKED", column_data);
+  };
+
+  const paginatedData = companies.slice(
     (pagination.current - 1) * pagination.pageSize,
     pagination.current * pagination.pageSize
   );
 
   return (
     <>
-      <div className="flex flex-row items-center gap-8">
-        <Search
-          className="w-1/2"
-          size="large"
-          placeholder="Search company name ..."
-          onSearch={(value) => console.log(value)}
-        />
-        <Select
-          defaultValue="all"
-          size="large"
-          className="w-1/2"
-          options={statusFilterData}
-        />
-      </div>
+      {!isSiteAdmin && (
+        <div className="flex flex-row items-center gap-8">
+          <Search
+            className="w-1/2"
+            size="large"
+            placeholder="Search company name ..."
+            onSearch={(value) => console.log(value)}
+          />
+          <Select
+            defaultValue="all"
+            size="large"
+            className="w-1/2"
+            options={statusFilterData}
+          />
+        </div>
+      )}
 
       <Table
         style={{ width: "100%" }}
@@ -113,9 +142,9 @@ export default function CompanyList() {
         dataSource={paginatedData}
         pagination={{
           ...pagination,
-          total: usersData.length,
+          total: companies.length,
         }}
-        loading={status === STATUS.LOADING}
+        loading={isLoading}
         size="large"
         className="w-full mt-6"
         onChange={handleTableChange}

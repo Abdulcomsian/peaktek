@@ -15,7 +15,7 @@ const Users = () => {
   const [currTab, setCurrTab] = useState(1);
   const { logout, user: userData } = useAuth();
   const isCompany = userData.role.name === "Company";
-  console.log("USER DATA fkajhsdlfkj", userData);
+  const [revalidatePage, setRevalidatePage] = useState(false);
 
   return (
     <>
@@ -34,14 +34,20 @@ const Users = () => {
           </div>
           {currTab === 1 ? (
             isCompany ? (
-              <AddNewUser />
+              <AddNewUser
+                onRevalidatePage={() => setRevalidatePage((is) => !is)}
+              />
             ) : null
           ) : !isCompany ? (
             <AddNewCompany />
           ) : null}
         </div>
 
-        {currTab === 1 ? <UserListings /> : <CompanyList />}
+        {currTab === 1 ? (
+          <UserListings onRevalidatePage={revalidatePage} />
+        ) : (
+          <CompanyList />
+        )}
       </Card>
     </>
   );
