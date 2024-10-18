@@ -30,6 +30,7 @@ export default function CompanyList() {
   });
   const { user } = useAuth();
   const isSiteAdmin = user.role.name === "Company";
+  const [companiesRevalidate, setCompaniesRevalidate] = useState(false);
 
   const columns = [
     {
@@ -67,7 +68,12 @@ export default function CompanyList() {
     {
       title: "",
       dataIndex: "dataToEdit",
-      render: (item) => <EditCompanyDrawer dataToEdit={item} />,
+      render: (item) => (
+        <EditCompanyDrawer
+          dataToEdit={item}
+          onCompanyRevalidate={() => setCompaniesRevalidate((is) => !is)}
+        />
+      ),
       width: "100%",
     },
   ];
@@ -103,7 +109,7 @@ export default function CompanyList() {
       }
     };
     fetchCompanies();
-  }, []);
+  }, [companiesRevalidate]);
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
