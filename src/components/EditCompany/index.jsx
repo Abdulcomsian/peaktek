@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Drawer, Space, Switch } from "antd";
 import { Input, Select } from "@components/FormControls";
-import { Button } from "@components/UI";
+import { Button, Loader } from "@components/UI";
 import { updateCompany } from "@services/apiCompany";
+import toast from "react-hot-toast";
 
-export default function EditCompanyDrawer({ dataToEdit }) {
+export default function EditCompanyDrawer({ dataToEdit, onCompanyRevalidate }) {
   const [company, setCompany] = useState({});
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const [siteAdminName, setSiteAdminName] = useState("");
   const [status, setStatus] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   const showDrawer = () => {
     setOpen(true);
@@ -36,7 +38,20 @@ export default function EditCompanyDrawer({ dataToEdit }) {
       status: status,
     };
     console.log("NEW DATA", newData);
-    const resp = await updateCompany(newData, dataToEdit.company.id);
+
+    try {
+      setIsEditing(true);
+      const resp = await updateCompany(newData, dataToEdit.company.id);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+        onClose();
+        onCompanyRevalidate();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsEditing(false);
+    }
     console.log("updatind company resp", resp);
   };
 
@@ -90,7 +105,11 @@ export default function EditCompanyDrawer({ dataToEdit }) {
             </div>
           </div>
           <Button variant="gradient" type="submit" className="mt-auto">
-            Update Company
+            {isEditing ? (
+              <Loader width="24px" height="24px" color="#fff" />
+            ) : (
+              "Update Company"
+            )}
           </Button>
         </form>
       </Drawer>

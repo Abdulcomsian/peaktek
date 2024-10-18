@@ -6,17 +6,17 @@ import CompanyList from "../CompanyList";
 import AddNewCompany from "@components/AddNewCompany";
 import { useAuth } from "@context/AuthContext";
 
-const tabUserListings = [
-  { id: 1, title: "User List" },
-  { id: 2, title: "Company List" },
-];
-
 const Users = () => {
   const [currTab, setCurrTab] = useState(1);
   const { logout, user: userData } = useAuth();
   const isCompany = userData.role.name === "Company";
   const isSuperAdmin = userData?.role?.name === "Super Admin";
+  const isJobAdmin = userData?.role?.name === "Job Admin";
   const [revalidatePage, setRevalidatePage] = useState(false);
+
+  const tabUserListings = [{ id: 1, title: "User List" }];
+  if (isCompany || isSuperAdmin)
+    tabUserListings.push({ id: 2, title: "Company List" });
 
   return (
     <>
