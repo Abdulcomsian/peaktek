@@ -1,10 +1,11 @@
 import { clientBaseURL, clientEndPoints } from "./config";
 
 export async function register(data) {
-  const { name, email, password } = data;
+  const { firstName, lastName, email, password } = data;
   const formdata = new FormData();
   formdata.append("email", email);
-  formdata.append("name", name);
+  formdata.append("first_name", firstName);
+  formdata.append("last_name", lastName);
   formdata.append("password", password);
 
   try {

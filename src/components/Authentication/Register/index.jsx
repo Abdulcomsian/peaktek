@@ -23,6 +23,7 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log("DATA TO REGISTER", data);
     const datatoLoad = {
       name: `${data.firstName} ${data.lastName}`,
       email: data.email,
@@ -30,7 +31,7 @@ const Register = () => {
     };
 
     try {
-      const response = await UserRegister(datatoLoad);
+      const response = await UserRegister(data);
 
       localStorage.setItem("token", response.token);
       dispatch(createUser({ user: datatoLoad.name, isAuthenticated: true }));
