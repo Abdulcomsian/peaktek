@@ -21,7 +21,7 @@ const statusFilterData = [
   },
 ];
 
-export default function CompanyList() {
+export default function CompanyList({ revalidateCompanylisting }) {
   const [isLoading, setIsLoading] = useState(false);
   const [companies, setCompanies] = useState([]);
   const [pagination, setPagination] = useState({
@@ -30,6 +30,7 @@ export default function CompanyList() {
   });
   const { user } = useAuth();
   const isSiteAdmin = user.role.name === "Company";
+  const isSuperAdmin = user.role.name === "Super Admin";
   const [companiesRevalidate, setCompaniesRevalidate] = useState(false);
 
   const columns = [
@@ -52,18 +53,12 @@ export default function CompanyList() {
     {
       title: "Website",
       dataIndex: "website",
-      width: "20%",
-    },
-    {
-      title: "SiteAdmin",
-      dataIndex: "siteAdmin",
-      sorter: (a, b) => a.name.localeCompare(b.name),
-      width: "20%",
+      width: "25%",
     },
     {
       title: "Total Users",
       dataIndex: "totalUser",
-      width: "20%",
+      width: "25%",
     },
     {
       title: "",
@@ -83,20 +78,20 @@ export default function CompanyList() {
       setIsLoading(true);
       try {
         const resp = await getCompanies();
-        console.log("get companies respo", resp);
         if (resp.status >= 200 && resp.status < 300) {
           const data = resp.data.data;
-          console.log("DATA GET COMPANIES", resp.data.data);
-          const dataTable = data.map((item) => ({
-            id: item.company.id,
-            status: item.company.status,
-            companyName: item.company.name,
-            website: item.company.website,
-            siteAdmin: item.company.site_admin.name,
-            totalUser: item.company.users_count,
-            dataToEdit: item,
-          }));
-          console.log("Prepare data", dataTable);
+          const dataTable = data.map((item) => {
+            console.log("ITEM", item.company);
+            return {
+              id: item.company.id,
+              status: item.company.status,
+              companyName: item.company.name,
+              website: item.company.website,
+              siteAdmin: item.company.site_admin?.name || "",
+              totalUser: item.company.users_count,
+              dataToEdit: item,
+            };
+          });
           setCompanies(dataTable);
         }
 
@@ -109,14 +104,10 @@ export default function CompanyList() {
       }
     };
     fetchCompanies();
-  }, [companiesRevalidate]);
+  }, [companiesRevalidate, revalidateCompanylisting]);
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
-  };
-
-  const handleUserEdit = function (column_data) {
-    console.log("HANLDE EDIT CLICKED", column_data);
   };
 
   const paginatedData = companies.slice(

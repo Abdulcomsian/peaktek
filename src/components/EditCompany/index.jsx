@@ -24,7 +24,7 @@ export default function EditCompanyDrawer({ dataToEdit, onCompanyRevalidate }) {
   useEffect(() => {
     setName(dataToEdit.company.name);
     setWebsite(dataToEdit.company.website);
-    setSiteAdminName(dataToEdit.company.site_admin.name);
+    setSiteAdminName(dataToEdit.company.site_admin?.name);
     setStatus(dataToEdit.company.status);
   }, [dataToEdit.id]);
 

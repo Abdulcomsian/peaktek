@@ -6,15 +6,25 @@ import { Button } from "@components/UI";
 import SwitchControlled from "@components/FormControls/SwitchControlled";
 import { createCompany } from "@services/apiCompany";
 import toast from "react-hot-toast";
+import { useAuth } from "@context/AuthContext";
 
-export default function AddNewCompany() {
+export default function AddNewCompany({ onRevalidatePage }) {
   const {
     register,
     control,
     handleSubmit,
     formState: { errors, isLoading, isSubmitting },
   } = useForm({ defaultValues: { status: false } });
+  const { user } = useAuth();
+  const isSuperAdmin = user?.role?.name === "Super Admin";
   const [open, setOpen] = useState(false);
+  let permissionLevelOptions = [{ label: "Site Admin", value: 2 }];
+  if (!isSuperAdmin)
+    permissionLevelOptions = [
+      ...permissionLevelOptions,
+      { label: "Job Admin", value: 9 },
+      { label: "Basic", value: 8 },
+    ];
   const showDrawer = () => {
     setOpen(true);
   };
@@ -34,6 +44,7 @@ export default function AddNewCompany() {
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
       onClose();
+      onRevalidatePage();
     }
     if (resp.status === 401) {
       logout();
@@ -89,11 +100,7 @@ export default function AddNewCompany() {
             control={control}
             label="Permission Level"
             name="permission_level"
-            options={[
-              { label: "Site Admin", value: 2 },
-              { label: "Job Admin", value: 9 },
-              { label: "Basic", value: 8 },
-            ]}
+            options={permissionLevelOptions}
           />
           <div>
             <label htmlFor="" className="font-semibold mb-2 inline-block">

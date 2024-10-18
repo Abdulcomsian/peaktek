@@ -18,6 +18,10 @@ const userPermissionOptions = [
     label: "All",
   },
   {
+    value: "2",
+    label: "Site admin",
+  },
+  {
     value: "9",
     label: "Job admin",
   },
@@ -27,14 +31,23 @@ const userPermissionOptions = [
   },
 ];
 
+function setPermissionRole(roleId) {
+  if (roleId === "9") return "Job Admin";
+  if (roleId === "8") return "Basic";
+  if (roleId === "5") return "User";
+  if (roleId === "2") return "Site Admin";
+  if (roleId === "1") return "Company";
+}
+
 function tableDataPreparation(data) {
+  console.log("DATAAA", data);
   return data.map((item) => ({
     id: item.id,
     status: item.status,
     name: `${item.first_name} ${item.last_name}`,
     email: item.email,
     company: item.company.name,
-    permission_level: item.role_id === "9" ? "Job Admin" : "Basic",
+    permission_level: setPermissionRole(item.role_id),
     dataToEdit: item,
   }));
 }
@@ -55,8 +68,6 @@ export default function UserListings({ onRevalidatePage }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFiltering, setIsFiltering] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-
-  let searchedData;
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
