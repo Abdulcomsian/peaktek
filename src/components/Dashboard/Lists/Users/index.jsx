@@ -13,6 +13,8 @@ const Users = () => {
   const isSuperAdmin = userData?.role?.name === "Super Admin";
   const isJobAdmin = userData?.role?.name === "Job Admin";
   const [revalidatePage, setRevalidatePage] = useState(false);
+  const [revalidateCompanylisting, setRevalidateCompanylisting] =
+    useState(false);
 
   const tabUserListings = [{ id: 1, title: "User List" }];
   if (isCompany || isSuperAdmin)
@@ -40,14 +42,16 @@ const Users = () => {
               />
             ) : null
           ) : isSuperAdmin ? (
-            <AddNewCompany />
+            <AddNewCompany
+              onRevalidatePage={() => setRevalidateCompanylisting((is) => !is)}
+            />
           ) : null}
         </div>
 
         {currTab === 1 ? (
           <UserListings onRevalidatePage={revalidatePage} />
         ) : (
-          <CompanyList />
+          <CompanyList revalidateCompanylisting={revalidateCompanylisting} />
         )}
       </Card>
     </>

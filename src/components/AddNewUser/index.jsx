@@ -21,7 +21,6 @@ export default function AddNewUser({ onRevalidatePage }) {
     formState: { errors, isLoading, isSubmitting },
   } = useForm();
   const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState("left");
   const showDrawer = () => {
     setOpen(true);
   };
@@ -81,6 +80,7 @@ export default function AddNewUser({ onRevalidatePage }) {
             id="permission_level_id"
             label="Permission Level"
             options={[
+              { label: "Site Admin", value: 2 },
               { label: "Job Admin", value: 9 },
               { label: "Basic", value: 8 },
             ]}
