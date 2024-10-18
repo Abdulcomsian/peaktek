@@ -1,18 +1,44 @@
 import { Input } from "@components/FormControls";
 import { useForm } from "react-hook-form";
 import { handlePhoneChange } from "../../../utils/helper";
-import { Button } from "@components/UI";
+import { Button, Loader } from "@components/UI";
+import { useAuth } from "@context/AuthContext";
+import { updatePersonalInformation } from "@services/apiSettings";
 
 export default function PersonalInfoSettings() {
+  const { user } = useAuth();
+  console.log(user);
+  const {
+    id: userId,
+    first_name,
+    last_name,
+    email,
+    phone,
+    job_title,
+    market_segment,
+  } = user;
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isLoading, isSubmitting },
-  } = useForm();
+  } = useForm({
+    defaultValues: user
+      ? {
+          first_name,
+          last_name,
+          email,
+          phone,
+          job_title,
+          market_segment,
+        }
+      : {},
+  });
 
-  const onSubmit = function (data) {
+  const onSubmit = async function (data) {
     console.log(data);
+    const resp = await updatePersonalInformation(data, userId);
+    console.log("Update user resp", resp);
   };
 
   return (
@@ -41,6 +67,7 @@ export default function PersonalInfoSettings() {
             id="email"
             type="email"
             applyMarginBottom={true}
+            disabled={true}
           />
           <Input
             register={register}
@@ -73,7 +100,11 @@ export default function PersonalInfoSettings() {
             applyMarginBottom={true}
           />
           <Button type="submit" variant="gradient" className="self-end">
-            Update
+            {isSubmitting ? (
+              <Loader width="24px" height="24px" color="#fff" />
+            ) : (
+              "Update"
+            )}
           </Button>
         </div>
       </div>

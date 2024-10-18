@@ -25,6 +25,10 @@ const clientEndPoints = {
   login: "/api/login",
   updateJobSummary: "/api/update/job-summary",
   updateJobContent: "/api/update/job-content",
+
+  //Profile
+  updateUserProfile: "/api/updateProfile",
+  updatePassword: "/api/changePassword",
   // Dashboard
   getDashboardStats: "/api/dashboard-stats",
 
