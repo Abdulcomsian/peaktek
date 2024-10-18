@@ -18,6 +18,7 @@ export default function AddNewUser({ onRevalidatePage }) {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors, isLoading, isSubmitting },
   } = useForm();
   const [open, setOpen] = useState(false);
@@ -39,6 +40,7 @@ export default function AddNewUser({ onRevalidatePage }) {
       toast.success(resp.data.message);
       onClose();
       onRevalidatePage();
+      reset();
     }
     if (resp.status === 401) {
       logout();
