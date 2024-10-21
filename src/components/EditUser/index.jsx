@@ -102,6 +102,7 @@ export default function EditUserDrawer({ item, onRevalidatePage }) {
               size="large"
               fieldNames="permission_level"
               options={[
+                { label: "Site Admin", value: 2 },
                 { label: "Job Admin", value: 9 },
                 { label: "Basic", value: 8 },
               ]}
