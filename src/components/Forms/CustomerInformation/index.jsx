@@ -1,5 +1,6 @@
 import React from "react";
-import { Input, InputContainer } from "@components";
+import { Input } from "@components/FormControls";
+import { InputContainer } from "@components/index";
 
 const CustomerInformationForm = ({
   className,
@@ -21,6 +22,7 @@ const CustomerInformationForm = ({
           id="name"
           ref={register}
           defaultValue={defaultValue?.name || ""}
+          required={false}
         />
         <Input
           disabled={true}
@@ -32,6 +34,7 @@ const CustomerInformationForm = ({
           name="email"
           ref={register}
           defaultValue={defaultValue?.email || ""}
+          required={false}
         />
         <Input
           disabled={true}
@@ -43,6 +46,7 @@ const CustomerInformationForm = ({
           name="phone"
           ref={register}
           defaultValue={defaultValue?.phone || ""}
+          required={false}
         />
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
@@ -54,6 +58,7 @@ const CustomerInformationForm = ({
           applyMarginBottom={true}
           className="md:mr-4  mb-4 md:mb-0"
           name="street"
+          required={false}
           register={register}
           defaultValue={defaultValue?.street || ""}
         />
@@ -66,6 +71,7 @@ const CustomerInformationForm = ({
           className="md:mr-4 md:max-w-xs  mb-4 md:mb-0"
           name="city"
           register={register}
+          required={false}
           defaultValue={defaultValue?.city || ""}
         />
         <Input
@@ -77,6 +83,7 @@ const CustomerInformationForm = ({
           className="md:mr-4 md:max-w-40  mb-4 md:mb-0"
           name="state"
           register={register}
+          required={false}
           defaultValue={defaultValue?.state || ""}
         />
         <Input
@@ -88,6 +95,7 @@ const CustomerInformationForm = ({
           className="md:max-w-40  mb-4 md:mb-0"
           name="zip_code"
           register={register}
+          required={false}
           defaultValue={defaultValue?.zip_code || ""}
         />
       </InputContainer>
@@ -101,6 +109,7 @@ const CustomerInformationForm = ({
           className="md:mr-4  mb-4 md:mb-0"
           name="insurance"
           register={register}
+          required={false}
           defaultValue={defaultValue?.insurance || ""}
         />
         <Input
@@ -112,6 +121,7 @@ const CustomerInformationForm = ({
           className="md:mr-4  mb-4 md:mb-0"
           name="claim_number"
           register={register}
+          required={false}
           defaultValue={defaultValue?.claim_number || ""}
         />
         <Input
@@ -122,6 +132,7 @@ const CustomerInformationForm = ({
           applyMarginBottom={true}
           className="  mb-4 md:mb-0"
           name="policy_number"
+          required={false}
           register={register}
           defaultValue={defaultValue?.policy_number || ""}
         />

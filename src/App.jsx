@@ -4,12 +4,17 @@ import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor } from "./store";
+
 function App() {
   return (
     <AuthProvider>
       <Provider store={store}>
-        <AppRoute />
-        <Toaster />
+        <PersistGate loading={null} persistor={persistor}>
+          <AppRoute />
+          <Toaster />
+        </PersistGate>
       </Provider>
     </AuthProvider>
   );

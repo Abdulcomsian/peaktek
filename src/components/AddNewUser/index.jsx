@@ -73,7 +73,13 @@ export default function AddNewUser({ onRevalidatePage }) {
             name="last_name"
             id="last_name"
           />
-          <Input label="Email" register={register} name="email" id="email" />
+          <Input
+            label="Email"
+            register={register}
+            type="email"
+            name="email"
+            id="email"
+          />
           <Select
             size="large"
             className="w-full"

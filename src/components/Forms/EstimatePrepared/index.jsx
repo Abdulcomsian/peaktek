@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { InputContainer } from "@components";
 import { DateSelector, FileUploader, TextBox } from "@components/FormControls";
 import { ImageIcon } from "@components/UI";
+import { clientBaseURL, clientEndPoints } from "@services/config";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "@context/AuthContext";
 
 const EstimatePreparedForm = ({
   className,
@@ -14,6 +17,32 @@ const EstimatePreparedForm = ({
   images,
   setImages,
 }) => {
+  const { id: jobId } = useParams();
+  const [isCompleted, setIsCompleted] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const handleCompleteStatus = function (e) {
+    console.log(e.target.checked);
+    setIsCompleted(e.target.checked);
+  };
+
+  async function fetchStatus(e) {
+    try {
+      const resp = await clientBaseURL.post(
+        `/api/estimate-prepared-status/${jobId}`,
+        e.target.checked
+      );
+      if (resp.status === 401) {
+      }
+      console.log("status resp", resp);
+    } catch (err) {
+      if (err.status === 401) {
+        logout();
+        navigate("/");
+      }
+    }
+  }
+
   return (
     <div className={className}>
       <InputContainer className="flex flex-col md:flex-row justify-between items md:mb-4">
@@ -41,8 +70,12 @@ const EstimatePreparedForm = ({
             className="h-9 w-9 border border-gray-300 bg-gray-50"
             id="complete_box"
             name="complete_box"
-            checked={values.complete_box}
-            onChange={() => setFieldValue("complete_box", !values.complete_box)}
+            // checked={isCompleted}
+            defaultChecked={() =>
+              setFieldValue("complete_box", !values.complete_box)
+            }
+            // onChange={() => setFieldValue("complete_box", !values.complete_box)}
+            onChange={fetchStatus}
           />
         </div>
         <DateSelector

@@ -42,6 +42,7 @@ const CustomerAgreement = () => {
   const isAgremeentCreated = Object.keys(defaultValuesform).length > 0;
 
   const onSubmit = async function (data) {
+    console.log("HANDLE SUBMIT", data);
     try {
       const resp = await createAgreement(data, id);
       if (resp.status >= 200 && resp.status < 300) {
