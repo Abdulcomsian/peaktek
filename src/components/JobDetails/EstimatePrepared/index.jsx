@@ -35,7 +35,10 @@ const EstimatePrepared = () => {
       );
 
       if (response?.status >= 200 && response?.status < 300) {
-        setEstimatePreparedData(response?.data?.data);
+        setEstimatePreparedData({
+          ...response?.data?.data,
+          status: response?.data?.data?.status === "true",
+        });
         setShowRenameBox(true);
       }
     } catch (error) {
@@ -51,13 +54,14 @@ const EstimatePrepared = () => {
       getEstimatePreparedData();
     }
   }, [id]);
+
   const refreshData = () => {
     getEstimatePreparedData();
   };
   const formik = useFormik({
     initialValues: {
       prepared_by: "",
-      complete_box: false,
+      status: false,
       date: null,
     },
     enableReinitialize: true,
@@ -113,9 +117,11 @@ const EstimatePrepared = () => {
         ? dayjs(estimatePreparedData?.date, "DD/MM/YYYY")
         : null;
 
+      console.log("inside the effct", estimatePreparedData);
+
       formik.setValues({
         prepared_by: estimatePreparedData.prepared_by || "",
-        complete_box: estimatePreparedData?.complete_box,
+        status: estimatePreparedData?.status,
         date: formattedDate,
       });
     }
