@@ -49,6 +49,7 @@ const CustomerAgreementForm = () => {
   const [isSignatureModelOpen, setIsSignatureModelOpen] = useState(false);
   const dispatch = useDispatch();
   const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [submittingStatus, setSubmittingStatus] = useState(false);
   //   const [insuranceSummary, setInsuranceSummary] = useState(null);
   const { name, email, phone } = useSelector(
     (state) => state?.jobs?.singleJobData
@@ -149,20 +150,25 @@ const CustomerAgreementForm = () => {
   const handleCheckboxChange = async (e) => {
     const status = e.target.checked;
     console.log("Status", status);
-
+    setSubmittingStatus(true);
     try {
       const resp = await updateCustomerAggreementStatus({ status }, id); // Assuming this API updates the status
+      console.log("statusasdfasdf", resp);
       if (resp.status >= 200 && resp.status < 300) {
         toast.success("Status updated successfully");
         // navigate(`/job-details/${jobId}/complete`)
-        dispatch(setActiveTab("estimate-prepared"));
-        navigate(`/job-details/${id}/estimate-prepared`);
+        if (resp.data.agreement.status) {
+          dispatch(setActiveTab("estimate-prepared"));
+          navigate(`/job-details/${id}/estimate-prepared`);
+        }
       } else {
         toast.error("Failed to update status");
       }
     } catch (error) {
       console.error("Error occurred:", error);
       toast.error("An error occurred while updating status");
+    } finally {
+      setSubmittingStatus(false);
     }
   };
 
@@ -170,14 +176,19 @@ const CustomerAgreementForm = () => {
     <Fragment>
       {isLoading && <Spin fullscreen={true} />}
       <div className="flex flex-col md:flex-row justify-between mb-4">
-        <CheckBox
-          label="Status:"
-          id="status"
-          name="status"
-          register={register}
-          onChange={handleCheckboxChange}
-          // disabled={!isFormCompleted || !sign_image_url}
-        />
+        <div className="flex items-center gap-3">
+          <CheckBox
+            label="Status:"
+            id="status"
+            name="status"
+            register={register}
+            onChange={handleCheckboxChange}
+            // disabled={!isFormCompleted || !sign_image_url}
+          />
+          {submittingStatus && (
+            <Loader width="24px" height="24px" color="#000" />
+          )}
+        </div>
 
         {showPdfButton || sign_image_url ? (
           <Button
