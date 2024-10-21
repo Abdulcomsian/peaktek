@@ -5,6 +5,9 @@ import { ImageIcon } from "@components/UI";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@context/AuthContext";
+import { useDispatch } from "react-redux";
+import { setActiveTab } from "@store/slices/activeTabSlice";
+import toast from "react-hot-toast";
 
 const EstimatePreparedForm = ({
   className,
@@ -20,26 +23,44 @@ const EstimatePreparedForm = ({
   const { id: jobId } = useParams();
   const [isCompleted, setIsCompleted] = useState(false);
   const { logout } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [settingStatus, setSettingStatus] = useState(false);
   const handleCompleteStatus = function (e) {
     console.log(e.target.checked);
     setIsCompleted(e.target.checked);
   };
 
+  console.log("v", values.status);
+
   async function fetchStatus(e) {
+    const token = localStorage.getItem("token");
+    const isCompleted = e.target.checked;
+
+    const formData = new FormData();
+    formData.append("status", isCompleted);
+    setSettingStatus(true);
     try {
       const resp = await clientBaseURL.post(
         `/api/estimate-prepared-status/${jobId}`,
-        e.target.checked
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      if (resp.status === 401) {
-      }
       console.log("status resp", resp);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.data.message);
+        if (resp.data.data.status === "true") {
+          dispatch(setActiveTab("adjustor-meeting"));
+          navigate(`/job-details/${jobId}/adjustor-meeting`);
+        }
+      }
     } catch (err) {
       if (err.status === 401) {
         logout();
         navigate("/");
       }
+    } finally {
+      setSettingStatus(false);
     }
   }
 
@@ -68,14 +89,15 @@ const EstimatePreparedForm = ({
           <input
             type="checkbox"
             className="h-9 w-9 border border-gray-300 bg-gray-50"
-            id="complete_box"
-            name="complete_box"
-            // checked={isCompleted}
-            defaultChecked={() =>
-              setFieldValue("complete_box", !values.complete_box)
-            }
-            // onChange={() => setFieldValue("complete_box", !values.complete_box)}
-            onChange={fetchStatus}
+            id="status"
+            name="status"
+            disabled={settingStatus}
+            checked={values.status} // Use checked to bind to Formik state
+            onChange={(e) => {
+              const isChecked = e.target.checked;
+              setFieldValue("status", isChecked);
+              fetchStatus(e);
+            }}
           />
         </div>
         <DateSelector

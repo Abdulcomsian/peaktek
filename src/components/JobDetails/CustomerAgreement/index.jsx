@@ -136,10 +136,12 @@ const CustomerAgreementForm = () => {
       if (resp.data.agreement.status) {
       }
 
-      //   const updatedResp = await getCustomerAggreement(id);
-      //   if (updatedResp.status >= 200 && updatedResp.status < 300) {
-      //     reset(updatedResp.data.agreement);
-      //   }
+      const updatedResp = await getCustomerAggreement(id);
+      if (updatedResp.status >= 200 && updatedResp.status < 300) {
+        const { agreement, jobsummary } = updatedResp.data.data;
+        reset({ ...agreement, ...jobsummary });
+        // reset(updatedResp.data.agreement);
+      }
     }
     if (resp.status === 401) {
       logout();
