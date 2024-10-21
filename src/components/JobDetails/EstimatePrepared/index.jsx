@@ -3,11 +3,11 @@ import { useFormik } from "formik";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { Form } from "@components/FormControls";
-import Button from "@components/JobDetails/Button";
+// import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { EstimatePreparedForm } from "@components/Forms";
 import { useParams } from "react-router-dom";
-import { Loader } from "@components/UI";
+import { Button, Loader } from "@components/UI";
 import { estimatePreparedSchema } from "@services/schema";
 import { Spin } from "antd";
 import RenameFiles from "./RenameFiles";
@@ -63,6 +63,7 @@ const EstimatePrepared = () => {
     enableReinitialize: true,
     validationSchema: estimatePreparedSchema,
     onSubmit: async (values, actions) => {
+      console.log(values);
       const formattedDate = dayjs(values.date).format("MM/DD/YYYY");
 
       const formData = new FormData();
@@ -142,8 +143,8 @@ const EstimatePrepared = () => {
 
           <Button
             type="submit"
+            variant="gradient"
             disabled={formik?.isSubmitting}
-            className={`w-full max-w-24 text-white btn-gradient px-4 py-1`}
           >
             {formik?.isSubmitting ? (
               <div className="flex justify-center items-center">

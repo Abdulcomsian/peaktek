@@ -85,7 +85,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
     // },
     {
       id: 7,
-      linkSrc: "/dashboard/users-list",
+      linkSrc: "/users-list",
       linkText: <FaRegUser />,
       text: "Users",
     },

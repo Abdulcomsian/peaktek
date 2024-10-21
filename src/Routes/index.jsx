@@ -115,7 +115,7 @@ export function AppRoute() {
 
           {/* <Route path="jobs" element={<KanbanBoard />} /> */}
           <Route path="completedTasks" element={<CompletedJobs />} />
-          <Route path="users-list" element={<Users />} />
+
           <Route path="sub-contractor-list" element={<SubContractors />} />
           <Route path="suppliers-list" element={<Suppliers />} />
           <Route path="adjustors-list" element={<Adjustors />} />
@@ -180,6 +180,7 @@ export function AppRoute() {
         </Route>
         <Route element={<Dashboard />}>
           <Route path="settings" element={<Settings />} />
+          <Route path="users-list" element={<Users />} />
           <Route
             path="/job-details/:id"
             element={

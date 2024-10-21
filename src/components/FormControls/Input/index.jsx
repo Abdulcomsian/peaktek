@@ -10,7 +10,7 @@ const Input = ({
   register,
   defaultValue,
   disabled,
-  required = true,
+  required = false,
   error = "",
   inputClass,
   min,

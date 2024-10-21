@@ -13,6 +13,8 @@ export default function JobListing() {
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const { jobId } = useParams();
 
+  console.log("STATAUS JOBSSS", statusJobs);
+
   const { updated_at, created_at } = statusJobs;
 
   const x = dateDifference(updated_at || created_at);
@@ -22,7 +24,6 @@ export default function JobListing() {
       setIsLoadingJobs(true);
       const jobs = await getAllStatusJobs(jobId);
       setIsLoadingJobs(false);
-
       setStatusJobs(jobs);
     }
     fetchAllStatusJobs();
