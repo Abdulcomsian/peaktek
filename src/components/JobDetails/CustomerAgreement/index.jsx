@@ -227,7 +227,10 @@ const CustomerAgreementForm = () => {
           Customer Information
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CustomerInformationDetail register={register} />
+          <CustomerInformationDetail
+            register={register}
+            isCustomerAggrementInfo={true}
+          />
           {/* {insuranceSummary ? (
           ) : (
             <CustomerInformationDetail
