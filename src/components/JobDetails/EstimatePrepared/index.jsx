@@ -74,13 +74,13 @@ const EstimatePrepared = () => {
     enableReinitialize: true,
     validationSchema: estimatePreparedSchema,
     onSubmit: async (values, actions) => {
-      console.log(values);
       const formattedDate = dayjs(values.date).format("MM/DD/YYYY");
+      console.log("DATE FORMATING", values, formattedDate);
 
       const formData = new FormData();
       formData.append("prepared_by", values.prepared_by);
       formData.append("complete_box", Boolean(values.complete_box));
-      formData.append("date", formattedDate);
+      formData.append("date", values.date !== null ? formattedDate : "");
 
       // Append images to FormData
       images.forEach((file) => {
@@ -132,12 +132,12 @@ const EstimatePrepared = () => {
         ? dayjs(estimatePreparedData?.date, "DD/MM/YYYY")
         : null;
 
-      console.log("inside the effct", estimatePreparedData);
+      console.log("inside the effct", estimatePreparedData, formattedDate);
 
       formik.setValues({
         prepared_by: estimatePreparedData.prepared_by || "",
         status: estimatePreparedData?.status,
-        date: formattedDate,
+        date: estimatePreparedData.date,
       });
     }
   }, [estimatePreparedData]);

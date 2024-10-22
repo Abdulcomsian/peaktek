@@ -48,10 +48,10 @@ const AdjustorMeeting = () => {
       const resp = await getAdjustorMeeting(jobId);
       if (resp.status >= 200 && resp.status < 300) {
         setShowRenameBox(true);
-        setDocuments(resp.data.data.documents);
-        setImages(resp.data.data.image_url);
-        setStatus(resp.data.data.status);
-        return { ...resp.data.data, sent: resp.data.data.sent === "true" };
+        setDocuments(resp?.data?.data?.documents);
+        setImages(resp?.data?.data?.image_url);
+        setStatus(resp?.data?.data?.status);
+        return { ...resp?.data?.data, sent: resp?.data?.data?.sent === "true" };
       }
     },
   });

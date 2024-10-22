@@ -31,7 +31,7 @@ const EstimatePreparedForm = ({
     setIsCompleted(e.target.checked);
   };
 
-  console.log("v", values.status);
+  console.log("v", values.status, values.date);
 
   async function fetchStatus(e) {
     const token = localStorage.getItem("token");
