@@ -164,7 +164,7 @@ const clientEndPoints = {
   // In Progress
   storeInProgress: "/api/update/in-progress",
   getInProgress: "/api/get/in-progress",
-  updatestatusInProgress: "/api/update/in-progress",
+  updatestatusInProgress: "/api/update/in-progress-status",
   //COC
   createCoc: "/api/store/coc",
   getCoc: "/api/get/coc",
