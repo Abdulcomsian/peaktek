@@ -28,6 +28,7 @@ const MOConfimationForm = ({ isMaterialOrderForm }) => {
   useEffect(() => {
     async function fetchEmailSentStatus() {
       const resp = await getConfirmationEmailStatus(id);
+      console.log("get confirmation email status", resp);
       if (resp.status >= 200 && resp.status < 300) {
         // setSettingStatus(resp.data.status)
         setValue("sent_email", resp.data.status === "true");
