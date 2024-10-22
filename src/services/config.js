@@ -178,6 +178,8 @@ const clientEndPoints = {
   // Won and closed
   updateWonAndClosedInfo: "/api/update/won-closed",
   getWonAndClosedInfo: "/api/get/won-closed",
+
+  getConfirmationEmailStatus: "/api/get-confirmation-email-status",
 };
 
 export { clientBaseURL, clientEndPoints, stagingURL, baseURL };
