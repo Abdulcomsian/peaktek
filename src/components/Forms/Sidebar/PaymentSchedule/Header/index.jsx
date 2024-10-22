@@ -6,6 +6,7 @@ export default function Header({
   value,
   defaultChecked,
 }) {
+  console.log("Default checked", defaultChecked);
   return (
     <div className={`flex justify-between ${wrapperClass}`}>
       <div>
@@ -18,8 +19,9 @@ export default function Header({
       </div>
       <Switch
         className="ml-4"
-        onClick={onClick}
+        onChange={onClick}
         value={value}
+        // defaultValue={defaultChecked}
         defaultChecked={defaultChecked}
       />
     </div>
