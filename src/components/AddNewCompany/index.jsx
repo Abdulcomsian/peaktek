@@ -13,11 +13,14 @@ export default function AddNewCompany({ onRevalidatePage }) {
     register,
     control,
     handleSubmit,
+    watch,
     formState: { errors, isLoading, isSubmitting },
   } = useForm({ defaultValues: { status: false } });
   const { user } = useAuth();
   const isSuperAdmin = user?.role?.name === "Super Admin";
   const [open, setOpen] = useState(false);
+  const status = watch("status");
+  console.log(status);
   let permissionLevelOptions = [{ label: "Site Admin", value: 2 }];
   if (!isSuperAdmin)
     permissionLevelOptions = [
@@ -108,7 +111,7 @@ export default function AddNewCompany({ onRevalidatePage }) {
             </label>
             <div className="flex items-center gap-3">
               <SwitchControlled control={control} name="status" />
-              <span>Inactive</span>
+              <span>{status ? "Active" : "Inactive"}</span>
             </div>
           </div>
           <Button

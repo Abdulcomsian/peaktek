@@ -35,16 +35,16 @@ const adjustorMeetingSchema = Yup.object().shape({
 });
 
 const estimatePreparedSchema = Yup.object().shape({
-  prepared_by: Yup.string()
-    .required("Prepared by is required") // The `prepared_by` field is required
-    .trim(),
+  // prepared_by: Yup.string()
+  //   .required("Prepared by is required") // The `prepared_by` field is required
+  //   .trim(),
   // complete_box: Yup.boolean()
   //   .required("Complete box must be checked") // The `complete_box` field is required
   //   .oneOf([true], "You must check the complete box"), // It must be true (checked)
-  date: Yup.date()
-    .nullable() // The `date` can be null
-    .required("Date is required") // The `date` field is required
-    .typeError("Invalid date"), // Custom error message for invalid date formats
+  // date: Yup.date()
+  //   .nullable() // The `date` can be null
+  //   .required("Date is required") // The `date` field is required
+  //   .typeError("Invalid date"), // Custom error message for invalid date formats
   // images: Yup.array()
   //   .of(Yup.mixed()) // The `images` field is an array of any type (for file uploads)
   //   .required("At least one image is required") // The `images` field is required

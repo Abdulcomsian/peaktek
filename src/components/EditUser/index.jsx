@@ -14,6 +14,8 @@ export default function EditUserDrawer({ item, onRevalidatePage }) {
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
+  console.log(status);
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -102,7 +104,9 @@ export default function EditUserDrawer({ item, onRevalidatePage }) {
               size="large"
               fieldNames="permission_level"
               options={[
+                { label: "Company", value: 1 },
                 { label: "Site Admin", value: 2 },
+                { label: "User", value: 5 },
                 { label: "Job Admin", value: 9 },
                 { label: "Basic", value: 8 },
               ]}
@@ -118,10 +122,10 @@ export default function EditUserDrawer({ item, onRevalidatePage }) {
             </label>
             <div className="flex items-center gap-3">
               <Switch
-                onChange={(value) => setStatus(value ? "inactive" : "active")}
-                defaultChecked={item.status === "inactive"}
+                onChange={(value) => setStatus(value ? "active" : "inactive")}
+                defaultChecked={item.status === "active"}
               />
-              <span>Inactive</span>
+              <span>{status === "active" ? "Active" : "Inactive"}</span>
             </div>
           </div>
           <Button

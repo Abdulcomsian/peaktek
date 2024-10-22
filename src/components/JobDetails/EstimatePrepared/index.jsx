@@ -6,11 +6,12 @@ import { Form } from "@components/FormControls";
 // import Button from "@components/JobDetails/Button";
 import { clientBaseURL, clientEndPoints } from "@services/config";
 import { EstimatePreparedForm } from "@components/Forms";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Loader } from "@components/UI";
 import { estimatePreparedSchema } from "@services/schema";
 import { Spin } from "antd";
 import RenameFiles from "./RenameFiles";
+import { useAuth } from "@context/AuthContext";
 
 const EstimatePrepared = () => {
   const { id } = useParams();
@@ -18,6 +19,8 @@ const EstimatePrepared = () => {
   const [loading, setLoading] = useState(false);
   const [estimatePreparedData, setEstimatePreparedData] = useState(null);
   const [showRenameBox, setShowRenameBox] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const getEstimatePreparedData = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -40,6 +43,10 @@ const EstimatePrepared = () => {
           status: response?.data?.data?.status === "true",
         });
         setShowRenameBox(true);
+      }
+      if (response?.status === 401) {
+        logout();
+        navigate("/");
       }
     } catch (error) {
       if (error?.response) {
@@ -101,7 +108,15 @@ const EstimatePrepared = () => {
           setImages([]); // Reset images after successful submission
           getEstimatePreparedData(); // Call the function to repopulate the form
         }
+        if (response?.status === 401) {
+          logout();
+          navigate("/");
+        }
       } catch (error) {
+        if (error?.status === 401) {
+          logout();
+          navigate("/");
+        }
         if (error?.response) {
           toast.error(
             error?.response?.data?.error || error?.response?.data?.message

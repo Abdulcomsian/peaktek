@@ -86,22 +86,22 @@ export default function EditCompanyDrawer({ dataToEdit, onCompanyRevalidate }) {
             defaultValue={website}
             onChange={(e) => setWebsite(e.target.value)}
           />
-          <Input
+          {/* <Input
             label="Site admin name"
             name="site_admin_name"
             defaultValue={siteAdminName}
             onChange={(e) => setSiteAdminName(e.target.value)}
-          />
+          /> */}
           <div>
             <label htmlFor="" className="font-semibold mb-2 inline-block">
               Status
             </label>
             <div className="flex items-center gap-3">
               <Switch
-                onChange={(value) => setStatus(value ? "inactive" : "active")}
-                defaultChecked={status === "inactive"}
+                onChange={(value) => setStatus(value ? "active" : "inactive")}
+                defaultChecked={status === "active"}
               />
-              <span>Inactive</span>
+              <span>{status === "active" ? "Active" : "Inactive"}</span>
             </div>
           </div>
           <Button variant="gradient" type="submit" className="mt-auto">
