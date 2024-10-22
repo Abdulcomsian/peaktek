@@ -120,10 +120,36 @@ export async function materialOrderForm(data, id) {
 
 export async function updateEmailSentStatus(formData, id) {
   const token = localStorage.getItem("token");
+  // test
 
   try {
     const response = await clientBaseURL.post(
       `${clientEndPoints.confirmEmailSentStatus}/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      toast.success(response.data.message);
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error updating Material Order Form:", error);
+    return error.response;
+  }
+}
+export async function updateMOEmailSentStatus(formData, id) {
+  const token = localStorage.getItem("token");
+  // test
+
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints.updateMOConfirmationemailstatus}/${id}`,
       formData,
       {
         headers: {

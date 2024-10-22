@@ -7,6 +7,7 @@ import {
   getEmailSentStatus,
   getMOConfirmationEmailStatus,
   updateEmailSentStatus,
+  updateMOEmailSentStatus,
 } from "@services/apiBuildScheduled";
 import { createMaterialOrderConfirmationEmail } from "@services/apiMaterialOrder";
 import { useEffect, useState } from "react";
@@ -69,7 +70,8 @@ export default function MoInformationEmail() {
 
     setSettingStatus(true);
     try {
-      const resp = await updateEmailSentStatus(formData, jobId);
+      const resp = await updateMOEmailSentStatus(formData, jobId);
+      console.log("mo informaion ", resp);
       if (resp.status >= 200 && resp.status < 300) {
       }
     } finally {
