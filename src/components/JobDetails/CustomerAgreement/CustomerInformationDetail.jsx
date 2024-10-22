@@ -2,7 +2,11 @@ import { useSelector } from "react-redux";
 import { InputContainer } from "@components";
 import { Input } from "@components/FormControls";
 
-export default function CustomerInformationDetail({ register, className }) {
+export default function CustomerInformationDetail({
+  register,
+  className,
+  isCustomerAggrementInfo = false,
+}) {
   // Destructure with default empty strings for each field in case insuranceSummary or job is missing
   //   const {
   //     insurance = "",
@@ -88,6 +92,7 @@ export default function CustomerInformationDetail({ register, className }) {
           name="insurance"
           id="insurance"
           register={register}
+          disabled={isCustomerAggrementInfo}
         />
         <Input
           label="Claim Number:"
@@ -96,6 +101,7 @@ export default function CustomerInformationDetail({ register, className }) {
           name="claim_number"
           id="claim_number"
           register={register}
+          disabled={isCustomerAggrementInfo}
         />
         <Input
           label="Policy Number:"
@@ -104,6 +110,7 @@ export default function CustomerInformationDetail({ register, className }) {
           className="mb-4 md:mb-0"
           name="policy_number"
           register={register}
+          disabled={isCustomerAggrementInfo}
         />
       </InputContainer>
     </div>

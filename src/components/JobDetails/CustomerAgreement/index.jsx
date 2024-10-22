@@ -132,7 +132,6 @@ const CustomerAgreementForm = () => {
     const resp = await createCustomerAggreement(dataToLoad, id);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
-
       if (resp.data.agreement.status) {
       }
 
@@ -227,7 +226,10 @@ const CustomerAgreementForm = () => {
           Customer Information
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CustomerInformationDetail register={register} />
+          <CustomerInformationDetail
+            register={register}
+            isCustomerAggrementInfo={true}
+          />
           {/* {insuranceSummary ? (
           ) : (
             <CustomerInformationDetail
