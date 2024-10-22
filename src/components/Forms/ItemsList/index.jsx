@@ -13,6 +13,7 @@ const ItemsList = ({
   setValue,
   defaultItem,
   onDeleteRemoteItem,
+  onDeleteItem,
 }) => {
   const [items, setItems] = useState([
     { id: uuidv4(), item: "", quantity: 0, price: 0 },
@@ -79,7 +80,7 @@ const ItemsList = ({
             setValue={setValue}
             item={item}
             section={section}
-            onDeleteItem={handleDeletItem}
+            onDeleteItem={onDeleteItem}
           />
         ))}
       </div>

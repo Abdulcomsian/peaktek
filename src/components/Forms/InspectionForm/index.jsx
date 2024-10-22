@@ -33,6 +33,7 @@ export default function InspectionForm() {
   } = useForm({
     defaultValues: async function () {
       const resp = await getInspection(id);
+      console.log("inspection form resp", resp);
       if (resp.status >= 200 && resp.status < 300) {
         setRows(resp.data.data);
         setInitialData(resp.data.data.map((dataToMap) => dataToMap.inspection));
