@@ -43,6 +43,8 @@ const clientEndPoints = {
   materialOrderForm: "/api/material-order",
   updateBuildConfirmStatus: "/api/update/build-detail-status",
   confirmEmailSentStatus: "/api/confirmation-email-status",
+  updateMOConfirmationemailstatus:
+    "/api/material-order/confirmation-email-status",
   //create user
   createUsers: "/api/create/user",
   getCompanyUsers: "/api/get/company-users",
