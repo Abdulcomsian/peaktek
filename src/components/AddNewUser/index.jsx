@@ -19,8 +19,11 @@ export default function AddNewUser({ onRevalidatePage }) {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isLoading, isSubmitting },
   } = useForm();
+
+  const isActiveStatus = watch("status");
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
@@ -103,7 +106,7 @@ export default function AddNewUser({ onRevalidatePage }) {
             </label>
             <div className="flex items-center gap-3">
               <SwitchControlled control={control} name="status" />
-              <span>Inactive</span>
+              <span>{isActiveStatus ? "Active" : "Inactive"}</span>
             </div>
           </div>
           <Button variant="gradient" type="submit" className="mt-auto">
