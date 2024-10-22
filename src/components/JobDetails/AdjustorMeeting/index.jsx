@@ -46,7 +46,8 @@ const AdjustorMeeting = () => {
   } = useForm({
     defaultValues: async () => {
       const resp = await getAdjustorMeeting(jobId);
-      if (resp.status >= 200 && resp.status < 300) {
+      console.log("get adjustor meeting resp", resp);
+      if (resp.data.status >= 200 && resp.data.status < 300) {
         setShowRenameBox(true);
         setDocuments(resp?.data?.data?.documents);
         setImages(resp?.data?.data?.image_url);
@@ -57,6 +58,8 @@ const AdjustorMeeting = () => {
   });
   // const attachments = getValues("documents");
   // const images = getValues("images_url");
+
+  console.log("ssssstatus", status);
 
   const formatPhoneNumber = (value) => {
     // Remove all non-digit characters
@@ -89,8 +92,8 @@ const AdjustorMeeting = () => {
     formData.append("name", name);
     formData.append("email", email || "");
     formData.append("phone", phone);
-    formData.append("date", date);
-    formData.append("notes", notes);
+    formData.append("date", date !== null ? date : "");
+    formData.append("notes", notes ? notes : "");
     formData.append("sent", sent);
     formData.append("status", status);
 
@@ -122,9 +125,10 @@ const AdjustorMeeting = () => {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
         console.log("asdasd", resp);
-
-        // dispatch(setActiveTab("ready-to-build"));
-        // navigate(`/job-details/${jobId}/ready-to-build`);
+        if (resp.data.data.sent === "true") {
+          dispatch(setActiveTab("ready-to-build"));
+          navigate(`/job-details/${jobId}/ready-to-build`);
+        }
       }
     } catch (err) {
       console.log(err);
