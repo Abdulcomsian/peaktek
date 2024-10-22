@@ -123,7 +123,7 @@ export async function updateEmailSentStatus(formData, id) {
 
   try {
     const response = await clientBaseURL.post(
-      `${clientEndPoints.updateMOconfiramtionEmailsentStaus}/${id}`,
+      `${clientEndPoints.confirmEmailSentStatus}/${id}`,
       formData,
       {
         headers: {
