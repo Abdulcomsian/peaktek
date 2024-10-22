@@ -56,6 +56,7 @@ export default function PaymentScheduleForm() {
 
   const onsubmit = async (data) => {
     const { selectedOption, acknowledge, content, pdfs } = data;
+    console.log("pDFSSSSS", pdfs);
 
     const formData = new FormData();
     formData.append("acknowledge", Number(acknowledge));
@@ -69,7 +70,7 @@ export default function PaymentScheduleForm() {
     if (selectedOption === 1) {
       if (Object.keys(pdfs).length > 0) {
         for (let file of Object.values(pdfs)) {
-          formData.append("pdfs[]", file);
+          formData.append("pdfs[]", !file.pdf_url ? file : "");
         }
       } else {
       }
@@ -103,6 +104,10 @@ export default function PaymentScheduleForm() {
     );
   }
 
+  const onerror = (err) => {
+    console.log(err);
+  };
+
   return (
     <>
       <Controller
@@ -113,11 +118,11 @@ export default function PaymentScheduleForm() {
             onClick={(checked) => field.onChange(checked)}
             value={field.value}
             wrapperClass="pb-6 border-b border-gray-200"
-            defaultChecked={isAcknowledge === "0"}
+            defaultChecked={isAcknowledge === "1"}
           />
         )}
       />
-      <form className="py-8 md:py-0" onSubmit={handleSubmit(onsubmit)}>
+      <form className="py-8 md:py-0" onSubmit={handleSubmit(onsubmit, onerror)}>
         <PdfOptions
           control={control}
           name="selectedOption"
@@ -131,6 +136,7 @@ export default function PaymentScheduleForm() {
               register={register}
               id="pdfs"
               name="pdfs"
+              require={false}
               icon={<ArrowFileIcon />}
               fileTypes={["application/pdf"]}
             />
