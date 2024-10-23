@@ -177,6 +177,7 @@ const clientEndPoints = {
   updateReadyToClose: "/api/update/ready-to-close",
   getReadyToCloseData: "/api/get/ready-to-close",
   updateStatusRTC: "/api/store/ready-to-build-status",
+  updateStatusUpdateRTC: "/api/update/ready-to-close-status",
   // Won and closed
   updateWonAndClosedInfo: "/api/update/won-closed",
   getWonAndClosedInfo: "/api/get/won-closed",
