@@ -5,6 +5,7 @@ import { Input, TextBox } from "@components/FormControls";
 const ProjectSummaryForm = ({ register, className }) => {
   return (
     <div className={`w-full ${className}`}>
+      <h4 className="font-semibold text-lg mb-4">Project Summary</h4>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
           label="Job Total :"
