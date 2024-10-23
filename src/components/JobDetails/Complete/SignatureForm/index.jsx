@@ -4,6 +4,7 @@ import { DateSelector, Input, TextBox } from "@components/FormControls";
 const SignatureForm = ({ register, control, className }) => {
   return (
     <div className={`w-full ${className}`}>
+      <h4 className="mb-4 text-lg font-semibold">Signature</h4>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
           label="Company Representative:"

@@ -100,9 +100,13 @@ const AdjustorMeeting = () => {
     try {
       const resp = await createAdjustorMeeting(formData, jobId);
       if (resp.status >= 200 && resp.status < 300) {
+        const { sent, status } = resp.data.data;
         toast.success(resp.data.message);
-        // dispatch(setActiveTab("ready-to-build"));
-        // navigate(`/job-details/${jobId}/ready-to-build`);
+        console.log("ADjustor meeting resp", resp);
+        if (sent === "true" && status === "approved") {
+          dispatch(setActiveTab("ready-to-build"));
+          navigate(`/job-details/${jobId}/ready-to-build`);
+        }
       }
       if (resp.status === 401) {
         logout();
