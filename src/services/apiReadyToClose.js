@@ -31,12 +31,12 @@ export async function getReadyToClose(jobId) {
 }
 export async function updateReadyToCloseStatus(dataToLoad, jobId) {
   const token = localStorage.getItem("token");
-  const formData = new FormData();
-  formData.append("status", dataToLoad.status);
+  // const formData = new FormData();
+  // formData.append("status", dataToLoad.status);
   try {
     const resp = clientBaseURL.post(
-      `${clientEndPoints.updateStatusRTC}/${jobId}`,
-      formData,
+      `${clientEndPoints.updateStatusUpdateRTC}/${jobId}`,
+      dataToLoad,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

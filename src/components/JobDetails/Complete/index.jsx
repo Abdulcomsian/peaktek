@@ -52,6 +52,7 @@ const Complete = () => {
       setLoading(true); // Show loader while the request is in progress
       const dataToLoad = { status }; // API body containing the status
       const resp = await updateCOCStatus(dataToLoad, jobId);
+      console.log("update COC resp", resp);
 
       if (resp) {
         toast.success(

@@ -7,6 +7,8 @@ import { creatCOCInsuranceEmail, getCoc } from "@services/apiCOC";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Loader } from "@components/UI";
+import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 const getCOCInsuraceEmail = async (jobId) => {
   const resp = await getCoc(jobId);
@@ -17,12 +19,13 @@ const getCOCInsuraceEmail = async (jobId) => {
 };
 
 export default function COCInsuranceForm() {
+  const [isLoading, setIsLoading] = useState();
   const {
     control,
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm({ defaultValues: () => getCOCInsuraceEmail(jobId) });
   const { id: jobId } = useParams();
   const COCId = watch("id");
@@ -37,13 +40,23 @@ export default function COCInsuranceForm() {
   };
 
   const onSubmit = async function (data) {
-    console.log("INSURANCE EMAIL DATA", data);
-    const { subject, email_body, send_to, status, attachments } = data;
+    const {
+      subject,
+      email_body,
+      send_to,
+      status,
+      attachments,
+      coc_insurance_email_sent,
+    } = data;
+    // console.log("INSURANCE EMAIL DATA", coc_insurance_email_sent);
     const formData = new FormData();
     formData.append("subject", subject);
     formData.append("email_body", email_body);
     formData.append("send_to", send_to);
-    formData.append("coc_insurance_email_sent", status);
+    formData.append(
+      "coc_insurance_email_sent",
+      coc_insurance_email_sent ? "1" : "0"
+    );
 
     if (attachments.length > 0) {
       for (let x = 0; x < attachments.length; x++) {
@@ -55,19 +68,35 @@ export default function COCInsuranceForm() {
     formData.forEach((value, key) => {
       console.log(key, value);
     });
-
-    const resp = await creatCOCInsuranceEmail(formData, COCId);
-    if (resp.status >= 200 && resp.status < 300) {
-      toast.success(resp.message);
+    try {
+      const resp = await creatCOCInsuranceEmail(formData, COCId);
+      if (resp.status >= 200 && resp.status < 300) {
+        toast.success(resp.message);
+      }
+      if (resp.status === 422) {
+        toast.error("COC not Found");
+      }
+      if (resp.status === 500) {
+        toast.error("Something went wrong.");
+      }
+      console.log(resp);
+    } finally {
     }
-    if (resp.status === 422) {
-      toast.error("COC not Found");
-    }
-    if (resp.status === 500) {
-      toast.error("Something went wrong.");
-    }
-    console.log(resp);
   };
+
+  if (isLoading)
+    return (
+      <ThreeDots
+        visible={true}
+        height="80"
+        width="80"
+        color="#18faf8"
+        radius="9"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass="flex item-center justify-center"
+      />
+    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

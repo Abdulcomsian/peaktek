@@ -1,5 +1,5 @@
 import { CheckBox, Input } from "@components/FormControls";
-import { Button, DropDown } from "@components/UI";
+import { Button, DropDown, Loader } from "@components/UI";
 import ButtonSave from "@components/UI/ButtonSave";
 import {
   getReadyToClose,
@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   formatePercentageInputValue,
   formateCurrencyInputValue,
@@ -26,6 +26,7 @@ const marketOptions = [
 
 export default function ReadyToClose() {
   const { id: jobId } = useParams();
+  const [updatingStatus, setUpdatingStatus] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -103,32 +104,41 @@ export default function ReadyToClose() {
 
   const handleCheckboxChange = async (e) => {
     const status = e.target.checked;
+    setUpdatingStatus(true);
     try {
       const resp = await updateReadyToCloseStatus({ status }, jobId); // Assuming this API updates the status
       if (resp.status >= 200 && resp.status < 300) {
-        console.log("ready to closed resp", resp);
         toast.success("Status updated successfully");
+        if (resp.data.data.status) {
+          dispatch(setActiveTab("won-closed-jobs"));
+          navigate(`/job-details/${jobId}/won-closed-jobs`);
+        }
+        console.log("ready to closed resp", resp);
         // if(resp.data.)
-        // dispatch(setActiveTab("won-closed-jobs"));
-        // navigate(`/job-details/${jobId}/won-closed-jobs`);
       } else {
         toast.error("Failed to update status");
       }
     } catch (error) {
       toast.error("An error occurred while updating status");
+    } finally {
+      setUpdatingStatus(false);
     }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-3 bg-white p-5 rounded-2xl">
-        <CheckBox
-          label="Final Verifications:"
-          register={register}
-          name="status"
-          id="status"
-          wrapperClassName="col-span-2"
-          onChange={handleCheckboxChange}
-        />
+        <div className="flex items-center gap-3">
+          <CheckBox
+            label="Final Verifications:"
+            register={register}
+            name="status"
+            id="status"
+            disabled={updatingStatus}
+            wrapperClassName="col-span-2"
+            onChange={handleCheckboxChange}
+          />
+          {updatingStatus && <Loader width="24px" height="24px" color="#000" />}
+        </div>
         <div className="col-span-full  bg-stone-200 p-4 rounded-2xl mb-4">
           <h2 className=" text-stone-500 font-semibold uppercase mb-2">
             Sales representatives:
