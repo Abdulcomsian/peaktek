@@ -39,7 +39,7 @@ export default function AddNewCompany({ onRevalidatePage }) {
     console.log(data);
     const dataToLoad = {
       ...data,
-      status: data.status ? "inactive" : "active",
+      status: data.status ? "active" : "inactive",
     };
 
     const resp = await createCompany(dataToLoad);
