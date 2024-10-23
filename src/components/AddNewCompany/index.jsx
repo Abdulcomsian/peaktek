@@ -14,6 +14,7 @@ export default function AddNewCompany({ onRevalidatePage }) {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isLoading, isSubmitting },
   } = useForm({ defaultValues: { status: false } });
   const { user } = useAuth();
@@ -46,6 +47,7 @@ export default function AddNewCompany({ onRevalidatePage }) {
     console.log("Create company resp", resp);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
+      reset();
       onClose();
       onRevalidatePage();
     }

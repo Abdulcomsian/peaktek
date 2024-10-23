@@ -36,7 +36,7 @@ export default function AddNewUser({ onRevalidatePage }) {
     const dataToLoad = {
       ...data,
       company_id: companyId,
-      status: data.status ? "inactive" : "active",
+      status: data.status ? "active" : "inactive",
     };
     const resp = await createUser(dataToLoad);
     if (resp.status >= 200 && resp.status < 300) {
