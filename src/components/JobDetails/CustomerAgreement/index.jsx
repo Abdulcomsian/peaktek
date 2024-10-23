@@ -85,6 +85,7 @@ const CustomerAgreementForm = () => {
   const sign_image_url = watch("sign_image_url");
   const FormStatus = getValues().status;
 
+  console.log(isFormCompleted, agreementId, sign_image_url, sign_pdf_url);
   //   useEffect(() => {
   //     const fetchInsuranceData = async () => {
   //       const resp = await getSummaryInsurance(id);
