@@ -6,7 +6,7 @@ import { useAuth } from "@context/AuthContext";
 import { updatePersonalInformation } from "@services/apiSettings";
 
 export default function PersonalInfoSettings() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   console.log(user);
   const {
     id: userId,
@@ -36,9 +36,28 @@ export default function PersonalInfoSettings() {
   });
 
   const onSubmit = async function (data) {
-    console.log(data);
     const resp = await updatePersonalInformation(data, userId);
-    console.log("Update user resp", resp);
+    console.log("personal information setting resp", resp.status);
+
+    if (resp.status >= 200 && resp.status < 300) {
+      console.log("i", resp.data);
+      const { first_name, last_name, email, phone, job_title, market_segment } =
+        resp.data;
+
+      const updatedUser = {
+        ...user,
+        first_name,
+        last_name,
+        email,
+        phone,
+        job_title,
+        market_segment,
+      };
+      console.log("updated user", updatedUser);
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      // setUser(updatedUser);
+    }
   };
 
   return (

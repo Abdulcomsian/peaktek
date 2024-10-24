@@ -9,10 +9,9 @@ export async function updatePersonalInformation(data, userId) {
       data,
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log("API RESP", resp);
     if (resp.status >= 200 && resp.status < 300) {
       toast.success(resp.data.message);
-      return resp;
+      return resp.data;
     }
   } catch (error) {
     return error;
