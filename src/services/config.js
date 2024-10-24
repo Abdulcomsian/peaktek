@@ -133,6 +133,7 @@ const clientEndPoints = {
   getAdjustorMeeting: "/api/get/adjustor-meeting",
   updateAdjustorMaeetingStatus: "/api/update-status/adjustor-meeting",
   updateAdjustorMeetingSentStatus: "/api/add/adjustor-meeting-status",
+  updateApprovalStatus: "/api/update-status/adjustor-meeting",
   //Overturn Meeting
   createOverturn: "/api/create/overturn-meeting",
   getOverturn: "/api/get/overturn-meeting",
