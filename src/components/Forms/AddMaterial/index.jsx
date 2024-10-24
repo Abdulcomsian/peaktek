@@ -5,6 +5,8 @@ const AddMaterialForm = ({ register, control, defaultValue }) => {
   const [rows, setRows] = useState([
     { material: "", quantity: "", color: "", orderKey: "" },
   ]);
+
+  console.log("ROWS", rows, defaultValue);
   useEffect(() => {
     if (defaultValue?.materials?.length > 0) setRows(defaultValue.materials);
   }, [defaultValue]);

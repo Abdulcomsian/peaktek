@@ -88,8 +88,8 @@ export default function PersonalInfoSettings() {
           <Input
             register={register}
             label="Job Title"
-            name="job-title"
-            id="job-title"
+            name="job_title"
+            id="job_title"
             applyMarginBottom={true}
           />
           <Input

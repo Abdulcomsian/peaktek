@@ -24,6 +24,7 @@ const MaterialOrder = () => {
   const [isEditting, setIsEditting] = useState(false);
   const [defaultValues, setDefaultValues] = useState({});
   const { id: materialOrderId, ...defaultValuesform } = defaultValues;
+  console.log("default values form", defaultValuesform);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { register, handleSubmit, control } = useForm({
     defaultValues: materialOrderId && isEditting ? defaultValuesform : {},
@@ -79,6 +80,7 @@ const MaterialOrder = () => {
         setIsLoading(false);
         if (resp.status === 200 && Object.keys(resp.data).length > 0) {
           setIsEditting(true);
+
           setDefaultValues(resp.data);
         } else if (resp.status === 422) {
           toast.error("Corresponding Job not found.");

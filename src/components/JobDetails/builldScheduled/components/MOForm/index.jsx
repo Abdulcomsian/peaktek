@@ -13,6 +13,7 @@ import SupplierInfo from "./SupplierInfo";
 import MaterialListForm from "./MaterialListForm";
 import { Button } from "@components/UI";
 import { getMaterialOrder } from "@services/apiMaterialOrder";
+import { materials } from "@assets/data";
 
 const MOForm = () => {
   const { id } = useParams();
@@ -33,6 +34,7 @@ const MOForm = () => {
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: async () => {
@@ -47,6 +49,8 @@ const MOForm = () => {
       }
     },
   });
+
+  console.log(watch("materials"));
 
   const onSubmit = async (data) => {
     try {
