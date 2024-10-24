@@ -67,3 +67,19 @@ export async function getAdjustorMeeting(jobId) {
     return error;
   }
 }
+
+export async function updateApprovalStatus(status, jobId) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await clientBaseURL.post(
+      `${clientEndPoints.updateApprovalStatus}/${jobId}`,
+      status,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+  } catch (error) {
+    return error;
+  }
+}

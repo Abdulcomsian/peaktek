@@ -16,6 +16,7 @@ import {
   getAdjustorMeeting,
   updateAdjustorMeetingSentStatus,
   updateAdjustorMeetingStatus,
+  updateApprovalStatus,
 } from "@services/apiAdjustorMeeting";
 import { useForm } from "react-hook-form";
 import CkeditorControlled from "@components/FormControls/CkeditorControlled";
@@ -35,6 +36,7 @@ const AdjustorMeeting = () => {
   const { logout } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [appStatus, setAppStatus] = useState(false);
   const approvalStatusRef = useRef(null);
   const sentStatusRef = useRef(null);
 
@@ -143,6 +145,22 @@ const AdjustorMeeting = () => {
       setIsSent(false);
     }
   };
+
+  const handleApprovalStatusChange = async function (status) {
+    console.log(status);
+    setAppStatus(true);
+    try {
+      const resp = await updateApprovalStatus({ status }, jobId);
+      const { status: approvalStatus, sent } = resp.data;
+      if (sent === "true" && approvalStatus === "approved") {
+        dispatch(setActiveTab("ready-to-build"));
+        navigate(`/job-details/${jobId}/ready-to-build`);
+      }
+    } finally {
+      setAppStatus(false);
+    }
+  };
+
   return (
     <Fragment>
       {/* {loading && <Spin fullscreen={true} delay={0} />} */}
@@ -163,16 +181,19 @@ const AdjustorMeeting = () => {
               />
               {isSent && <Loader width={"20px"} height={"20px"} color="#000" />}
             </div>
-            <div>
+            <div className="flex items-center gap-3">
+              {appStatus && <Loader width="20px" height="20px" color="#000" />}
               <RadioButton
                 items={[
                   { label: "OVERTURN", value: "overturn" },
                   { label: "APPRAISAL", value: "appraisal" },
                   { label: "APPROVED", value: "approved" },
                 ]}
+                disabled={appStatus}
                 value={status}
                 onChange={(e) => {
                   setStatus(e.target.value);
+                  handleApprovalStatusChange(e.target.value);
                 }}
               />
             </div>
