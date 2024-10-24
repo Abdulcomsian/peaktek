@@ -27,7 +27,7 @@ export default function PaymentScheduleForm() {
       if (resp.status >= 200 && resp.status < 300) {
         if (resp.data.data.pdfs?.length > 0)
           setDefaultImages(resp.data.data.pdfs);
-        setIsAcknowledge(resp.data.data.acknowledge);
+        setIsAcknowledge(resp.data.data.acknowledge === "1");
         return { ...resp.data.data, selectedOption: 1 };
       } else {
         return { selectedOption: 1, content: "", acknowledge: false };
@@ -108,19 +108,24 @@ export default function PaymentScheduleForm() {
     console.log(err);
   };
 
+  console.log(isAcknowledge);
+
   return (
     <>
       <Controller
         name="acknowledge"
         control={control}
-        render={({ field }) => (
-          <Header
-            onClick={(checked) => field.onChange(checked)}
-            value={field.value}
-            wrapperClass="pb-6 border-b border-gray-200"
-            defaultChecked={isAcknowledge === "1"}
-          />
-        )}
+        render={({ field }) => {
+          console.log("FIELD VALUE", field);
+          return (
+            <Header
+              onClick={(checked) => field.onChange(checked)}
+              value={field.value}
+              wrapperClass="pb-6 border-b border-gray-200"
+              defaultChecked={isAcknowledge}
+            />
+          );
+        }}
       />
       <form className="py-8 md:py-0" onSubmit={handleSubmit(onsubmit, onerror)}>
         <PdfOptions

@@ -33,7 +33,7 @@ export default function CompanyList({ revalidateCompanylisting }) {
   const isSuperAdmin = user.role.name === "Super Admin";
   const [companiesRevalidate, setCompaniesRevalidate] = useState(false);
 
-  const columns = [
+  let columns = [
     {
       title: "Status",
       dataIndex: "status",
@@ -60,18 +60,23 @@ export default function CompanyList({ revalidateCompanylisting }) {
       dataIndex: "totalUser",
       width: "25%",
     },
-    {
-      title: "",
-      dataIndex: "dataToEdit",
-      render: (item) => (
-        <EditCompanyDrawer
-          dataToEdit={item}
-          onCompanyRevalidate={() => setCompaniesRevalidate((is) => !is)}
-        />
-      ),
-      width: "100%",
-    },
   ];
+
+  if (isSuperAdmin)
+    columns = [
+      ...columns,
+      {
+        title: "",
+        dataIndex: "dataToEdit",
+        render: (item) => (
+          <EditCompanyDrawer
+            dataToEdit={item}
+            onCompanyRevalidate={() => setCompaniesRevalidate((is) => !is)}
+          />
+        ),
+        width: "100%",
+      },
+    ];
 
   useEffect(() => {
     const fetchCompanies = async () => {
