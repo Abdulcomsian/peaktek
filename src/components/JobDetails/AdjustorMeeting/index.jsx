@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { AdjustorForm } from "@components/Forms";
 import { useNavigate, useParams } from "react-router-dom";
 import { CheckBox } from "@components/FormControls";
@@ -35,6 +35,9 @@ const AdjustorMeeting = () => {
   const { logout } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const approvalStatusRef = useRef(null);
+  const sentStatusRef = useRef(null);
+
   const {
     register,
     control,
