@@ -56,7 +56,8 @@ export default function MoInformationEmail() {
     console.log(Object.fromEntries(formData));
     const resp = await createMaterialOrderConfirmationEmail(formData, jobId);
     if (resp.status >= 200 && resp.status < 300) {
-      console.log(resp);
+      console.log("coma", resp);
+      toast.success(resp.message);
     }
     if (resp.status === 422) {
       toast.error("Material Order should be created first.");

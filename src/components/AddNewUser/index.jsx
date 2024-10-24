@@ -91,9 +91,7 @@ export default function AddNewUser({ onRevalidatePage }) {
             id="permission_level_id"
             label="Permission Level"
             options={[
-              { label: "Company", value: 1 },
               { label: "Site Admin", value: 2 },
-              { label: "User", value: 5 },
               { label: "Job Admin", value: 9 },
               { label: "Basic", value: 8 },
             ]}
