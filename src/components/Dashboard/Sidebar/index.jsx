@@ -101,6 +101,7 @@ export default function Sidebar({ isShow, onCloseSidebar }) {
   const filteredLinks =
     userData?.role?.name === "Super Admin" ||
     userData?.role?.name === "Company" ||
+    userData?.role?.name === "Site Admin" ||
     userData?.role?.name === "Job Admin"
       ? superAdminLinks
       : basicUserLinks;
