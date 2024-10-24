@@ -134,7 +134,10 @@ const AdjustorMeeting = () => {
       if (resp.status >= 200 && resp.status < 300) {
         toast.success(resp.data.message);
         console.log("asdasd", resp);
-        if (resp.data.data.sent === "true") {
+        if (
+          resp.data.data.sent === "true" &&
+          resp.data.data.status === "approved"
+        ) {
           dispatch(setActiveTab("ready-to-build"));
           navigate(`/job-details/${jobId}/ready-to-build`);
         }
@@ -152,6 +155,7 @@ const AdjustorMeeting = () => {
     try {
       const resp = await updateApprovalStatus({ status }, jobId);
       const { status: approvalStatus, sent } = resp.data;
+      console.log("status appeorasfasd", approvalStatus, sent);
       if (sent === "true" && approvalStatus === "approved") {
         dispatch(setActiveTab("ready-to-build"));
         navigate(`/job-details/${jobId}/ready-to-build`);
