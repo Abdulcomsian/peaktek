@@ -38,7 +38,7 @@ export default function EditUserDrawer({ item, onRevalidatePage }) {
       first_name: firstName,
       last_name: lastName,
       email: email,
-      permission_level: permissionLevel,
+      permission_level_id: permissionLevel,
       status: status,
     };
 
@@ -104,9 +104,7 @@ export default function EditUserDrawer({ item, onRevalidatePage }) {
               size="large"
               fieldNames="permission_level"
               options={[
-                { label: "Company", value: 1 },
                 { label: "Site Admin", value: 2 },
-                { label: "User", value: 5 },
                 { label: "Job Admin", value: 9 },
                 { label: "Basic", value: 8 },
               ]}

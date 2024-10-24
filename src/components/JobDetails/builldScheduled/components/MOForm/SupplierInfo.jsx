@@ -16,6 +16,7 @@ export default function SupplierInfo({
           placeholder="John Doe"
           className="md:mr-4 mb-4 md:mb-0"
           register={register}
+          disabled={true}
           name="name"
           id="name"
         />
@@ -25,11 +26,13 @@ export default function SupplierInfo({
           type="email"
           className="md:mr-4 mb-4 md:mb-0"
           register={register}
+          disabled={true}
           name="email"
           id="email"
         />
         <Input
           label="Phone:"
+          disabled={true}
           placeholder="923081177825"
           className="mb-4 md:mb-0"
           register={register}
@@ -51,6 +54,7 @@ export default function SupplierInfo({
       </InputContainer>
       <InputContainer className="flex flex-col md:flex-row justify-between md:mb-4">
         <Input
+          disabled={true}
           label="Street:"
           placeholder="west Bridge"
           className="md:mr-4 mb-4 md:mb-0"
@@ -64,6 +68,7 @@ export default function SupplierInfo({
           className="md:mr-4 md:max-w-xs mb-4 md:mb-0"
           name="city"
           id="city"
+          disabled={true}
           register={register}
         />
         <Input
@@ -72,12 +77,14 @@ export default function SupplierInfo({
           className="md:mr-4 md:max-w-40 mb-4 md:mb-0"
           name="state"
           id="state"
+          disabled={true}
           register={register}
         />
         <Input
           label="Zip:"
           placeholder="45678"
           type="number"
+          disabled={true}
           className="md:max-w-40 mb-4 md:mb-0"
           name="zip_code"
           id="zip_code"
@@ -92,6 +99,7 @@ export default function SupplierInfo({
           name="insurance"
           id="insurance"
           register={register}
+          disabled={true}
         />
         <Input
           label="Claim Number:"
@@ -100,6 +108,7 @@ export default function SupplierInfo({
           name="claim_number"
           id="claim_number"
           register={register}
+          disabled={true}
         />
         <Input
           label="Policy Number:"
@@ -108,6 +117,7 @@ export default function SupplierInfo({
           className="mb-4 md:mb-0"
           name="policy_number"
           register={register}
+          disabled={true}
         />
       </InputContainer>
     </div>

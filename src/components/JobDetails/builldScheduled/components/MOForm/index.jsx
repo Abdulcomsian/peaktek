@@ -39,7 +39,7 @@ const MOForm = () => {
       const resp = await getMaterialOrder(id);
       console.log("Material Order resp", resp);
       if (resp.status >= 200 && resp.status < 300) {
-        return resp.material_order;
+        return resp.data;
       } else {
         return {
           materials: [{ material: "", quality: "", color: "", orderKey: "" }],
